@@ -1,0 +1,34 @@
+version: "2"
+services:
+  backend:
+    build:
+      context: code/backend
+    ports:
+      - "8016:8000"
+    networks:
+     - project-noe
+    volumes:
+      - ./code/backend:/project-noe/backend
+    environment:
+      - PYTHONUNBUFFERED=1
+  frontend:
+    build:
+      context: code/frontend
+    ports:
+      - "3003:3000"
+    volumes:
+      - ./code/frontend:/project-noe/frontend
+    # working_dir: /project-noe/frontend
+    # command: npm start
+    stdin_open: true
+  nginx:
+    image: nginx
+    networks:
+     - project-noe
+    ports:
+      - "8008:8008"
+    volumes:
+      - ./code/nginx/dev.nginx.conf:/etc/nginx/conf.d/nginx.conf
+
+networks:
+  project-noe:
