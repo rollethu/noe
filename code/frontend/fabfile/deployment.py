@@ -19,6 +19,7 @@ def build():
           '-v ${PWD}/package.json:/project-noe/frontend/package.json '
           'project-noe-frontend:latest '
           'yarn build')
+    local('docker cp temp-project-noe-frontend:project-noe/frontend/build temp_build')
     local('docker rm -f temp-project-noe-frontend')
 
 
@@ -26,8 +27,8 @@ def build():
 def deploy():
     local('pwd')
     local('ls -la')
-    local('aws s3 sync build s3://noe.rollet.app')
-    local('rm -rf temp')
+    local('aws s3 sync temp_build s3://noe.rollet.app')
+    local('rm -rf temp_build')
 
     client = boto3.client('cloudfront')
     items_to_invalidate = [
