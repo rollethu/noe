@@ -10,15 +10,11 @@ pipeline {
   }
 
   stages {
-    stage('Checkout') {
-      steps {
-        checkout scm
-      }
-    }
-
     stage('Build') {
       steps {
-        sh "fab deployment.build_frontend"
+        dir("code/frontend") {
+          sh "fab deployment.build"
+        }
       }
     }
 
@@ -30,7 +26,9 @@ pipeline {
 
     stage('Deploy') {
       steps {
-        sh "fab deployment.deploy_frontend"
+        dir("code/frontend") {
+          sh "fab deployment.deploy"
+        }
       }
     }
   }

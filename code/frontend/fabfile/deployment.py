@@ -6,7 +6,7 @@ from fabric.api import task, lcd, local, run
 
 
 @task
-def build_frontend():
+def build():
     local('docker run -n temp-project-noe-frontend')
     local('docker exec temp-project-noe-frontend bash -c "yarn build"')
     local('docker cp temp-project-noe-frontend:/project-noe/frontend/build temp/build')
@@ -14,7 +14,7 @@ def build_frontend():
 
 
 @task
-def deploy_frontend():
+def deploy():
     local('aws s3 sync temp/build s3://noe.rollet.app')
 
     client = boto3.client('cloudfront')
