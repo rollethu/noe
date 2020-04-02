@@ -7,8 +7,16 @@ from fabric.api import task, lcd, local, run
 
 @task
 def build():
-    local('docker run -n temp-project-noe-frontend')
-    local('docker exec temp-project-noe-frontend bash -c "yarn build"')
+    local('docker build -t project-noe-frontend:latest .')
+    try:
+        local('docker rm -f temp-project-noe-frontend')
+    except:
+        pass
+    local('docker run '
+          '--name temp-project-noe-frontend '
+          '-v ${PWD}:/project-noe/frontend '
+          'project-noe-frontend:latest '
+          'yarn build')
     local('docker cp temp-project-noe-frontend:/project-noe/frontend/build temp/build')
     local('docker rm -f temp-project-noe-frontend')
 
