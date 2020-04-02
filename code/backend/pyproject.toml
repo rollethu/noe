@@ -6,6 +6,7 @@ authors = ["Rollet Developers"]
 
 [tool.poetry.dependencies]
 python = "^3.6"
+django = "^3.0.5"
 
 [tool.poetry.dev-dependencies]
 
