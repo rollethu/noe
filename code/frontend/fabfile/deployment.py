@@ -14,10 +14,11 @@ def build():
         pass
     local('docker run '
           '--name temp-project-noe-frontend '
-          '-v ${PWD}:/project-noe/frontend '
+          '-v ${PWD}/src:/project-noe/frontend/src '
+          '-v ${PWD}/public:/project-noe/frontend/public '
+          '-v ${PWD}/package.json:/project-noe/frontend/package.json '
           'project-noe-frontend:latest '
           'yarn build')
-    local('docker cp temp-project-noe-frontend:/project-noe/frontend/build temp/build')
     local('docker rm -f temp-project-noe-frontend')
 
 
