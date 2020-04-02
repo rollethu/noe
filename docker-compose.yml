@@ -17,7 +17,10 @@ services:
     ports:
       - "3003:3000"
     volumes:
-      - ./code/frontend:/project-noe/frontend
+      - ./code/frontend/src:/project-noe/frontend/src
+      - ./code/frontend/public:/project-noe/frontend/public
+      - ./code/frontend/package.json:/project-noe/frontend/package.json
+      - ./code/frontend/yarn.lock:/project-noe/frontend/yarn.lock
     # working_dir: /project-noe/frontend
     # command: npm start
     stdin_open: true
