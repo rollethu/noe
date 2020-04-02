@@ -24,6 +24,8 @@ def build():
 
 @task
 def deploy():
+    local('pwd')
+    local('ls -la')
     local('aws s3 sync build s3://noe.rollet.app')
     local('rm -rf temp')
 
