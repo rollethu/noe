@@ -24,7 +24,7 @@ def build():
 
 @task
 def deploy():
-    local('aws s3 sync temp/build s3://noe.rollet.app')
+    local('aws s3 sync build s3://noe.rollet.app')
     local('rm -rf temp')
 
     client = boto3.client('cloudfront')
