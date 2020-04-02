@@ -1,5 +1,7 @@
 pipeline {
-  agent any
+  agent {
+    label 'boto3 && fabric'
+  }
 
   environment {
       AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
