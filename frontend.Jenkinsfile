@@ -1,11 +1,6 @@
 pipeline {
   agent any
 
-  parameters {
-    string(name: 'IMAGE_VERSION',description: 'The build version to deploy. Hint: buildnumber')
-    choice(name: 'ENV',description: 'The environment you want to deploy this applicaiton to', choices:['dev','prod'] )
-  }
-
   environment {
       AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
       AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
