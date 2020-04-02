@@ -20,15 +20,21 @@ pipeline {
     }
 
     stage('Build') {
-      sh "fab deployment.build_frontend"
+      steps {
+        sh "fab deployment.build_frontend"
+      }
     }
 
     stage('Test') {
-      sh """echo "testing placeholder" """
+      steps {
+        sh """echo "testing placeholder" """
+      }
     }
 
     stage('Deploy') {
-      sh "fab deployment.deploy_frontend"
+      steps {
+        sh "fab deployment.deploy_frontend"
+      }
     }
   }
 }
