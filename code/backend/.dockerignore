@@ -1,0 +1,9 @@
+# Ignore everything
+**
+
+!/poetry.lock
+!/project_noe
+!/manage.py
+!/pyproject.toml
+
+**/__pycache__

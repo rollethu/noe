@@ -6,7 +6,7 @@ ENV POETRY_VIRTUALENVS_CREATE=false
 
 RUN pip install poetry
 
-COPY pyproject.toml poetry.lock /project-noe/backend/
+COPY . /project-noe/backend/
 
 RUN poetry install --no-dev
 
