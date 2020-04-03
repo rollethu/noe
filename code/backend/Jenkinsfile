@@ -1,0 +1,84 @@
+pipeline {
+    agent any
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        AWS_REGION            = 'eu-central-1'
+        VERSION               = "${env.BUILD_NUMBER}-${env.BRANCH}"
+        IMAGE                 = "noe-backend"
+        DOCKER_REPO           = "074164835766.dkr.ecr.eu-central-1.amazonaws.com"
+        BACKEND_IMAGE         = "${IMAGE}:${VERSION}"
+        S3_BUCKET_URL         = "https://noe-static.s3.eu-central-1.amazonaws.com"
+        S3_BUCKET_NAME        = "noe-static"
+    }
+
+    stages {
+        stage("Git checkout") {
+            steps {
+                script {
+                    currentBuild.displayName = "${env.BUILD_NUMBER}-${env.BRANCH}"
+                }    
+                checkout scm
+            }
+        }  
+        stage("Build") {
+            dir('code/backend'){
+                steps {
+                    sh '''
+                    docker build --no-cache \
+                        -t ${IMAGE}:${VERSION} \
+                        --build-arg=COMMIT=$(git rev-parse --short HEAD) \
+                        --build-arg=BRANCH=$(git rev-parse --abbrev-ref HEAD) \
+                        --build-arg=BUILD=${VERSION} \
+                        --build-arg=STATIC_URL=${S3_BUCKET_URL}/${VERSION}/ \
+                        -f code/backend/Dockerfile \
+                        ./code/backend
+                    '''
+                }
+            }
+        }
+        stage('Test') {
+            steps {
+                dir('code/backend') {
+                    sh 'echo "Placeholder for testing"'
+                }
+            }
+        }
+// for static content
+        // stage("Collect Static content") {
+        //     steps {
+        //         dir('code/backend') {
+        //             sh 'mkdir -p ./static/${VERSION}'
+        //             sh 'docker run -v $(pwd)/static/${VERSION}:/static ${IMAGE}:${VERSION} ./manage.py collectstatic --noinput'
+        //             sh 'cp -r assets/css ./static/${VERSION}/'
+        //             sh 'cp -r assets/images ./static/${VERSION}/'       
+        //         }
+        //     }
+        // }
+        // stage("Push static content to S3") {
+        //     steps {
+        //         dir('code') {
+        //             sh 'aws s3 cp ./static/${VERSION} s3://${S3_BUCKET_NAME}/${VERSION}/ --recursive --acl=public-read'
+        //         }
+        //     }
+        // }
+        stage("Push image to ECR") {
+            steps {
+                sh '$(aws ecr get-login --no-include-email --region eu-central-1)'
+                sh 'docker tag ${IMAGE}:${VERSION} ${DOCKER_REPO}/${IMAGE}:${VERSION}'
+                sh 'docker tag ${IMAGE}:${VERSION} ${DOCKER_REPO}/${IMAGE}:latest'
+                sh 'docker push ${DOCKER_REPO}/${IMAGE}:${VERSION}'
+                sh 'docker push ${DOCKER_REPO}/${IMAGE}:latest'
+            }
+        }
+    }
+    
+// Skipping this for now, until we have tests to run
+    // post {
+    //     always {
+    //         dir('code/backend'){
+    //             sh 'docker-compose down --rmi=all --remove-orphans'
+    //         }
+    //     }
+    // }
+}
