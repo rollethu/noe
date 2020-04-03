@@ -31,8 +31,8 @@ pipeline {
                         --build-arg=BRANCH=$(git rev-parse --abbrev-ref HEAD) \
                         --build-arg=BUILD=${VERSION} \
                         --build-arg=STATIC_URL=${S3_BUCKET_URL}/${VERSION}/ \
-                        -f code/backend/Dockerfile \
-                        ./code/backend
+                        -f Dockerfile \
+                        .
                     '''
                 }
             }
