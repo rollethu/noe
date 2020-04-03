@@ -15,7 +15,14 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.http import HttpResponse
+
+# Just added this quickly, feel free to redo it properly.
+def healthcheck(req):
+    msg = f'Ok!'
+    return HttpResponse(msg, content_type='text/plain')
 
 urlpatterns = [
     path("admin/", admin.site.urls),
+    path("health/", healthcheck),
 ]
