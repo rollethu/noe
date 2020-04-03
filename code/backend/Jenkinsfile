@@ -22,8 +22,8 @@ pipeline {
             }
         }  
         stage("Build") {
-            dir('code/backend'){
-                steps {
+            steps {
+                dir('code/backend'){
                     sh '''
                     docker build --no-cache \
                         -t ${IMAGE}:${VERSION} \
