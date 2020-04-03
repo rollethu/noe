@@ -82,6 +82,7 @@ pipeline {
         // }
         success {
             sh """
+            sleep 5
             aws ecr describe-image-scan-findings \
             --repository-name ${env.IMAGE} \
             --image-id=imageTag=${env.VERSION} \
