@@ -73,12 +73,22 @@ pipeline {
         }
     }
     
+    post {
 // Skipping this for now, until we have tests to run
-    // post {
-    //     always {
-    //         dir('code/backend'){
-    //             sh 'docker-compose down --rmi=all --remove-orphans'
-    //         }
-    //     }
-    // }
+        // always {
+        //     dir('code/backend'){
+        //         sh 'docker-compose down --rmi=all --remove-orphans'
+        //     }
+        // }
+        success {
+            sh """
+            aws ecr describe-image-scan-findings \
+            --repository-name ${env.IMAGE} \
+            --image-id=imageTag=${env.VERSION} \
+            --region ${env.AWS_REGION} | jq '.imageScanFindings.findingSeverityCounts' > image_scan_results.txt
+            """
+            archiveArtifacts artifacts: 'image_scan_results.txt', fingerprint: false
+
+        }
+    }
 }
