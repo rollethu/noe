@@ -19,11 +19,13 @@ from django.http import HttpResponse
 from rest_framework.routers import DefaultRouter
 
 import surveys.views
+import samples.views
 
 
 api_router = DefaultRouter()
 api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
+api_router.register("samples", samples.views.SampleViewSet)
 
 
 # Just added this quickly, feel free to redo it properly.
