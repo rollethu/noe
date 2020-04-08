@@ -62,7 +62,7 @@ class PhoneVerification(models.Model):
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 
     verified_at = models.DateTimeField()
-    code = models.CharField()
+    code = models.CharField(max_length=255)
 
     @property
     def is_verified(self):

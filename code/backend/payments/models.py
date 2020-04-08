@@ -50,7 +50,7 @@ class Transaction(models.Model):
     amount = models.FloatField()
     currency = models.CharField(max_length=3, default="HUF")
     payment = models.ForeignKey("Payment", on_delete=models.SET_NULL, null=True)
-    external_reference_id = models.CharField(blank=True, default="")
+    external_reference_id = models.CharField(max_length=255, blank=True, default="")
     status = models.CharField(max_length=255, choices=STATUS_CHOICES)
     created_at = models.DateTimeField(auto_now_add=True)
 
