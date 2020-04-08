@@ -7,3 +7,9 @@ class SurveyQuestionSerializer(serializers.HyperlinkedModelSerializer):
   class Meta:
     model = m.SurveyQuestion
     fields = "__all__"
+
+
+class SurveyAnswerSerializer(serializers.HyperlinkedModelSerializer):
+  class Meta:
+    model = m.SurveyAnswer
+    fields = "__all__"
