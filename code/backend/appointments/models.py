@@ -17,7 +17,9 @@ class Location(models.Model):
 class Appointment(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    location = models.ForeignKey(Location, on_delete=models.PROTECT)
+    location = models.ForeignKey(
+        Location, on_delete=models.PROTECT, related_name="appointments"
+    )
 
     phone_number = models.CharField(
         max_length=30, help_text=_("Primary communication channel with the patient.")
@@ -59,7 +61,9 @@ class Appointment(models.Model):
 class PhoneVerification(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.ForeignKey(
+        Appointment, on_delete=models.CASCADE, related_name="phone_verifications"
+    )
 
     verified_at = models.DateTimeField(blank=True, null=True)
     code = models.CharField(max_length=255)
@@ -75,7 +79,9 @@ class PhoneVerification(models.Model):
 class Seat(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
+    appointment = models.ForeignKey(
+        Appointment, on_delete=models.CASCADE, related_name="seats"
+    )
 
     full_name = models.CharField(max_length=200)
     birth_date = models.DateField()
