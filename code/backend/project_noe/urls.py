@@ -14,15 +14,25 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import include, path
 from django.http import HttpResponse
+from rest_framework.routers import DefaultRouter
+
+import surveys.views
+
+api_router = DefaultRouter()
+api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
+api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
+
 
 # Just added this quickly, feel free to redo it properly.
 def healthcheck(req):
-    msg = f'Ok!'
-    return HttpResponse(msg, content_type='text/plain')
+    msg = f"Ok!"
+    return HttpResponse(msg, content_type="text/plain")
+
 
 urlpatterns = [
+    path("api", include(api_router.urls)),
     path("admin/", admin.site.urls),
     path("health/", healthcheck),
 ]
