@@ -1,7 +1,7 @@
 import uuid
 
 from django.db import models
-from django.utils.translation import ugettext_lazy as _
+from django.utils.translation import gettext_lazy as _
 
 
 class Sample(models.Model):
@@ -39,7 +39,7 @@ class Sample(models.Model):
     sampled_at = models.DateTimeField(
         blank=True,
         null=True,
-        help_text="The time when it is extraxted from a real person",
+        help_text=_("The time when it is extraxted from a real person"),
     )
     location = models.ForeignKey(
         "appointments.Location", on_delete=models.SET_NULL, null=True
