@@ -24,3 +24,21 @@ class Bill(models.Model):
 
     class Meta:
         ordering = ("created_at",)
+
+
+class BillingDetail(models.Model):
+    """Only saved when a VAT invoice is requested during online payment."""
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    appointment = models.OneToOneField(
+        "appointments.Appointment", on_delete=models.CASCADE
+    )
+
+    company_name = models.CharField(max_length=255)
+    country = models.CharField(max_length=255)
+    address_line1 = models.CharField(max_length=255)
+    address_line2 = models.CharField(max_length=255, blank=True, null=True)
+    post_code = models.CharField(max_length=255)
+    state = models.CharField(max_length=255, blank=True, null=True)
+    city = models.CharField(max_length=255)
+    tax_number = models.CharField(max_length=255)
