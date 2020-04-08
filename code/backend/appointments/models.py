@@ -5,7 +5,7 @@ from django.utils.translation import gettext_lazy as _
 
 class Location(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    created_at = models.Model(auto_now_add=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
     name = models.CharField(max_length=100)
     address = models.TextField(blank=True)
