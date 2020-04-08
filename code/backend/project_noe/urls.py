@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from django.http import HttpResponse
+from rest_framework.response import Response
 from rest_framework.routers import DefaultRouter
 
 import surveys.views
@@ -32,14 +32,12 @@ api_router.register("payments", payments.views.PaymentViewSet)
 api_router.register("users", users.views.UserViewSet)
 
 
-# Just added this quickly, feel free to redo it properly.
-def healthcheck(req):
-    msg = f"Ok!"
-    return HttpResponse(msg, content_type="text/plain")
+def health_check(req):
+    return Response("OK")
 
 
 urlpatterns = [
     path("api", include(api_router.urls)),
     path("admin/", admin.site.urls),
-    path("health/", healthcheck),
+    path("health/", health_check),
 ]
