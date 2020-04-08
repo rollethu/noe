@@ -5,6 +5,7 @@ from django.db import models
 
 class SurveyQuestion(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    question = models.CharField(max_length=255)
     is_active = models.BooleanField(default=False)
     is_required = models.BooleanField(default=True)
     answer_datatype = models.CharField(max_length=255, default="string")
