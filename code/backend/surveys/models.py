@@ -4,7 +4,7 @@ from django.db import models
 
 
 class SurveyQuestion(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     is_active = models.BooleanField(default=False)
     is_required = models.BooleanField(default=True)
     answer_datatype = models.CharField(default='string')
@@ -15,7 +15,7 @@ class SurveyQuestion(models.Model):
 
 
 class SurveyAnswer(models.Model):
-    id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     question = models.ForeignKey('SurveyQuestion', null=True, on_delete=models.SET_NULL)
     seat = models.ForeignKey('appointments.Seat', null=True, on_delete=models.SET_NULL)
     answer = models.CharField(max_length=255, blank=True, default="")
