@@ -1,3 +1,9 @@
-from django.shortcuts import render
+from rest_framework import viewsets
 
-# Create your views here.
+from . import models as m
+from . import serializer as s
+
+
+class SurveyQuestionViewSet(viewsets.ModelViewSet):
+  queryset = m.SurveyQuestion.objects.all()
+  serializer_class = s.SurveyQuestionSerializer
