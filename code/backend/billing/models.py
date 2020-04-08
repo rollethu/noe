@@ -44,3 +44,10 @@ class BillingDetail(models.Model):
     state = models.CharField(max_length=255, blank=True, null=True)
     city = models.CharField(max_length=255)
     tax_number = models.CharField(max_length=255)
+
+    def __str__(self):
+        return f"{self.company_name} - {self.tax_number}"
+
+    @property
+    def full_address(self):
+        return f"{self.country}, {self.post_code} {self.city}, {self.address_line1} {self.address_line2 or ''}"

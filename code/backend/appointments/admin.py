@@ -1,4 +1,5 @@
 from django.contrib import admin
+from billing import models as bm
 from . import models as m
 
 
@@ -19,9 +20,14 @@ class SeatInline(admin.StackedInline):
         return max(1, extra)
 
 
+class BillingInline(admin.StackedInline):
+    model = bm.BillingDetail
+
+
 class AppointmentAdmin(admin.ModelAdmin):
     list_display = ["__str__", "phone_number"]
     inlines = [
+        BillingInline,
         SeatInline,
     ]
 
