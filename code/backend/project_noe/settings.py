@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     "surveys",
     "samples",
     "payments",
+    "billing",
+    "users",
 ]
 
 MIDDLEWARE = [
