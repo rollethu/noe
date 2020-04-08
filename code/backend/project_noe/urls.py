@@ -28,6 +28,7 @@ api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
 api_router.register("samples", samples.views.SampleViewSet)
 api_router.register("payments", payments.views.PaymentViewSet)
+api_router.register("transactions", payments.views.TransactionViewSet)
 
 
 # Just added this quickly, feel free to redo it properly.
