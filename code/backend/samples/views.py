@@ -1,7 +1,7 @@
 from rest_framework import viewsets
 
 from . import models as m
-from . import serializer as s
+from . import serializers as s
 
 
 class SampleViewSet(viewsets.ModelViewSet):
