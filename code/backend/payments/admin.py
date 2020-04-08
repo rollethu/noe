@@ -4,3 +4,4 @@ from . import models as m
 
 
 admin.site.register(m.Payment)
+admin.site.register(m.Transaction)
