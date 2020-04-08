@@ -23,3 +23,36 @@ class Payment(models.Model):
     class Meta:
         ordering = ("created_at",)
 
+
+class Transaction(models.Model):
+    STATUS_CREATED = "CREATED"
+    STATUS_WAITING_FOR_AUTHORIZATION = "WAITING_FOR_AUTHORIZATION"
+    STATUS_AUTHORIZED = "AUTHORIZED"
+    STATUS_WAITING_FOR_COMPLETION = "WAITING_FOR_COMPLETION"
+    STATUS_COMPLETED = "COMPLETED"
+    STATUS_WAITING_FOR_REFUND = "WAITING_FOR_REFUND"
+    STATUS_REFUNDED = "REFUNDED"
+    STATUS_REJECTED = "REJECTED"
+    STATUS_CANCELLED = "CANCELLED"
+    STATUS_CHOICES = [
+        (STATUS_CREATED, _("created")),
+        (STATUS_WAITING_FOR_AUTHORIZATION, _("waiting for authorization")),
+        (STATUS_AUTHORIZED, _("authorized")),
+        (STATUS_WAITING_FOR_COMPLETION, _("waiting for completion")),
+        (STATUS_COMPLETED, _("completed")),
+        (STATUS_WAITING_FOR_REFUND, _("waiting for refund")),
+        (STATUS_REFUNDED, _("refunded")),
+        (STATUS_REJECTED, _("rejected")),
+        (STATUS_CANCELLED, _("cancelled")),
+    ]
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    amount = models.FloatField()
+    currency = models.CharField(max_length=3, default="HUF")
+    payment = models.ForeignKey("Payment", on_delete=models.SET_NULL, null=True)
+    external_reference_id = models.CharField(blank=True, default="")
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        ordering = ("created_at",)
