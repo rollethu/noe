@@ -1,7 +1,0 @@
-{
-    "python.pythonPath": "venv/bin/python3.7",
-    "eslint.workingDirectories": [
-        "code/frontend"
-    ],
-    "python.formatting.provider": "black"
-}
