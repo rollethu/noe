@@ -5,26 +5,26 @@ from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, email, password=None):
+    def create_user(self, username, password=None):
         """
-        Creates and saves a User with the given email, date of
+        Creates and saves a User with the given username, date of
         birth and password.
         """
-        if not email:
-            raise ValueError("Users must have an email address")
+        if not username:
+            raise ValueError("Users must have a username")
 
-        user = self.model(email=self.normalize_email(email),)
+        user = self.model(username=username)
 
         user.set_password(password)
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email, password=None):
+    def create_superuser(self, username, password=None):
         """
-        Creates and saves a superuser with the given email, date of
+        Creates and saves a superuser with the given username, date of
         birth and password.
         """
-        user = self.create_user(email, password=password,)
+        user = self.create_user(username, password=password,)
         user.is_admin = True
         user.save(using=self._db)
         return user
@@ -32,6 +32,7 @@ class UserManager(BaseUserManager):
 
 class User(AbstractBaseUser):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    username = models.CharField(max_length=255)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
     location = models.ForeignKey(
@@ -41,11 +42,13 @@ class User(AbstractBaseUser):
 
     objects = UserManager()
 
+    USERNAME_FIELD = "username"
+
     class Meta:
         ordering = ("created_at",)
 
     def __str__(self):
-        return self.email
+        return self.username
 
     def has_perm(self, perm, obj=None):
         "Does the user have a specific permission?"
