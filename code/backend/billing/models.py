@@ -12,15 +12,16 @@ class Bill(models.Model):
         (BILL_TYPE_VAT_INVOICE, _("VAT invoice")),
     )
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     appointment = models.ForeignKey(
         "appointments.Appointment", on_delete=models.SET_NULL, null=True
     )
     payment = models.ForeignKey(
         "payments.Payment", on_delete=models.SET_NULL, null=True
     )
+
     bill_id = models.CharField(max_length=255, default="")
     bill_type = models.CharField(max_length=255, choices=BILL_TYPE_CHOICES)
-    created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
         ordering = ("created_at",)
@@ -30,6 +31,7 @@ class BillingDetail(models.Model):
     """Only saved when a VAT invoice is requested during online payment."""
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
     appointment = models.OneToOneField(
         "appointments.Appointment", on_delete=models.CASCADE
     )
