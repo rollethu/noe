@@ -10,6 +10,9 @@ class Location(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField(blank=True)
 
+    def __str__(self):
+        return self.name
+
     class Meta:
         ordering = ("created_at",)
 
@@ -54,6 +57,9 @@ class Appointment(models.Model):
         )
     )
 
+    def __str__(self):
+        return f"{self.location} - {self.start:%Y-%m-%d %H:%M}"
+
     class Meta:
         ordering = ("created_at",)
 
@@ -68,12 +74,15 @@ class PhoneVerification(models.Model):
     verified_at = models.DateTimeField(blank=True, null=True)
     code = models.CharField(max_length=255)
 
-    @property
-    def is_verified(self):
-        return self.verified_at is not None
+    def __str__(self):
+        return f"{self.appointment.phone_number}: {self.code}"
 
     class Meta:
         ordering = ("created_at",)
+
+    @property
+    def is_verified(self):
+        return self.verified_at is not None
 
 
 class Seat(models.Model):
@@ -103,6 +112,15 @@ class Seat(models.Model):
             "When this field is empty, no payment for the person has been made (yet)."
         ),
     )
+
+    def __str__(self):
+        return f"{self.full_name} - {self.appointment}"
+
+    @property
+    def full_address(self):
+        return (
+            f"{self.post_code} {self.city}, {self.address_line1} {self.address_line2}"
+        )
 
     class Meta:
         ordering = ("created_at",)
