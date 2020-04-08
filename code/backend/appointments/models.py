@@ -61,7 +61,7 @@ class PhoneVerification(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE)
 
-    verified_at = models.DateTimeField()
+    verified_at = models.DateTimeField(blank=True, null=True)
     code = models.CharField(max_length=255)
 
     @property
