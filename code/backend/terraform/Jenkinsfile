@@ -1,0 +1,55 @@
+pipeline {
+    agent any
+    parameters {
+        choice(name: 'ENV', choices: ['noe'], description: 'Environment to deploy the application to')
+        choice(name: 'PROJECT', choices: ['noe-backend'])
+        string(name: 'IMAGE_VERSION', description: 'The build number of the desired application you want to deploy')
+    }
+    
+    environment {
+        AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+        AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+        TF_IN_AUTOMATION      = 1
+        TF_WORKSPACE          = "${params.ENV}"
+        TF_INPUT              = 0
+        TF_CLI_ARGS           = "-no-color"
+        DOCKER_REPO           = "074164835766.dkr.ecr.eu-central-1.amazonaws.com"
+        IMAGE_URI             = "${env.DOCKER_REPO}/${params.PROJECT}:${IMAGE_VERSION}"
+    }
+
+    stages{
+        stage('Checkout'){
+            steps {
+                script {
+                    currentBuild.displayName = "${params.ENV}-${params.PROJECT}-${env.BUILD_NUMBER}"
+                }    
+
+                checkout scm
+            }
+        }
+        stage('Terraform Init') {
+            steps {
+                dir("terraform/${params.PROJECT}") {
+                    sh 'terraform init'
+                }
+            }
+        }
+        stage('Terraform Plan') {
+            steps {
+                dir("terraform/${params.PROJECT}"){
+                    sh "terraform plan -var-file=non_sensitive.${params.ENV}.tfvars -var=app_image_url=${env.IMAGE_URI} -out=tfplan.out"
+                }
+            }
+        }
+        stage('Terraform Apply') {
+            steps {
+                timeout(time: 30, unit: 'MINUTES') {
+                    input message: 'Approve Deploy?', ok: 'Yes'
+                }
+                dir("terraform/${params.PROJECT}") {
+                    sh "terraform apply -auto-approve tfplan.out"
+                }
+            }
+        }
+    }
+}
