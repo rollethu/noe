@@ -9,24 +9,6 @@ resource "aws_lb_listener" "backend" {
     target_group_arn = aws_lb_target_group.backend_nlb_tgs[each.key].arn
   }
 }
-# resource "aws_lb_target_group" "backend_tgs" {
-#   for_each    = var.app_tg_ports
-#   name        = "${var.app_name}-${terraform.workspace}-tg-${each.key}"
-#   target_type = "instance"
-#   port        = each.key
-#   protocol    = "HTTP"
-#   vpc_id      = data.terraform_remote_state.aws_core.outputs.live_acc_dev_vpc_outputs.vpc_id
-#   health_check {
-#     enabled             = true
-#     interval            = 10
-#     protocol            = "HTTP"
-#     healthy_threshold   = 3
-#     unhealthy_threshold = 3
-#     path                = "/admin/login/"
-#   }
-
-#   deregistration_delay = var.cooldown_seconds
-# }
 
 resource "aws_lb_target_group" "backend_nlb_tgs" {
   for_each    = var.app_tg_ports
@@ -41,7 +23,7 @@ resource "aws_lb_target_group" "backend_nlb_tgs" {
     protocol            = "HTTP"
     healthy_threshold   = 3
     unhealthy_threshold = 3
-    path                = "/admin/login/"
+    path                = "/health/"
   }
   deregistration_delay = var.cooldown_seconds
 }

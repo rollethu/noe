@@ -6,7 +6,7 @@ module "backend_app" {
   cpu_units       = 512
   memory_mbytes   = 512
   desired_count   = var.desired_count
-  minimum_percent = 50
+  minimum_percent = 0
   maximum_percent = 150
 
   port_mappings = var.app_tg_ports
@@ -48,7 +48,7 @@ EOF
 
 resource "aws_iam_role_policy_attachment" "ssm_reader_policy" {
   role       = aws_iam_role.task_execution_role.name
-  policy_arn = data.terraform_remote_state.aws_core.outputs.account.live.vpc[terraform.workspace].ssm_reader_policy_arn
+  policy_arn = local.core_config.ssm_reader_policy_arn
 }
 resource "aws_iam_role_policy_attachment" "execution_role_policy" {
   role       = aws_iam_role.task_execution_role.name
