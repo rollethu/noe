@@ -30,7 +30,9 @@ pipeline {
         stage('Terraform Init') {
             steps {
                 dir("code/${params.PROJECT}/terraform") {
-                    sh 'terraform init'
+                    sshagent(['gitlab-build2-ro']) {
+                        sh 'terraform init'
+                    }
                 }
             }
         }
