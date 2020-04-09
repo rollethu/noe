@@ -91,3 +91,21 @@ def _get_signature(json_data, secret_key):
         secret_key.encode(), json_data.encode(), hashlib.sha384,
     ).digest()
     return base64.b64encode(hmac_digest).decode()
+
+
+def validate_ipn(response_data):
+    validate_signature(response_data, signature)
+
+
+def process_ipn(response_data, signature):
+    validate_ipn(response_data)
+    return {
+        "status": response_data["status"],
+        "oreder_ref": response_data["orderRef"],
+    }
+
+
+def validate_signature(response_data, signature):
+    expected_signature = _get_signature(response_data)
+    if signature != expected_signature:
+        raise exceptions.InvalidSignature()
