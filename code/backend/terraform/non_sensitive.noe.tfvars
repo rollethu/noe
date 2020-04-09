@@ -1,9 +1,9 @@
-app_name      = "juice-backend"
-app_image_url = "074164835766.dkr.ecr.eu-west-3.amazonaws.com/juice-backend2:latest"
+app_name      = "noe-backend"
+# app_image_url = "074164835766.dkr.ecr.eu-central-1.amazonaws.com/noe-backend"
 env_vars = {
-  DJANGO_DATABASE_HOST = "dev-db.cwcdru6hbnif.eu-west-1.rds.amazonaws.com"
-  DJANGO_DATABASE_PORT = "3306"
-  DJANGO_DATABASE_USER = "admin"
+  DJANGO_DATABASE_HOST = "noe-postgres.co7irzuctvdj.eu-central-1.rds.amazonaws.com"
+  DJANGO_DATABASE_PORT = "5432"
+  DJANGO_DATABASE_USER = "noe_master"
 }
 
 env_secrets = {
@@ -18,7 +18,7 @@ app_tg_ports = {
   }
 }
 
-desired_count    = 3
+desired_count    = 1
 cooldown_seconds = 3
 
 cw_log_group_name   = "noe-ecs-private-cluster"
