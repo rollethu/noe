@@ -4,7 +4,7 @@ pipeline {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
         AWS_REGION            = 'eu-central-1'
-        VERSION               = "${env.BUILD_NUMBER}-${env.BRANCH}"
+        VERSION               = "${env.BUILD_NUMBER}-${env.BRANCH_NAME}"
         IMAGE                 = "noe-backend"
         DOCKER_REPO           = "074164835766.dkr.ecr.eu-central-1.amazonaws.com"
         BACKEND_IMAGE         = "${IMAGE}:${VERSION}"
@@ -16,7 +16,7 @@ pipeline {
         stage("Git checkout") {
             steps {
                 script {
-                    currentBuild.displayName = "${env.BUILD_NUMBER}-${env.BRANCH}"
+                    currentBuild.displayName = "${env.VERSION}"
                 }    
                 checkout scm
             }
