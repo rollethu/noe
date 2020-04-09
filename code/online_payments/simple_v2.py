@@ -12,10 +12,28 @@ from . import exceptions
 BASE_URL = "https://sandbox.simplepay.hu/payment/v2/start"
 
 
-def get_payment_url(secret_key, customer_email, transaction_id, total):
-    request_data = make_request_data(customer_email, transaction_id, total)
-    json_request_data = make_json_request_data(request_data)
-    signature = get_signature(json_request_data, secret_key)
+def get_payment_url(
+    *,
+    merchant_id,
+    secret_key,
+    customer_email,
+    transaction_id,
+    total,
+    currency="HUF",
+    callback_url,
+    timeout_minutes=10,
+):
+    request_data = _make_request_data(
+        merchant_id,
+        customer_email,
+        transaction_id,
+        total,
+        currency,
+        callback_url,
+        timeout_minutes,
+    )
+    json_request_data = _make_json_request_data(request_data)
+    signature = _get_signature(json_request_data, secret_key)
 
     # `requests`'s default json dumping would keep whitespaces
     # Data sent in request and used for generating signature must match
@@ -24,17 +42,17 @@ def get_payment_url(secret_key, customer_email, transaction_id, total):
     return rv.json()["paymentUrl"]
 
 
-def make_request_data(
+def _make_request_data(
     merchant_id,
+    customer_email,
     transaction_id,
     total,
+    currency,
     callback_url,
-    customer_email,
-    currency="HUF",
-    timeout_in_minutes=10,
+    timeout_minutes,
 ):
     now = dt.datetime.utcnow()
-    timeout_date = now + dt.timedelta(minutes=timeout_in_minutes)
+    timeout_date = now + dt.timedelta(minutes=timeout_minutes)
     timeout_string = timeout_date.isoformat()
 
     return {
@@ -63,12 +81,12 @@ def make_request_data(
     }
 
 
-def make_json_request_data(request_data):
+def _make_json_request_data(request_data):
     # Simple expects compact json message with no "unnecessary whitespaces".
     return json.dumps(request_data, separators=[",", ":"])
 
 
-def get_signature(json_data, secret_key):
+def _get_signature(json_data, secret_key):
     hmac_digest = hmac.new(
         secret_key.encode(), json_data.encode(), hashlib.sha384,
     ).digest()
