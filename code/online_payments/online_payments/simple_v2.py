@@ -4,6 +4,7 @@ from dataclasses import dataclass
 import json
 import hashlib
 import hmac
+import string
 import secrets
 import requests
 from dateutil.parser import parse as dateutil_parse
@@ -82,7 +83,7 @@ def _make_request(
     timeout_string = timeout_date.isoformat()
 
     return {
-        "salt": secrets.token_urlsafe(32),
+        "salt": _random_string(32),
         "merchant": merchant_id,
         "orderRef": str(transaction_id),
         "currency": currency,
@@ -105,6 +106,15 @@ def _make_request(
             "phone": "",
         },
     }
+
+
+def _random_string(n=32):
+    """Generate a cryptographycally secure n-length random string
+    containing printable characters, selected from lower- and upper-case
+    ASCII letters, digits, punctuation and whitespace.
+    """
+    # https://docs.python.org/3/library/secrets.html#recipes-and-best-practices
+    return "".join(secrets.choice(string.printable) for _ in range(n))
 
 
 def _get_signature(json_data, secret_key):
