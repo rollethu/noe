@@ -31,7 +31,7 @@ def start_payment_request(
     merchant_id,
     secret_key,
     customer_email,
-    transaction_id,
+    order_ref,
     total,
     currency="HUF",
     callback_url,
@@ -40,7 +40,7 @@ def start_payment_request(
     request = _make_request(
         merchant_id,
         customer_email,
-        transaction_id,
+        order_ref,
         total,
         currency,
         callback_url,
@@ -71,7 +71,7 @@ def start_payment_request(
 def _make_request(
     merchant_id,
     customer_email,
-    transaction_id,
+    order_ref,
     total,
     currency,
     callback_url,
@@ -85,7 +85,7 @@ def _make_request(
     return {
         "salt": _random_string(32),
         "merchant": merchant_id,
-        "orderRef": str(transaction_id),
+        "orderRef": str(order_ref),
         "currency": currency,
         "customerEmail": customer_email,
         "language": "HU",
