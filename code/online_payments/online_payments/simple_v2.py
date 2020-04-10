@@ -78,6 +78,7 @@ def _make_request(
 ):
     now = dt.datetime.utcnow()
     timeout_date = now + dt.timedelta(minutes=timeout_minutes)
+    timeout_date = timeout_date.replace(microsecond=0, tzinfo=dt.timezone.utc)
     timeout_string = timeout_date.isoformat()
 
     return {
