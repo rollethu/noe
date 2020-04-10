@@ -1,0 +1,65 @@
+interactions:
+- request:
+    body: '{"salt":"qGK>I99WN\fy?{UPMX%vD:lb)$DTXPTh1","merchant":"S111111","orderRef":"12345","currency":"HUF","customerEmail":"customer@gmail.com","language":"HU","sdkVersion":"Rollet
+      online-payments 0.1.0","methods":["CARD"],"total":"300","timeout":"2020-04-10T22:29:36+00:00","url":"https://noe.rollet.app"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '300'
+      Content-Type:
+      - application/json
+      Signature:
+      - bZ8b69xxfyBc6ueSmTkuOz0GQchHFar2+WtriI/GZ+P1fv/Vp853WUAzr0wnhC43
+      User-Agent:
+      - python-requests/2.23.0
+    method: POST
+    uri: https://sandbox.simplepay.hu/payment/v2/start
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAyXM0W6CMBQG4Hfp7RQOrUDWOyNDuNjMhhjlxlToBktpoZSJLr77SnZxcpLv/Of/
+        RQMTBlHkleo+Js2X+R7T4E6kiOo0OwpBerw7+dEBLVDLdVkzOaczLwxC8C0qXXH9wT/nCkxWM5Wj
+        1lyWN0tJHlswmsmBlaZRMq0Q9QAHQEJiD03L1TgXYsCwhNXS8/YAFD9TEjwBpgDzuzJMIEoAHFig
+        jt1aLk2uLaHamG6grjswWV3U5AxN2wluI049unb9z9Alubt+/VkXkbr4oTy/NOdNUW9PXLT79DDx
+        /r1XU1a/kfh4vcYBL3bbaBOhxx/rsgsvHgEAAA==
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '256'
+      Content-Security-Policy:
+      - child-src 'none'; frame-src *; frame-ancestors 'self'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Fri, 10 Apr 2020 22:19:36 GMT
+      Keep-Alive:
+      - timeout=5, max=100
+      Server:
+      - JBoss-EAP/7
+      Set-Cookie:
+      - dtCookie=CF7616ECCCF32AA261181DD94667C3D5; Path=/; Domain=.simplepay.hu;HttpOnly;Secure;HttpOnly;Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Powered-By:
+      - Undertow/1
+      X-XSS-Protection:
+      - 1; mode=block
+      signature:
+      - 5fYiyoBmciodtUlxkXsxoykFK36qVsn7S8Q3LYheAtcnCpKbexG72ZERb4RrXEJ+
+    status:
+      code: 200
+      message: OK
+version: 1

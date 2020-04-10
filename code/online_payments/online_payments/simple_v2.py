@@ -57,6 +57,7 @@ def start_payment_request(
     # Data sent in request and used for generating signature must match
     headers = {"Signature": signature, "Content-Type": "application/json"}
     res = requests.post(START_PAYMENT_URL, json_request, headers=headers)
+    _validate_signature(res, secret_key)
     json_res = res.json()
 
     return StartPaymentResponse(
@@ -106,3 +107,10 @@ def _random_string(n=32):
 def _get_signature(json_data, secret_key):
     hmac_digest = hmac.digest(secret_key.encode(), json_data.encode(), hashlib.sha384)
     return base64.b64encode(hmac_digest).decode()
+
+
+def _validate_signature(res, secret_key):
+    """Validates a Response Signature with the secret key."""
+    signature = _get_signature(res.text, secret_key)
+    if res.headers["Signature"] != signature:
+        raise exceptions.InvalidSignature
