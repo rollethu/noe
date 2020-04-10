@@ -9,7 +9,7 @@ def test_start_payment_request():
     order_ref = "101010515680292482600"
 
     res = start_payment_request(
-        merchant_id=os.environ["SIMPLE_MERCHANT_ID"],
+        merchant=os.environ["SIMPLE_MERCHANT"],
         secret_key=os.environ["SIMPLE_SECRET_KEY"],
         customer_email="customer@gmail.com",
         order_ref=order_ref,

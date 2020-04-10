@@ -31,7 +31,7 @@ class StartPaymentResponse:
 
 def start_payment_request(
     *,
-    merchant_id,
+    merchant,
     secret_key,
     customer_email,
     order_ref,
@@ -41,7 +41,7 @@ def start_payment_request(
     timeout_minutes=10,
 ):
     request = _make_request(
-        merchant_id,
+        merchant,
         customer_email,
         order_ref,
         total,
@@ -72,13 +72,7 @@ def start_payment_request(
 
 
 def _make_request(
-    merchant_id,
-    customer_email,
-    order_ref,
-    total,
-    currency,
-    callback_url,
-    timeout_minutes,
+    merchant, customer_email, order_ref, total, currency, callback_url, timeout_minutes,
 ):
     now = dt.datetime.utcnow()
     timeout_date = now + dt.timedelta(minutes=timeout_minutes)
@@ -87,7 +81,7 @@ def _make_request(
 
     return {
         "salt": _random_string(32),
-        "merchant": merchant_id,
+        "merchant": merchant,
         "orderRef": str(order_ref),
         "currency": currency,
         "customerEmail": customer_email,
