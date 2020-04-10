@@ -7,11 +7,14 @@ import hmac
 import string
 import secrets
 import requests
+from importlib import metadata
 from dateutil.parser import parse as dateutil_parse
 from . import exceptions
 
-
 START_PAYMENT_URL = "https://sandbox.simplepay.hu/payment/v2/start"
+# metadata.version works only when the package is installed, see:
+# https://docs.python.org/3/library/importlib.metadata.html
+SDK_VERSION = "Rollet online-payments " + metadata.version("online-payments")
 
 
 @dataclass
@@ -89,7 +92,7 @@ def _make_request(
         "currency": currency,
         "customerEmail": customer_email,
         "language": "HU",
-        "sdkVersion": "SimplePayV2.1_Payment_PHP_SDK_2.0.7_190701:dd236896400d7463677a82a47f53e36e",
+        "sdkVersion": SDK_VERSION,
         "methods": ["CARD"],
         "total": str(total),
         "timeout": timeout_string,
