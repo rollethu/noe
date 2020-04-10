@@ -97,17 +97,6 @@ def _make_request(
         "total": str(total),
         "timeout": timeout_string,
         "url": callback_url,
-        "invoice": {
-            "name": "SimplePay V2 Tester",
-            "company": "",
-            "country": "hu",
-            "state": "",
-            "city": "",
-            "zip": "",
-            "address": "",
-            "address2": "",
-            "phone": "",
-        },
     }
 
 
