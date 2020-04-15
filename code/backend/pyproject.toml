@@ -8,6 +8,7 @@ authors = ["Rollet Developers"]
 python = "^3.6"
 django = "^3.0.5"
 djangorestframework = "^3.11.0"
+requests = "^2.23.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
