@@ -13,9 +13,7 @@ class Payment(models.Model):
     )
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     seat = models.ForeignKey("appointments.Seat", on_delete=models.SET_NULL, null=True)
-    payment_method_type = models.CharField(
-        max_length=255, choices=PAYMENT_METHOD_TYPE_CHOICES
-    )
+    payment_method_type = models.CharField(max_length=255, choices=PAYMENT_METHOD_TYPE_CHOICES)
     amount = models.FloatField()
     currency = models.CharField(max_length=3, default="HUF")
     created_at = models.DateTimeField(auto_now_add=True)
@@ -51,7 +49,7 @@ class Transaction(models.Model):
     currency = models.CharField(max_length=3, default="HUF")
     payment = models.ForeignKey("Payment", on_delete=models.SET_NULL, null=True)
     external_reference_id = models.CharField(max_length=255, blank=True, default="")
-    status = models.CharField(max_length=255, choices=STATUS_CHOICES)
+    status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=STATUS_CREATED)
     created_at = models.DateTimeField(auto_now_add=True)
 
     class Meta:
