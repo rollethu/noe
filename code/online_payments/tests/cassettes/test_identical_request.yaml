@@ -1,0 +1,67 @@
+interactions:
+- request:
+    body: '{"salt": "12345", "merchant": "S111111", "orderRef": "101010515680292482600",
+      "currency": "HUF", "customerEmail": "customer@gmail.com", "language": "HU",
+      "sdkVersion": "Rollet online-payments 0.1.0", "methods": ["CARD"], "total":
+      "300", "timeout": "2020-01-01T12:00:00+00:00", "url": "https://noe.rollet.app"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '288'
+      Content-Type:
+      - application/json
+      Signature:
+      - th4TG+MyvKD4IMfGjVH+oaO74x5Zny1jzRkmxIRjIZHIMK5pAHPhVr6EUYqiEXWy
+      User-Agent:
+      - python-requests/2.23.0
+    method: POST
+    uri: https://sandbox.simplepay.hu/payment/v2/start
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAyWNb0+DMBCHv0vfOuHKKAxeTsRNjLoBDl52UP5EKKQtBmb87hbN/S6XPPfk7htJ
+        2inko+pNzmqs5fNiyyQM4igJgB2jbP/I48uJ3tAG9UwUDeWrHWPXcYFoOIiSiTOrNMSwFsHE2YHl
+        WfbOcgC0UkxCMF4sWjmkoQZKUC5podqBH0vkY7CI59i2XrQ9G6b1gQUW3APWSfDWB9C5A+z/3VOD
+        oh3ytwAGbNBIl55xlQqNUKPUKH3TlJSX12E2ZNuPHdOK0UymHv8tx0NqBp1oclJfp7JOq+H1M5+y
+        vHzhibx8VU+n9485JiR0d/tiOXtTFt0eSvTzC0aGA+4uAQAA
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '264'
+      Content-Security-Policy:
+      - child-src 'none'; frame-src *; frame-ancestors 'self'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Wed, 15 Apr 2020 15:37:38 GMT
+      Keep-Alive:
+      - timeout=5, max=100
+      Server:
+      - JBoss-EAP/7
+      Set-Cookie:
+      - dtCookie=5978931B7F2529C1BE922E68ACD95024; Path=/; Domain=.simplepay.hu;HttpOnly;Secure;HttpOnly;Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Powered-By:
+      - Undertow/1
+      X-XSS-Protection:
+      - 1; mode=block
+      signature:
+      - HrDDDy5JFKNJKF+xhaS4hlOggsBka7YixCWOEi6b8iWT+SjTLCZzSwXMEHWBnH4d
+    status:
+      code: 200
+      message: OK
+version: 1

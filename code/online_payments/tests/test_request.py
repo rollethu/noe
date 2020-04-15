@@ -49,8 +49,23 @@ def test_start_payment_request():
     assert res.salt is not None
 
 
-@pytest.mark.vcr()
-def test_invalid_signature(vcr_cassette, vcr):
+@pytest.mark.vcr(match_on=("method", "scheme", "host", "port", "path", "query", "body"),)
+def test_identical_request(monkeypatch):
+    monkeypatch.setattr(simple_v2, "_make_timeout_string", lambda *args: "2020-01-01T12:00:00+00:00")
+    monkeypatch.setattr(simple_v2, "_random_string", lambda *args: "12345")
+    total = 300
+    order_ref = "101010515680292482600"
+
+    res = simple_v2.start_payment_request(
+        merchant=os.environ["SIMPLE_MERCHANT"],
+        secret_key=os.environ["SIMPLE_SECRET_KEY"],
+        customer_email="customer@gmail.com",
+        order_ref=order_ref,
+        total=total,
+        callback_url="https://noe.rollet.app",
+    )
+
+
 @pytest.mark.vcr(before_record_response=_replace_response_signature)
 def test_invalid_signature():
     # Will NOT raise error when casette is being created
