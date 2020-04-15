@@ -22,6 +22,8 @@ def _remove_merchant_form_body(request):
 @pytest.fixture(scope="module")
 def vcr_config():
     return {
+        # https://vcrpy.readthedocs.io/en/latest/usage.html#record-modes
+        "record_mode": "none",
         "before_record_request": _remove_merchant_form_body,
     }
 
