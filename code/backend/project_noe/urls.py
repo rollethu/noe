@@ -70,6 +70,14 @@ api_urls = [
     path("", include(swagger_urls)),
 ]
 
+api_urls = [
+    path("", include(api_router.urls)),
+    path("start-payment/", payments.views.initiate_online_payment_view, name="start-payment"),
+    path(
+        "payment-redirect/", payments.views.payment_redirect_view_after_card_details_entered, name="payment-redirect"
+    ),
+]
+
 urlpatterns = [
     path("api/", include(api_urls)),
     path("staff-api/", include(staff_api.urls)),

@@ -1,18 +1,24 @@
 from urllib.parse import urlparse
-from django.urls import resolve
+
+from django.conf import settings
 from django.db import transaction
+from django.shortcuts import get_object_or_404, render, redirect
+from django.urls import resolve
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework.response import Response
-from rest_framework.exceptions import ValidationError
+from rest_framework.reverse import reverse
+from rest_framework.exceptions import ValidationError, NotFound
+
 from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
 from appointments.permissions import AppointmentPermission
 from appointments import email
 from billing import serializers as bs
 from .prices import calc_payments, PRODUCTS
+from online_payments import simple_v2
 from . import models as m
 from . import serializers as s
 
@@ -93,3 +99,37 @@ class PayAppointmentView(generics.GenericAPIView):
         serializer = bs.BillingDetailSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+
+def initiate_online_payment_view(request, appointment_pk):
+    appointment = get_object_or_404(m.Appointment, pk=appointment_pk)
+    payments, transactions = u.create_payments_and_transactions_for_appointment(appointment)
+    transaction = transactions[0]
+    simple_response = simple_v2.start_payment_request(
+        merchant=settings.SIMPLEPAY_MERCHANT_ID,
+        secret_key=settings.SIMPLEPAY_SECRET_KEY,
+        customer_email=appointment.email,
+        order_ref=transaction.pk,
+        total=transaction.amount,
+    )
+    context = {"simple_url": simple_response.payment_url}
+    return render(request, "simple-post-form.html", context=context)
+
+
+def payment_redirect_view_after_card_details_entered(request, appointment_pk):
+    """
+    When the card details are entered, simple calls this view straight away (doesn't wait for
+    success). The transaction is either rejected or is under authorization at this point in time.
+
+    The returned response redirects the client back to our page form Simple.
+    """
+    back_body = simple_v2.handle_back_request(request, settings.SIMPLEPAY_SECRET_KEY)
+    appointment = appointment = get_object_or_404(m.Appointment, pk=appointment_pk)
+    transaction = appointment.payments.first().transactions.first()
+
+    if transaction is None:
+        raise NotFound()
+
+    u.update_transaction_with_simplepay_request(back_body)
+
+    return redirect(reverse("transaction-detail", request, kwargs={"pk": transaction.pk}))
