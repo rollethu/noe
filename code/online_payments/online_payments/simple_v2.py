@@ -62,11 +62,6 @@ def start_payment_request(
 def _make_request_body(
     merchant, customer_email, order_ref, total, currency, callback_url, timeout_minutes,
 ):
-    now = dt.datetime.utcnow()
-    timeout_date = now + dt.timedelta(minutes=timeout_minutes)
-    timeout_date = timeout_date.replace(microsecond=0, tzinfo=dt.timezone.utc)
-    timeout_string = timeout_date.isoformat()
-
     return {
         "salt": _random_string(32),
         "merchant": merchant,
@@ -77,7 +72,7 @@ def _make_request_body(
         "sdkVersion": SDK_VERSION,
         "methods": ["CARD"],
         "total": str(total),
-        "timeout": timeout_string,
+        "timeout": _make_timeout_string(timeout_minutes),
         "url": callback_url,
     }
 
@@ -89,6 +84,13 @@ def _random_string(n=32):
     """
     # https://docs.python.org/3/library/secrets.html#recipes-and-best-practices
     return "".join(secrets.choice(string.printable) for _ in range(n))
+
+
+def _make_timeout_string(timeout_minutes):
+    now = dt.datetime.utcnow()
+    timeout_date = now + dt.timedelta(minutes=timeout_minutes)
+    timeout_date = timeout_date.replace(microsecond=0, tzinfo=dt.timezone.utc)
+    return timeout_date.isoformat()
 
 
 def _get_signature(json_data, secret_key):
