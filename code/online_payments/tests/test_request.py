@@ -1,7 +1,24 @@
+import json
 import os
 import pytest
 from online_payments import simple_v2
 from online_payments.exceptions import InvalidSignature
+
+
+def _remove_merchant_form_body(request):
+    request_body = json.loads(request.body)
+    if "merchant" in request_body:
+        request_body["merchant"] = "S111111"
+
+    request.body = json.dumps(request_body)
+    return request
+
+
+@pytest.fixture(scope="module")
+def vcr_config():
+    return {
+        "before_record_request": _remove_merchant_form_body,
+    }
 
 
 @pytest.mark.vcr()
