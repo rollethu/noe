@@ -1,6 +1,6 @@
 import os
 import pytest
-from online_payments.simple_v2 import start_payment_request
+from online_payments import simple_v2
 from online_payments.exceptions import InvalidSignature
 
 
@@ -9,7 +9,7 @@ def test_start_payment_request():
     total = 300
     order_ref = "101010515680292482600"
 
-    res = start_payment_request(
+    res = simple_v2.start_payment_request(
         merchant=os.environ["SIMPLE_MERCHANT"],
         secret_key=os.environ["SIMPLE_SECRET_KEY"],
         customer_email="customer@gmail.com",
@@ -29,7 +29,7 @@ def test_start_payment_request():
 def test_invalid_signature(vcr_cassette, vcr):
     vcr_cassette.responses[0]["headers"]["signature"] = "invalidsignature"
     with pytest.raises(InvalidSignature):
-        start_payment_request(
+        simple_v2.start_payment_request(
             merchant=os.environ["SIMPLE_MERCHANT"],
             secret_key=os.environ["SIMPLE_SECRET_KEY"],
             customer_email="customer@gmail.com",
