@@ -30,24 +30,10 @@ class StartPaymentResponse:
 
 
 def start_payment_request(
-    *,
-    merchant,
-    secret_key,
-    customer_email,
-    order_ref,
-    total,
-    currency="HUF",
-    callback_url,
-    timeout_minutes=10,
+    *, merchant, secret_key, customer_email, order_ref, total, currency="HUF", callback_url, timeout_minutes=10,
 ):
     request_body = _make_request_body(
-        merchant,
-        customer_email,
-        order_ref,
-        total,
-        currency,
-        callback_url,
-        timeout_minutes,
+        merchant, customer_email, order_ref, total, currency, callback_url, timeout_minutes,
     )
     # Simple expects compact json message with no "unnecessary whitespaces".
     json_request_body = json.dumps(request_body, separators=[",", ":"])
@@ -105,8 +91,7 @@ def _random_string(n=32):
 
 
 def _get_signature(json_data, secret_key):
-    hmac_digest = hmac.digest(
-        secret_key.encode(), json_data.encode(), hashlib.sha384)
+    hmac_digest = hmac.digest(secret_key.encode(), json_data.encode(), hashlib.sha384)
     return base64.b64encode(hmac_digest).decode()
 
 
