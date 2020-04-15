@@ -40,7 +40,7 @@ def start_payment_request(
     callback_url,
     timeout_minutes=10,
 ):
-    request = _make_request(
+    request_body = _make_request_body(
         merchant,
         customer_email,
         order_ref,
@@ -50,13 +50,13 @@ def start_payment_request(
         timeout_minutes,
     )
     # Simple expects compact json message with no "unnecessary whitespaces".
-    json_request = json.dumps(request, separators=[",", ":"])
-    signature = _get_signature(json_request, secret_key)
+    json_request_body = json.dumps(request_body, separators=[",", ":"])
+    signature = _get_signature(json_request_body, secret_key)
 
     # `requests`'s default json dumping would keep whitespaces
     # Data sent in request and used for generating signature must match
     headers = {"Signature": signature, "Content-Type": "application/json"}
-    res = requests.post(START_PAYMENT_URL, json_request, headers=headers)
+    res = requests.post(START_PAYMENT_URL, json_request_body, headers=headers)
     _validate_signature(res, secret_key)
     json_res = res.json()
 
@@ -72,7 +72,7 @@ def start_payment_request(
     )
 
 
-def _make_request(
+def _make_request_body(
     merchant, customer_email, order_ref, total, currency, callback_url, timeout_minutes,
 ):
     now = dt.datetime.utcnow()
@@ -105,7 +105,8 @@ def _random_string(n=32):
 
 
 def _get_signature(json_data, secret_key):
-    hmac_digest = hmac.digest(secret_key.encode(), json_data.encode(), hashlib.sha384)
+    hmac_digest = hmac.digest(
+        secret_key.encode(), json_data.encode(), hashlib.sha384)
     return base64.b64encode(hmac_digest).decode()
 
 
