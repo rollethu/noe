@@ -5,6 +5,11 @@ from online_payments import simple_v2
 from online_payments.exceptions import InvalidSignature
 
 
+def _replace_response_signature(response):
+    response["headers"]["signature"] = ["invalidsignature"]
+    return response
+
+
 def _remove_merchant_form_body(request):
     request_body = json.loads(request.body)
     if "merchant" in request_body:
@@ -44,7 +49,9 @@ def test_start_payment_request():
 
 @pytest.mark.vcr()
 def test_invalid_signature(vcr_cassette, vcr):
-    vcr_cassette.responses[0]["headers"]["signature"] = "invalidsignature"
+@pytest.mark.vcr(before_record_response=_replace_response_signature)
+def test_invalid_signature():
+    # Will NOT raise error when casette is being created
     with pytest.raises(InvalidSignature):
         simple_v2.start_payment_request(
             merchant=os.environ["SIMPLE_MERCHANT"],
