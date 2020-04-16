@@ -42,7 +42,7 @@ def health_check(req):
 
 api_urls = [
     path("", include(api_router.urls)),
-    path("verify/email", appointments.views.verify_email),
+    path("verify/email/", appointments.views.verify_email),
 ]
 
 
