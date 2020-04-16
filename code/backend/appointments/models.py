@@ -1,6 +1,9 @@
 import uuid
+import string
+import secrets
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from django.core.signing import Signer
 
 
 class Location(models.Model):
@@ -67,6 +70,41 @@ class PhoneVerification(models.Model):
 
     class Meta:
         ordering = ("created_at",)
+
+    @property
+    def is_verified(self):
+        return self.verified_at is not None
+
+
+def _generate_email_code():
+    # https://docs.python.org/3/library/secrets.html#recipes-and-best-practices
+    # example asdf234
+    alphanumeric = string.ascii_letters + string.digits
+    return "".join(secrets.choice(alphanumeric) for _ in range(20))
+
+
+class EmailVerification(models.Model):
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="email_verifications")
+    verified_at = models.DateTimeField(blank=True, null=True)
+    code = models.CharField(max_length=255, default=_generate_email_code)
+
+    class Meta:
+        ordering = ("created_at",)
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        # code and SECRET_KEY will be needed to validate
+        self._signer = Signer(salt=self.code)
+
+    def sign(self):
+        return self._signer.sign(self.appointment.email)
+
+    def verify(self, signed_email: str):
+        if self._signer.unsign(signed_email) == self.appointment.email:
+            return True
+        return False
 
     @property
     def is_verified(self):
