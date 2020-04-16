@@ -9,6 +9,20 @@
 .CenterText {
   text-align: center; }
 
+.InputGroup {
+  margin-bottom: 10px; }
+
+.Label {
+  display: block; }
+  .Label.Inline {
+    display: inline; }
+
+.Input {
+  border: 1px solid black;
+  width: 100%; }
+  .Input.Inline {
+    width: auto; }
+
 .Nav {
   position: absolute;
   top: 0;
