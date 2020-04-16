@@ -1,6 +1,8 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 
+import { ROUTE_EMAIL_VERIFICATION } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, Form, Field, Button } from "../UI";
 
@@ -11,17 +13,28 @@ const TXT_SUBMIT_BUTTON = "Tovább";
 const TXT_ACCEPT_GTC = "Elfogadom az ÁSZF-et.";
 const TXT_ACCEPT_PRIVACY_POLICY = "Elfogadom az Adatvédelmi Szabályzatot.";
 
-export default function Start() {
+export default function Start(props) {
+  const [redirectTo, setRedirectTo] = React.useState(null);
   const { register, handleSubmit, setError, errors } = useForm();
   const { createAppointment } = React.useContext(AppointmentContext);
   const onSubmit = async (values) => {
     const response = await createAppointment(values);
     if (response.error) {
-      Object.keys(response.errors).map((fieldName) => {
-        setError(fieldName, "", response.errors[fieldName]);
-      });
+      if (response.errors) {
+        Object.keys(response.errors).map((fieldName) => {
+          setError(fieldName, "", response.errors[fieldName]);
+        });
+      } else {
+        alert("Váratlan hiba történt.");
+      }
+    } else {
+      setRedirectTo(ROUTE_EMAIL_VERIFICATION);
     }
   };
+
+  if (redirectTo) {
+    return <Redirect to={redirectTo} />;
+  }
 
   return (
     <View>
