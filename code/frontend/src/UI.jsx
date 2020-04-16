@@ -139,8 +139,11 @@ export function Image({ src }) {
   );
 }
 
-export function LinkButton({ to, toCenter, children }) {
-  const classes = classNames("Button", { ToCenter: toCenter });
+export function LinkButton({ to, toCenter, inverse, children }) {
+  const classes = classNames("Button", {
+    ToCenter: toCenter,
+    Inverse: inverse,
+  });
   return (
     <Link className={classes} to={to}>
       {children}

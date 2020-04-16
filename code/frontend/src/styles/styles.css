@@ -38,9 +38,14 @@
   width: 80%;
   padding: 10px;
   display: block;
-  text-align: center; }
+  text-align: center;
+  border: 1px solid #1943EF;
+  margin-bottom: 10px; }
   .Button.ToCenter {
     align-self: center; }
+  .Button.Inverse {
+    color: #1943EF;
+    background: white; }
 
 .ImageContainer {
   display: flex;
