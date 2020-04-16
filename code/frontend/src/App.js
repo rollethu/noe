@@ -21,7 +21,7 @@ import Checkout from "./screens/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
 
 export const ROUTE_START = "/start";
-export const ROUTE_EMAIL_VERIFICATION = "/email-megerosites";
+export const ROUTE_EMAIL_VERIFICATION = "/megerosito-email";
 export const ROUTE_REGISTRATION = "/regisztracio";
 export const ROUTE_SEAT_DETAILS = "/szemelyes-adatok";
 export const ROUTE_SURVEY = "/kerdoiv";
