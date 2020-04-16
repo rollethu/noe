@@ -20,8 +20,13 @@ const createAppointment = (dispatch) => async (values) => {
   try {
     const response = await axios.post(consts.APPOINTMENT_LIST_URL, values);
     dispatch({ type: consts.CREATE_APPOINTMENT, payload: response.data });
-  } catch (e) {
-    console.log(e);
+    response.error = false;
+    return response;
+  } catch (error) {
+    const { response } = error;
+    response.error = true;
+    response.errors = response.data;
+    return response;
   }
 };
 

@@ -22,7 +22,15 @@ export function Form({ children, onSubmit }) {
   );
 }
 
-export function Field({ value, name, label, type, register }) {
+export function Field({
+  value,
+  name,
+  label,
+  type,
+  register,
+  errors: allErrors,
+}) {
+  const errors = allErrors[name];
   if (type === "checkbox") {
     return (
       <InputGroup>
@@ -36,6 +44,7 @@ export function Field({ value, name, label, type, register }) {
           />
           {label}
         </Label>
+        {errors && <HelpBlock error>{errors.message}</HelpBlock>}
       </InputGroup>
     );
   }
@@ -48,6 +57,7 @@ export function Field({ value, name, label, type, register }) {
         ref={register()}
         type={type || "text"}
       />
+      {errors && <HelpBlock error>{errors.message}</HelpBlock>}
     </InputGroup>
   );
 }
@@ -66,4 +76,8 @@ export function Button({ children, type, onClick }) {
       {children}
     </button>
   );
+}
+
+export function HelpBlock({ children, error }) {
+  return <p>{children}</p>;
 }

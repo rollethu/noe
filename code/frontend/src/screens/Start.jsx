@@ -12,23 +12,35 @@ const TXT_ACCEPT_GTC = "Elfogadom az ÁSZF-et.";
 const TXT_ACCEPT_PRIVACY_POLICY = "Elfogadom az Adatvédelmi Szabályzatot.";
 
 export default function Start() {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, setError, errors } = useForm();
   const { createAppointment } = React.useContext(AppointmentContext);
-  const onSubmit = (values) => {
-    createAppointment(values);
+  const onSubmit = async (values) => {
+    const response = await createAppointment(values);
+    if (response.error) {
+      Object.keys(response.errors).map((fieldName) => {
+        setError(fieldName, "", response.errors[fieldName]);
+      });
+    }
   };
 
   return (
     <View>
       <Caption center>{TXT_CAPTION}</Caption>
       <Form onSubmit={handleSubmit(onSubmit)}>
-        <Field register={register} name="email" label="E-mail" type="text" />
+        <Field
+          register={register}
+          name="email"
+          label="E-mail"
+          type="text"
+          errors={errors}
+        />
         <Field
           register={register}
           name="gtc"
           label={TXT_ACCEPT_GTC}
           type="checkbox"
           value={GTC_VERSION}
+          errors={errors}
         />
         <Field
           register={register}
@@ -36,6 +48,7 @@ export default function Start() {
           label={TXT_ACCEPT_PRIVACY_POLICY}
           type="checkbox"
           value={PRIVACY_POLICY_VERSION}
+          errors={errors}
         />
         <Button type="submit">{TXT_SUBMIT_BUTTON}</Button>
       </Form>
