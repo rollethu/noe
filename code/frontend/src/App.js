@@ -10,6 +10,7 @@ import Registration from "./screens/Registration";
 import SeatDetails from "./screens/SeatDetails";
 import Survey from "./screens/Survey";
 import Time from "./screens/Time";
+import Checkout from "./screens/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
 import {
   BrowserRouter as Router,
@@ -28,6 +29,7 @@ function App() {
     { path: "/szemelyes-adatok", component: SeatDetails },
     { path: "/kerdoiv", component: Survey },
     { path: "/idopont", component: Time },
+    { path: "/osszegzes", component: Checkout },
     { path: "/sikeres-regisztracio", component: AppointmentSuccess },
   ];
   return (
