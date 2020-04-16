@@ -51,7 +51,10 @@ class Appointment(models.Model):
     )
 
     def __str__(self):
-        return f"{self.location} - {self.start:%Y-%m-%d %H:%M}"
+        if self.start:
+            return f"{self.location} - {self.start:%Y-%m-%d %H:%M}"
+        else:
+            return f"{self.location} - in progress"
 
     class Meta:
         ordering = ("created_at",)
