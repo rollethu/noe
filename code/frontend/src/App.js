@@ -31,13 +31,13 @@ export const ROUTE_SEAT_DETAILS = "/szemelyes-adatok";
 export const ROUTE_SURVEY = "/kerdoiv";
 export const ROUTE_ADD_SEAT = "/uj-szemely";
 export const ROUTE_TIME = "/idopont";
-export const ROUTE_PAYMENT_METHOD = "/fizetesi-mod";
+export const ROUTE_PAYMENT_METHODS = "/fizetesi-mod";
 export const ROUTE_CHEKCOUT = "/osszegzes";
 export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
-  DEFAULT_ROUTE = ROUTE_REGISTRATION;
+  DEFAULT_ROUTE = ROUTE_TIME;
 }
 
 function App() {
@@ -50,7 +50,7 @@ function App() {
     { path: ROUTE_SURVEY, component: Survey },
     { path: ROUTE_ADD_SEAT, component: AddSeat },
     { path: ROUTE_TIME, component: Time },
-    { path: ROUTE_PAYMENT_METHOD, component: PaymentMethod },
+    { path: ROUTE_PAYMENT_METHODS, component: PaymentMethod },
     { path: ROUTE_CHEKCOUT, component: Checkout },
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
   ];
