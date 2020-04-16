@@ -32,3 +32,7 @@ yarn-error.log*
 .terraform
 terraform.d
 terraform.tfvars
+
+# Editors
+.vscode/settings.json
+
