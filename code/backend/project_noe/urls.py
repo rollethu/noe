@@ -40,8 +40,14 @@ def health_check(req):
     return Response("OK")
 
 
+api_urls = [
+    path("", include(api_router.urls)),
+    path("verify/email", appointments.views.verify_email),
+]
+
+
 urlpatterns = [
-    path("api/", include(api_router.urls)),
+    path("api/", include(api_urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
 ]
