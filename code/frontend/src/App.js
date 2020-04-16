@@ -8,6 +8,7 @@ import {
 
 import "./styles/styles.css";
 import { Provider as AppointmentProvider } from "./contexts/appointmentContext";
+import { Provider as LocationProvider } from "./contexts/locationContext";
 import Nav from "./components/Nav";
 import Start from "./screens/Start";
 import AddSeat from "./screens/AddSeat";
@@ -35,7 +36,7 @@ export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
-  DEFAULT_ROUTE = ROUTE_VERIFY_EMAIL;
+  DEFAULT_ROUTE = ROUTE_REGISTRATION;
 }
 
 function App() {
@@ -72,7 +73,9 @@ function App() {
 function WrappedApp(props) {
   return (
     <AppointmentProvider>
-      <App />
+      <LocationProvider>
+        <App />
+      </LocationProvider>
     </AppointmentProvider>
   );
 }

@@ -30,6 +30,7 @@ export function Field({
   type,
   register,
   errors: allErrors,
+  options,
 }) {
   const errors = allErrors[name];
   if (type === "checkbox") {
@@ -45,6 +46,25 @@ export function Field({
           />
           {label}
         </Label>
+        {errors && <HelpBlock error>{errors.message}</HelpBlock>}
+      </InputGroup>
+    );
+  } else if (type === "select") {
+    return (
+      <InputGroup>
+        <Label className="Inline">{label}</Label>
+        <select
+          className="Input Inline"
+          name={name}
+          ref={register()}
+          type={type}
+        >
+          {options.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.text}
+            </option>
+          ))}
+        </select>
         {errors && <HelpBlock error>{errors.message}</HelpBlock>}
       </InputGroup>
     );

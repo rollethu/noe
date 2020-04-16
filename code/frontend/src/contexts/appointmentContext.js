@@ -39,6 +39,24 @@ const createAppointment = (dispatch) => async (values) => {
   }
 };
 
+const updateAppointment = (dispatch) => async (url, values) => {
+  try {
+    const response = await axios.patch(url, values);
+    response.error = false;
+    return response;
+  } catch (error) {
+    const { response } = error;
+    if (!response) {
+      return {
+        error: true,
+      };
+    }
+    response.error = true;
+    response.errors = response.data;
+    return response;
+  }
+};
+
 const verifyToken = (dispatch) => async (token) => {
   try {
     const response = await axios.post(consts.VERIFY_EMAIL_URL, {
@@ -68,6 +86,7 @@ export const { Provider, Context } = createContext(
   appointmentReducer,
   {
     createAppointment,
+    updateAppointment,
     verifyToken,
   },
   initialState

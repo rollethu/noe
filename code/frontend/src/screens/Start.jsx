@@ -17,6 +17,7 @@ export default function Start(props) {
   const [redirectTo, setRedirectTo] = React.useState(null);
   const { register, handleSubmit, setError, errors } = useForm();
   const { createAppointment } = React.useContext(AppointmentContext);
+
   const onSubmit = async (values) => {
     const response = await createAppointment(values);
     if (response.error) {
