@@ -29,6 +29,6 @@ def verify_email(request):
     return Response(
         {
             "appointment_url": "https://noe.rollet.app/api/appointments/asdfasdf-1231231-12312-12",
-            "appointmen_email": "user@rollet.app",
+            "appointment_email": "user@rollet.app",
         }
     )
