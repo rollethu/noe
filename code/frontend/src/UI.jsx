@@ -81,3 +81,9 @@ export function Button({ children, type, onClick }) {
 export function HelpBlock({ children, error }) {
   return <p>{children}</p>;
 }
+
+export function Text({ children, center }) {
+  const classes = classNames("Text", { CenterText: center });
+  return <p className={classes}>{children}</p>;
+}
+
