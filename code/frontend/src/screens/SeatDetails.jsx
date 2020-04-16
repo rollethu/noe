@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
-import { ROUTE_SURVEY } from "../App";
+import { ROUTE_ADD_SEAT } from "../App";
 import {
   View,
   Caption,
@@ -52,9 +52,13 @@ export default function SeatDetails() {
         alert("Váratlan hiba történt.");
       }
     } else {
-      setRedirectTo(ROUTE_SURVEY);
+      setRedirectTo(ROUTE_ADD_SEAT);
     }
   };
+
+  if (redirectTo) {
+    return <Redirect to={redirectTo} />;
+  }
 
   return (
     <View>
