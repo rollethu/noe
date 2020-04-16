@@ -42,6 +42,16 @@ class PhoneVerificationAdmin(admin.ModelAdmin):
     get_phone_number.admin_order_field = "appointment__phone_number"
 
 
+class EmailVerificationAdmin(admin.ModelAdmin):
+    list_display = ["get_email", "created_at", "code", "verified_at"]
+
+    def get_email(self, obj):
+        return obj.appointment.email
+
+    get_email.short_description = "Email address"
+    get_email.admin_order_field = "appointment__email"
+
+
 class SeatAdmin(admin.ModelAdmin):
     list_display = [
         "__str__",
@@ -55,4 +65,5 @@ class SeatAdmin(admin.ModelAdmin):
 admin.site.register(m.Location, LocationAdmin)
 admin.site.register(m.Appointment, AppointmentAdmin)
 admin.site.register(m.PhoneVerification, PhoneVerificationAdmin)
+admin.site.register(m.EmailVerification, EmailVerificationAdmin)
 admin.site.register(m.Seat, SeatAdmin)
