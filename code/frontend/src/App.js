@@ -12,6 +12,7 @@ import Nav from "./components/Nav";
 import Start from "./screens/Start";
 import AddSeat from "./screens/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
+import VerifyEmail from "./screens/VerifyEmail";
 import PaymentMethod from "./screens/PaymentMethod";
 import Registration from "./screens/Registration";
 import SeatDetails from "./screens/SeatDetails";
@@ -22,6 +23,7 @@ import AppointmentSuccess from "./screens/AppointmentSuccess";
 
 export const ROUTE_START = "/start";
 export const ROUTE_EMAIL_VERIFICATION = "/megerosito-email";
+export const ROUTE_VERIFY_EMAIL = "/email-megerosites";
 export const ROUTE_REGISTRATION = "/regisztracio";
 export const ROUTE_SEAT_DETAILS = "/szemelyes-adatok";
 export const ROUTE_SURVEY = "/kerdoiv";
@@ -40,6 +42,7 @@ function App() {
   const routes = [
     { path: ROUTE_START, component: Start },
     { path: ROUTE_EMAIL_VERIFICATION, component: EmailVerification },
+    { path: ROUTE_VERIFY_EMAIL, component: VerifyEmail },
     { path: ROUTE_REGISTRATION, component: Registration },
     { path: ROUTE_SEAT_DETAILS, component: SeatDetails },
     { path: ROUTE_SURVEY, component: Survey },
