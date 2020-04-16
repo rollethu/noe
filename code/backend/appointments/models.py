@@ -121,7 +121,7 @@ class Seat(models.Model):
 
     full_name = models.CharField(max_length=200)
     birth_date = models.DateField()
-    healthcare_number = models.CharField(max_length=30)
+    healthcare_number = models.CharField(blank=True, max_length=30)
     identity_card_number = models.CharField(max_length=30)
     post_code = models.CharField(max_length=10)
     city = models.CharField(max_length=100)
