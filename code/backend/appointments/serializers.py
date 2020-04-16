@@ -13,6 +13,10 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Appointment
         fields = "__all__"
+        extra_kwargs = {
+            "location": {"allow_null": False},
+            "licence_plate": {"allow_blank": False},
+        }
 
 
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
