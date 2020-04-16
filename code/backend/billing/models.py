@@ -13,12 +13,8 @@ class Bill(models.Model):
     )
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.ForeignKey(
-        "appointments.Appointment", on_delete=models.SET_NULL, null=True
-    )
-    payment = models.ForeignKey(
-        "payments.Payment", on_delete=models.SET_NULL, null=True
-    )
+    appointment = models.ForeignKey("appointments.Appointment", on_delete=models.SET_NULL, null=True)
+    payment = models.ForeignKey("payments.Payment", on_delete=models.SET_NULL, null=True)
 
     bill_id = models.CharField(max_length=255, default="")
     bill_type = models.CharField(max_length=255, choices=BILL_TYPE_CHOICES)
@@ -32,9 +28,7 @@ class BillingDetail(models.Model):
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.OneToOneField(
-        "appointments.Appointment", on_delete=models.CASCADE
-    )
+    appointment = models.OneToOneField("appointments.Appointment", on_delete=models.CASCADE)
 
     company_name = models.CharField(max_length=255)
     country = models.CharField(max_length=255)

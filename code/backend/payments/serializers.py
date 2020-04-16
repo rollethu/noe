@@ -13,4 +13,3 @@ class TransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Transaction
         fields = "__all__"
-

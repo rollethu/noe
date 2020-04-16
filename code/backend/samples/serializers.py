@@ -7,4 +7,3 @@ class SampleSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Sample
         fields = "__all__"
-

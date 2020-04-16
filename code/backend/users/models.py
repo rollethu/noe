@@ -35,9 +35,7 @@ class User(AbstractBaseUser):
     username = models.CharField(max_length=255, unique=True)
     is_active = models.BooleanField(default=True)
     is_admin = models.BooleanField(default=False)
-    location = models.ForeignKey(
-        "appointments.Location", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    location = models.ForeignKey("appointments.Location", on_delete=models.SET_NULL, null=True, blank=True)
     created_at = models.DateTimeField(auto_now_add=True)
 
     objects = UserManager()

@@ -33,23 +33,11 @@ class Sample(models.Model):
     )
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    seat = models.ForeignKey(
-        "appointments.Seat", on_delete=models.SET_NULL, null=True, blank=True
-    )
+    seat = models.ForeignKey("appointments.Seat", on_delete=models.SET_NULL, null=True, blank=True)
     sampled_at = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text=_("The time when it is extraxted from a real person"),
+        blank=True, null=True, help_text=_("The time when it is extraxted from a real person"),
     )
-    location = models.ForeignKey(
-        "appointments.Location", on_delete=models.SET_NULL, null=True
-    )
-    status = models.CharField(
-        max_length=255, choices=SAMPLE_STATUS_CHOICES, default=SAMPLE_STATUS_EMPTY
-    )
-    result = models.CharField(
-        max_length=255,
-        choices=RESULT_STATUS_CHOICES,
-        default=RESULT_STATUS_NOT_TESTED_YET,
-    )
+    location = models.ForeignKey("appointments.Location", on_delete=models.SET_NULL, null=True)
+    status = models.CharField(max_length=255, choices=SAMPLE_STATUS_CHOICES, default=SAMPLE_STATUS_EMPTY)
+    result = models.CharField(max_length=255, choices=RESULT_STATUS_CHOICES, default=RESULT_STATUS_NOT_TESTED_YET,)
     created_at = models.DateTimeField(auto_now_add=True)

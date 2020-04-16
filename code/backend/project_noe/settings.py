@@ -87,6 +87,7 @@ WSGI_APPLICATION = "project_noe.wsgi.application"
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
 DATABASES = {
+    # fmt: off
     "default": {
         "ENGINE": "django.db.backends.sqlite3",
         "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
@@ -98,12 +99,10 @@ DATABASES = {
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
-    {
-        "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
-    },
-    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator", },
-    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator", },
-    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator", },
+    {"NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",},
+    {"NAME": "django.contrib.auth.password_validation.MinimumLengthValidator",},
+    {"NAME": "django.contrib.auth.password_validation.CommonPasswordValidator",},
+    {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
 
@@ -128,9 +127,9 @@ STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = "users.User"
 
-ALLOWED_CORS_HOSTS = os.environ.get('ALLOWED_CORS_HOSTS', '').strip()
+ALLOWED_CORS_HOSTS = os.environ.get("ALLOWED_CORS_HOSTS", "").strip()
 
 if ALLOWED_CORS_HOSTS:
-    INSTALLED_APPS += ['corsheaders']
-    MIDDLEWARE = ['corsheaders.middleware.CorsMiddleware'] + MIDDLEWARE
-    CORS_ORIGIN_WHITELIST = [h.strip() for h in ALLOWED_CORS_HOSTS.split(',')]
+    INSTALLED_APPS += ["corsheaders"]
+    MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
+    CORS_ORIGIN_WHITELIST = [h.strip() for h in ALLOWED_CORS_HOSTS.split(",")]
