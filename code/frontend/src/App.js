@@ -24,11 +24,11 @@ function App() {
     { path: "/start", component: Start },
     { path: "/email-megerosites", component: EmailVerification },
     { path: "/regisztracio", component: Registration },
-    { path: "/uj-szemely", component: AddSeat },
-    { path: "/fizetesi-mod", component: PaymentMethod },
     { path: "/szemelyes-adatok", component: SeatDetails },
     { path: "/kerdoiv", component: Survey },
+    { path: "/uj-szemely", component: AddSeat },
     { path: "/idopont", component: Time },
+    { path: "/fizetesi-mod", component: PaymentMethod },
     { path: "/osszegzes", component: Checkout },
     { path: "/sikeres-regisztracio", component: AppointmentSuccess },
   ];
