@@ -114,9 +114,26 @@ export function Label({ children, className, htmlFor }) {
   );
 }
 
-export function Button({ children, type, onClick }) {
+export function Button({
+  children,
+  type,
+  onClick,
+  toCenter,
+  inverse,
+  disabled,
+}) {
+  const classes = classNames("Button", {
+    ToCenter: toCenter,
+    Inverse: inverse,
+    Disabled: disabled,
+  });
   return (
-    <button className="Button" type={type || "button"} onClick={onClick}>
+    <button
+      className={classes}
+      type={type || "button"}
+      onClick={onClick}
+      disabled={disabled}
+    >
       {children}
     </button>
   );
@@ -126,9 +143,22 @@ export function HelpBlock({ children, error }) {
   return <p>{children}</p>;
 }
 
-export function Text({ children, center }) {
-  const classes = classNames("Text", { CenterText: center });
+export function Text({ children, center, highlight, toCenter }) {
+  const classes = classNames("Text", {
+    CenterText: center,
+    HighlightText: highlight,
+    ToCenter: toCenter,
+  });
   return <p className={classes}>{children}</p>;
+}
+
+export function HighlightText({ children, center, ...props }) {
+  const classes = classNames("Text", { CenterText: center });
+  return (
+    <Text highlight {...props}>
+      {children}
+    </Text>
+  );
 }
 
 export function Image({ src }) {

@@ -9,6 +9,15 @@
         display: flex
         flex-direction: column
 
+.HighlightText
+    background: $light-blue
+    color: $blue
+    padding: $space-size
+    font-weight: bold
+    border-radius: $space-size
+    text-align: center
+    width: 80%
+
 .CenterText
     text-align: center
 
@@ -37,7 +46,7 @@
 .Button
     background: $blue
     color: white
-    border-radius: 10px
+    border-radius: $space-size
     width: 80%
     padding: $space-size
     display: block
@@ -45,12 +54,17 @@
     border: 1px solid $blue
     margin-bottom: $space-size
 
-    &.ToCenter
-        align-self: center
-
     &.Inverse
         color: $blue
         background: white
+
+    &.Disabled
+        background: $light-gray
+        color: $dark-gray
+        border-color: $dark-gray
+
+.ToCenter
+    align-self: center
 
 .ImageContainer
     display: flex
