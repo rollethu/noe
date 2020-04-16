@@ -1,5 +1,6 @@
 import React from "react";
 import classNames from "classnames";
+import { Link } from "react-router-dom";
 
 export function View({ children }) {
   return (
@@ -92,5 +93,14 @@ export function Image({ src }) {
     <div className="ImageContainer">
       <img src={src} />
     </div>
+  );
+}
+
+export function LinkButton({ to, toCenter, children }) {
+  const classes = classNames("Button", { ToCenter: toCenter });
+  return (
+    <Link className={classes} to={to}>
+      {children}
+    </Link>
   );
 }
