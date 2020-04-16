@@ -1,6 +1,12 @@
 import React from "react";
-import "./styles/styles.css";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
+import "./styles/styles.css";
 import Nav from "./components/Nav";
 import Start from "./screens/Start";
 import AddSeat from "./screens/AddSeat";
@@ -12,12 +18,6 @@ import Survey from "./screens/Survey";
 import Time from "./screens/Time";
 import Checkout from "./screens/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
 
 function App() {
   const routes = [
