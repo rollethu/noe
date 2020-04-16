@@ -11,7 +11,12 @@ import SeatDetails from "./screens/SeatDetails";
 import Survey from "./screens/Survey";
 import Time from "./screens/Time";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
 
 function App() {
   const routes = [
@@ -29,6 +34,7 @@ function App() {
     <div className="App">
       <Router>
         <Nav routes={routes} />
+        <Redirect exact from="/" to={routes[0].path} />
         <Switch>
           {routes.map((route) => (
             <Route path={route.path} key={route.path}>
