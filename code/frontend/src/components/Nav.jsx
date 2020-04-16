@@ -18,7 +18,7 @@ export default function Nav({ routes }) {
       <button onClick={() => setShowNav(false)}>Close</button>
       <ul>
         {routes.map((route) => (
-          <Link to={route.path}>
+          <Link to={route.path} key={route.path}>
             <li>{route.path}</li>
           </Link>
         ))}
