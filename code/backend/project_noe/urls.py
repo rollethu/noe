@@ -18,6 +18,7 @@ from django.urls import include, path
 from rest_framework.response import Response
 from rest_framework.routers import DefaultRouter
 
+import appointments.views
 import surveys.views
 import samples.views
 import payments.views
@@ -25,6 +26,9 @@ import users.views
 
 
 api_router = DefaultRouter()
+api_router.register("locations", appointments.views.LocationViewSet)
+api_router.register("appointments", appointments.views.AppointmentViewSet)
+api_router.register("seats", appointments.views.SeatViewSet)
 api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
 api_router.register("samples", samples.views.SampleViewSet)
@@ -37,7 +41,7 @@ def health_check(req):
 
 
 urlpatterns = [
-    path("api", include(api_router.urls)),
+    path("api/", include(api_router.urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
 ]
