@@ -9,6 +9,7 @@ venv
 node_modules/
 .pnp
 .pnp.js
+.sass-cache/
 
 # testing
 coverage
