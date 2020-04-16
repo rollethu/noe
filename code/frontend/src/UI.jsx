@@ -14,6 +14,14 @@ export function Caption({ children, ...props }) {
   return <h2 className={classes}>{children}</h2>;
 }
 
+export function Form({ children, onSubmit }) {
+  return (
+    <form className="Form" onSubmit={onSubmit}>
+      {children}
+    </form>
+  );
+}
+
 export function Field({ name, label, type, register }) {
   if (type === "checkbox") {
     return (

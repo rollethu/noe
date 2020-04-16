@@ -9,8 +9,14 @@
 .CenterText {
   text-align: center; }
 
+.Form {
+  display: flex;
+  flex-direction: column;
+  align-items: center; }
+
 .InputGroup {
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  width: 100%; }
 
 .Label {
   display: block; }
@@ -22,6 +28,13 @@
   width: 100%; }
   .Input.Inline {
     width: auto; }
+
+.Button {
+  background: #1943EF;
+  color: white;
+  border-radius: 10px;
+  width: 80%;
+  padding: 10px; }
 
 .Nav {
   position: absolute;
