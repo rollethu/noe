@@ -22,7 +22,7 @@ export function Form({ children, onSubmit }) {
   );
 }
 
-export function Field({ name, label, type, register }) {
+export function Field({ value, name, label, type, register }) {
   if (type === "checkbox") {
     return (
       <InputGroup>
@@ -32,6 +32,7 @@ export function Field({ name, label, type, register }) {
             name={name}
             ref={register()}
             type={type}
+            value={value} // Value instead of true
           />
           {label}
         </Label>

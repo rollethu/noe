@@ -7,6 +7,7 @@ import {
 } from "react-router-dom";
 
 import "./styles/styles.css";
+import { Provider as AppointmentProvider } from "./contexts/appointmentContext";
 import Nav from "./components/Nav";
 import Start from "./screens/Start";
 import AddSeat from "./screens/AddSeat";
@@ -49,4 +50,12 @@ function App() {
   );
 }
 
-export default App;
+function WrappedApp(props) {
+  return (
+    <AppointmentProvider>
+      <App />
+    </AppointmentProvider>
+  );
+}
+
+export default WrappedApp;
