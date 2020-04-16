@@ -21,18 +21,11 @@ class Appointment(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     location = models.ForeignKey(
-        Location, on_delete=models.PROTECT, related_name="appointments"
+        Location, on_delete=models.PROTECT, related_name="appointments", blank=True, null=True,
     )
 
-    phone_number = models.CharField(
-        max_length=30, help_text=_("Primary communication channel with the patient.")
-    )
-    email = models.EmailField(
-        blank=True,
-        help_text=_(
-            "Only used for online payments with Simple, invoice and billing for now."
-        ),
-    )
+    phone_number = models.CharField(max_length=30, blank=True)
+    email = models.EmailField(help_text=_("Primary communication channel with the patient."))
     gtc = models.CharField(
         max_length=10,
         help_text=_(
@@ -42,19 +35,16 @@ class Appointment(models.Model):
     )
     privacy_policy = models.CharField(
         max_length=10,
-        help_text=_(
-            "Accepted version of privacy policy. "
-            "Applied to everyone whose Seat belong to this Appointment."
-        ),
+        help_text=_("Accepted version of privacy policy. Applied to everyone whose Seat belong to this Appointment."),
     )
-    start = models.DateTimeField(
-        help_text=_("The appointment is valid from this time.")
-    )
+    start = models.DateTimeField(blank=True, null=True, help_text=_("The appointment is valid from this time."))
     end = models.DateTimeField(
+        blank=True,
+        null=True,
         help_text=_(
             "The appointment is valid until this time. "
             "This probably should be handled more lightly than the start time."
-        )
+        ),
     )
 
     def __str__(self):
@@ -67,9 +57,7 @@ class Appointment(models.Model):
 class PhoneVerification(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.ForeignKey(
-        Appointment, on_delete=models.CASCADE, related_name="phone_verifications"
-    )
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="phone_verifications")
 
     verified_at = models.DateTimeField(blank=True, null=True)
     code = models.CharField(max_length=255)
@@ -88,9 +76,7 @@ class PhoneVerification(models.Model):
 class Seat(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.ForeignKey(
-        Appointment, on_delete=models.CASCADE, related_name="seats"
-    )
+    appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="seats")
 
     full_name = models.CharField(max_length=200)
     birth_date = models.DateField()
@@ -100,17 +86,11 @@ class Seat(models.Model):
     city = models.CharField(max_length=100)
     address_line1 = models.CharField(max_length=200, help_text="Street address")
     address_line2 = models.CharField(
-        max_length=200,
-        blank=True,
-        help_text=_("Apartment, building, floor, suite, door, etc..."),
+        max_length=200, blank=True, help_text=_("Apartment, building, floor, suite, door, etc..."),
     )
     has_doctor_referral = models.BooleanField(default=False)
     paid_at = models.DateTimeField(
-        blank=True,
-        null=True,
-        help_text=_(
-            "When this field is empty, no payment for the person has been made (yet)."
-        ),
+        blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
     )
 
     def __str__(self):
@@ -118,9 +98,7 @@ class Seat(models.Model):
 
     @property
     def full_address(self):
-        return (
-            f"{self.post_code} {self.city}, {self.address_line1} {self.address_line2}"
-        )
+        return f"{self.post_code} {self.city}, {self.address_line1} {self.address_line2}"
 
     class Meta:
         ordering = ("created_at",)
