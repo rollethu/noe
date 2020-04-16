@@ -28,6 +28,8 @@ class Appointment(models.Model):
     )
 
     phone_number = models.CharField(max_length=30, blank=True)
+    licence_plate = models.CharField(max_length=30, blank=True)
+    normalized_licence_plate = models.CharField(max_length=30, blank=True)
     email = models.EmailField(help_text=_("Primary communication channel with the patient."))
     gtc = models.CharField(
         max_length=10,
