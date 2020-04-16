@@ -54,6 +54,15 @@ export function Field({ name, label, type, register }) {
 export function InputGroup({ children }) {
   return <div className="InputGroup">{children}</div>;
 }
+
 export function Label({ children, className }) {
   return <label className={`Label ${className || ""}`}>{children}</label>;
+}
+
+export function Button({ children, type, onClick }) {
+  return (
+    <button className="Button" type={type || "button"} onClick={onClick}>
+      {children}
+    </button>
+  );
 }
