@@ -6,6 +6,9 @@
     width: 100%;
     padding: 10px; }
 
+.CenterText {
+  text-align: center; }
+
 .Nav {
   position: absolute;
   top: 0;
