@@ -50,14 +50,14 @@ class Appointment(models.Model):
         ),
     )
 
+    class Meta:
+        ordering = ("created_at",)
+
     def __str__(self):
         if self.start:
             return f"{self.location} - {self.start:%Y-%m-%d %H:%M}"
         else:
             return f"{self.location} - in progress"
-
-    class Meta:
-        ordering = ("created_at",)
 
 
 class PhoneVerification(models.Model):
