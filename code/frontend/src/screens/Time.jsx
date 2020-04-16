@@ -52,7 +52,7 @@ export default function Time() {
 
   return (
     <View>
-      <Caption>Time222</Caption>
+      <Caption>Időpont foglalás</Caption>
       <Text>
         Válassza ki a mintavétel időpontját. A forgalmi rend fenntartása
         érdekében kérjük, hogy max. 10 perccel korábban érkezzen a helyszínre.
