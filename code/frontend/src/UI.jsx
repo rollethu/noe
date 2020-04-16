@@ -87,3 +87,10 @@ export function Text({ children, center }) {
   return <p className={classes}>{children}</p>;
 }
 
+export function Image({ src }) {
+  return (
+    <div className="ImageContainer">
+      <img src={src} />
+    </div>
+  );
+}

@@ -36,6 +36,10 @@
   width: 80%;
   padding: 10px; }
 
+.ImageContainer {
+  display: flex;
+  justify-content: center; }
+
 .Nav {
   position: absolute;
   top: 0;
