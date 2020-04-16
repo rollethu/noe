@@ -10,7 +10,6 @@ const initialState = {
 const appointmentReducer = (state, action) => {
   switch (action.type) {
     case consts.CREATE_APPOINTMENT:
-      console.log(action.payload);
       return { appointmentUrl: action.payload.url };
     default:
       return state;
