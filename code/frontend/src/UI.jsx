@@ -31,64 +31,87 @@ export function Field({
   register,
   errors: allErrors,
   options,
+  hidden,
 }) {
   const errors = allErrors[name];
-  if (type === "checkbox") {
-    return (
-      <InputGroup>
-        <Label className="Inline">
-          <input
-            className="Input Inline"
+  return (
+    <InputGroup hidden={hidden}>
+      {type === "checkbox" ? (
+        <Label htmlFor={name}>
+          <Input
+            value={value}
             name={name}
-            ref={register()}
+            label={label}
             type={type}
-            value={value} // Value instead of true
+            register={register}
+            options={options}
+            id={name}
           />
           {label}
         </Label>
-        {errors && <HelpBlock error>{errors.message}</HelpBlock>}
-      </InputGroup>
-    );
-  } else if (type === "select") {
-    return (
-      <InputGroup>
-        <Label className="Inline">{label}</Label>
-        <select
-          className="Input Inline"
-          name={name}
-          ref={register()}
-          type={type}
-        >
-          {options.map((option) => (
-            <option key={option.value} value={option.value}>
-              {option.text}
-            </option>
-          ))}
-        </select>
-        {errors && <HelpBlock error>{errors.message}</HelpBlock>}
-      </InputGroup>
-    );
-  }
-  return (
-    <InputGroup>
-      {label && <Label>{label}</Label>}
-      <input
-        className="Input"
-        name={name}
-        ref={register()}
-        type={type || "text"}
-      />
+      ) : (
+        <>
+          {label && <Label htmlFor={name}>{label}</Label>}
+          <Input
+            value={value}
+            name={name}
+            label={label}
+            type={type}
+            register={register}
+            options={options}
+            id={name}
+          />
+        </>
+      )}
       {errors && <HelpBlock error>{errors.message}</HelpBlock>}
     </InputGroup>
   );
 }
 
-export function InputGroup({ children }) {
-  return <div className="InputGroup">{children}</div>;
+export function Input({ value, name, type, register, options }) {
+  if (type === "checkbox") {
+    return (
+      <input
+        id={name}
+        className="Input Inline"
+        name={name}
+        ref={register()}
+        type={type}
+        value={value} // Value instead of true
+      />
+    );
+  } else if (type === "select") {
+    return (
+      <select className="Input" name={name} ref={register()} type={type}>
+        {options.map((option) => (
+          <option key={option.value} value={option.value}>
+            {option.text}
+          </option>
+        ))}
+      </select>
+    );
+  }
+  return (
+    <input
+      className="Input"
+      name={name}
+      ref={register()}
+      type={type || "text"}
+    />
+  );
 }
 
-export function Label({ children, className }) {
-  return <label className={`Label ${className || ""}`}>{children}</label>;
+export function InputGroup({ children, hidden }) {
+  const classes = classNames("InputGroup", { Hidden: hidden });
+  return <div className={classes}>{children}</div>;
+}
+
+export function Label({ children, className, htmlFor }) {
+  return (
+    <label className={`Label ${className || ""}`} htmlFor={htmlFor}>
+      {children}
+    </label>
+  );
 }
 
 export function Button({ children, type, onClick }) {

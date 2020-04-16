@@ -46,6 +46,9 @@
   display: flex;
   justify-content: center; }
 
+.Hidden {
+  display: none; }
+
 .Nav {
   position: absolute;
   top: 0;

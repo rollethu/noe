@@ -1,5 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 
 import { Context as LocationContext } from "../contexts/locationContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
@@ -46,6 +47,10 @@ export default function Registration() {
   React.useEffect(() => {
     fetchLocations();
   }, []);
+
+  if (redirectTo) {
+    return <Redirect to={redirectTo} />;
+  }
 
   if (locations === null) {
     return (

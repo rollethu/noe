@@ -9,6 +9,7 @@ import {
 import "./styles/styles.css";
 import { Provider as AppointmentProvider } from "./contexts/appointmentContext";
 import { Provider as LocationProvider } from "./contexts/locationContext";
+import { Provider as SeatProvider } from "./contexts/seatContext";
 import Nav from "./components/Nav";
 import Start from "./screens/Start";
 import AddSeat from "./screens/AddSeat";
@@ -74,7 +75,9 @@ function WrappedApp(props) {
   return (
     <AppointmentProvider>
       <LocationProvider>
-        <App />
+        <SeatProvider>
+          <App />
+        </SeatProvider>
       </LocationProvider>
     </AppointmentProvider>
   );
