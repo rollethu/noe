@@ -6,4 +6,9 @@
     width: 100%;
     padding: 10px; }
 
+.Nav {
+  position: absolute;
+  top: 0;
+  right: 0; }
+
 /*# sourceMappingURL=styles.css.map */
