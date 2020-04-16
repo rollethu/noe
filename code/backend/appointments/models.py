@@ -20,6 +20,14 @@ class Location(models.Model):
         ordering = ("created_at",)
 
 
+class AppointmentManager(models.Manager):
+    def create_appointment(self, *args, **kwargs):
+        appointment = super().create(*args, **kwargs)
+        ev = EmailVerification(appointment=appointment)
+        ev.save()
+        return appointment
+
+
 class Appointment(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -51,6 +59,8 @@ class Appointment(models.Model):
             "This probably should be handled more lightly than the start time."
         ),
     )
+
+    objects = AppointmentManager()
 
     class Meta:
         ordering = ("created_at",)
