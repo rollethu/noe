@@ -11,7 +11,7 @@ export function View({ children }) {
 }
 
 export function Caption({ children, ...props }) {
-  const classes = classNames("Caption", { CenterText: props.center });
+  const classes = classNames("Caption", "Text", { CenterText: props.center });
   return <h2 className={classes}>{children}</h2>;
 }
 
