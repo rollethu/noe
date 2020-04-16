@@ -31,6 +31,11 @@ export const ROUTE_PAYMENT_METHOD = "/fizetesi-mod";
 export const ROUTE_CHEKCOUT = "/osszegzes";
 export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 
+let DEFAULT_ROUTE = ROUTE_START;
+if (process.env.NODE_ENV === "development") {
+  DEFAULT_ROUTE = ROUTE_VERIFY_EMAIL;
+}
+
 function App() {
   const routes = [
     { path: ROUTE_START, component: Start },
@@ -48,8 +53,8 @@ function App() {
     <div className="App">
       <Router>
         <Nav routes={routes} />
-        <Redirect exact from="/" to={routes[0].path} />
         <Switch>
+          <Redirect exact from="/" to={DEFAULT_ROUTE} />
           {routes.map((route) => (
             <Route path={route.path} key={route.path}>
               <route.component></route.component>
