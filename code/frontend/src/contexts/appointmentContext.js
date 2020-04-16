@@ -24,6 +24,11 @@ const createAppointment = (dispatch) => async (values) => {
     return response;
   } catch (error) {
     const { response } = error;
+    if (!response) {
+      return {
+        error: true,
+      };
+    }
     response.error = true;
     response.errors = response.data;
     return response;
