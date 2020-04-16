@@ -1,4 +1,5 @@
 import datetime as dt
+import pytest
 from .. import models as m
 
 
@@ -18,11 +19,22 @@ def test_email_is_verified():
     assert ev.is_verified is True
 
 
-def test_sign_email_verification():
+@pytest.mark.django_db
+def test_verify_token():
     email = "user@rollet.app"
     appointment = m.Appointment(gtc="1.0", privacy_policy="1.0", email=email)
+    appointment.save()
     ev = m.EmailVerification(appointment=appointment)
-    signed_email = ev.sign()
-    print("SIGNED EMAIL:", signed_email)
-    assert signed_email.startswith(email + ":")
-    assert ev.verify(signed_email) is True
+    ev.save()
+    token = ev.make_token()
+
+    # Just to make sure there are multiple verifications and we select the good one
+    for _ in range(10):
+        new_ev = m.EmailVerification(appointment=appointment)
+        new_ev.save()
+
+    expected_ev, signed_uuid = m.EmailVerification.objects.get_by_token(token)
+    assert ev.uuid == expected_ev.uuid
+
+    expected_ev.verify(signed_uuid.decode())
+    assert expected_ev.is_verified is True

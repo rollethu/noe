@@ -2,8 +2,14 @@ import uuid
 import string
 import secrets
 from django.db import models
+from django.conf import settings
 from django.utils.translation import gettext_lazy as _
 from django.core.signing import Signer
+from django.utils import timezone
+from cryptography.fernet import Fernet
+
+
+encrypter = Fernet(settings.EMAIL_VERIFICATION_KEY)
 
 
 class Location(models.Model):
@@ -98,12 +104,22 @@ def _generate_email_code():
     return "".join(secrets.choice(alphanumeric) for _ in range(20))
 
 
+class EmailVerificationManager(models.Manager):
+    def get_by_token(self, token: str):
+        signed_uuid = encrypter.decrypt(token.encode())
+        uuid = signed_uuid.decode().split(":", 1)[0]
+        ev = self.model.objects.get(uuid=uuid)
+        return ev, signed_uuid
+
+
 class EmailVerification(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
     appointment = models.ForeignKey(Appointment, on_delete=models.CASCADE, related_name="email_verifications")
     verified_at = models.DateTimeField(blank=True, null=True)
     code = models.CharField(max_length=255, default=_generate_email_code)
+
+    objects = EmailVerificationManager()
 
     class Meta:
         ordering = ("created_at",)
@@ -113,13 +129,17 @@ class EmailVerification(models.Model):
         # code and SECRET_KEY will be needed to validate
         self._signer = Signer(salt=self.code)
 
-    def sign(self):
-        return self._signer.sign(self.appointment.email)
+    def make_token(self) -> str:
+        signed_uuid = self._signer.sign(self.uuid)
+        return encrypter.encrypt(signed_uuid.encode()).decode()
 
-    def verify(self, signed_email: str):
-        if self._signer.unsign(signed_email) == self.appointment.email:
-            return True
-        return False
+    def verify(self, signed_uuid: str):
+        valid_uuid = uuid.UUID(self._signer.unsign(signed_uuid))
+        success = valid_uuid == self.uuid
+        if success:
+            self.verified_at = timezone.now()
+            self.save()
+        return success
 
     @property
     def is_verified(self):
