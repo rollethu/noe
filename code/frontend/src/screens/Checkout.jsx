@@ -38,7 +38,7 @@ export default function Checkout() {
     deleteSeat(seat.url);
   }
 
-  function formatAppointmentDate() {
+  const formatAppointmentDate = () => {
     if (!appointment.start || !appointment.end) {
       return "";
     }
@@ -50,7 +50,7 @@ export default function Checkout() {
       `${startMoment.format("HH:mm")} - ${endMoment.format("HH:mm")}`
     );
     return result;
-  }
+  };
 
   return (
     <View>
