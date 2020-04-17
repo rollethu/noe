@@ -17,6 +17,7 @@ export default function EmailVerification() {
   function onResendClick() {
     resendEmailVerification(emailVerification.uuid);
   }
+
   return (
     <View>
       <Caption center>{TXT_CAPTION}</Caption>
