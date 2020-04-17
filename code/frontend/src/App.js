@@ -12,7 +12,7 @@ import { Provider as LocationProvider } from "./contexts/locationContext";
 import { Provider as SeatProvider } from "./contexts/seatContext";
 import { Provider as SurveyProvider } from "./contexts/surveyContext";
 import Nav from "./components/Nav";
-import Start from "./screens/Start";
+import Start from "./screens/Start/Start";
 import AddSeat from "./screens/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
 import VerifyEmail from "./screens/VerifyEmail";
