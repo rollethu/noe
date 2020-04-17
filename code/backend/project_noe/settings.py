@@ -134,3 +134,18 @@ if ALLOWED_CORS_HOSTS:
     INSTALLED_APPS += ["corsheaders"]
     MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
     CORS_ORIGIN_WHITELIST = [h.strip() for h in ALLOWED_CORS_HOSTS.split(",")]
+
+LOGGING = {
+    # fmt: off
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": os.environ.get("LOG_LEVEL", "INFO"),
+    },
+}
