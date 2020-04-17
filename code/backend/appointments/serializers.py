@@ -12,7 +12,20 @@ class LocationSerializer(serializers.HyperlinkedModelSerializer):
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Appointment
-        fields = "__all__"
+        fields = [
+            "url",
+            "email",
+            "gtc",
+            "privacy_policy",
+            "start",
+            "end",
+            "phone_number",
+            "licence_plate",
+            "normalized_licence_plate",
+            # FIXME: avoid n+1, this is currently referencing location.name
+            "location_name",
+            "location",
+        ]
         extra_kwargs = {
             "location": {"allow_null": False},
             "licence_plate": {"allow_blank": False},

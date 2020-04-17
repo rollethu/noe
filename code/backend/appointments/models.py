@@ -77,6 +77,10 @@ class Appointment(models.Model):
         else:
             return f"{self.location} - in progress"
 
+    @property
+    def location_name(self):
+        return self.location.name
+
 
 class PhoneVerification(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
