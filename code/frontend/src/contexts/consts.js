@@ -9,3 +9,4 @@ export const SET_APPOINTMENT = "SET_APPOINTMENT";
 export const SET_LOCATIONS = "SET_LOCATIONS";
 export const SET_SEATS = "SET_SEATS";
 export const ADD_SEAT = "ADD_SEAT";
+export const DELETE_SEAT = "DELETE_SEAT";

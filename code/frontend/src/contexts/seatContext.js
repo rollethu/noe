@@ -19,6 +19,11 @@ const seatReducer = (state, action) => {
         ...state,
         seats: [...state.seats, action.payload],
       };
+    case consts.DELETE_SEAT:
+      return {
+        ...state,
+        seats: state.seats.filter((seat) => seat.url !== action.payload),
+      };
     default:
       return state;
   }
@@ -43,10 +48,30 @@ const createSeat = (dispatch) => async (values) => {
   }
 };
 
+const deleteSeat = (dispatch) => async (seatUrl) => {
+  try {
+    const response = await axios.delete(seatUrl);
+    dispatch({ type: consts.DELETE_SEAT, payload: seatUrl });
+    response.error = false;
+    return response;
+  } catch (error) {
+    const { response } = error;
+    if (!response) {
+      return {
+        error: true,
+      };
+    }
+    response.error = true;
+    response.errors = response.data;
+    return response;
+  }
+};
+
 export const { Provider, Context } = createContext(
   seatReducer,
   {
     createSeat,
+    deleteSeat,
   },
   initialState
 );

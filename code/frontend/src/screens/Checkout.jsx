@@ -2,16 +2,40 @@ import React from "react";
 
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Text, DataRow, HR, LinkButton } from "../UI";
+import {
+  View,
+  Caption,
+  Text,
+  DataRow,
+  HR,
+  LinkButton,
+  IconButton,
+} from "../UI";
 import { ROUTE_PAYMENT_METHODS } from "../App";
 
 export default function Checkout() {
   const {
     state: { seats },
+    deleteSeat,
   } = React.useContext(SeatContext);
   const {
     state: { appointment },
   } = React.useContext(AppointmentContext);
+
+  // TODO: delete me
+  seats.push({
+    full_name: "__DELETE_CODE__",
+    url: "asd",
+  });
+  function onSeatEditClick(seat) {}
+
+  function onSeatDeleteClick(seat) {
+    const confirmed = window.confirm("Biztosan törölni akarja?");
+    if (!confirmed) {
+      return;
+    }
+    deleteSeat(seat.url);
+  }
 
   return (
     <View>
@@ -35,6 +59,7 @@ export default function Checkout() {
           <Text strong>
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
+            <IconButton icon="close" onClick={() => onSeatDeleteClick(seat)} />
           </Text>
           <DataRow>
             <Text light>Születési dátum</Text>

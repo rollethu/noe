@@ -57,6 +57,12 @@
     background: #EBECEE;
     color: #787D90;
     border-color: #787D90; }
+  .Button.IconOnly {
+    width: 40px; }
+  .Button.NoBorder {
+    border-color: transparent; }
+  .Button.Inline {
+    display: inline; }
 
 .ToCenter {
   align-self: center; }
