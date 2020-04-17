@@ -19,6 +19,7 @@ const seatReducer = (state, action) => {
       return {
         ...state,
         seats: [...state.seats, action.payload],
+        activeSeat: action.payload,
       };
     case consts.DELETE_SEAT:
       return {

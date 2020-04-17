@@ -5,6 +5,8 @@ export const LOCATION_LIST_URL = `${API_URL}/locations/`;
 export const SEAT_LIST_URL = `${API_URL}/seats/`;
 export const VERIFY_EMAIL_URL = `${API_URL}/verify/email/`;
 export const RESEND_EMAIL_VERIFICATION_URL = `${API_URL}/verify/resend-email/`;
+export const SURVEY_QUESTION_LIST_URL = `${API_URL}/survey-questions/`;
+export const SURVEY_ANSWER_LIST_URL = `${API_URL}/survey-answers/`;
 
 export const SET_APPOINTMENT = "SET_APPOINTMENT";
 export const SET_LOCATIONS = "SET_LOCATIONS";
@@ -14,3 +16,4 @@ export const DELETE_SEAT = "DELETE_SEAT";
 export const SET_ACTIVE_SEAT = "SET_ACTIVE_SEAT";
 export const UPDATE_SEAT = "UPDATE_SEAT";
 export const SET_TOKEN_VERIFICATION = "SET_TOKEN_VERIFICATION";
+export const SET_SURVEY_QUESTIONS = "SET_SURVEY_QUESTIONS";
