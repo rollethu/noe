@@ -72,6 +72,9 @@
   display: flex;
   justify-content: space-between; }
 
+.Caption {
+  color: #07185F; }
+
 .Text.Light {
   color: #787D90; }
 .Text.Strong {
