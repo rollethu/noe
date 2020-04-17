@@ -19,6 +19,7 @@ export default function Time() {
   } = React.useContext(AppointmentContext);
 
   const onSubmit = async (values) => {
+    delete values.promiseToCome;
     let appointmentUrl = appointment.url;
     if (process.env.NODE_ENV === "development") {
       appointmentUrl =
@@ -74,6 +75,14 @@ export default function Time() {
           label="Idősáv kiválasztása"
           type="time"
           errors={errors}
+        />
+        <Field
+          register={register}
+          name="promiseToCome"
+          label="Vállalom, hogy megjelenek a kiválasztott időpontban"
+          type="checkbox"
+          errors={errors}
+          required
         />
         <Button type="submit">{TXT_SUBMIT_BUTTON}</Button>
       </Form>

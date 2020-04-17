@@ -33,8 +33,17 @@ export function Field({
   options,
   hidden,
   helpText,
+  required,
 }) {
   const errors = allErrors[name];
+  let errorMessage;
+  if (errors) {
+    if (errors.type === "required") {
+      errorMessage = "Ez a mező kötelező.";
+    } else {
+      errorMessage = errors.message;
+    }
+  }
   return (
     <InputGroup hidden={hidden}>
       {type === "checkbox" ? (
@@ -47,6 +56,7 @@ export function Field({
             register={register}
             options={options}
             id={name}
+            required={required}
           />
           {label}
         </Label>
@@ -61,31 +71,37 @@ export function Field({
             register={register}
             options={options}
             id={name}
+            required={required}
           />
         </>
       )}
-      {(errors || helpText) && (
-        <HelpBlock error>{errors?.message || helpText}</HelpBlock>
+      {(errorMessage || helpText) && (
+        <HelpBlock error>{errorMessage || helpText}</HelpBlock>
       )}
     </InputGroup>
   );
 }
 
-export function Input({ value, name, type, register, options }) {
+export function Input({ value, name, type, register, options, required }) {
   if (type === "checkbox") {
     return (
       <input
         id={name}
         className="Input Inline"
         name={name}
-        ref={register()}
+        ref={register({ required })}
         type={type}
         value={value} // Value instead of true
       />
     );
   } else if (type === "select") {
     return (
-      <select className="Input" name={name} ref={register()} type={type}>
+      <select
+        className="Input"
+        name={name}
+        ref={register({ required })}
+        type={type}
+      >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.text}
@@ -98,7 +114,7 @@ export function Input({ value, name, type, register, options }) {
     <input
       className="Input"
       name={name}
-      ref={register()}
+      ref={register({ required })}
       type={type || "text"}
     />
   );
