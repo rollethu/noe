@@ -39,6 +39,20 @@ export default function Checkout() {
     deleteSeat(seat.url);
   }
 
+  function formatAppointmentDate() {
+    if (appointment.start !== null || appointment.end !== null) {
+      return '';
+    }
+    const startMoment = moment(appointment.start);
+    const endMoment = moment(appointment.end);
+    const result = [`${startMoment.format('YYYY. MMMM DD.')}`];
+    result.push(<br />);
+    result.push(
+      `${startMoment.format('HH:mm')} - ${endMoment.format('HH:mm')}`
+    );
+    return result;
+  }
+
   return (
     <View>
       <Caption center>Összegzés</Caption>
@@ -48,10 +62,7 @@ export default function Checkout() {
       </DataRow>
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
-        <Text strong>
-          {moment(appointment.start).format('YYYY. MMMM DD. HH:mm')} -{' '}
-          {moment(appointment.end).format('HH:mm')}
-        </Text>
+        <Text strong>{formatAppointmentDate()}</Text>
       </DataRow>
       <DataRow>
         <Text light>Mintavétel helyszíne</Text>
