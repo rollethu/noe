@@ -70,7 +70,7 @@ export default function Registration() {
 
   return (
     <View>
-      <Caption>Registration</Caption>
+      <Caption>Regisztráció</Caption>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           register={register}

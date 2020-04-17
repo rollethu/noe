@@ -5,13 +5,13 @@
     .View
         max-width: 560px
         width: 100%
-        padding: $space-size
+        padding: $large-space-size
         display: flex
         flex-direction: column
 
 .HighlightText
     background: $light-blue
-    color: $blue
+    color: $blue !important
     padding: $space-size
     font-weight: bold
     border-radius: $space-size
@@ -27,7 +27,7 @@
     align-items: center
 
 .InputGroup
-    margin-bottom: $space-size
+    margin-bottom: $large-space-size
     width: 100%
 
 .Label
@@ -89,12 +89,22 @@
 .DataRow
     display: flex
     justify-content: space-between
+    margin-bottom: $space-size
+
+    .Text
+        margin-bottom: 0
 
 .Caption
-    color: $caption-color
+    color: $caption-color !important
+    margin-bottom: $extra-large-space-size !important
 
 .Text
+    color: $gray
+    margin: 0
+    margin-bottom: $large-space-size
+
     &.Light
         color: $dark-gray
+
     &.Strong
         color: $dark-blue
