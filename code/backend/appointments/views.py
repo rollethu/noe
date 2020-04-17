@@ -18,6 +18,20 @@ class LocationViewSet(viewsets.ModelViewSet):
     serializer_class = s.LocationSerializer
 
 
+def _send_verification_email(request, email_verification, email):
+    token = email_verification.make_token()
+    full_url = request.build_absolute_uri(reverse("verify-email"))
+    verify_url = f"{full_url}?token={token}"
+    logger.info("Sending verification email for %s", email)
+    send_mail(
+        "Email cím megerősítése áthajtásos koronavírus teszthez",
+        f"Kérjük erősítse meg email címét: {verify_url}\nA linkre kattintva folytathatja a regisztrációt",
+        "from@example.com",
+        ["to@example.com"],
+        fail_silently=False,
+    )
+
+
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = m.Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
@@ -27,17 +41,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         # FIXME: this is ugly, but works until we have only one email
         # for every appointment
         ev = appointment.email_verifications.first()
-        token = ev.make_token()
-        full_url = self.request.build_absolute_uri(reverse("verify-email"))
-        verify_url = f"{full_url}?token={token}"
-        logger.info("Sending verification email for %s", serializer.validated_data["email"])
-        send_mail(
-            "Email cím megerősítése áthajtásos koronavírus teszthez",
-            f"Kérjük erősítse meg email címét: {verify_url}\nA linkre kattintva folytathatja a regisztrációt",
-            "from@example.com",
-            ["to@example.com"],
-            fail_silently=False,
-        )
+        _send_verification_email(self.request, ev, serializer.validated_data["email"])
 
 
 class SeatViewSet(viewsets.ModelViewSet):
@@ -53,3 +57,15 @@ class VerifyEmailView(generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
         return Response(serializer.data, status=status.HTTP_200_OK,)
+
+
+class ResendVerifyEmailView(generics.CreateAPIView):
+    serializer_class = s.ResendEmailVerificationSerializer
+
+    def post(self, request, *args, **kwargs):
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        ev = m.EmailVerification.objects.get(pk=serializer.validated_data["uuid"])
+        email = ev.appointment.email
+        _send_verification_email(self.request, ev, email)
+        return Response({"success": True, "email": email})

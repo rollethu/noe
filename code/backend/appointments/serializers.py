@@ -11,6 +11,11 @@ class LocationSerializer(serializers.HyperlinkedModelSerializer):
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     location_name = serializers.CharField(source="location.name", default="", read_only=True)
+    email_verification_uuid = serializers.SerializerMethodField()
+
+    def get_email_verification_uuid(self, obj):
+        ev = obj.email_verifications.first()
+        return ev.uuid if ev else None
 
     class Meta:
         model = m.Appointment
@@ -40,3 +45,11 @@ class VerifyEmailSerializer(serializers.Serializer):
             raise ValidationError({"token": "Invalid token"})
 
         return ev.appointment
+
+
+class ResendEmailVerificationSerializer(serializers.ModelSerializer):
+    uuid = serializers.UUIDField(write_only=True)
+
+    class Meta:
+        model = m.EmailVerification
+        fields = ["uuid"]
