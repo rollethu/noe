@@ -63,7 +63,7 @@ export default function Checkout() {
           </Text>
           <DataRow>
             <Text light>Születési dátum</Text>
-            <Text strong>{seat.full_name}</Text>
+            <Text strong>{seat.birth_date}</Text>
           </DataRow>
           <DataRow>
             <Text light>Személyi igazolvány száma</Text>
