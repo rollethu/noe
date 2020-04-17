@@ -8,10 +8,10 @@ import { View, Caption, LinkButton } from "../UI";
 const TXT_BUTTON = "Tovább";
 
 export default function VerifyEmail(props) {
-  const { state, verifyToken } = React.useContext(AppointmentContext);
   const {
     state: { appointment },
-  } = state;
+    verifyToken,
+  } = React.useContext(AppointmentContext);
   const queryParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
