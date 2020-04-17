@@ -1,13 +1,7 @@
 from django.core import mail
-from rest_framework.test import APIRequestFactory
 import pytest
 from .. import views
 from .. import models as m
-
-
-@pytest.fixture
-def factory():
-    return APIRequestFactory()
 
 
 @pytest.fixture
