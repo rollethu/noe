@@ -23,7 +23,6 @@ const TXT_HELP_TEXT =
 
 export default function SeatDetails() {
   const [redirectTo, setRedirectTo] = React.useState(null);
-  const { register, handleSubmit, setError, errors, watch } = useForm();
   const { createSeat } = React.useContext(SeatContext);
   const {
     state: { appointment },
@@ -34,6 +33,11 @@ export default function SeatDetails() {
       "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
     appointment.email = "TEST@EMAIL.COM";
   }
+  const { register, handleSubmit, setError, errors, watch } = useForm({
+    defaultValues: {
+      email: appointment.email,
+    },
+  });
 
   const onSubmit = async (values) => {
     if (!appointment.url) {
@@ -98,6 +102,14 @@ export default function SeatDetails() {
             <Input register={register} name="address_line1" />
           </>
         </InputGroup>
+        <Field
+          register={register}
+          name="email"
+          label="Értesítési e-mail cím"
+          type="email"
+          errors={errors}
+          helpText="Amennyiben értesítési e-mail címe eltér a megadottól "
+        />
         <Field
           register={register}
           name="phone_number"
