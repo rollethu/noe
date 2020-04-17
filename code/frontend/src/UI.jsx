@@ -186,7 +186,7 @@ export function Button({
 }
 
 export function HelpBlock({ children, error }) {
-  return <p>{children}</p>;
+  return <p className="HelpBlock">{children}</p>;
 }
 
 export function Text({

@@ -105,6 +105,9 @@
 .Flex {
   display: flex; }
 
+.HelpBlock {
+  margin: 0; }
+
 .Nav {
   position: absolute;
   top: 0;
