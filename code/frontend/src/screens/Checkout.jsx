@@ -2,7 +2,8 @@ import React from "react";
 
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Text, DataRow, HR } from "../UI";
+import { View, Caption, Text, DataRow, HR, LinkButton } from "../UI";
+import { ROUTE_PAYMENT_METHODS } from "../App";
 
 export default function Checkout() {
   const {
@@ -68,6 +69,9 @@ export default function Checkout() {
           </DataRow>
         </>
       ))}
+      <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
+        Tovább
+      </LinkButton>
     </View>
   );
 }
