@@ -2,7 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
-import { ROUTE_ADD_SEAT } from "../App";
+import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT } from "../App";
 import {
   View,
   Caption,
@@ -21,9 +21,16 @@ const TXT_SUBMIT_BUTTON = "Tovább";
 const TXT_HELP_TEXT =
   "Töltse ki az alábbi mezőket. Kérjük, valós adatokat adjon meg.";
 
+const SUBMIT_MODE_CREATE = "CREATE";
+const SUBMIT_MODE_UPDATE = "UPDATE";
+
 export default function SeatDetails() {
   const [redirectTo, setRedirectTo] = React.useState(null);
-  const { createSeat } = React.useContext(SeatContext);
+  const {
+    state: { activeSeat },
+    createSeat,
+    updateSeat,
+  } = React.useContext(SeatContext);
   const {
     state: { appointment },
   } = React.useContext(AppointmentContext);
@@ -32,13 +39,11 @@ export default function SeatDetails() {
     appointmentUrl =
       "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
   }
-  const { register, handleSubmit, setError, errors, watch } = useForm({
-    defaultValues: {
-      email: appointment.email,
-    },
-  });
 
-  const onSubmit = async (values) => {
+  const submitMode =
+    activeSeat === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
+
+  const onCreateSubmit = async (values) => {
     if (!appointment.url) {
       alert("No appointment to update");
     }
@@ -61,6 +66,41 @@ export default function SeatDetails() {
       setRedirectTo(ROUTE_ADD_SEAT);
     }
   };
+
+  const onUpdateSubmit = async (values) => {
+    if (!values.has_doctor_referral) {
+      delete values.healthcare_number;
+    }
+
+    const response = await updateSeat(activeSeat.url, values);
+    if (response.error) {
+      if (response.errors) {
+        Object.keys(response.errors).map((fieldName) => {
+          setError(fieldName, "", response.errors[fieldName]);
+        });
+      } else {
+        alert("Váratlan hiba történt.");
+      }
+    } else {
+      setRedirectTo(ROUTE_CHECKOUT);
+    }
+  };
+
+  let defaultValues;
+  let onSubmit;
+  if (submitMode === SUBMIT_MODE_CREATE) {
+    onSubmit = onCreateSubmit;
+    defaultValues = {
+      email: appointment.email,
+    };
+  } else {
+    onSubmit = onUpdateSubmit;
+    defaultValues = activeSeat;
+  }
+
+  const { register, handleSubmit, setError, errors, watch } = useForm({
+    defaultValues,
+  });
 
   if (redirectTo) {
     return <Redirect to={redirectTo} />;

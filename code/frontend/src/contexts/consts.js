@@ -10,3 +10,5 @@ export const SET_LOCATIONS = "SET_LOCATIONS";
 export const SET_SEATS = "SET_SEATS";
 export const ADD_SEAT = "ADD_SEAT";
 export const DELETE_SEAT = "DELETE_SEAT";
+export const SET_ACTIVE_SEAT = "SET_ACTIVE_SEAT";
+export const UPDATE_SEAT = "UPDATE_SEAT";

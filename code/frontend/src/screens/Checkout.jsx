@@ -1,4 +1,5 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
@@ -11,12 +12,14 @@ import {
   LinkButton,
   IconButton,
 } from "../UI";
-import { ROUTE_PAYMENT_METHODS } from "../App";
+import { ROUTE_PAYMENT_METHODS, ROUTE_SEAT_DETAILS } from "../App";
 
 export default function Checkout() {
+  const history = useHistory();
   const {
     state: { seats },
     deleteSeat,
+    setActiveSeat,
   } = React.useContext(SeatContext);
   const {
     state: { appointment },
@@ -27,7 +30,10 @@ export default function Checkout() {
     full_name: "__DELETE_CODE__",
     url: "asd",
   });
-  function onSeatEditClick(seat) {}
+  function onSeatEditClick(seat) {
+    setActiveSeat(seat);
+    history.push(ROUTE_SEAT_DETAILS);
+  }
 
   function onSeatDeleteClick(seat) {
     const confirmed = window.confirm("Biztosan törölni akarja?");
@@ -59,6 +65,7 @@ export default function Checkout() {
           <Text strong>
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
+            <IconButton icon="pencil" onClick={() => onSeatEditClick(seat)} />
             <IconButton icon="close" onClick={() => onSeatDeleteClick(seat)} />
           </Text>
           <DataRow>
