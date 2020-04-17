@@ -8,3 +8,4 @@ export const VERIFY_EMAIL_URL = `${API_URL}/verify/email/`;
 export const SET_APPOINTMENT = "SET_APPOINTMENT";
 export const SET_LOCATIONS = "SET_LOCATIONS";
 export const SET_SEATS = "SET_SEATS";
+export const ADD_SEAT = "ADD_SEAT";
