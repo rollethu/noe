@@ -55,7 +55,7 @@ export default function Checkout() {
         <Text strong>{appointment.location_name}</Text>
       </DataRow>
       {seats.map((seat) => (
-        <>
+        <React.Fragment key={seat.url}>
           <Text strong>
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
@@ -92,7 +92,7 @@ export default function Checkout() {
             <Text light>Fizetendő összeg</Text>
             <Text strong>__LICENCE_PLATE__</Text>
           </DataRow>
-        </>
+        </React.Fragment>
       ))}
       <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
         Tovább
