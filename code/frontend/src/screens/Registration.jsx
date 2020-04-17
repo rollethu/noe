@@ -5,7 +5,7 @@ import { Redirect } from "react-router-dom";
 import { Context as LocationContext } from "../contexts/locationContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { ROUTE_SEAT_DETAILS } from "../App";
-import { View, Caption, Form, Field, Button } from "../UI";
+import { View, Caption, Form, Field, Button, Text } from "../UI";
 
 const TXT_LOCATION = "Helyszín";
 const TXT_LICENCE_PLATE = "Rendszám";
@@ -71,6 +71,10 @@ export default function Registration() {
   return (
     <View>
       <Caption>Regisztráció</Caption>
+      <Text>
+        Válassza ki a tesztelőállomást és adja meg a gépjármű redszámát, amivel
+        érkezni fog
+      </Text>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           register={register}
