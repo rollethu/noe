@@ -1,3 +1,4 @@
+@import url("https://fonts.googleapis.com/css2?family=Muli:wght@500;800&display=swap");
 .ViewContainer {
   display: flex;
   justify-content: center; }
@@ -114,10 +115,14 @@
   right: 0; }
 
 * {
-  box-sizing: border-box; }
+  box-sizing: border-box;
+  font-family: "Muli"; }
 
 a {
   text-decoration: none;
   color: inherit; }
+
+strong {
+  font-weight: 800; }
 
 /*# sourceMappingURL=styles.css.map */
