@@ -2,9 +2,10 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
+import StartSVG from "../assets/main.svg";
 import { ROUTE_EMAIL_VERIFICATION } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Form, Field, Button } from "../UI";
+import { View, Caption, Form, Field, Button, Image } from "../UI";
 
 const GTC_VERSION = "1.0";
 const PRIVACY_POLICY_VERSION = "1.0";
@@ -40,6 +41,7 @@ export default function Start(props) {
   return (
     <View>
       <Caption center>{TXT_CAPTION}</Caption>
+      <Image src={StartSVG} />
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field
           register={register}

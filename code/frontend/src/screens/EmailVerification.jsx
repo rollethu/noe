@@ -1,5 +1,6 @@
 import React from "react";
 
+import VerificationSVG from "../assets/verification.svg";
 import { View, Caption, Text, Image } from "../UI";
 
 const TXT_CAPTION = "Erősítse meg adatait";
@@ -10,7 +11,7 @@ export default function EmailVerification() {
   return (
     <View>
       <Caption center>{TXT_CAPTION}</Caption>
-      <Image src="https://via.placeholder.com/150" />
+      <Image src={VerificationSVG} />
       <Text>{TXT_DESCRIPTION}</Text>
       <Text center>
         Nem érkezett meg a link? <strong>Újraküldöm</strong>

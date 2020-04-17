@@ -1,12 +1,13 @@
 import React from "react";
 
+import AppointmentSuccessSVG from "../assets/success.svg";
 import { View, Caption, Text, Image, Button } from "../UI";
 
 export default function AppointmentSuccess() {
   return (
     <View>
       <Caption center>Sikeres Regisztráció</Caption>
-      <Image src="https://via.placeholder.com/150" />
+      <Image src={AppointmentSuccessSVG} />
       <Text>
         Időpontfoglalása rögzítésre került. A regisztráció részleteit és további
         információt a megadott e-mail címre küldött üzenetben talál. Kérjük

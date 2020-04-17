@@ -73,7 +73,8 @@
 
 .ImageContainer {
   display: flex;
-  justify-content: center; }
+  justify-content: center;
+  margin-bottom: 40px; }
 
 .Hidden {
   display: none; }
