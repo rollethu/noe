@@ -4,9 +4,11 @@ import createContext from "./createContext";
 import * as consts from "./consts";
 
 const initialState = {
-  appointmentUrl: null,
-  appointmentEmail: null,
-  isAppointmentEmailVerified: null,
+  appointment: {
+    url: null,
+    email: null,
+    isEmailVerified: null,
+  },
 };
 
 const appointmentReducer = (state, action) => {
@@ -14,7 +16,10 @@ const appointmentReducer = (state, action) => {
     case consts.SET_APPOINTMENT:
       return {
         ...state,
-        ...action.payload,
+        appointment: {
+          ...state.appointment,
+          ...action.payload,
+        },
       };
     default:
       return state;
@@ -43,6 +48,7 @@ const updateAppointment = (dispatch) => async (url, values) => {
   try {
     const response = await axios.patch(url, values);
     response.error = false;
+    dispatch({ type: consts.SET_APPOINTMENT, payload: response.data });
     return response;
   } catch (error) {
     const { response } = error;
@@ -65,19 +71,15 @@ const verifyToken = (dispatch) => async (token) => {
     dispatch({
       type: consts.SET_APPOINTMENT,
       payload: {
-        appointmentUrl: response.data.appointment_url,
-        appointmentEmail: response.data.appointment_email,
-        isAppointmentEmailVerified: true,
+        url: response.data.appointment_url,
+        email: response.data.appointment_email,
+        isEmailVerified: true,
       },
     });
   } catch (error) {
     dispatch({
       type: consts.SET_APPOINTMENT,
-      payload: {
-        appointmentUrl: null,
-        appointmentEmail: null,
-        isAppointmentEmailVerified: false,
-      },
+      payload: {},
     });
   }
 };

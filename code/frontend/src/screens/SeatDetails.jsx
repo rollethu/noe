@@ -25,22 +25,25 @@ export default function SeatDetails() {
   const [redirectTo, setRedirectTo] = React.useState(null);
   const { register, handleSubmit, setError, errors, watch } = useForm();
   const { createSeat } = React.useContext(SeatContext);
-  const { state } = React.useContext(AppointmentContext);
+  const {
+    state: { appointment },
+  } = React.useContext(AppointmentContext);
+  let appointmentUrl = appointment.url;
+  if (process.env.NODE_ENV === "development") {
+    appointmentUrl =
+      "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
+    appointment.email = "TEST@EMAIL.COM";
+  }
 
   const onSubmit = async (values) => {
-    let appointmentUrl = state.appointmentUrl;
-    if (process.env.NODE_ENV === "development") {
-      appointmentUrl =
-        "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
-    }
-    if (!appointmentUrl) {
+    if (!appointment.url) {
       alert("No appointment to update");
     }
 
     if (!values.has_doctor_referral) {
       delete values.healthcare_number;
     }
-    values.appointment = appointmentUrl;
+    values.appointment = appointment.url;
 
     const response = await createSeat(values);
     if (response.error) {

@@ -7,12 +7,15 @@ import { View, Caption, Text, Button, HighlightText } from "../UI";
 
 export default function PaymentMethod() {
   const [redirectTo, setRedirectTo] = React.useState(null);
-  const { state, updateAppointment } = React.useContext(AppointmentContext);
+  const {
+    state: { appointment },
+    updateAppointment,
+  } = React.useContext(AppointmentContext);
 
   const total = "__WRONG__ FT";
 
   async function onNextClick() {
-    let appointmentUrl = state.appointmentUrl;
+    let appointmentUrl = appointment.url;
     if (process.env.NODE_ENV === "development") {
       appointmentUrl =
         "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";

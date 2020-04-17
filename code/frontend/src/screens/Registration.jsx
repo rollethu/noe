@@ -14,14 +14,17 @@ const TXT_SUBMIT_BUTTON = "Tovább";
 export default function Registration() {
   const [redirectTo, setRedirectTo] = React.useState(null);
   const { register, handleSubmit, setError, errors } = useForm();
-  const { state, updateAppointment } = React.useContext(AppointmentContext);
+  const {
+    state: { appointment },
+    updateAppointment,
+  } = React.useContext(AppointmentContext);
   const {
     state: { locations },
     fetchLocations,
   } = React.useContext(LocationContext);
 
   const onSubmit = async (values) => {
-    let appointmentUrl = state.appointmentUrl;
+    let appointmentUrl = appointment.url;
     if (process.env.NODE_ENV === "development") {
       appointmentUrl =
         "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
