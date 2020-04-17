@@ -17,7 +17,7 @@ export default function VerifyEmail(props) {
   const queryParams = new URLSearchParams(useLocation().search);
 
   React.useEffect(() => {
-    verifyToken(queryParams.get("Token"));
+    verifyToken(queryParams.get("token"));
   }, []);
 
   console.log(appointmentUrl, appointmentEmail, isAppointmentEmailVerified);
