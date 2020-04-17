@@ -9,7 +9,9 @@ const initialState = {
     email: null,
     isEmailVerified: null,
   },
-  tokenVerificationError: null,
+  emailVerification: {
+    error: null,
+  },
 };
 
 const appointmentReducer = (state, action) => {
@@ -25,7 +27,10 @@ const appointmentReducer = (state, action) => {
     case consts.SET_TOKEN_VERIFICATION_ERROR:
       return {
         ...state,
-        ...action.payload,
+        emailVerification: {
+          ...state.emailVerification,
+          error: action.payload,
+        },
       };
     default:
       return state;
@@ -82,6 +87,10 @@ const verifyToken = (dispatch) => async (token) => {
         isEmailVerified: true,
       },
     });
+    dispatch({
+      type: consts.SET_TOKEN_VERIFICATION_ERROR,
+      payload: null,
+    });
   } catch (error) {
     dispatch({
       type: consts.SET_APPOINTMENT,
@@ -91,9 +100,7 @@ const verifyToken = (dispatch) => async (token) => {
     });
     dispatch({
       type: consts.SET_TOKEN_VERIFICATION_ERROR,
-      payload: {
-        tokenVerificationError: error.response.data,
-      },
+      payload: error.response.data,
     });
   }
 };

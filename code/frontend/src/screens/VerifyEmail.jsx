@@ -11,7 +11,7 @@ const TXT_BUTTON = "Tovább";
 
 export default function VerifyEmail(props) {
   const {
-    state: { appointment, tokenVerificationError },
+    state: { appointment, emailVerification },
     verifyToken,
   } = React.useContext(AppointmentContext);
   const queryParams = new URLSearchParams(useLocation().search);
@@ -23,7 +23,7 @@ export default function VerifyEmail(props) {
   if (appointment.url && appointment.email && appointment.isEmailVerified) {
     return <EmailVerificationSuccess />;
   } else if (appointment.isEmailVerified === false) {
-    return <EmailVerificationFailure error={tokenVerificationError} />;
+    return <EmailVerificationFailure error={emailVerification.error} />;
   } else if (appointment.isEmailVerified === true) {
     // verified appointment without email or url is a server error
     alert("Unexpected error occured.");
