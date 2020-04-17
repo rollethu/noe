@@ -10,7 +10,9 @@ export default function EmailVerificationSuccess() {
         Sikeres e-mail megerősítés. A Tovább gombra kattintva folytathatja a
         regisztrációt.
       </Text>
-      <LinkButton to={ROUTE_REGISTRATION}>Tovább</LinkButton>
+      <LinkButton to={ROUTE_REGISTRATION} toCenter>
+        Tovább
+      </LinkButton>
     </View>
   );
 }
