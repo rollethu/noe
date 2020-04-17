@@ -32,13 +32,17 @@
 
 .Label
     display: block
+    margin-bottom: $space-size
 
     &.Inline
+        margin-bottom: 0
         display: inline
 
 .Input
-    border: 1px solid black
     width: 100%
+    padding: $space-size
+    border-radius: $space-size
+    border: 1px solid $dark-gray
 
     &.Inline
         width: auto

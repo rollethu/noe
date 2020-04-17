@@ -30,13 +30,17 @@
   width: 100%; }
 
 .Label {
-  display: block; }
+  display: block;
+  margin-bottom: 10px; }
   .Label.Inline {
+    margin-bottom: 0;
     display: inline; }
 
 .Input {
-  border: 1px solid black;
-  width: 100%; }
+  width: 100%;
+  padding: 10px;
+  border-radius: 10px;
+  border: 1px solid #787D90; }
   .Input.Inline {
     width: auto; }
 
@@ -90,6 +94,9 @@
   position: absolute;
   top: 0;
   right: 0; }
+
+* {
+  box-sizing: border-box; }
 
 a {
   text-decoration: none;
