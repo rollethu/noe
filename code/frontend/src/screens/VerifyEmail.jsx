@@ -4,12 +4,14 @@ import { useLocation, Redirect } from "react-router-dom";
 import { ROUTE_REGISTRATION } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, LinkButton } from "../UI";
+import EmailVerificationSuccess from "./EmailVerificationSuccess";
+import EmailVerificationFailure from "./EmailVerificationFailure";
 
 const TXT_BUTTON = "Tovább";
 
 export default function VerifyEmail(props) {
   const {
-    state: { appointment },
+    state: { appointment, tokenVerificationError },
     verifyToken,
   } = React.useContext(AppointmentContext);
   const queryParams = new URLSearchParams(useLocation().search);
@@ -19,20 +21,9 @@ export default function VerifyEmail(props) {
   }, []);
 
   if (appointment.url && appointment.email && appointment.isEmailVerified) {
-    return (
-      <View>
-        <Caption>Success</Caption>
-        <LinkButton toCenter to={ROUTE_REGISTRATION}>
-          {TXT_BUTTON}
-        </LinkButton>
-      </View>
-    );
+    return <EmailVerificationSuccess />;
   } else if (appointment.isEmailVerified === false) {
-    return (
-      <View>
-        <Caption>Failed</Caption>
-      </View>
-    );
+    return <EmailVerificationFailure error={tokenVerificationError} />;
   } else if (appointment.isEmailVerified === true) {
     // verified appointment without email or url is a server error
     alert("Unexpected error occured.");

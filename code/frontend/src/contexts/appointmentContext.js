@@ -9,6 +9,7 @@ const initialState = {
     email: null,
     isEmailVerified: null,
   },
+  tokenVerificationError: null,
 };
 
 const appointmentReducer = (state, action) => {
@@ -20,6 +21,11 @@ const appointmentReducer = (state, action) => {
           ...state.appointment,
           ...action.payload,
         },
+      };
+    case consts.SET_TOKEN_VERIFICATION_ERROR:
+      return {
+        ...state,
+        ...action.payload,
       };
     default:
       return state;
@@ -66,7 +72,7 @@ const updateAppointment = (dispatch) => async (url, values) => {
 const verifyToken = (dispatch) => async (token) => {
   try {
     const response = await axios.post(consts.VERIFY_EMAIL_URL, {
-      verification_token: token,
+      token,
     });
     dispatch({
       type: consts.SET_APPOINTMENT,
@@ -79,7 +85,15 @@ const verifyToken = (dispatch) => async (token) => {
   } catch (error) {
     dispatch({
       type: consts.SET_APPOINTMENT,
-      payload: {},
+      payload: {
+        isEmailVerified: false,
+      },
+    });
+    dispatch({
+      type: consts.SET_TOKEN_VERIFICATION_ERROR,
+      payload: {
+        tokenVerificationError: error.response.data,
+      },
     });
   }
 };

@@ -54,6 +54,7 @@ function App() {
     { path: ROUTE_CHECKOUT, component: Checkout },
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
   ];
+
   return (
     <div className="App">
       <Router>

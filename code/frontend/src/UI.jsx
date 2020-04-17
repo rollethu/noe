@@ -12,7 +12,11 @@ export function View({ children }) {
 
 export function Caption({ children, ...props }) {
   const classes = classNames("Caption", "Text", { CenterText: props.center });
-  return <h2 className={classes}>{children}</h2>;
+  return (
+    <h2 onDoubleClick={props.onDoubleClick} className={classes}>
+      {children}
+    </h2>
+  );
 }
 
 export function Form({ children, onSubmit }) {
