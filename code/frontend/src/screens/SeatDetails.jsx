@@ -15,6 +15,7 @@ import {
   Button,
   Text,
   Image,
+  Flex,
 } from "../UI";
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
@@ -136,13 +137,27 @@ export default function SeatDetails() {
         />
         <InputGroup>
           <Label>Tartózkodási cím</Label>
-          <>
-            <Input register={register} name="post_code" />
-            <Input register={register} name="city" />
-          </>
-          <>
-            <Input register={register} name="address_line1" />
-          </>
+          <InputGroup>
+            <Flex>
+              <Input
+                style={{ flex: 1 }}
+                register={register}
+                name="post_code"
+                placeholder="1051"
+              />
+              <Input
+                style={{ flex: 3, marginLeft: 10 }}
+                register={register}
+                name="city"
+                placeholder="Budapest"
+              />
+            </Flex>
+          </InputGroup>
+          <Input
+            register={register}
+            name="address_line1"
+            placeholder="Vörösmarty tér 7-8."
+          />
         </InputGroup>
         <Field
           register={register}

@@ -102,6 +102,9 @@
   .Text.Strong {
     color: #07185F; }
 
+.Flex {
+  display: flex; }
+
 .Nav {
   position: absolute;
   top: 0;

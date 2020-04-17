@@ -39,6 +39,7 @@ export function Field({
   helpText,
   required,
   onChange,
+  placeholder,
 }) {
   const errors = allErrors[name];
   let errorMessage;
@@ -78,6 +79,7 @@ export function Field({
             id={name}
             required={required}
             onChange={onChange}
+            placeholder={placeholder}
           />
         </>
       )}
@@ -96,6 +98,8 @@ export function Input({
   options,
   required,
   onChange,
+  style,
+  placeholder,
 }) {
   if (type === "checkbox") {
     return (
@@ -126,11 +130,13 @@ export function Input({
   }
   return (
     <input
+      style={style}
       className="Input"
       name={name}
       ref={register({ required })}
       type={type || "text"}
       onChange={onChange}
+      placeholder={placeholder}
     />
   );
 }
@@ -250,4 +256,8 @@ export function IconButton({ icon, onClick }) {
 
 export function Icon({ icon }) {
   return <i className={`fa fa-${icon}`} />;
+}
+
+export function Flex({ children }) {
+  return <div className="Flex">{children}</div>;
 }
