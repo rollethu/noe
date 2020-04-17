@@ -31,7 +31,6 @@ export default function SeatDetails() {
   if (process.env.NODE_ENV === "development") {
     appointmentUrl =
       "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
-    appointment.email = "TEST@EMAIL.COM";
   }
   const { register, handleSubmit, setError, errors, watch } = useForm({
     defaultValues: {
