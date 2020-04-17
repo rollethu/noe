@@ -65,6 +65,9 @@ class Appointment(models.Model):
             "This probably should be handled more lightly than the start time."
         ),
     )
+    is_registration_completed = models.BooleanField(
+        default=False, help_text='Set before the user is redirected to the "Successful registration" page'
+    )
 
     objects = AppointmentManager()
 
