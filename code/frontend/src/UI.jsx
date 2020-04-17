@@ -187,3 +187,6 @@ export function DataRow({ children }) {
   return <div className="DataRow">{children}</div>;
 }
 
+export function HR() {
+  return <hr className="HR" />;
+}
