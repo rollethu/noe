@@ -44,8 +44,8 @@ export default function PaymentMethod() {
     <View>
       <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
-      <Text>Válassza ki a kívánt fizetési módot.</Text>
       <HighlightText toCenter>Fizetendő összeg: {total}</HighlightText>
+      <Text>Válassza ki a kívánt fizetési módot.</Text>
       <Button toCenter inverse>
         Fizetés a helyszínen bankkártyával
       </Button>
