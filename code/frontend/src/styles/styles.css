@@ -68,6 +68,15 @@
 .Hidden {
   display: none; }
 
+.DataRow {
+  display: flex;
+  justify-content: space-between; }
+
+.Text.Light {
+  color: #787D90; }
+.Text.Strong {
+  color: #07185F; }
+
 .Nav {
   position: absolute;
   top: 0;
