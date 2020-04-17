@@ -25,11 +25,6 @@ export default function Checkout() {
     state: { appointment },
   } = React.useContext(AppointmentContext);
 
-  // TODO: delete me
-  seats.push({
-    full_name: "__DELETE_CODE__",
-    url: "asd",
-  });
   function onSeatEditClick(seat) {
     setActiveSeat(seat);
     history.push(ROUTE_SEAT_DETAILS);
