@@ -39,7 +39,7 @@ export default function Checkout() {
   }
 
   function formatAppointmentDate() {
-    if (appointment.start !== null || appointment.end !== null) {
+    if (!appointment.start || !appointment.end) {
       return '';
     }
     const startMoment = moment(appointment.start);
