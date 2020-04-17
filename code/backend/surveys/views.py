@@ -5,7 +5,7 @@ from . import serializers as s
 
 
 class SurveyQuestionViewSet(viewsets.ModelViewSet):
-    queryset = m.SurveyQuestion.objects.all()
+    queryset = m.SurveyQuestion.objects.filter(is_active=True)
     serializer_class = s.SurveyQuestionSerializer
 
 
