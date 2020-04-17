@@ -105,6 +105,7 @@ AUTH_PASSWORD_VALIDATORS = [
     {"NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",},
 ]
 
+EMAIL_BACKEND = os.environ["EMAIL_BACKEND"]
 EMAIL_VERIFICATION_KEY = os.environb[b"EMAIL_VERIFICATION_KEY"]
 
 # Internationalization
