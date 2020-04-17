@@ -15,7 +15,7 @@ export default function Survey() {
     fetchSurveyQuestions,
     sendSurveyAnswers,
   } = React.useContext(SurveyContext);
-  let {
+  const {
     state: { activeSeat },
   } = React.useContext(SeatContext);
   const { register, handleSubmit, errors } = useForm();
@@ -25,10 +25,6 @@ export default function Survey() {
   }, []);
 
   async function onSubmit(answers) {
-    activeSeat = {
-      url:
-        "http://localhost:8000/api/seats/6c756135-61c8-477c-ba05-aa38252e5853/",
-    };
     if (!activeSeat) {
       alert("No active seat");
       return;
@@ -67,10 +63,23 @@ export default function Survey() {
             label={question.question}
             errors={errors}
             name={question.url}
+            type={getFieldTypeFromSurveyAnswerType(question)}
           />
         ))}
         <Button type="submit">Tovább</Button>
       </Form>
     </View>
   );
+}
+
+function getFieldTypeFromSurveyAnswerType(question) {
+  switch (question.answer_datatype) {
+    case "boolean":
+      return "survey-toggle";
+    case "integer":
+      return "number";
+    // including `string`
+    default:
+      return "text";
+  }
 }

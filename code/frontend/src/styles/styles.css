@@ -109,6 +109,12 @@
 .HelpBlock {
   margin: 0; }
 
+.SurveyToggle {
+  display: flex;
+  justify-content: center; }
+  .SurveyToggle .Label:not(:first-child) {
+    margin-left: 20px; }
+
 .Nav {
   position: absolute;
   top: 0;

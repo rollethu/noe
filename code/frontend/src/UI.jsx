@@ -127,6 +127,19 @@ export function Input({
         ))}
       </select>
     );
+  } else if (type === "survey-toggle") {
+    return (
+      <div className="SurveyToggle">
+        <Label>
+          <input type="radio" value="yes" name={name} ref={register()} />
+          Igen
+        </Label>
+        <Label>
+          <input type="radio" value="no" name={name} ref={register()} />
+          Nem
+        </Label>
+      </div>
+    );
   }
   return (
     <input
