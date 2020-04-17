@@ -1,16 +1,16 @@
-import React from 'react';
-import { useForm } from 'react-hook-form';
-import { Redirect } from 'react-router-dom';
+import React from "react";
+import { useForm } from "react-hook-form";
+import { Redirect } from "react-router-dom";
 
-import ProgressBarSVG from '../assets/progressbar_1.svg';
-import { Context as LocationContext } from '../contexts/locationContext';
-import { Context as AppointmentContext } from '../contexts/appointmentContext';
-import { ROUTE_SEAT_DETAILS } from '../App';
-import { View, Caption, Form, Field, Button, Text, Image } from '../UI';
+import ProgressBarSVG from "../assets/progressbar_1.svg";
+import { Context as LocationContext } from "../contexts/locationContext";
+import { Context as AppointmentContext } from "../contexts/appointmentContext";
+import { ROUTE_SEAT_DETAILS } from "../App";
+import { View, Caption, Form, Field, Button, Text, Image } from "../UI";
 
-const TXT_LOCATION = 'Helyszín';
-const TXT_LICENCE_PLATE = 'Rendszám';
-const TXT_SUBMIT_BUTTON = 'Tovább';
+const TXT_LOCATION = "Helyszín";
+const TXT_LICENCE_PLATE = "Rendszám";
+const TXT_SUBMIT_BUTTON = "Tovább";
 
 export default function Registration() {
   const [redirectTo, setRedirectTo] = React.useState(null);
@@ -26,22 +26,22 @@ export default function Registration() {
 
   const onSubmit = async (values) => {
     let appointmentUrl = appointment.url;
-    if (process.env.NODE_ENV === 'development') {
+    if (process.env.NODE_ENV === "development") {
       appointmentUrl =
-        'http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/';
+        "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
     }
     if (!appointmentUrl) {
-      alert('No appointment to update');
+      alert("No appointment to update");
     }
 
     const response = await updateAppointment(appointmentUrl, values);
     if (response.error) {
       if (response.errors) {
         Object.keys(response.errors).map((fieldName) => {
-          setError(fieldName, '', response.errors[fieldName]);
+          setError(fieldName, "", response.errors[fieldName]);
         });
       } else {
-        alert('Váratlan hiba történt.');
+        alert("Váratlan hiba történt.");
       }
     } else {
       setRedirectTo(ROUTE_SEAT_DETAILS);
@@ -69,6 +69,18 @@ export default function Registration() {
     value: location.url,
   }));
 
+  const licencePlateValidation = (value) => {
+    const targetElement = value.target;
+    if (targetElement.value.match("[A-Za-z0-9]+$")) {
+      targetElement.value = targetElement.value.toUpperCase();
+    } else {
+      targetElement.value = targetElement.value.slice(
+        0,
+        targetElement.value.length - 1
+      );
+    }
+  };
+
   return (
     <View>
       <Image src={ProgressBarSVG} />
@@ -92,6 +104,7 @@ export default function Registration() {
           label={TXT_LICENCE_PLATE}
           type="text"
           errors={errors}
+          changeEvent={licencePlateValidation}
         />
         <Button type="submit">{TXT_SUBMIT_BUTTON}</Button>
       </Form>
