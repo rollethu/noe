@@ -27,7 +27,7 @@ class Location(models.Model):
 
 
 class AppointmentManager(models.Manager):
-    def create_appointment(self, *args, **kwargs):
+    def create(self, *args, **kwargs):
         appointment = super().create(*args, **kwargs)
         ev = EmailVerification(appointment=appointment)
         ev.save()
