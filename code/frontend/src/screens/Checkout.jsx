@@ -42,14 +42,15 @@ export default function Checkout() {
     if (!appointment.start || !appointment.end) {
       return "";
     }
-    const startMoment = moment(appointment.start);
-    const endMoment = moment(appointment.end);
-    const result = [`${startMoment.format("YYYY. MMMM DD.")}`];
-    result.push(<br />);
-    result.push(
-      `${startMoment.format("HH:mm")} - ${endMoment.format("HH:mm")}`
+
+    const start = moment(appointment.start);
+    return (
+      <>
+        {`${start.format("YYYY. MM. DD.")}`}
+        <br />
+        {`${start.format("HH:mm")}-${moment(appointment.end).format("HH:mm")}`}
+      </>
     );
-    return result;
   };
 
   return (
