@@ -1,7 +1,7 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
-import { ROUTE_CHECKOUT } from "../App";
+import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, Text, Button, HighlightText } from "../UI";
 
@@ -31,7 +31,7 @@ export default function PaymentMethod() {
         alert("Váratlan hiba történt.");
       }
     } else {
-      setRedirectTo(ROUTE_CHECKOUT);
+      setRedirectTo(ROUTE_APPOINTMENT_SUCCESS);
     }
   }
 

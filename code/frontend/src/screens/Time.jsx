@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
 
-import { ROUTE_PAYMENT_METHODS } from "../App";
+import { ROUTE_CHECKOUT } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, Form, Field, Button, Text } from "../UI";
 
@@ -45,7 +45,7 @@ export default function Time() {
         alert("Váratlan hiba történt.");
       }
     } else {
-      setRedirectTo(ROUTE_PAYMENT_METHODS);
+      setRedirectTo(ROUTE_CHECKOUT);
     }
   };
 
