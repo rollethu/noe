@@ -6,7 +6,7 @@ import { View, Caption, Text, Image, Button } from "../UI";
 export default function AppointmentSuccess() {
   return (
     <View>
-      <Caption center>Sikeres Regisztráció</Caption>
+      <Caption center>Sikeres regisztráció</Caption>
       <Image src={AppointmentSuccessSVG} />
       <Text>
         Időpontfoglalása rögzítésre került. A regisztráció részleteit és további

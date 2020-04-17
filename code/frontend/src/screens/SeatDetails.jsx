@@ -111,7 +111,7 @@ export default function SeatDetails() {
   return (
     <View>
       <Image src={ProgressBarSVG} />
-      <Caption>SeatDetails</Caption>
+      <Caption>Személyes adatok</Caption>
       <Text>{TXT_HELP_TEXT}</Text>
       <Form onSubmit={handleSubmit(onSubmit)}>
         <Field

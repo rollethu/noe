@@ -1,8 +1,8 @@
-import React from 'react';
-import { useHistory } from 'react-router-dom';
-import moment from 'moment';
-import { Context as SeatContext } from '../contexts/seatContext';
-import { Context as AppointmentContext } from '../contexts/appointmentContext';
+import React from "react";
+import { useHistory } from "react-router-dom";
+import moment from "moment";
+import { Context as SeatContext } from "../contexts/seatContext";
+import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import {
   View,
   Caption,
@@ -11,8 +11,8 @@ import {
   HR,
   LinkButton,
   IconButton,
-} from '../UI';
-import { ROUTE_PAYMENT_METHODS, ROUTE_SEAT_DETAILS } from '../App';
+} from "../UI";
+import { ROUTE_PAYMENT_METHODS, ROUTE_SEAT_DETAILS } from "../App";
 
 export default function Checkout() {
   const history = useHistory();
@@ -31,7 +31,7 @@ export default function Checkout() {
   }
 
   function onSeatDeleteClick(seat) {
-    const confirmed = window.confirm('Biztosan törölni akarja?');
+    const confirmed = window.confirm("Biztosan törölni akarja?");
     if (!confirmed) {
       return;
     }
@@ -40,14 +40,14 @@ export default function Checkout() {
 
   function formatAppointmentDate() {
     if (!appointment.start || !appointment.end) {
-      return '';
+      return "";
     }
     const startMoment = moment(appointment.start);
     const endMoment = moment(appointment.end);
-    const result = [`${startMoment.format('YYYY. MMMM DD.')}`];
+    const result = [`${startMoment.format("YYYY. MMMM DD.")}`];
     result.push(<br />);
     result.push(
-      `${startMoment.format('HH:mm')} - ${endMoment.format('HH:mm')}`
+      `${startMoment.format("HH:mm")} - ${endMoment.format("HH:mm")}`
     );
     return result;
   }
@@ -71,7 +71,7 @@ export default function Checkout() {
         <React.Fragment key={seat.url}>
           <Text strong>
             {seat.full_name}
-            {seat.has_doctor_referral && ' - Beutalo'}
+            {seat.has_doctor_referral && " - Beutalo"}
             <IconButton icon="pencil" onClick={() => onSeatEditClick(seat)} />
             <IconButton icon="close" onClick={() => onSeatDeleteClick(seat)} />
           </Text>
