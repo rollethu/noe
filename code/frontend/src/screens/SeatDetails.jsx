@@ -2,6 +2,7 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
+import ProgressBarSVG from "../assets/progressbar_2.svg";
 import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT } from "../App";
 import {
   View,
@@ -13,6 +14,7 @@ import {
   Field,
   Button,
   Text,
+  Image,
 } from "../UI";
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
@@ -108,6 +110,7 @@ export default function SeatDetails() {
 
   return (
     <View>
+      <Image src={ProgressBarSVG} />
       <Caption>SeatDetails</Caption>
       <Text>{TXT_HELP_TEXT}</Text>
       <Form onSubmit={handleSubmit(onSubmit)}>

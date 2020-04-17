@@ -1,9 +1,10 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 
+import ProgressBarSVG from "../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Text, Button, HighlightText } from "../UI";
+import { View, Caption, Text, Button, HighlightText, Image } from "../UI";
 
 export default function PaymentMethod() {
   const [redirectTo, setRedirectTo] = React.useState(null);
@@ -41,6 +42,7 @@ export default function PaymentMethod() {
 
   return (
     <View>
+      <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
       <Text>Válassza ki a kívánt fizetési módot.</Text>
       <HighlightText toCenter>Fizetendő összeg: {total}</HighlightText>

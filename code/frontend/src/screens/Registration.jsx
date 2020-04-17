@@ -2,10 +2,11 @@ import React from "react";
 import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 
+import ProgressBarSVG from "../assets/progressbar_1.svg";
 import { Context as LocationContext } from "../contexts/locationContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { ROUTE_SEAT_DETAILS } from "../App";
-import { View, Caption, Form, Field, Button, Text } from "../UI";
+import { View, Caption, Form, Field, Button, Text, Image } from "../UI";
 
 const TXT_LOCATION = "Helyszín";
 const TXT_LICENCE_PLATE = "Rendszám";
@@ -70,6 +71,7 @@ export default function Registration() {
 
   return (
     <View>
+      <Image src={ProgressBarSVG} />
       <Caption>Regisztráció</Caption>
       <Text>
         Válassza ki a tesztelőállomást és adja meg a gépjármű redszámát, amivel

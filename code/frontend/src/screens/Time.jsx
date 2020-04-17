@@ -3,9 +3,10 @@ import { useForm } from "react-hook-form";
 import { Redirect } from "react-router-dom";
 import moment from "moment";
 
+import ProgressBarSVG from "../assets/progressbar_4.svg";
 import { ROUTE_CHECKOUT } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Form, Field, Button, Text } from "../UI";
+import { View, Caption, Form, Field, Button, Text, Image } from "../UI";
 
 const TXT_SUBMIT_BUTTON = "Tovább";
 const DATETIME_FORMAT = "YYYY-MM-DD HH:mm";
@@ -56,6 +57,7 @@ export default function Time() {
 
   return (
     <View>
+      <Image src={ProgressBarSVG} />
       <Caption>Időpont foglalás</Caption>
       <Text>
         Válassza ki a mintavétel időpontját. A forgalmi rend fenntartása
