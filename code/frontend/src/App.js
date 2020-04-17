@@ -17,7 +17,7 @@ import AddSeat from "./screens/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
 import VerifyEmail from "./screens/VerifyEmail";
 import PaymentMethod from "./screens/PaymentMethod";
-import Registration from "./screens/Registration";
+import Registration from "./screens/Registration/Registration";
 import SeatDetails from "./screens/SeatDetails";
 import Survey from "./screens/Survey";
 import Time from "./screens/Time";
