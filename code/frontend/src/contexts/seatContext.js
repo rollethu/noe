@@ -105,7 +105,6 @@ const deleteSeat = (dispatch) => async (seatUrl) => {
 };
 
 const setActiveSeat = (dispatch) => (seat) => {
-  console.log("Setting active seat", seat);
   dispatch({ type: consts.SET_ACTIVE_SEAT, payload: seat });
 };
 
