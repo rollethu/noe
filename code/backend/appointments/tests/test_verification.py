@@ -36,5 +36,5 @@ def test_verify_token():
     expected_ev, signed_uuid = m.EmailVerification.objects.get_by_token(token)
     assert ev.uuid == expected_ev.uuid
 
-    expected_ev.verify(signed_uuid.decode())
+    expected_ev.verify(signed_uuid)
     assert expected_ev.is_verified is True

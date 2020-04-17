@@ -106,8 +106,9 @@ def _generate_email_code():
 
 class EmailVerificationManager(models.Manager):
     def get_by_token(self, token: str):
-        signed_uuid = encrypter.decrypt(token.encode())
-        uuid = signed_uuid.decode().split(":", 1)[0]
+        signed_uuid_bytes = encrypter.decrypt(token.encode())
+        signed_uuid = signed_uuid_bytes.decode()
+        uuid = signed_uuid.split(":", 1)[0]
         ev = self.model.objects.get(uuid=uuid)
         return ev, signed_uuid
 
