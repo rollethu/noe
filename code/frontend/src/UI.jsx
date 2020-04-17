@@ -32,6 +32,7 @@ export function Field({
   errors: allErrors,
   options,
   hidden,
+  helpText,
 }) {
   const errors = allErrors[name];
   return (
@@ -63,7 +64,9 @@ export function Field({
           />
         </>
       )}
-      {errors && <HelpBlock error>{errors.message}</HelpBlock>}
+      {(errors || helpText) && (
+        <HelpBlock error>{errors?.message || helpText}</HelpBlock>
+      )}
     </InputGroup>
   );
 }
