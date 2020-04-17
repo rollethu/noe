@@ -182,3 +182,8 @@ export function LinkButton({ to, toCenter, inverse, children }) {
     </Link>
   );
 }
+
+export function DataRow({ children }) {
+  return <div className="DataRow">{children}</div>;
+}
+
