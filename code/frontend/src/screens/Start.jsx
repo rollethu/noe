@@ -55,6 +55,7 @@ export default function Start(props) {
           type="checkbox"
           value={GTC_VERSION}
           errors={errors}
+          required
         />
         <Field
           register={register}
@@ -63,6 +64,7 @@ export default function Start(props) {
           type="checkbox"
           value={PRIVACY_POLICY_VERSION}
           errors={errors}
+          required
         />
         <Button type="submit">{TXT_SUBMIT_BUTTON}</Button>
       </Form>
