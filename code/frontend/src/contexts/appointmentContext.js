@@ -24,12 +24,12 @@ const appointmentReducer = (state, action) => {
           ...action.payload,
         },
       };
-    case consts.SET_TOKEN_VERIFICATION_ERROR:
+    case consts.SET_TOKEN_VERIFICATION:
       return {
         ...state,
         emailVerification: {
           ...state.emailVerification,
-          error: action.payload,
+          ...action.payload,
         },
       };
     default:
@@ -40,6 +40,10 @@ const appointmentReducer = (state, action) => {
 const createAppointment = (dispatch) => async (values) => {
   try {
     const response = await axios.post(consts.APPOINTMENT_LIST_URL, values);
+    dispatch({
+      type: consts.SET_TOKEN_VERIFICATION,
+      payload: { uuid: response.data.email_verification_uuid },
+    });
     response.error = false;
     return response;
   } catch (error) {
@@ -88,8 +92,8 @@ const verifyToken = (dispatch) => async (token) => {
       },
     });
     dispatch({
-      type: consts.SET_TOKEN_VERIFICATION_ERROR,
-      payload: null,
+      type: consts.SET_TOKEN_VERIFICATION,
+      payload: { error: null },
     });
   } catch (error) {
     dispatch({
@@ -99,10 +103,18 @@ const verifyToken = (dispatch) => async (token) => {
       },
     });
     dispatch({
-      type: consts.SET_TOKEN_VERIFICATION_ERROR,
-      payload: error.response.data,
+      type: consts.SET_TOKEN_VERIFICATION,
+      payload: { error: error.response.data },
     });
   }
+};
+
+const resendEmailVerification = (dispatch) => async (uuid) => {
+  try {
+    const response = await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
+      uuid,
+    });
+  } catch (error) {}
 };
 
 export const { Provider, Context } = createContext(
@@ -111,6 +123,7 @@ export const { Provider, Context } = createContext(
     createAppointment,
     updateAppointment,
     verifyToken,
+    resendEmailVerification,
   },
   initialState
 );

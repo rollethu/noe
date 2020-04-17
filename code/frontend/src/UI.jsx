@@ -197,6 +197,7 @@ export function Text({
   light,
   strong,
   right,
+  onClick,
 }) {
   const classes = classNames("Text", {
     CenterText: center,
@@ -206,7 +207,11 @@ export function Text({
     Strong: strong,
     RightText: right,
   });
-  return <p className={classes}>{children}</p>;
+  return (
+    <p onClick={onClick} className={classes}>
+      {children}
+    </p>
+  );
 }
 
 export function HighlightText({ children, center, ...props }) {
