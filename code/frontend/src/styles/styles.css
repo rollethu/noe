@@ -20,6 +20,9 @@
 .CenterText {
   text-align: center; }
 
+.RightText {
+  text-align: right; }
+
 .Form {
   display: flex;
   flex-direction: column;

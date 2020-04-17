@@ -61,7 +61,9 @@ export default function Checkout() {
       </DataRow>
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
-        <Text strong>{formatAppointmentDate()}</Text>
+        <Text strong right>
+          {formatAppointmentDate()}
+        </Text>
       </DataRow>
       <DataRow>
         <Text light>Mintavétel helyszíne</Text>

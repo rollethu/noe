@@ -179,13 +179,22 @@ export function HelpBlock({ children, error }) {
   return <p>{children}</p>;
 }
 
-export function Text({ children, center, highlight, toCenter, light, strong }) {
+export function Text({
+  children,
+  center,
+  highlight,
+  toCenter,
+  light,
+  strong,
+  right,
+}) {
   const classes = classNames("Text", {
     CenterText: center,
     HighlightText: highlight,
     ToCenter: toCenter,
     Light: light,
     Strong: strong,
+    RightText: right,
   });
   return <p className={classes}>{children}</p>;
 }
