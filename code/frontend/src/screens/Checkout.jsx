@@ -1,6 +1,6 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-
+import moment from 'moment';
 import { Context as SeatContext } from '../contexts/seatContext';
 import { Context as AppointmentContext } from '../contexts/appointmentContext';
 import {
@@ -13,7 +13,6 @@ import {
   IconButton,
 } from '../UI';
 import { ROUTE_PAYMENT_METHODS, ROUTE_SEAT_DETAILS } from '../App';
-import moment from 'moment';
 
 export default function Checkout() {
   const history = useHistory();
