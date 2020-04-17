@@ -165,6 +165,8 @@ class Seat(models.Model):
     paid_at = models.DateTimeField(
         blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
     )
+    email = models.EmailField(help_text=_("Notification email for the test results."))
+    phone_number = models.CharField(max_length=30, blank=True)
 
     def __str__(self):
         return f"{self.full_name} - {self.appointment}"
