@@ -121,11 +121,17 @@ export function Button({
   toCenter,
   inverse,
   disabled,
+  iconOnly,
+  noBorder,
+  inline,
 }) {
   const classes = classNames("Button", {
     ToCenter: toCenter,
     Inverse: inverse,
     Disabled: disabled,
+    IconOnly: iconOnly,
+    NoBorder: noBorder,
+    Inline: inline,
   });
   return (
     <button
@@ -189,4 +195,16 @@ export function DataRow({ children }) {
 
 export function HR() {
   return <hr className="HR" />;
+}
+
+export function IconButton({ icon, onClick }) {
+  return (
+    <Button iconOnly inverse noBorder inline onClick={onClick}>
+      <Icon icon={icon} />
+    </Button>
+  );
+}
+
+export function Icon({ icon }) {
+  return <i className={`fa fa-${icon}`} />;
 }
