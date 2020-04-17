@@ -7,6 +7,7 @@ import { Context as LocationContext } from "../contexts/locationContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { ROUTE_SEAT_DETAILS } from "../App";
 import { View, Caption, Form, Field, Button, Text, Image } from "../UI";
+import * as utils from "../utils";
 
 const TXT_LOCATION = "Helyszín";
 const TXT_LICENCE_PLATE = "Rendszám";
@@ -14,7 +15,7 @@ const TXT_SUBMIT_BUTTON = "Tovább";
 
 export default function Registration() {
   const [redirectTo, setRedirectTo] = React.useState(null);
-  const { register, handleSubmit, setError, errors } = useForm();
+  const { register, handleSubmit, setError, errors, setValue } = useForm();
   const {
     state: { appointment },
     updateAppointment,
@@ -25,6 +26,9 @@ export default function Registration() {
   } = React.useContext(LocationContext);
 
   const onSubmit = async (values) => {
+    values.normalized_licence_plate = utils.normalizeLicencePlate(
+      values.licence_plate
+    );
     let appointmentUrl = appointment.url;
     if (process.env.NODE_ENV === "development") {
       appointmentUrl =
@@ -69,17 +73,9 @@ export default function Registration() {
     value: location.url,
   }));
 
-  const licencePlateValidation = (value) => {
-    const targetElement = value.target;
-    if (targetElement.value.match("[A-Za-z0-9]+$")) {
-      targetElement.value = targetElement.value.toUpperCase();
-    } else {
-      targetElement.value = targetElement.value.slice(
-        0,
-        targetElement.value.length - 1
-      );
-    }
-  };
+  function onLicencePlateChange(event) {
+    setValue("licence_plate", event.target.value.toUpperCase());
+  }
 
   return (
     <View>
@@ -104,7 +100,7 @@ export default function Registration() {
           label={TXT_LICENCE_PLATE}
           type="text"
           errors={errors}
-          changeEvent={licencePlateValidation}
+          onChange={onLicencePlateChange}
         />
         <Button type="submit">{TXT_SUBMIT_BUTTON}</Button>
       </Form>

@@ -38,7 +38,7 @@ export function Field({
   hidden,
   helpText,
   required,
-  changeEvent,
+  onChange,
 }) {
   const errors = allErrors[name];
   let errorMessage;
@@ -77,7 +77,7 @@ export function Field({
             options={options}
             id={name}
             required={required}
-            changeEvent={changeEvent}
+            onChange={onChange}
           />
         </>
       )}
@@ -95,7 +95,7 @@ export function Input({
   register,
   options,
   required,
-  changeEvent,
+  onChange,
 }) {
   if (type === "checkbox") {
     return (
@@ -130,7 +130,7 @@ export function Input({
       name={name}
       ref={register({ required })}
       type={type || "text"}
-      onChange={changeEvent}
+      onChange={onChange}
     />
   );
 }

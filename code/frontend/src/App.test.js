@@ -1,9 +1,10 @@
-import React from 'react';
-import { render } from '@testing-library/react';
-import App from './App';
+import { normalizeLicencePlate } from "./utils";
 
-test('renders learn react link', () => {
-  const { getByText } = render(<App />);
-  const linkElement = getByText(/learn react/i);
-  expect(linkElement).toBeInTheDocument();
+test("licence plate normalization", () => {
+  expect(normalizeLicencePlate("a")).toBe("A");
+  expect(normalizeLicencePlate("a ")).toBe("A");
+  expect(normalizeLicencePlate("a b")).toBe("AB");
+  expect(normalizeLicencePlate("a b1")).toBe("AB1");
+  expect(normalizeLicencePlate("a b1$2")).toBe("AB12");
+  expect(normalizeLicencePlate("a b1$--2")).toBe("AB12");
 });
