@@ -15,11 +15,11 @@ const toggleOptions = [
 
 function getFieldTypeFromSurveyAnswerType(question) {
   switch (question.answer_datatype) {
-    case "boolean":
+    case "BOOLEAN":
       return "survey-toggle";
-    case "integer":
+    case "INTEGER":
       return "number";
-    // including `string`
+    // including `STRING`
     default:
       return "text";
   }
