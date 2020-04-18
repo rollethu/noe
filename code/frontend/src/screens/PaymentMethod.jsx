@@ -23,6 +23,7 @@ export default function PaymentMethod() {
     }
     if (!appointmentUrl) {
       alert("No appointment to update");
+      return;
     }
 
     const values = { is_registration_completed: true };
