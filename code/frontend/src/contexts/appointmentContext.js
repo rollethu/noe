@@ -32,6 +32,14 @@ const appointmentReducer = (state, action) => {
           ...action.payload,
         },
       };
+    case consts.SET_APPOINTMENT_PRICE:
+      return {
+        ...state,
+        appointment: {
+          ...state.appointment,
+          ...action.payload,
+        },
+      };
     default:
       return state;
   }
@@ -117,6 +125,20 @@ const resendEmailVerification = (dispatch) => async (uuid) => {
   } catch (error) {}
 };
 
+const fetchPrice = (dispatch) => async (values) => {
+  try {
+    const response = await axios.post(consts.GET_PRICE_URL, values);
+    dispatch({
+      type: consts.SET_APPOINTMENT_PRICE,
+      payload: {
+        total_price: response.data.total_price,
+        currency:
+          response.data.currency === "HUF" ? "Ft" : response.data.currency,
+      },
+    });
+  } catch (error) {}
+};
+
 export const { Provider, Context } = createContext(
   appointmentReducer,
   {
@@ -124,6 +146,7 @@ export const { Provider, Context } = createContext(
     updateAppointment,
     verifyToken,
     resendEmailVerification,
+    fetchPrice,
   },
   initialState
 );

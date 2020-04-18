@@ -11,9 +11,17 @@ export default function PaymentMethod() {
   const {
     state: { appointment },
     updateAppointment,
+    fetchPrice,
   } = React.useContext(AppointmentContext);
 
-  const total = "__WRONG__ FT";
+  React.useEffect(() => {
+    fetchPrice({
+      appointment: appointment.url,
+      payment_method_type: "ON_SITE",
+    });
+  }, [appointment?.total_price]);
+
+  const total = `${appointment.total_price} ${appointment.currency}`;
 
   async function onNextClick() {
     let appointmentUrl = appointment.url;
