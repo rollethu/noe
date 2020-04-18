@@ -7,8 +7,6 @@ import { View, Caption, LinkButton } from "../UI";
 import EmailVerificationSuccess from "./EmailVerificationSuccess";
 import EmailVerificationFailure from "./EmailVerificationFailure";
 
-const TXT_BUTTON = "Tovább";
-
 export default function VerifyEmail(props) {
   const {
     state: { appointment, emailVerification },
