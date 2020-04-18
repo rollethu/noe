@@ -9,7 +9,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         fields = "__all__"
 
 
-class TransactionSerializer(serializers.HyperlinkedModelSerializer):
+class SimplePayTransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
-        model = m.Transaction
+        model = m.SimplePayTransaction
         fields = "__all__"

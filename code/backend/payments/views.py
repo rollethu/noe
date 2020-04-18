@@ -9,6 +9,6 @@ class PaymentViewSet(viewsets.ModelViewSet):
     serializer_class = s.PaymentSerializer
 
 
-class TransactionViewSet(viewsets.ModelViewSet):
-    queryset = m.Transaction.objects.all()
-    serializer_class = s.TransactionSerializer
+class SimplePayTransactionViewSet(viewsets.ModelViewSet):
+    queryset = m.SimplePayTransaction.objects.all()
+    serializer_class = s.SimplePayTransactionSerializer

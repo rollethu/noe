@@ -22,7 +22,7 @@ class Payment(models.Model):
         ordering = ("created_at",)
 
 
-class Transaction(models.Model):
+class SimplePayTransaction(models.Model):
     STATUS_CREATED = "CREATED"
     STATUS_WAITING_FOR_AUTHORIZATION = "WAITING_FOR_AUTHORIZATION"
     STATUS_AUTHORIZED = "AUTHORIZED"
@@ -54,3 +54,5 @@ class Transaction(models.Model):
 
     class Meta:
         ordering = ("created_at",)
+        verbose_name = "SimplePay transaction"
+        verbose_name_plural = "SimplePay transactions"
