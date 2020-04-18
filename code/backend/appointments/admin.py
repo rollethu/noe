@@ -61,9 +61,13 @@ class SeatAdmin(admin.ModelAdmin):
     ]
 
 
+class TimeSlotAdmin(admin.ModelAdmin):
+    readonly_fields = ["usage"]
+
+
 admin.site.register(m.Location, LocationAdmin)
 admin.site.register(m.Appointment, AppointmentAdmin)
 admin.site.register(m.PhoneVerification, PhoneVerificationAdmin)
 admin.site.register(m.EmailVerification, EmailVerificationAdmin)
 admin.site.register(m.Seat, SeatAdmin)
-admin.site.register(m.TimeSlot)
+admin.site.register(m.TimeSlot, TimeSlotAdmin)
