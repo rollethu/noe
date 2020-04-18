@@ -9,6 +9,12 @@ class PaymentMethodType:
     ON_SITE = "ON_SITE"
 
 
+PAYMENT_METHOD_TYPE_CHOICES = (
+    (PaymentMethodType.SIMPLEPAY, _("SimplePay")),
+    (PaymentMethodType.ON_SITE, _("On-site")),
+)
+
+
 @dataclass
 class Price:
     name: str
