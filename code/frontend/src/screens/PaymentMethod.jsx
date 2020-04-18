@@ -1,5 +1,5 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 
 import ProgressBarSVG from "../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
@@ -7,7 +7,7 @@ import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, Text, Button, HighlightText, Image } from "../UI";
 
 export default function PaymentMethod() {
-  const [redirectTo, setRedirectTo] = React.useState(null);
+  const history = useHistory();
   const {
     state: { appointment },
     updateAppointment,
@@ -33,12 +33,8 @@ export default function PaymentMethod() {
         alert("Váratlan hiba történt.");
       }
     } else {
-      setRedirectTo(ROUTE_APPOINTMENT_SUCCESS);
+      history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
-  }
-
-  if (redirectTo) {
-    return <Redirect to={redirectTo} />;
   }
 
   return (
