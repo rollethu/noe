@@ -1,6 +1,7 @@
 import enum
 from dataclasses import dataclass
 from django.utils.translation import gettext as _
+from . import models as m
 
 
 class PaymentMethodType:
@@ -23,18 +24,24 @@ TEST_ONLINE = Price(_("Online fizetés"), 10_000, "HUF", PaymentMethodType.SIMPL
 TEST_ON_SITE = Price(_("Fizetés a helyszínen bankkártyával"), 12_000, "HUF", PaymentMethodType.ON_SITE)
 
 
-def calculate_price(seats, payment_method_type: PaymentMethodType):
-    prices = []
+def calc_payments(seats, payment_method_type: PaymentMethodType):
+    payments = []
 
     for seat in seats:
-        if seat.has_doctor_referral:
-            prices.append(DOCTOR_REFERRAL)
-        elif payment_method_type == PaymentMethodType.ON_SITE:
-            prices.append(TEST_ON_SITE)
-        elif payment_method_type == PaymentMethodType.SIMPLEPAY:
-            prices.append(TEST_ONLINE)
+        p = m.Payment(seat=seat, payment_method_type=payment_method_type)
 
-    return {
-        "total_price": sum(p.amount for p in prices),
+        if seat.has_doctor_referral:
+            p.amount = DOCTOR_REFERRAL.amount
+        elif payment_method_type == PaymentMethodType.ON_SITE:
+            p.amount = TEST_ON_SITE.amount
+        elif payment_method_type == PaymentMethodType.SIMPLEPAY:
+            p.amount = TEST_ONLINE.amount
+
+        payments.append(p)
+
+    summary = {
+        "total_price": sum(p.amount for p in payments),
         "currency": "HUF",
     }
+
+    return payments, summary

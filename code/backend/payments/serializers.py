@@ -36,4 +36,7 @@ class GetPriceSerializer(serializers.HyperlinkedModelSerializer):
 
 
 class PaySerializer(serializers.HyperlinkedModelSerializer):
-    pass
+    appointment = serializers.URLField()
+    payment_method_type = serializers.CharField()
+    total_price = serializers.FloatField()
+    currency = serializers.CharField()
