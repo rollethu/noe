@@ -150,3 +150,6 @@ LOGGING = {
         "level": os.environ.get("LOG_LEVEL", "INFO"),
     },
 }
+
+
+DEFAULT_TIME_SLOT_CAPACITY = int(os.environ.get("DEFAULT_TIME_SLOT_CAPACITY", 1))

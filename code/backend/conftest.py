@@ -17,6 +17,11 @@ def api_client():
 
 
 @pytest.fixture
+def location_no_db():
+    return appointments.models.Location()
+
+
+@pytest.fixture
 def appointment():
     return appointments.models.Appointment.objects.create()
 

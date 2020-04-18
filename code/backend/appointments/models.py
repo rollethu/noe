@@ -182,6 +182,34 @@ class Seat(models.Model):
         ordering = ("created_at",)
 
 
+class TimeSlotManager(models.Manager):
+    def create_time_slots(
+        self, locations, start, end, duration, is_active=True, capacity=settings.DEFAULT_TIME_SLOT_CAPACITY,
+    ):
+        time_slots = self._make_time_slots(locations, start, end, duration, is_active, capacity)
+        TimeSlot.objects.bulk_create(time_slots)
+
+    @staticmethod
+    def _make_time_slots(locations, start, end, duration, is_active, capacity):
+        """
+        Creates multiple TimeSlots.
+
+        A new TimeSlot still can be created if its end would go past the `end` parameter.
+        """
+
+        time_slots = []
+        for location in locations:
+            current_time = start
+            while current_time < end:
+                next_time = current_time + duration
+                time_slot = TimeSlot(
+                    location=location, start=current_time, end=next_time, is_active=is_active, capacity=capacity
+                )
+                time_slots.append(time_slot)
+                current_time = next_time
+        return time_slots
+
+
 class TimeSlot(models.Model):
     """
     TimeSlots represent a Location specific time, that can be booked for
@@ -201,8 +229,14 @@ class TimeSlot(models.Model):
     start = models.DateTimeField()
     end = models.DateTimeField()
     capacity = models.IntegerField(default=0, help_text=_("Determines how many Seats can book for this period."))
-    usage = models.IntegerField(default=0, help_text=_("Number of Seats who booked for this period"))
-    is_active = models.BooleanField(default=True, help_text=_("Time Slot is only availabe to be booked for if active"))
+    usage = models.IntegerField(
+        default=0, help_text=_("Number of Seats who booked for this period. This should't be edited by humans :)"),
+    )
+    is_active = models.BooleanField(
+        default=True, help_text=_("Time Slot is only availabe to be booked for if active."),
+    )
+
+    objects = TimeSlotManager()
 
     class Meta:
         ordering = ("created_at",)
