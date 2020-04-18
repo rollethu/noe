@@ -44,6 +44,7 @@ api_urls = [
     path("", include(api_router.urls)),
     path("verify/email/", appointments.views.VerifyEmailView.as_view()),
     path("verify/resend-email/", appointments.views.ResendVerifyEmailView.as_view()),
+    path("get-price/", payments.views.GetPriceView.as_view()),
 ]
 
 

@@ -1,5 +1,7 @@
+from urllib.parse import urlparse
+from django.urls import resolve
 from rest_framework import serializers
-
+from appointments.models import Appointment
 from . import models as m
 
 
@@ -13,3 +15,25 @@ class SimplePayTransactionSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.SimplePayTransaction
         fields = "__all__"
+
+
+class GetPriceSerializer(serializers.HyperlinkedModelSerializer):
+    appointment = serializers.URLField(write_only=True)
+    payment_method_type = serializers.CharField(write_only=True)
+
+    total_price = serializers.FloatField(read_only=True)
+    currency = serializers.CharField(read_only=True)
+
+    class Meta:
+        model = Appointment
+        fields = ["appointment", "payment_method_type", "total_price", "currency"]
+
+    def create(self, validated_data):
+        parsed_url = urlparse(self.validated_data["appointment"])
+        match = resolve(parsed_url.path)
+        appointment_uuid = match.kwargs["pk"]
+        return Appointment.objects.get(pk=appointment_uuid)
+
+
+class PaySerializer(serializers.HyperlinkedModelSerializer):
+    pass
