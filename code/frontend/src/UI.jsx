@@ -223,7 +223,6 @@ export function Text({
 }
 
 export function HighlightText({ children, center, ...props }) {
-  const classes = classNames("Text", { CenterText: center });
   return (
     <Text highlight {...props}>
       {children}
@@ -234,7 +233,7 @@ export function HighlightText({ children, center, ...props }) {
 export function Image({ src }) {
   return (
     <div className="ImageContainer">
-      <img src={src} />
+      <img src={src} alt="alt" />
     </div>
   );
 }

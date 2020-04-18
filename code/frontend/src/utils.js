@@ -5,9 +5,9 @@ export function normalizeLicencePlate(licencePlate) {
 export function handleResponse({ response, setError, history, redirectRoute }) {
   if (response.error) {
     if (response.errors) {
-      Object.keys(response.errors).map((fieldName) => {
-        setError(fieldName, "", response.errors[fieldName]);
-      });
+      Object.keys(response.errors).map((fieldName) =>
+        setError(fieldName, "", response.errors[fieldName])
+      );
     } else {
       alert("Váratlan hiba történt.");
     }

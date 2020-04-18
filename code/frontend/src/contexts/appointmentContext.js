@@ -111,7 +111,7 @@ const verifyToken = (dispatch) => async (token) => {
 
 const resendEmailVerification = (dispatch) => async (uuid) => {
   try {
-    const response = await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
+    await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
       uuid,
     });
   } catch (error) {}

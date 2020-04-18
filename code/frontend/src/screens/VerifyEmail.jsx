@@ -1,9 +1,8 @@
 import React from "react";
-import { useLocation, Redirect } from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
-import { ROUTE_REGISTRATION } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, LinkButton } from "../UI";
+import { View, Caption } from "../UI";
 import EmailVerificationSuccess from "./EmailVerificationSuccess";
 import EmailVerificationFailure from "./EmailVerificationFailure";
 

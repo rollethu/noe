@@ -67,7 +67,6 @@ export default function SurveyForm() {
               <Label>{question.question}</Label>
               <Toggle
                 register={register}
-                defaultValue="no"
                 options={toggleOptions}
                 name={question.url}
                 defaultValue="false"
