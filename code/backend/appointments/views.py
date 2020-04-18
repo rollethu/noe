@@ -1,6 +1,7 @@
+import os
 import logging
+from django.conf import settings
 from django.core.mail import send_mail
-from django.shortcuts import render, reverse
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
@@ -13,6 +14,9 @@ from . import serializers as s
 
 logger = logging.getLogger(__name__)
 
+# It is important to not start with a slash, because we use os.path on it!
+EMAIL_CONFIRMATION_PATH = "email-megerosites/"
+
 
 class LocationViewSet(viewsets.ModelViewSet):
     queryset = m.Location.objects.all()
@@ -21,8 +25,7 @@ class LocationViewSet(viewsets.ModelViewSet):
 
 def _send_verification_email(request, email_verification, email):
     token = email_verification.make_token()
-    full_url = request.build_absolute_uri(reverse("verify-email"))
-    verify_url = f"{full_url}?token={token}"
+    verify_url = os.path.join(settings.FRONTEND_URL, f"{EMAIL_CONFIRMATION_PATH}?token={token}")
     logger.info("Sending verification email for %s", email)
     send_mail(
         "Email cím megerősítése áthajtásos koronavírus teszthez",

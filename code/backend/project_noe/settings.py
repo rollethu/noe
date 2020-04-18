@@ -137,6 +137,8 @@ if ALLOWED_CORS_HOSTS:
     MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
     CORS_ORIGIN_WHITELIST = [h.strip() for h in ALLOWED_CORS_HOSTS.split(",")]
 
+FRONTEND_URL = os.environ.get("FRONTEND_URL", "https://regisztracio.tesztallomas.hu")
+
 LOGGING = {
     # fmt: off
     "version": 1,
