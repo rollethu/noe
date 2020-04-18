@@ -180,3 +180,29 @@ class Seat(models.Model):
 
     class Meta:
         ordering = ("created_at",)
+
+
+class TimeSlot(models.Model):
+    """
+    TimeSlots represent a Location specific time, that can be booked for
+    Slots.
+
+    The number of Seats can fit in a Slot is determined by the `capacity`
+    attribute.
+    Ideally, new Seats can only be added to a TimeSlot if its `usage` is less
+    than its capacity.
+
+    TimeSlots are created ahead of time by a member of staff of Project Noe.
+    """
+
+    uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    created_at = models.DateTimeField(auto_now_add=True)
+    location = models.ForeignKey("Location", on_delete=models.CASCADE)
+    start = models.DateTimeField()
+    end = models.DateTimeField()
+    capacity = models.IntegerField(default=0, help_text=_("Determines how many Seats can book for this period."))
+    usage = models.IntegerField(default=0, help_text=_("Number of Seats who booked for this period"))
+    is_active = models.BooleanField(default=True, help_text=_("Time Slot is only availabe to be booked for if active"))
+
+    class Meta:
+        ordering = ("created_at",)
