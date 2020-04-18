@@ -41,6 +41,8 @@ class VerifyEmailSerializer(serializers.Serializer):
         try:
             ev, signed_uuid = m.EmailVerification.objects.get_by_token(validated_data["token"])
             ev.verify(signed_uuid)
+        except ValueError as e:
+            raise ValidationError({"token": str(e)})
         except Exception:
             raise ValidationError({"token": "Invalid token"})
 

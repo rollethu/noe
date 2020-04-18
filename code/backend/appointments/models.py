@@ -138,6 +138,8 @@ class EmailVerification(models.Model):
         return encrypter.encrypt(signed_uuid.encode()).decode()
 
     def verify(self, signed_uuid: str):
+        if self.is_verified:
+            raise ValueError("The email has been verified already.")
         valid_uuid = uuid.UUID(self._signer.unsign(signed_uuid))
         success = valid_uuid == self.uuid
         if success:
