@@ -19,8 +19,8 @@ import VerifyEmail from "./screens/VerifyEmail";
 import PaymentMethod from "./screens/PaymentMethod";
 import Registration from "./screens/Registration/Registration";
 import SeatDetails from "./screens/SeatDetails/SeatDetails";
-import Time from "./screens/Time";
 import Survey from "./screens/Survey/Survey";
+import Time from "./screens/Time/Time";
 import Checkout from "./screens/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
 
