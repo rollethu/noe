@@ -22,6 +22,15 @@ class Payment(models.Model):
     paid_at = models.DateTimeField(
         blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
     )
+    proof_number = models.CharField(
+        blank=True,
+        max_length=255,
+        help_text=_(
+            "Printed receipt/bill number, healthcare number (TAJ kártya szám) "
+            "or anything which proves this payment has been made."
+        ),
+    )
+    note = models.TextField(blank=True, help_text=_("Anything important to note about this payment."))
 
     class Meta:
         ordering = ("created_at",)
