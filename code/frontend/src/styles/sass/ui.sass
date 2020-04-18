@@ -125,3 +125,28 @@
 
     .Label:not(:first-child)
         margin-left: $large-space-size
+
+.Toggle
+    border-radius: $space-size
+    border: 1px solid $dark-gray
+    display: flex
+    background: $light-gray
+    width: 100%
+
+    .Label
+        border-radius: $space-size - 2px
+        flex: 1
+        display: flex
+        justify-content: center
+        align-items: center
+        margin-bottom: 0
+        padding: $space-size
+        font-weight: 800
+        color: $gray
+
+        &.Active
+            background: $dark-blue
+            color: white
+
+        input[type="radio"]
+            display: none

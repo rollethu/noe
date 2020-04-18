@@ -115,6 +115,28 @@
   .SurveyToggle .Label:not(:first-child) {
     margin-left: 20px; }
 
+.Toggle {
+  border-radius: 10px;
+  border: 1px solid #787D90;
+  display: flex;
+  background: #EBECEE;
+  width: 100%; }
+  .Toggle .Label {
+    border-radius: 8px;
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 0;
+    padding: 10px;
+    font-weight: 800;
+    color: #434551; }
+    .Toggle .Label.Active {
+      background: #07185F;
+      color: white; }
+    .Toggle .Label input[type="radio"] {
+      display: none; }
+
 .Nav {
   position: absolute;
   top: 0;

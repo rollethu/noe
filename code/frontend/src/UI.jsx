@@ -40,6 +40,7 @@ export function Field({
   required,
   onChange,
   placeholder,
+  defaultValue,
 }) {
   const errors = allErrors[name];
   let errorMessage;
@@ -50,6 +51,7 @@ export function Field({
       errorMessage = errors.message;
     }
   }
+
   return (
     <InputGroup hidden={hidden}>
       {type === "checkbox" ? (
@@ -63,6 +65,7 @@ export function Field({
             options={options}
             id={name}
             required={required}
+            defaultValue={defaultValue}
           />
           {label}
         </Label>
@@ -80,6 +83,7 @@ export function Field({
             required={required}
             onChange={onChange}
             placeholder={placeholder}
+            defaultValue={defaultValue}
           />
         </>
       )}
@@ -100,6 +104,7 @@ export function Input({
   onChange,
   style,
   placeholder,
+  defaultValue,
 }) {
   if (type === "checkbox") {
     return (
@@ -110,6 +115,7 @@ export function Input({
         ref={register({ required })}
         type={type}
         value={value} // Value instead of true
+        defaultValue={defaultValue}
       />
     );
   } else if (type === "select") {
@@ -119,6 +125,7 @@ export function Input({
         name={name}
         ref={register({ required })}
         type={type}
+        defaultValue={defaultValue}
       >
         {options.map((option) => (
           <option key={option.value} value={option.value}>
@@ -126,19 +133,6 @@ export function Input({
           </option>
         ))}
       </select>
-    );
-  } else if (type === "survey-toggle") {
-    return (
-      <div className="SurveyToggle">
-        <Label>
-          <input type="radio" value="yes" name={name} ref={register()} />
-          Igen
-        </Label>
-        <Label>
-          <input type="radio" value="no" name={name} ref={register()} />
-          Nem
-        </Label>
-      </div>
     );
   }
   return (
@@ -150,6 +144,7 @@ export function Input({
       type={type || "text"}
       onChange={onChange}
       placeholder={placeholder}
+      defaultValue={defaultValue}
     />
   );
 }
@@ -278,4 +273,28 @@ export function Icon({ icon }) {
 
 export function Flex({ children }) {
   return <div className="Flex">{children}</div>;
+}
+
+export function Toggle({ options, value, register, name, defaultValue }) {
+  const [state, setState] = React.useState(defaultValue);
+  return (
+    <div className="Toggle">
+      {options.map((option) => {
+        let classes = classNames("Option", { Active: option.value === state });
+        return (
+          <Label className={classes}>
+            <input
+              type="radio"
+              name={name}
+              value={option.value}
+              ref={register()}
+              onChange={(e) => setState(option.value)}
+              defaultChecked={option.value === defaultValue}
+            />
+            {option.text}
+          </Label>
+        );
+      })}
+    </div>
+  );
 }

@@ -4,9 +4,14 @@ import { useHistory } from "react-router-dom";
 
 import { Context as SurveyContext } from "../../contexts/surveyContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
-import { Form, Field, Button } from "../../UI";
+import { Form, Field, Button, Toggle, InputGroup, Label } from "../../UI";
 import { ROUTE_ADD_SEAT } from "../../App";
 import * as utils from "../../utils";
+
+const toggleOptions = [
+  { value: "true", text: "Igen" },
+  { value: "false", text: "Nem" },
+];
 
 function getFieldTypeFromSurveyAnswerType(question) {
   switch (question.answer_datatype) {
@@ -54,16 +59,33 @@ export default function SurveyForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      {surveyQuestions.map((question) => (
-        <Field
-          key={question.url}
-          register={register}
-          label={question.question}
-          errors={errors}
-          name={question.url}
-          type={getFieldTypeFromSurveyAnswerType(question)}
-        />
-      ))}
+      {surveyQuestions.map((question) => {
+        let fieldType = getFieldTypeFromSurveyAnswerType(question);
+        if (fieldType === "survey-toggle") {
+          return (
+            <InputGroup>
+              <Label>{question.question}</Label>
+              <Toggle
+                register={register}
+                defaultValue="no"
+                options={toggleOptions}
+                name={question.url}
+                defaultValue="false"
+              />
+            </InputGroup>
+          );
+        }
+        return (
+          <Field
+            key={question.url}
+            register={register}
+            label={question.question}
+            errors={errors}
+            name={question.url}
+            type={fieldType}
+          />
+        );
+      })}
       <Button type="submit">Tovább</Button>
     </Form>
   );
