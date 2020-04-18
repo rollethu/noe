@@ -2,6 +2,8 @@ import datetime as dt
 
 import pytest
 from django.utils import timezone
+from rest_framework import status
+from rest_framework.reverse import reverse
 
 from appointments import models as m
 
@@ -42,3 +44,40 @@ def test_time_slot_creation_count(location_count, start, end, expected_count, lo
         [location_no_db] * location_count, start, end, dt.timedelta(minutes=30), True, 100
     )
     assert len(time_slots) == expected_count
+
+
+@pytest.mark.django_db
+def test_time_slot_api_filtering(api_client, location, location2):
+    day1 = timezone.now()
+    day2 = day1 + dt.timedelta(days=1)
+    m.TimeSlot.objects.create(location=location, start=day1, end=day1, is_active=True)
+    m.TimeSlot.objects.create(location=location, start=day2, end=day2, is_active=True)
+    m.TimeSlot.objects.create(location=location2, start=day1, end=day1, is_active=True)
+    m.TimeSlot.objects.create(location=location2, start=day1, end=day1, is_active=False)
+
+    rv = api_client.get(reverse("timeslot-list"))
+    assert rv.status_code == status.HTTP_200_OK
+    assert len(rv.data) == 3
+    assert all([slot["is_active"] for slot in rv.data])
+
+    rv = api_client.get(reverse("timeslot-list") + "?location=" + str(location.pk))
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == 2
+
+    rv = api_client.get(reverse("timeslot-list") + "?location=" + str(location2.pk))
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == 1
+
+    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day1.strftime("%Y-%m-%d"))
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == 2
+
+    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day2.strftime("%Y-%m-%d"))
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == 1
+
+    rv = api_client.get(
+        reverse("timeslot-list") + "?start_date=" + day2.strftime("%Y-%m-%d") + "&location=" + str(location2.pk)
+    )
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == 0

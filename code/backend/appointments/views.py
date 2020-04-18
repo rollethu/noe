@@ -7,6 +7,7 @@ from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
 
+from . import filters as f
 from . import models as m
 from . import serializers as s
 
@@ -69,3 +70,9 @@ class ResendVerifyEmailView(generics.CreateAPIView):
         email = ev.appointment.email
         _send_verification_email(self.request, ev, email)
         return Response({"success": True, "email": email})
+
+
+class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
+    queryset = m.TimeSlot.objects.filter(is_active=True)
+    serializer_class = s.TimeSlotSerializer
+    filterset_class = f.TimeSlotFilter

@@ -55,3 +55,9 @@ class ResendEmailVerificationSerializer(serializers.ModelSerializer):
     class Meta:
         model = m.EmailVerification
         fields = ["uuid"]
+
+
+class TimeSlotSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = m.TimeSlot
+        fields = "__all__"

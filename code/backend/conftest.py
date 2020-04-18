@@ -22,6 +22,16 @@ def location_no_db():
 
 
 @pytest.fixture
+def location():
+    return appointments.models.Location.objects.create()
+
+
+@pytest.fixture
+def location2():
+    return appointments.models.Location.objects.create()
+
+
+@pytest.fixture
 def appointment():
     return appointments.models.Appointment.objects.create()
 

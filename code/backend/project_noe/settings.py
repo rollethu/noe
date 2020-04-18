@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "django_filters",
     "appointments",
     "surveys",
     "samples",
@@ -151,5 +152,9 @@ LOGGING = {
     },
 }
 
+
+REST_FRAMEWORK = {
+    "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+}
 
 DEFAULT_TIME_SLOT_CAPACITY = int(os.environ.get("DEFAULT_TIME_SLOT_CAPACITY", 1))
