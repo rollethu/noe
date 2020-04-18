@@ -58,7 +58,6 @@ class SeatAdmin(admin.ModelAdmin):
         "birth_date",
         "full_address",
         "has_doctor_referral",
-        "paid_at",
     ]
 
 

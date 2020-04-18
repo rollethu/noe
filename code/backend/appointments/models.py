@@ -166,9 +166,6 @@ class Seat(models.Model):
         max_length=200, blank=True, help_text=_("Apartment, building, floor, suite, door, etc..."),
     )
     has_doctor_referral = models.BooleanField(default=False)
-    paid_at = models.DateTimeField(
-        blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
-    )
     email = models.EmailField(help_text=_("Notification email for the test results."))
     phone_number = models.CharField(max_length=30, blank=True)
 

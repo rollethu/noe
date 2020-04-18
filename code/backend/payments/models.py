@@ -16,11 +16,13 @@ class Payment(models.Model):
     simplepay_transaction = models.ForeignKey(
         "SimplePayTransaction", on_delete=models.SET_NULL, blank=True, null=True, related_name="payments"
     )
-
     payment_method_type = models.CharField(max_length=255, choices=PAYMENT_METHOD_TYPE_CHOICES)
     amount = models.FloatField()
     currency = models.CharField(max_length=3, default="HUF")
     created_at = models.DateTimeField(auto_now_add=True)
+    paid_at = models.DateTimeField(
+        blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
+    )
 
     class Meta:
         ordering = ("created_at",)
