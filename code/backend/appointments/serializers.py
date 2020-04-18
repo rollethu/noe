@@ -25,6 +25,25 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             "licence_plate": {"allow_blank": False},
         }
 
+    def update(self, instance, validated_data):
+        self._bump_time_slot_usage(instance, validated_data)
+        appointment = super().update(instance, validated_data)
+
+        return appointment
+
+    def _bump_time_slot_usage(self, appointment, validated_data):
+        time_slot = validated_data.get("time_slot")
+        if not time_slot:
+            return
+
+        seat_count = appointment.seats.count()
+        # TODO: Uncomment if we want to forbid overbooking
+        # if time_slot.capacity - time_slot.usage < seat_count:
+        #     raise ValidationError({"time_slot": "Idősáv már tele. Válasszon másik idősávot."})
+
+        time_slot.usage += seat_count
+        time_slot.save()
+
 
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
