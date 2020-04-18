@@ -2,14 +2,13 @@ import uuid
 
 from django.db import models
 from django.utils.translation import gettext_lazy as _
+from .prices import PaymentMethodType
 
 
 class Payment(models.Model):
-    PAYMENT_METHOD_TYPE_SIMPLEPAY = "SIMPLEPAY"
-    PAYMENT_METHOD_TYPE_ON_SITE = "ON_SITE"
     PAYMENT_METHOD_TYPE_CHOICES = (
-        (PAYMENT_METHOD_TYPE_SIMPLEPAY, _("SimplePay")),
-        (PAYMENT_METHOD_TYPE_ON_SITE, _("On-site")),
+        (PaymentMethodType.SIMPLEPAY, _("SimplePay")),
+        (PaymentMethodType.ON_SITE, _("On-site")),
     )
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     seat = models.ForeignKey("appointments.Seat", on_delete=models.SET_NULL, null=True)
