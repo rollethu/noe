@@ -57,8 +57,13 @@ class PayAppointmentView(_PaymentMixin, generics.GenericAPIView):
         if appointment.seats.count() == 0:
             raise ValidationError({"appointment": "This appointment has no persons yet!"})
 
-        # TODO: validate payment amount
         payments, summary = calc_payments(appointment.seats.all(), validated_data["payment_method_type"])
+
+        # This is just a sanity check, so we don't calculate a wrong amount.
+        # What we show on the frontend, should always match on the backend.
+        if summary["total_price"] != validated_data["total_price"]:
+            raise ValidationError({"total_price": "Invalid amount!"})
+
         m.Payment.objects.bulk_create(payments)
         appointment.is_registration_completed = True
         appointment.save()

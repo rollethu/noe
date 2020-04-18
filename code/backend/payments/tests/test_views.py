@@ -133,3 +133,12 @@ class TestPayAppointmentView:
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "appointment" in res.data
+
+    def test_different_total_price_sent_than_calculated(self, appointment_url, seat, factory):
+        request = factory.post(
+            "/api/pay-appointment/",
+            {"appointment": appointment_url, "payment_method_type": PaymentMethodType.ON_SITE, "total_price": 0},
+        )
+        res = pay_appointment_view(request)
+        assert res.status_code == status.HTTP_400_BAD_REQUEST
+        assert "total_price" in res.data
