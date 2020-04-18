@@ -68,6 +68,7 @@ class Appointment(models.Model):
     is_registration_completed = models.BooleanField(
         default=False, help_text='Set before the user is redirected to the "Successful registration" page'
     )
+    time_slot = models.ForeignKey("TimeSlot", blank=True, null=True, on_delete=models.SET_NULL)
 
     objects = AppointmentManager()
 
