@@ -15,3 +15,15 @@ export function handleResponse({ response, setError, history, redirectRoute }) {
     history.push(redirectRoute);
   }
 }
+
+export function getQueryParamsFromObject(params) {
+  if (!params) {
+    return "";
+  }
+
+  const queryString = Object.keys(params)
+    .map((key) => key + "=" + params[key])
+    .join("&");
+
+  return queryString === "" ? "" : `?${queryString}`;
+}

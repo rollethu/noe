@@ -11,6 +11,7 @@ import { Provider as AppointmentProvider } from "./contexts/appointmentContext";
 import { Provider as LocationProvider } from "./contexts/locationContext";
 import { Provider as SeatProvider } from "./contexts/seatContext";
 import { Provider as SurveyProvider } from "./contexts/surveyContext";
+import { Provider as TimeSlotProvider } from "./contexts/timeSlotContext";
 import Nav from "./components/Nav";
 import Start from "./screens/Start/Start";
 import AddSeat from "./screens/AddSeat";
@@ -79,7 +80,9 @@ function WrappedApp(props) {
       <LocationProvider>
         <SeatProvider>
           <SurveyProvider>
-            <App />
+            <TimeSlotProvider>
+              <App />
+            </TimeSlotProvider>
           </SurveyProvider>
         </SeatProvider>
       </LocationProvider>
