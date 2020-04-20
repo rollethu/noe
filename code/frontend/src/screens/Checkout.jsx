@@ -4,6 +4,7 @@ import moment from "moment";
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { Context as TimeSlotContext } from "../contexts/timeSlotContext";
+import { Context as SurveyContext } from "../contexts/surveyContext";
 import {
   View,
   Caption,
@@ -29,6 +30,7 @@ export default function Checkout() {
     state: { selectedTimeSlot },
     fetchSelectedTimeSlot,
   } = React.useContext(TimeSlotContext);
+  const { setActiveSurvey } = React.useContext(SurveyContext);
 
   React.useEffect(() => {
     if (!appointment) {
@@ -39,6 +41,7 @@ export default function Checkout() {
 
   function onSeatEditClick(seat) {
     setActiveSeat(seat);
+    setActiveSurvey(seat);
     history.push(ROUTE_SEAT_DETAILS);
   }
 

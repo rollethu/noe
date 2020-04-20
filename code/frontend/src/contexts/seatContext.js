@@ -69,8 +69,6 @@ const updateSeat = (dispatch) => async (seatUrl, values) => {
   try {
     const response = await axios.patch(seatUrl, values);
     dispatch({ type: consts.UPDATE_SEAT, payload: response.data });
-    dispatch({ type: consts.SET_ACTIVE_SEAT, payload: null });
-
     response.error = false;
     return response;
   } catch (error) {
