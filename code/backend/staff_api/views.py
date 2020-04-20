@@ -5,6 +5,7 @@ from rest_framework import routers, viewsets
 from appointments.models import Appointment, Seat
 from payments.models import Payment
 from . import serializers as s
+from . import filters as f
 
 
 class StaffAPIRoot(routers.APIRootView):
@@ -16,6 +17,7 @@ class StaffAPIRoot(routers.APIRootView):
 class AppointmentViewSet(viewsets.ModelViewSet):
     queryset = Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
+    filterset_class = f.AppointmentFilter
 
 
 class SeatViewSet(viewsets.ModelViewSet):
