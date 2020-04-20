@@ -301,3 +301,7 @@ export function Toggle({ options, value, register, name, defaultValue }) {
     </div>
   );
 }
+
+export function TopStripe({ children }) {
+  return <div className="TopStripe">{children}</div>;
+}

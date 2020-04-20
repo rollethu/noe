@@ -155,6 +155,13 @@
     .Toggle .Label input[type="radio"] {
       display: none; }
 
+.TopStripe {
+  text-align: center;
+  padding: 10px;
+  color: white;
+  background: #EF5619;
+  font-weight: bold; }
+
 .Nav {
   position: absolute;
   top: 0;

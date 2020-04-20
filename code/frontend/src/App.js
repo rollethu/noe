@@ -24,6 +24,7 @@ import Survey from "./screens/Survey/Survey";
 import Time from "./screens/Time/Time";
 import Checkout from "./screens/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
+import { TopStripe } from "./UI";
 
 export const ROUTE_START = "/start";
 export const ROUTE_EMAIL_VERIFICATION = "/megerosito-email";
@@ -59,6 +60,10 @@ function App() {
 
   return (
     <div className="App">
+      {process.env.NODE_ENV === "development" && <TopStripe>LOCAL</TopStripe>}
+      {process.env.REACT_APP_ENV === "staging" && (
+        <TopStripe>SANDBOX</TopStripe>
+      )}
       <Router>
         <Nav routes={routes} />
         <Switch>
