@@ -28,7 +28,8 @@ export default function TimeForm() {
   const selectedDate = watch("date") || null;
 
   React.useEffect(() => {
-    const filters = {};
+    const locationUuid = utils.getResourceUuidFromUrl(appointment.location);
+    const filters = { location: locationUuid };
     if (selectedDate) {
       filters.start_date = selectedDate;
     } else {

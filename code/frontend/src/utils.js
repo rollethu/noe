@@ -27,3 +27,15 @@ export function getQueryParamsFromObject(params) {
 
   return queryString === "" ? "" : `?${queryString}`;
 }
+
+export function getResourceUuidFromUrl(url) {
+  if (!url) {
+    return null;
+  }
+  const parts = url.split("/");
+  const uuid =
+    parts[parts.length - 1] === ""
+      ? parts[parts.length - 2] // due to trailing slash, last `part` is ""
+      : parts[parts.length - 1];
+  return uuid;
+}
