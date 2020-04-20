@@ -6,14 +6,16 @@ pipeline {
   environment {
       AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
       AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
-      AWS_CLOUDFRONT_DISTRIBUTION_IDS = credentials('AWS_CLOUDFRONT_DISTRIBUTION_IDS')
+  }
+  parameters {
+    choice(name: 'ENV', choices: ['staging','production'], description: 'Environment to deploy the app to')
   }
 
   stages {
     stage('Build') {
       steps {
         dir("code/frontend") {
-          sh "fab deployment.build"
+          sh "fab deployment.build:${params.ENV}"
         }
       }
     }
@@ -27,7 +29,7 @@ pipeline {
     stage('Deploy') {
       steps {
         dir("code/frontend") {
-          sh "fab deployment.deploy"
+          sh "fab deployment.deploy:${params.ENV}"
         }
       }
     }
