@@ -31,6 +31,10 @@ class Payment(models.Model):
     class Meta:
         ordering = ("created_at",)
 
+    @property
+    def is_paid(self):
+        return self.paid_at is not None
+
 
 class SimplePayTransaction(models.Model):
     STATUS_CREATED = "CREATED"
