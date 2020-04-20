@@ -1,6 +1,12 @@
-from rest_framework import viewsets
+from rest_framework import routers, viewsets
 from appointments.models import Appointment, Seat
 from . import serializers as s
+
+
+class StaffAPIRoot(routers.APIRootView):
+    """
+    REST API endpoints for staff members.
+    """
 
 
 class AppointmentViewSet(viewsets.ModelViewSet):

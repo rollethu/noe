@@ -4,6 +4,7 @@ from . import views
 
 class StaffRouter(DefaultRouter):
     root_view_name = "staff-api-root"
+    APIRootView = views.StaffAPIRoot
 
 
 staff_router = StaffRouter()
