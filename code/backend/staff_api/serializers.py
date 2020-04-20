@@ -16,7 +16,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appointment
-        fields = ["url", "location", "start", "end", "licence_plate", "is_registration_completed"]
+        fields = ["url", "location", "start", "end", "normalized_licence_plate", "is_registration_completed"]
 
 
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
