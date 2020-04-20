@@ -18,7 +18,7 @@ def build():
         "-v ${PWD}/src:/project-noe/frontend/src "
         "-v ${PWD}/public:/project-noe/frontend/public "
         "-v ${PWD}/package.json:/project-noe/frontend/package.json "
-        "-e BACKEND_HOST=https://api.tesztallomas.hu "
+        "-e REACT_APP_BACKEND_HOST=https://api.tesztallomas.hu "
         "project-noe-frontend:latest "
         "yarn build"
     )
