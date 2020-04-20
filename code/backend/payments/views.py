@@ -1,3 +1,5 @@
+from urllib.parse import urlparse
+from django.urls import resolve
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
@@ -14,8 +16,15 @@ class _PaymentMixin:
     def _get_appointment(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
-        appointment = serializer.save()
+        appointment_uuid = self._get_appointment_uuid(serializer.validated_data["appointment"])
+        appointment = Appointment.objects.get(pk=appointment_uuid)
         return appointment, serializer.validated_data
+
+    def _get_appointment_uuid(self, appointment_url):
+        parsed_url = urlparse(appointment_url)
+        match = resolve(parsed_url.path)
+        appointment_uuid = match.kwargs["pk"]
+        return appointment_uuid
 
 
 class GetPriceView(_PaymentMixin, generics.GenericAPIView):
