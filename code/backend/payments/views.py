@@ -12,7 +12,7 @@ from . import models as m
 from . import serializers as s
 
 
-class _PaymentMixin:
+class _GetAppointmentMixin:
     def _get_appointment(self, request):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -27,7 +27,7 @@ class _PaymentMixin:
         return appointment_uuid
 
 
-class GetPriceView(_PaymentMixin, generics.GenericAPIView):
+class GetPriceView(_GetAppointmentMixin, generics.GenericAPIView):
     """Query the price of the Appointment.
     Get the Appointment ID in POST request body, so we don't leak it accidentally.
     """
@@ -43,7 +43,7 @@ class GetPriceView(_PaymentMixin, generics.GenericAPIView):
         return Response(summary, status=status.HTTP_200_OK)
 
 
-class PayAppointmentView(_PaymentMixin, generics.GenericAPIView):
+class PayAppointmentView(_GetAppointmentMixin, generics.GenericAPIView):
     """Called at the end of registration when user presses the Pay button."""
 
     serializer_class = s.PaySerializer
