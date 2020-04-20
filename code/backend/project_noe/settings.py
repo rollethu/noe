@@ -44,6 +44,7 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
     "rest_framework",
+    "rest_framework.authtoken",
     "django_filters",
     "appointments",
     "surveys",
@@ -157,6 +158,7 @@ LOGGING = {
 
 REST_FRAMEWORK = {
     "DEFAULT_FILTER_BACKENDS": ("django_filters.rest_framework.DjangoFilterBackend",),
+    "DEFAULT_AUTHENTICATION_CLASSES": ("rest_framework.authentication.TokenAuthentication",),
 }
 
 DEFAULT_TIME_SLOT_CAPACITY = int(os.environ.get("DEFAULT_TIME_SLOT_CAPACITY", 1))

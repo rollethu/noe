@@ -3,6 +3,10 @@ from django.shortcuts import redirect
 from rest_framework import routers, viewsets
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.exceptions import PermissionDenied
+from rest_framework.authtoken.views import ObtainAuthToken
+from rest_framework.authtoken.models import Token
+from rest_framework.response import Response
+from rest_framework.reverse import reverse
 from appointments.models import Appointment, Seat
 from payments.models import Payment
 from . import serializers as s
@@ -18,6 +22,16 @@ class StaffAPIRoot(routers.APIRootView):
         if not request.user.is_authenticated or not request.user.is_staff:
             raise PermissionDenied()
         return super().get(request, *args, **kwargs)
+
+
+class LoginView(ObtainAuthToken):
+    def post(self, request, *args, **kwargs):
+        serializer = self.serializer_class(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        user = serializer.validated_data["user"]
+        token, _ = Token.objects.get_or_create(user=user)
+        location_url = reverse("location-detail", kwargs={"pk": user.location.pk}, request=request)
+        return Response({"token": token.key, "location": location_url})
 
 
 class _StaffViewSet(viewsets.ModelViewSet):
