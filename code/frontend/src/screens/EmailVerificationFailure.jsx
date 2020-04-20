@@ -1,5 +1,6 @@
 import React from "react";
-import { View, Caption, Text } from "../UI";
+import { View, Caption, Text, LinkButton } from "../UI";
+import { ROUTE_START } from "../App";
 
 export default function EmailVerificationFailure({ error }) {
   return (
@@ -16,9 +17,9 @@ export default function EmailVerificationFailure({ error }) {
         A megadott e-mail címére elüldtük a megerősítő linket, amelyre kattintva
         visszatérhet a regisztrációs folyamathoz.
       </Text>
-      <Text center>
-        Nem érkezett meg a link? <strong>Újraküldöm</strong>
-      </Text>
+      <LinkButton to={ROUTE_START} toCenter>
+        Új regisztráció
+      </LinkButton>
     </View>
   );
 }
