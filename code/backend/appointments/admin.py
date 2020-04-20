@@ -1,5 +1,6 @@
 from django.contrib import admin
 from billing import models as bm
+from samples.models import Sample
 from . import models as m
 
 
@@ -52,6 +53,11 @@ class EmailVerificationAdmin(admin.ModelAdmin):
     get_email.admin_order_field = "appointment__email"
 
 
+class SampleInline(admin.TabularInline):
+    model = Sample
+    extra = 2
+
+
 class SeatAdmin(admin.ModelAdmin):
     list_display = [
         "__str__",
@@ -62,6 +68,7 @@ class SeatAdmin(admin.ModelAdmin):
     readonly_fields = [
         "payment",
     ]
+    inlines = [SampleInline]
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
