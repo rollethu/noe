@@ -1,8 +1,8 @@
 import datetime as dt
-
-import pytest
+from rest_framework.authtoken.models import Token
 from rest_framework.test import APIRequestFactory, APIClient
-
+import pytest
+from users.models import User
 from appointments.models import Location, Appointment, Seat
 
 
@@ -14,6 +14,15 @@ def factory():
 @pytest.fixture
 def api_client():
     return APIClient()
+
+
+@pytest.fixture
+def staff_api_client():
+    user = User.objects.create()
+    token = Token.objects.create(user=user)
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    return client
 
 
 @pytest.fixture
