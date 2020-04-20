@@ -7,7 +7,7 @@ from .prices import PaymentMethodType, PAYMENT_METHOD_TYPE_CHOICES
 
 class Payment(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    seat = models.ForeignKey("appointments.Seat", on_delete=models.SET_NULL, null=True)
+    seat = models.OneToOneField("appointments.Seat", on_delete=models.SET_NULL, null=True)
     simplepay_transaction = models.ForeignKey(
         "SimplePayTransaction", on_delete=models.SET_NULL, blank=True, null=True, related_name="payments"
     )

@@ -59,6 +59,9 @@ class SeatAdmin(admin.ModelAdmin):
         "full_address",
         "has_doctor_referral",
     ]
+    readonly_fields = [
+        "payment",
+    ]
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
