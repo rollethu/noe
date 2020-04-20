@@ -10,3 +10,4 @@ class StaffRouter(DefaultRouter):
 staff_router = StaffRouter()
 staff_router.register("appointments", views.AppointmentViewSet, basename="staff-appointment")
 staff_router.register("seats", views.SeatViewSet, basename="staff-seat")
+staff_router.register("payments", views.PaymentViewSet, basename="staff-payment")
