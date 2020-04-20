@@ -6,7 +6,7 @@ import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
 import { View, Caption, Text, Button, HighlightText, Image } from "../UI";
 
-export default function PaymentMethod() {
+export default function PaymentMethods() {
   const history = useHistory();
   const {
     state: { appointment },

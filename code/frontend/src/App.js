@@ -17,7 +17,7 @@ import Start from "./screens/Start/Start";
 import AddSeat from "./screens/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
 import VerifyEmail from "./screens/VerifyEmail";
-import PaymentMethod from "./screens/PaymentMethod";
+import PaymentMethods from "./screens/PaymentMethods";
 import Registration from "./screens/Registration/Registration";
 import SeatDetails from "./screens/SeatDetails/SeatDetails";
 import Survey from "./screens/Survey/Survey";
@@ -52,7 +52,7 @@ function App() {
     { path: ROUTE_SURVEY, component: Survey },
     { path: ROUTE_ADD_SEAT, component: AddSeat },
     { path: ROUTE_TIME, component: Time },
-    { path: ROUTE_PAYMENT_METHODS, component: PaymentMethod },
+    { path: ROUTE_PAYMENT_METHODS, component: PaymentMethods },
     { path: ROUTE_CHECKOUT, component: Checkout },
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
   ];
