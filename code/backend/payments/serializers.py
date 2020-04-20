@@ -42,8 +42,7 @@ class PaySerializer(_GetAppointmentMixin, serializers.HyperlinkedModelSerializer
     appointment = serializers.URLField()
     payment_method_type = serializers.ChoiceField(choices=PAYMENT_METHOD_TYPE_CHOICES)
     total_price = serializers.FloatField()
-
-    currency = serializers.CharField(read_only=True)
+    currency = serializers.CharField()
 
     class Meta:
         model = Appointment

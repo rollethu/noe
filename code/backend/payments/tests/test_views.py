@@ -82,7 +82,12 @@ class TestPayAppointmentView:
     def test_cannot_pay_zero_seats(self, appointment_url, factory):
         request = factory.post(
             "/api/pay-appointment/",
-            {"appointment": appointment_url, "payment_method_type": PaymentMethodType.ON_SITE, "total_price": 0,},
+            {
+                "appointment": appointment_url,
+                "payment_method_type": PaymentMethodType.ON_SITE,
+                "total_price": 0,
+                "currency": "HUF",
+            },
         )
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
@@ -97,6 +102,7 @@ class TestPayAppointmentView:
                 "appointment": appointment_url,
                 "payment_method_type": PaymentMethodType.ON_SITE,
                 "total_price": total_price,
+                "currency": "HUF",
             },
         )
         res = pay_appointment_view(request)
@@ -115,6 +121,7 @@ class TestPayAppointmentView:
                 "appointment": appointment_url,
                 "payment_method_type": PaymentMethodType.ON_SITE,
                 "total_price": total_price,
+                "currency": "HUF",
             },
         )
         res = pay_appointment_view(request)
@@ -133,6 +140,7 @@ class TestPayAppointmentView:
                 "appointment": appointment_url,
                 "payment_method_type": PaymentMethodType.ON_SITE,
                 "total_price": total_price,
+                "currency": "HUF",
             },
         )
         res = pay_appointment_view(request)
@@ -146,7 +154,12 @@ class TestPayAppointmentView:
 
         request = factory.post(
             "/api/pay-appointment/",
-            {"appointment": appointment_url, "payment_method_type": PaymentMethodType.ON_SITE, "total_price": 0,},
+            {
+                "appointment": appointment_url,
+                "payment_method_type": PaymentMethodType.ON_SITE,
+                "total_price": 0,
+                "currency": "HUF",
+            },
         )
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
@@ -156,7 +169,12 @@ class TestPayAppointmentView:
     def test_different_total_price_sent_than_calculated(self, appointment_url, seat, factory):
         request = factory.post(
             "/api/pay-appointment/",
-            {"appointment": appointment_url, "payment_method_type": PaymentMethodType.ON_SITE, "total_price": 0},
+            {
+                "appointment": appointment_url,
+                "payment_method_type": PaymentMethodType.ON_SITE,
+                "total_price": 0,
+                "currency": "HUF",
+            },
         )
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
