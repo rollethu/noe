@@ -209,6 +209,7 @@ export function Text({
   strong,
   right,
   onClick,
+  style,
 }) {
   const classes = classNames("Text", {
     CenterText: center,
@@ -219,7 +220,7 @@ export function Text({
     RightText: right,
   });
   return (
-    <p onClick={onClick} className={classes}>
+    <p style={style} onClick={onClick} className={classes}>
       {children}
     </p>
   );

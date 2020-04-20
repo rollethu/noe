@@ -89,7 +89,7 @@ export default function Checkout() {
       </DataRow>
       {seats.map((seat) => (
         <React.Fragment key={seat.url}>
-          <Text strong>
+          <Text strong style={{ marginBottom: 0 }}>
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
             <IconButton icon="pencil" onClick={() => onSeatEditClick(seat)} />

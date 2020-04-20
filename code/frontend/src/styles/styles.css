@@ -81,7 +81,8 @@
   .Button.NoBorder {
     border-color: transparent; }
   .Button.Inline {
-    display: inline; }
+    display: inline;
+    margin-bottom: 0; }
 
 .ToCenter {
   align-self: center; }
@@ -114,7 +115,8 @@
   .Text.Light {
     color: #787D90; }
   .Text.Strong {
-    color: #07185F; }
+    color: #1943EF;
+    font-weight: 800; }
 
 .Flex {
   display: flex; }
