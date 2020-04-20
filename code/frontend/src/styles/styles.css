@@ -109,7 +109,10 @@
   display: flex; }
 
 .HelpBlock {
-  margin: 0; }
+  margin: 0;
+  font-size: 14px;
+  color: #434551;
+  margin-top: 5px; }
 
 .SurveyToggle {
   display: flex;
