@@ -132,11 +132,16 @@ const fetchPrice = (dispatch) => async (values) => {
       type: consts.SET_APPOINTMENT_PRICE,
       payload: {
         total_price: response.data.total_price,
-        currency:
-          response.data.currency === "HUF" ? "Ft" : response.data.currency,
+        currency: response.data.currency,
       },
     });
-  } catch (error) {}
+    response.error = false;
+    return response;
+  } catch (error) {
+    const response = error.response;
+    response.error = true;
+    return response;
+  }
 };
 
 export const { Provider, Context } = createContext(

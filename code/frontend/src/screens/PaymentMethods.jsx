@@ -1,6 +1,8 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import axios from "axios";
 
+import * as consts from "../contexts/consts";
 import ProgressBarSVG from "../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
@@ -21,21 +23,35 @@ export default function PaymentMethods() {
     });
   }, [appointment?.total_price]);
 
-  const total = `${appointment.total_price} ${appointment.currency}`;
+  let total = "Ár nem elérhető!";
+  if (
+    appointment.total_price !== undefined &&
+    appointment.currency !== undefined
+  ) {
+    const currency =
+      appointment.currency === "HUF" ? "Ft" : appointment.currency;
+    total = `${appointment.total_price} ${currency}`;
+  }
 
   async function onNextClick() {
-    let appointmentUrl = appointment.url;
-    if (process.env.NODE_ENV === "development") {
-      appointmentUrl =
-        "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
-    }
-    if (!appointmentUrl) {
+    if (!appointment.url) {
       alert("No appointment to update");
       return;
     }
 
+    // Updates Appointment's all Seats's Payments's payment_method_type
+    const requestData = {
+      appointment: appointment.url,
+      payment_method_type: "ON_SITE",
+      total_price: appointment.total_price,
+      currency: appointment.currency,
+    };
+    // We don't do anything if this request fails
+    // This must change in the future
+    await axios.post(consts.PAY_APPOINTMENT_URL, requestData);
+
     const values = { is_registration_completed: true };
-    const response = await updateAppointment(appointmentUrl, values);
+    const response = await updateAppointment(appointment.url, values);
     if (response.error) {
       if (!response.errors) {
         alert("Váratlan hiba történt.");
