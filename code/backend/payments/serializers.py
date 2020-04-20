@@ -3,18 +3,6 @@ from .prices import PAYMENT_METHOD_TYPE_CHOICES
 from . import models as m
 
 
-class PaymentSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = m.Payment
-        fields = "__all__"
-
-
-class SimplePayTransactionSerializer(serializers.HyperlinkedModelSerializer):
-    class Meta:
-        model = m.SimplePayTransaction
-        fields = "__all__"
-
-
 class GetPriceSerializer(serializers.Serializer):
     appointment = serializers.URLField(write_only=True)
     payment_method_type = serializers.ChoiceField(choices=PAYMENT_METHOD_TYPE_CHOICES)
