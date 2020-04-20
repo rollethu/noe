@@ -55,6 +55,4 @@ class PayAppointmentView(_PaymentMixin, generics.GenericAPIView):
             raise ValidationError({"total_price": "Invalid amount!"})
 
         m.Payment.objects.bulk_create(payments)
-        appointment.is_registration_completed = True
-        appointment.save()
         return Response(summary, status=status.HTTP_200_OK)
