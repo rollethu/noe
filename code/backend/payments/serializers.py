@@ -26,7 +26,7 @@ class _GetAppointmentMixin:
         return Appointment.objects.get(pk=appointment_uuid)
 
 
-class GetPriceSerializer(_GetAppointmentMixin, serializers.HyperlinkedModelSerializer):
+class GetPriceSerializer(_GetAppointmentMixin, serializers.Serializer):
     appointment = serializers.URLField(write_only=True)
     payment_method_type = serializers.ChoiceField(choices=PAYMENT_METHOD_TYPE_CHOICES)
 
@@ -34,16 +34,14 @@ class GetPriceSerializer(_GetAppointmentMixin, serializers.HyperlinkedModelSeria
     currency = serializers.CharField(read_only=True)
 
     class Meta:
-        model = Appointment
         fields = ["appointment", "payment_method_type", "total_price", "currency"]
 
 
-class PaySerializer(_GetAppointmentMixin, serializers.HyperlinkedModelSerializer):
+class PaySerializer(_GetAppointmentMixin, serializers.Serializer):
     appointment = serializers.URLField()
     payment_method_type = serializers.ChoiceField(choices=PAYMENT_METHOD_TYPE_CHOICES)
     total_price = serializers.FloatField()
     currency = serializers.CharField()
 
     class Meta:
-        model = Appointment
         fields = ["appointment", "payment_method_type", "total_price", "currency"]
