@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useHistory } from "react-router-dom";
 
 import * as utils from "../../utils";
-import { ROUTE_ADD_SEAT as redirectRoute } from "../../App";
+import { ROUTE_SURVEY as redirectRoute } from "../../App";
 import { InputGroup, Label, Input, Form, Field, Button, Flex } from "../../UI";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
