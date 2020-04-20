@@ -3,7 +3,7 @@ import datetime as dt
 import pytest
 from rest_framework.test import APIRequestFactory, APIClient
 
-import appointments.models
+from appointments.models import Location, Appointment, Seat
 
 
 @pytest.fixture
@@ -18,24 +18,24 @@ def api_client():
 
 @pytest.fixture
 def location_no_db():
-    return appointments.models.Location()
+    return Location()
 
 
 @pytest.fixture
 def location():
-    return appointments.models.Location.objects.create()
+    return Location.objects.create()
 
 
 @pytest.fixture
 def location2():
-    return appointments.models.Location.objects.create()
+    return Location.objects.create()
 
 
 @pytest.fixture
 def appointment():
-    return appointments.models.Appointment.objects.create()
+    return Appointment.objects.create()
 
 
 @pytest.fixture
 def seat(appointment):
-    return appointments.models.Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment)
+    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment)
