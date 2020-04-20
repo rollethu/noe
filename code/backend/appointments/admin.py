@@ -56,6 +56,7 @@ class EmailVerificationAdmin(admin.ModelAdmin):
 class SampleInline(admin.TabularInline):
     model = Sample
     extra = 2
+    fields = ["sampled_at"]
 
 
 class SeatAdmin(admin.ModelAdmin):
