@@ -1,7 +1,7 @@
 module "backend_app" {
   source = "git@gitlab.com:rollet/terraform-modules/terraform-aws-ecs-service.git"
 
-  app_name        = "noe-backend"
+  app_name        = "noe-backend-${terraform.workspace}"
   ecs_cluster     = local.core_config.ecs_cluster.private.cluster_name
   cpu_units       = 512
   memory_mbytes   = 512
@@ -23,7 +23,7 @@ module "backend_app" {
 }
 
 resource "aws_iam_role" "task_execution_role" {
-  name = "${var.app_name}-task-execution-role"
+  name = "${var.app_name}-${terraform.workspace}-task-execution-role"
 
   assume_role_policy = <<EOF
 {

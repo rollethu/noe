@@ -6,6 +6,7 @@ locals {
     live = "eu-west-3"
     prod = "eu-west-3"
     noe  = "eu-central-1"
+    noe-staging  = "eu-central-1"
   }
 }
 

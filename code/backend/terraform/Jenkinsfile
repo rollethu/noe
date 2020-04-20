@@ -1,7 +1,7 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'ENV', choices: ['noe'], description: 'Environment to deploy the application to')
+        choice(name: 'ENV', choices: ['noe','noe-staging'], description: 'Environment to deploy the application to')
         choice(name: 'PROJECT', choices: ['noe-backend'])
         string(name: 'IMAGE_VERSION', description: 'The build number of the desired application you want to deploy')
     }
