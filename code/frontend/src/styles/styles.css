@@ -42,10 +42,14 @@
 
 .Label {
   display: block;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center; }
   .Label.Inline {
     margin-bottom: 0;
     display: inline; }
+  .Label .Input[type=checkbox] {
+    margin-right: 10px; }
 
 .Input {
   width: 100%;
@@ -99,7 +103,7 @@
 
 .Caption {
   color: #07185F !important;
-  margin-bottom: 40px !important;
+  margin-bottom: 20px !important;
   font-size: 28px !important; }
 
 .Text {

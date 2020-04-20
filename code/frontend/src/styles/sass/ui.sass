@@ -45,10 +45,15 @@
 .Label
     display: block
     margin-bottom: $space-size
+    display: flex
+    align-items: center
 
     &.Inline
         margin-bottom: 0
         display: inline
+
+    .Input[type=checkbox]
+        margin-right: $space-size
 
 .Input
     width: 100%
