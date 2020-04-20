@@ -33,8 +33,8 @@ def build(environment='staging'):
         "-v ${PWD}/src:/project-noe/frontend/src "
         "-v ${PWD}/public:/project-noe/frontend/public "
         "-v ${PWD}/package.json:/project-noe/frontend/package.json "
-        f"-e REACT_APP_BACKEND_HOST={settings[environment]['backend_host']} "
-        f"-e REACT_APP_NODE_ENV={settings[environment]['node_env']} "
+        "-e REACT_APP_BACKEND_HOST={} ".format(settings[environment]['backend_host'])
+        "-e REACT_APP_NODE_ENV={} ".format(settings[environment]['node_env'])
         "project-noe-frontend:latest "
         "yarn build"
     )
@@ -46,7 +46,7 @@ def build(environment='staging'):
 def deploy(environment='staging'):
     local("pwd")
     local("ls -la")
-    local(f"aws s3 sync temp_build s3://{settings[environment]['s3_bucket']}")
+    local("aws s3 sync temp_build s3://{}".format(settings[environment]['s3_bucket']))
     local("rm -rf temp_build")
 
     client = boto3.client("cloudfront")
