@@ -1,3 +1,4 @@
+from django.http.response import HttpResponse
 from rest_framework import mixins, viewsets
 
 
@@ -14,3 +15,7 @@ class NoReadModelViewSet(
     A viewset that provides default `create()`, `update()`, `partial_update()`
     and `destroy()` actions.
     """
+
+
+def health_check(req):
+    return HttpResponse("OK")

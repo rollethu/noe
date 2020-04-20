@@ -15,9 +15,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import include, path
-from rest_framework.response import Response
 from rest_framework.routers import DefaultRouter
 
+from project_noe.views import health_check
 import appointments.views
 import surveys.views
 import samples.views
@@ -32,10 +32,6 @@ api_router.register("seats", appointments.views.SeatViewSet)
 api_router.register("time-slots", appointments.views.TimeSlotViewSet)
 api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
-
-
-def health_check(req):
-    return Response("OK")
 
 
 api_urls = [
