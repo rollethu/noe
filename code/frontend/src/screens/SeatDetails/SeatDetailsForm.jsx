@@ -95,23 +95,23 @@ export default function SeatDetailsForm() {
         <InputGroup>
           <Flex>
             <Input
-              style={{ flex: 1 }}
+              style={{ flex: 2 }}
               register={register}
               name="post_code"
-              placeholder="1051"
+              placeholder="Irányítósz."
             />
             <Input
-              style={{ flex: 3, marginLeft: 10 }}
+              style={{ flex: 5, marginLeft: 10 }}
               register={register}
               name="city"
-              placeholder="Budapest"
+              placeholder="Település"
             />
           </Flex>
         </InputGroup>
         <Input
           register={register}
           name="address_line1"
-          placeholder="Vörösmarty tér 7-8."
+          placeholder="Utca, házszám"
         />
       </InputGroup>
       <Field
