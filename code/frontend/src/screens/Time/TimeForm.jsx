@@ -39,16 +39,13 @@ export default function TimeForm() {
   }, [selectedDate]);
 
   const onSubmit = async (values) => {
+    delete values.date;
+    appointment.url =
+      "http://localhost:8000/api/appointments/54d027ec-3f32-49d8-91d1-d5a1ea2ad5c8/";
     if (!appointment.url) {
       alert("No appointment to update");
       return;
     }
-
-    values.start = moment(
-      `${values.date} ${values.time}`,
-      DATETIME_FORMAT
-    ).toISOString();
-    values.end = values.start;
 
     const response = await updateAppointment(appointment.url, values);
     utils.handleResponse({
@@ -71,7 +68,7 @@ export default function TimeForm() {
       />
       <Field
         register={register}
-        name="time"
+        name="time_slot"
         label="Idősáv kiválasztása"
         type="select"
         errors={errors}
