@@ -121,11 +121,6 @@ export default function Checkout() {
             <Text light>TAJ kártya száma</Text>
             <Text strong>{seat.healthcare_number}</Text>
           </DataRow>
-          <HR />
-          <DataRow>
-            <Text light>Fizetendő összeg</Text>
-            <Text strong>__LICENCE_PLATE__</Text>
-          </DataRow>
         </React.Fragment>
       ))}
       <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
