@@ -92,12 +92,14 @@
 
 .Caption {
   color: #07185F !important;
-  margin-bottom: 40px !important; }
+  margin-bottom: 40px !important;
+  font-size: 28px !important; }
 
 .Text {
   color: #434551;
   margin: 0;
-  margin-bottom: 20px; }
+  margin-bottom: 20px;
+  font-size: 16px; }
   .Text.Light {
     color: #787D90; }
   .Text.Strong {
