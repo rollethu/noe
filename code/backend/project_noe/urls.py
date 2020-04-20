@@ -23,7 +23,7 @@ import surveys.views
 import samples.views
 import payments.views
 import users.views
-
+from staff_api.urls import staff_router
 
 api_router = DefaultRouter()
 api_router.register("locations", appointments.views.LocationViewSet)
@@ -45,6 +45,7 @@ api_urls = [
 
 urlpatterns = [
     path("api/", include(api_urls)),
+    path("staff-api/", include(staff_router.urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
     # for reversing only
