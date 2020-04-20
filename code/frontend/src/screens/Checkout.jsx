@@ -3,6 +3,7 @@ import { useHistory } from "react-router-dom";
 import moment from "moment";
 import { Context as SeatContext } from "../contexts/seatContext";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
+import { Context as TimeSlotContext } from "../contexts/timeSlotContext";
 import {
   View,
   Caption,
@@ -24,6 +25,17 @@ export default function Checkout() {
   const {
     state: { appointment },
   } = React.useContext(AppointmentContext);
+  const {
+    state: { selectedTimeSlot },
+    fetchSelectedTimeSlot,
+  } = React.useContext(TimeSlotContext);
+
+  React.useEffect(() => {
+    if (!appointment) {
+      return;
+    }
+    fetchSelectedTimeSlot(appointment.time_slot);
+  }, []);
 
   function onSeatEditClick(seat) {
     setActiveSeat(seat);
@@ -38,17 +50,19 @@ export default function Checkout() {
     deleteSeat(seat.url);
   }
 
-  const formatAppointmentDate = () => {
-    if (!appointment.start || !appointment.end) {
+  const formatAppointmentDate = (selectedTimeSlot) => {
+    if (!selectedTimeSlot) {
       return "";
     }
 
-    const start = moment(appointment.start);
+    const start = moment(selectedTimeSlot.start);
     return (
       <>
         {`${start.format("YYYY. MM. DD.")}`}
         <br />
-        {`${start.format("HH:mm")}-${moment(appointment.end).format("HH:mm")}`}
+        {`${start.format("HH:mm")}-${moment(selectedTimeSlot.end).format(
+          "HH:mm"
+        )}`}
       </>
     );
   };
@@ -63,7 +77,7 @@ export default function Checkout() {
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
         <Text strong right>
-          {formatAppointmentDate()}
+          {formatAppointmentDate(selectedTimeSlot)}
         </Text>
       </DataRow>
       <DataRow>

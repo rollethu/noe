@@ -6,15 +6,15 @@ import * as utils from "../utils";
 
 const initialState = {
   timeSlots: null,
+  selectedTimeSlot: null,
 };
 
 const timeSlotReducer = (state, action) => {
   switch (action.type) {
     case consts.SET_TIME_SLOTS:
-      return {
-        ...state,
-        timeSlots: action.payload,
-      };
+      return { ...state, timeSlots: action.payload };
+    case consts.SET_SELECTED_TIME_SLOT:
+      return { ...state, selectedTimeSlot: action.payload };
     default:
       return state;
   }
@@ -40,10 +40,20 @@ const fetchTimeSlots = (dispatch) => async (filters) => {
   }
 };
 
+const fetchSelectedTimeSlot = (dispatch) => async (url) => {
+  try {
+    const response = await axios.get(url);
+    dispatch({ type: consts.SET_SELECTED_TIME_SLOT, payload: response.data });
+  } catch (error) {
+    console.log("Error", error);
+  }
+};
+
 export const { Provider, Context } = createContext(
   timeSlotReducer,
   {
     fetchTimeSlots,
+    fetchSelectedTimeSlot,
   },
   initialState
 );
