@@ -284,7 +284,7 @@ export function Toggle({ options, value, register, name, defaultValue }) {
       {options.map((option) => {
         let classes = classNames("Option", { Active: option.value === state });
         return (
-          <Label className={classes}>
+          <Label className={classes} key={`${name}-${option.value}`}>
             <input
               type="radio"
               name={name}
