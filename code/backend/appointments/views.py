@@ -7,7 +7,7 @@ from rest_framework import status
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-
+from project_noe.views import NoReadModelViewSet
 from . import filters as f
 from . import models as m
 from . import serializers as s
@@ -18,7 +18,7 @@ logger = logging.getLogger(__name__)
 EMAIL_CONFIRMATION_PATH = "email-megerosites/"
 
 
-class LocationViewSet(viewsets.ModelViewSet):
+class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = m.Location.objects.all()
     serializer_class = s.LocationSerializer
 
@@ -36,7 +36,7 @@ def _send_verification_email(request, email_verification, email):
     )
 
 
-class AppointmentViewSet(viewsets.ModelViewSet):
+class AppointmentViewSet(NoReadModelViewSet):
     queryset = m.Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
 
@@ -48,7 +48,7 @@ class AppointmentViewSet(viewsets.ModelViewSet):
         _send_verification_email(self.request, ev, serializer.validated_data["email"])
 
 
-class SeatViewSet(viewsets.ModelViewSet):
+class SeatViewSet(NoReadModelViewSet):
     queryset = m.Seat.objects.all()
     serializer_class = s.SeatSerializer
 

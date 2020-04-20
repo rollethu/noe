@@ -32,9 +32,6 @@ api_router.register("seats", appointments.views.SeatViewSet)
 api_router.register("time-slots", appointments.views.TimeSlotViewSet)
 api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
-api_router.register("samples", samples.views.SampleViewSet)
-api_router.register("payments", payments.views.PaymentViewSet)
-api_router.register("users", users.views.UserViewSet)
 
 
 def health_check(req):
