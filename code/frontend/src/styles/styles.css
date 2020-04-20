@@ -32,6 +32,13 @@
 .InputGroup {
   margin-bottom: 10px;
   width: 100%; }
+  .InputGroup.HasError .Label {
+    color: #EF5619; }
+  .InputGroup.HasError .Input {
+    color: #EF5619;
+    border-color: #EF5619; }
+  .InputGroup.HasError .HelpBlock {
+    color: #EF5619 !important; }
 
 .Label {
   display: block;

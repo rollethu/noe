@@ -43,7 +43,7 @@ export function Field({
   defaultValue,
 }) {
   const errors = allErrors[name];
-  let errorMessage;
+  let errorMessage = null;
   if (errors) {
     if (errors.type === "required") {
       errorMessage = "Ez a mező kötelező.";
@@ -53,7 +53,7 @@ export function Field({
   }
 
   return (
-    <InputGroup hidden={hidden}>
+    <InputGroup hidden={hidden} hasError={errorMessage !== null}>
       {type === "checkbox" ? (
         <Label htmlFor={name}>
           <Input
@@ -149,8 +149,11 @@ export function Input({
   );
 }
 
-export function InputGroup({ children, hidden }) {
-  const classes = classNames("InputGroup", { Hidden: hidden });
+export function InputGroup({ children, hidden, hasError }) {
+  const classes = classNames("InputGroup", {
+    Hidden: hidden,
+    HasError: hasError,
+  });
   return <div className={classes}>{children}</div>;
 }
 
