@@ -30,8 +30,8 @@ def _send_verification_email(request, email_verification, email):
     send_mail(
         "Email cím megerősítése áthajtásos koronavírus teszthez",
         f"Kérjük erősítse meg email címét: {verify_url}\nA linkre kattintva folytathatja a regisztrációt",
-        "from@example.com",
-        ["to@example.com"],
+        "no-reply@tesztallomas.hu",
+        [email],
         fail_silently=False,
     )
 
