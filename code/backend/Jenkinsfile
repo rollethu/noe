@@ -17,10 +17,10 @@ pipeline {
             steps {
                 script {
                     currentBuild.displayName = "${env.VERSION}"
-                }
+                }    
                 checkout scm
             }
-        }
+        }  
         stage("Build") {
             steps {
                 dir('code/backend'){
@@ -44,6 +44,41 @@ pipeline {
                 }
             }
         }
+// for static content
+        // stage("Collect Static content") {
+        //     steps {
+        //         dir('code/backend') {
+        //             sh '''
+        //             cat <<EOF > local.env
+        //             # This is for a completely local setup, do not reuse anything in production
+        //             DJANGO_SECRET_KEY=verysecret
+        //             ALLOWED_CORS_HOSTS=http://localhost:3000
+        //             EMAIL_BACKEND=django.core.mail.backends.console.EmailBackend
+        //             EMAIL_VERIFICATION_KEY=uG0jE-LxfZ9aJH3mQls3_BofNtm6kMlVpJQXdKEyptA= #this is not to be used anywhere else
+        //             FRONTEND_URL=http://localhost:3000
+        //             DJANGO_DATABASE_HOST=localhost
+        //             DJANGO_DATABASE_PORT=1111
+        //             DJANGO_DATABASE_USER=dummyuser
+        //             DJANGO_DATABASE_PASSWORD=nothing
+        //             DJANGO_DATABASE_ENGINE=django.db.backends.sqlite3
+        //             DJANGO_DATABASE_NAME=db.sqlite3
+        //             STATIC_ROOT=/static
+        //             EOF
+        //             '''
+        //             sh 'mkdir -p ./static/${VERSION}'
+        //             sh 'docker run --env-file local.env -v $(pwd)/static/${VERSION}:/static ${IMAGE}:${VERSION} ./manage.py collectstatic --noinput'
+        //             // sh 'cp -r assets/css ./static/${VERSION}/'
+        //             // sh 'cp -r assets/images ./static/${VERSION}/'       
+        //         }
+        //     }
+        // }
+        // stage("Push static content to S3") {
+        //     steps {
+        //         dir('code/backend') {
+        //             sh 'aws s3 cp ./static/${VERSION} s3://${S3_BUCKET_NAME}/${VERSION}/ --recursive --acl=public-read'
+        //         }
+        //     }
+        // }
         stage("Push image to ECR") {
             steps {
                 sh '$(aws ecr get-login --no-include-email --region eu-central-1)'
@@ -54,7 +89,7 @@ pipeline {
             }
         }
     }
-
+    
     post {
 // Skipping this for now, until we have tests to run
         // always {
