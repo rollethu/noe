@@ -34,10 +34,10 @@ def build(environment="staging"):
         "-v ${PWD}/src:/project-noe/frontend/src "
         "-v ${PWD}/public:/project-noe/frontend/public "
         "-v ${PWD}/package.json:/project-noe/frontend/package.json "
-        f"-e REACT_APP_BACKEND_HOST={settings[environment]['backend_host']} "
-        f"-e REACT_APP_NODE_ENV={settings[environment]['node_env']} "
+        "-e REACT_APP_BACKEND_HOST=%s "
+        "-e REACT_APP_NODE_ENV=%s "
         "project-noe-frontend:latest "
-        "yarn build"
+        "yarn build" % (settings[environment]["backend_host"], settings[environment]["node_env"])
     )
     local("docker cp temp-project-noe-frontend:project-noe/frontend/build temp_build")
     local("docker rm -f temp-project-noe-frontend")
