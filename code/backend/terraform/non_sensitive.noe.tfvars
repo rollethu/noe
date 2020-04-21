@@ -8,16 +8,12 @@ env_vars = {
   ALLOWED_CORS_HOSTS      = "https://regisztracio.tesztallomas.hu"
   EMAIL_BACKEND           = "django.core.mail.backends.console.EmailBackend"
   FRONTEND_URL            = "https://regisztracio.tesztallomas.hu"
-  AWS_SES_REGION_NAME     = "eu-central-1"
-  AWS_SES_REGION_ENDPOINT = "email.eu-central-1.amazonaws.com"
 }
 
 env_secrets = {
   DJANGO_SECRET_KEY         = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_secret_key"
   DJANGO_DATABASE_PASSWORD  = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_database_password"
   EMAIL_VERIFICATION_KEY    = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/email_verification_key"
-  AWS_SES_ACCESS_KEY_ID     = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-iam-access-key-id"
-  AWS_SES_SECRET_ACCESS_KEY = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-iam-secret-access-key"
 }
 
 app_tg_ports = {
