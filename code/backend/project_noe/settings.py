@@ -110,6 +110,12 @@ AUTH_PASSWORD_VALIDATORS = [
 EMAIL_BACKEND = os.environ["EMAIL_BACKEND"]
 EMAIL_VERIFICATION_KEY = os.environb[b"EMAIL_VERIFICATION_KEY"]
 
+# Django-SES config
+AWS_ACCESS_KEY_ID = os.environ.get("AWS_SES_ACCESS_KEY_ID", "")
+AWS_SECRET_ACCESS_KEY = os.environ.get("AWS_SES_SECRET_ACCESS_KEY", "")
+AWS_SES_REGION_NAME = os.environ.get("AWS_SES_REGION_NAME", "")
+AWS_SES_REGION_ENDPOINT = os.environ.get("AWS_SES_REGION_ENDPOINT", "")
+
 # Internationalization
 # https://docs.djangoproject.com/en/3.0/topics/i18n/
 
