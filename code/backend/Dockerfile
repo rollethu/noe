@@ -14,6 +14,8 @@ ENV STATIC_URL=${STATIC_URL}
 WORKDIR /project-noe/backend
 COPY . .
 
+# This is a workaround for missing wheels for cryptography 2.9.1
+RUN pip install cryptography==2.9
 RUN pip install poetry
 RUN poetry install --no-dev
 
