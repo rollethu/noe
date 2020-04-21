@@ -4,6 +4,7 @@ env_vars = {
   DJANGO_DATABASE_HOST    = "noe-postgres.co7irzuctvdj.eu-central-1.rds.amazonaws.com"
   DJANGO_DATABASE_PORT    = "5432"
   DJANGO_DATABASE_USER    = "noe_master"
+  DJANGO_DATABASE_NAME    = "noe_db"
   ALLOWED_CORS_HOSTS      = "https://regisztracio.tesztallomas.hu"
   EMAIL_BACKEND           = "django.core.mail.backends.console.EmailBackend"
   FRONTEND_URL            = "https://regisztracio.tesztallomas.hu"

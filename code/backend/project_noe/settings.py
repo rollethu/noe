@@ -91,8 +91,12 @@ WSGI_APPLICATION = "project_noe.wsgi.application"
 DATABASES = {
     # fmt: off
     "default": {
-        "ENGINE": "django.db.backends.sqlite3",
-        "NAME": os.path.join(BASE_DIR, "db.sqlite3"),
+        "ENGINE": os.environ.get("DJANGO_DATABASE_ENGINE", "django.db.backends.postgresql"),
+        "NAME": os.environ["DJANGO_DATABASE_NAME"],
+        "USER": os.environ["DJANGO_DATABASE_USER"],
+        "PASSWORD": os.environ["DJANGO_DATABASE_PASSWORD"],
+        "HOST": os.environ["DJANGO_DATABASE_HOST"],
+        "PORT": os.environ["DJANGO_DATABASE_PORT"],
     }
 }
 

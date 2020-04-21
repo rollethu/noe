@@ -3,6 +3,7 @@ env_vars = {
   DJANGO_DATABASE_HOST    = "noe-staging-postgres.co7irzuctvdj.eu-central-1.rds.amazonaws.com"
   DJANGO_DATABASE_PORT    = "5432"
   DJANGO_DATABASE_USER    = "noe_master"
+  DJANGO_DATABASE_NAME    = "noe_db"
   ALLOWED_CORS_HOSTS      = "https://noe.rollet.app"
   EMAIL_BACKEND           = "django_ses.SESBackend"
   FRONTEND_URL            = "https://noe.rollet.app"
