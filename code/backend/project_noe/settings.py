@@ -166,3 +166,11 @@ REST_FRAMEWORK = {
 }
 
 DEFAULT_TIME_SLOT_CAPACITY = int(os.environ.get("DEFAULT_TIME_SLOT_CAPACITY", 1))
+
+
+EMAIL_HOST = os.environ.get("DJANGO_EMAIL_HOST", "")
+EMAIL_PORT = os.environ.get("DJANGO_EMAIL_PORT", "")
+EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL_HOST_USER", "")
+EMAIL_HOST_PASSWORD = os.environ.get("DJANGO_EMAIL_HOST_PASSWORD", "")
+EMAIL_USE_TLS = bool(os.environ.get("DJANGO_EMAIL_USE_TLS", ""))
+DEFAULT_FROM_EMAIL = os.environ.get("DJANGO_DEFAULT_FROM_EMAIL", "")
