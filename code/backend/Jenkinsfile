@@ -17,10 +17,10 @@ pipeline {
             steps {
                 script {
                     currentBuild.displayName = "${env.VERSION}"
-                }    
+                }
                 checkout scm
             }
-        }  
+        }
         stage("Build") {
             steps {
                 dir('code/backend'){
@@ -44,24 +44,6 @@ pipeline {
                 }
             }
         }
-// for static content
-        stage("Collect Static content") {
-            steps {
-                dir('code/backend') {
-                    sh 'mkdir -p ./static/${VERSION}'
-                    sh 'docker run -v $(pwd)/static/${VERSION}:/static ${IMAGE}:${VERSION} ./manage.py collectstatic --noinput'
-                    // sh 'cp -r assets/css ./static/${VERSION}/'
-                    // sh 'cp -r assets/images ./static/${VERSION}/'       
-                }
-            }
-        }
-        stage("Push static content to S3") {
-            steps {
-                dir('code/backend') {
-                    sh 'aws s3 cp ./static/${VERSION} s3://${S3_BUCKET_NAME}/${VERSION}/ --recursive --acl=public-read'
-                }
-            }
-        }
         stage("Push image to ECR") {
             steps {
                 sh '$(aws ecr get-login --no-include-email --region eu-central-1)'
@@ -72,7 +54,7 @@ pipeline {
             }
         }
     }
-    
+
     post {
 // Skipping this for now, until we have tests to run
         // always {
