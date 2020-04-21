@@ -1,7 +1,7 @@
 from django.urls import reverse as django_reverse
 from django.shortcuts import redirect
-from rest_framework import routers, viewsets
-from rest_framework.permissions import IsAuthenticated
+from rest_framework import routers, viewsets, mixins
+from rest_framework.permissions import IsAdminUser
 from rest_framework.exceptions import PermissionDenied
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
@@ -34,17 +34,15 @@ class LoginView(ObtainAuthToken):
         return Response({"token": token.key, "location": location_url})
 
 
-class _StaffViewSet(viewsets.ModelViewSet):
-    permission_classes = [IsAuthenticated]
-
-
-class AppointmentViewSet(_StaffViewSet):
+class AppointmentViewSet(viewsets.ReadOnlyModelViewSet):
+    permission_classes = [IsAdminUser]
     queryset = Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
     filterset_class = f.AppointmentFilter
 
 
-class SeatViewSet(_StaffViewSet):
+class SeatViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    permission_classes = [IsAdminUser]
     queryset = Seat.objects.all()
     serializer_class = s.SeatSerializer
 
@@ -65,6 +63,7 @@ class SeatViewSet(_StaffViewSet):
         return redirect(django_reverse("admin:appointments_seat_change", kwargs={"object_id": kwargs["pk"]}))
 
 
-class PaymentViewSet(_StaffViewSet):
+class PaymentViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+    permission_classes = [IsAdminUser]
     queryset = Payment.objects.all()
     serializer_class = s.PaymentSerializer
