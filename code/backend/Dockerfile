@@ -7,4 +7,5 @@ COPY . .
 RUN pip install poetry
 RUN poetry install --no-dev
 
-CMD ./manage.py runserver 0.0.0.0:8000
+
+CMD ./entrypoint.sh
