@@ -1,5 +1,6 @@
 app_name      = "noe-backend"
 env_vars = {
+  DJANGO_DEBUG              = "true"
   DJANGO_DATABASE_HOST      = "noe-staging-postgres.co7irzuctvdj.eu-central-1.rds.amazonaws.com"
   DJANGO_DATABASE_PORT      = "5432"
   DJANGO_DATABASE_USER      = "noe_master"
