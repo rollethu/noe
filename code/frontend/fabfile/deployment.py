@@ -6,22 +6,23 @@ from fabric.api import task, lcd, local, run
 
 settings = {
     "staging": {
-        "node_env" : "staging",
-        "backend_host" : "https://api.noe.rollet.app",
-        "s3_bucket" : "noe.rollet.app",
-        "cf_distribution": "EDEEHWJ4WTQG"
+        "node_env": "staging",
+        "backend_host": "https://api.noe.rollet.app",
+        "s3_bucket": "noe.rollet.app",
+        "cf_distribution": "EDEEHWJ4WTQG",
     },
-    "production" : {
-        "node_env" : "production",
-        "backend_host" : "https://api.tesztallomas.hu",
-        "s3_bucket" : "regisztracio.tesztallomas.hu",
-        "cf_distribution" : "E3HVIVZU5PTARC"
-    }
+    "production": {
+        "node_env": "production",
+        "backend_host": "https://api.tesztallomas.hu",
+        "s3_bucket": "regisztracio.tesztallomas.hu",
+        "cf_distribution": "E3HVIVZU5PTARC",
+    },
 }
 
+
 @task
-def build(environment='staging'):
-    
+def build(environment="staging"):
+
     local("docker build -t project-noe-frontend:latest .")
     try:
         local("docker rm -f temp-project-noe-frontend")
@@ -33,8 +34,8 @@ def build(environment='staging'):
         "-v ${PWD}/src:/project-noe/frontend/src "
         "-v ${PWD}/public:/project-noe/frontend/public "
         "-v ${PWD}/package.json:/project-noe/frontend/package.json "
-        "-e REACT_APP_BACKEND_HOST={} ".format(settings[environment]['backend_host'])
-        "-e REACT_APP_NODE_ENV={} ".format(settings[environment]['node_env'])
+        f"-e REACT_APP_BACKEND_HOST={settings[environment]['backend_host']} "
+        f"-e REACT_APP_NODE_ENV={settings[environment]['node_env']} "
         "project-noe-frontend:latest "
         "yarn build"
     )
@@ -43,10 +44,10 @@ def build(environment='staging'):
 
 
 @task
-def deploy(environment='staging'):
+def deploy(environment="staging"):
     local("pwd")
     local("ls -la")
-    local("aws s3 sync temp_build s3://{}".format(settings[environment]['s3_bucket']))
+    local("aws s3 sync temp_build s3://{}".format(settings[environment]["s3_bucket"]))
     local("rm -rf temp_build")
 
     client = boto3.client("cloudfront")
@@ -59,7 +60,7 @@ def deploy(environment='staging'):
         "/app-icon.png",
     ]
     client.create_invalidation(
-        DistributionId=settings[environment]['cf_distribution'],
+        DistributionId=settings[environment]["cf_distribution"],
         InvalidationBatch={
             "Paths": {"Quantity": len(items_to_invalidate), "Items": items_to_invalidate},
             "CallerReference": dt.datetime.now().strftime("%Y%m%d%H%M%S"),
