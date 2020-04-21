@@ -40,7 +40,7 @@ export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
-  DEFAULT_ROUTE = ROUTE_TIME;
+  DEFAULT_ROUTE = ROUTE_START;
 }
 
 function App() {
