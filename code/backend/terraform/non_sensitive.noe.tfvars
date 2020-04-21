@@ -7,8 +7,8 @@ env_vars = {
   ALLOWED_CORS_HOSTS      = "https://regisztracio.tesztallomas.hu"
   EMAIL_BACKEND           = "django.core.mail.backends.console.EmailBackend"
   FRONTEND_URL            = "https://regisztracio.tesztallomas.hu"
-  AWS_SES_REGION_NAME     = 'eu-central-1'
-  AWS_SES_REGION_ENDPOINT = 'email.eu-central-1.amazonaws.com'
+  AWS_SES_REGION_NAME     = "eu-central-1"
+  AWS_SES_REGION_ENDPOINT = "email.eu-central-1.amazonaws.com"
 }
 
 env_secrets = {

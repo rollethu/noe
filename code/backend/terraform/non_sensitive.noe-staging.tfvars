@@ -6,8 +6,8 @@ env_vars = {
   ALLOWED_CORS_HOSTS      = "https://noe.rollet.app"
   EMAIL_BACKEND           = "django_ses.SESBackend"
   FRONTEND_URL            = "https://noe.rollet.app"
-  AWS_SES_REGION_NAME     = 'eu-central-1'
-  AWS_SES_REGION_ENDPOINT = 'email.eu-central-1.amazonaws.com'
+  AWS_SES_REGION_NAME     = "eu-central-1"
+  AWS_SES_REGION_ENDPOINT = "email.eu-central-1.amazonaws.com"
 }
 
 env_secrets = {
