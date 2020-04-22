@@ -25,6 +25,44 @@ function getFieldTypeFromSurveyAnswerType(question) {
 const SUBMIT_MODE_CREATE = "CREATE";
 const SUBMIT_MODE_UPDATE = "UPDATE";
 
+function getSubmitMode(activeSurvey) {
+  return activeSurvey === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
+}
+
+function getFormData(submitMode, surveyQuestions, activeSurvey) {
+  if (submitMode === SUBMIT_MODE_CREATE) {
+    return getFormDataForCreation(surveyQuestions);
+  }
+
+  return getFormDataForUpdate(surveyQuestions, activeSurvey);
+}
+
+function getFormDataForCreation(surveyQuestions) {
+  return surveyQuestions.map((question) => {
+    const fieldType = getFieldTypeFromSurveyAnswerType(question);
+    return {
+      label: question.question,
+      name: question.url, // To create answers based on the question url
+      type: fieldType,
+      defaultValue: fieldType === "survey-toggle" ? "no" : "",
+    };
+  });
+}
+
+function getFormDataForUpdate(surveyQuestions, activeSurvey) {
+  return surveyQuestions.map((question) => {
+    const existingAnswer = activeSurvey.filter(
+      (answer) => answer.question === question.url
+    )[0];
+    return {
+      label: question.question,
+      name: existingAnswer.url, // To update existing answers based on their urls
+      type: getFieldTypeFromSurveyAnswerType(question),
+      defaultValue: existingAnswer.answer,
+    };
+  });
+}
+
 export default function SurveyForm({
   surveyQuestions,
   activeSurvey,
@@ -35,34 +73,9 @@ export default function SurveyForm({
   setActiveSeat,
   history,
 }) {
-  const submitMode =
-    activeSurvey === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
   const { register, handleSubmit, errors, setError } = useForm();
-
-  let formData;
-  if (submitMode === SUBMIT_MODE_CREATE) {
-    formData = surveyQuestions.map((question) => {
-      const fieldType = getFieldTypeFromSurveyAnswerType(question);
-      return {
-        label: question.question,
-        name: question.url, // To create answers based on the question url
-        type: fieldType,
-        defaultValue: fieldType === "survey-toggle" ? "no" : "",
-      };
-    });
-  } else {
-    formData = surveyQuestions.map((question) => {
-      const existingAnswer = activeSurvey.filter(
-        (answer) => answer.question === question.url
-      )[0];
-      return {
-        label: question.question,
-        name: existingAnswer.url, // To update existing answers based on their urls
-        type: getFieldTypeFromSurveyAnswerType(question),
-        defaultValue: existingAnswer.answer,
-      };
-    });
-  }
+  const submitMode = getSubmitMode(activeSurvey);
+  const formData = getFormData(submitMode, surveyQuestions, activeSurvey);
 
   const onSubmit = (values) => {
     if (!activeSeat) {
