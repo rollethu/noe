@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { ROUTE_SEAT_DETAILS } from "../../App";
-import { Form, Field, Button } from "../../UI";
+import { Form, Field, NextButton } from "../../UI";
 import * as utils from "../../utils";
 
 export default function RegistrationForm({ locationOptions }) {
@@ -58,7 +58,7 @@ export default function RegistrationForm({ locationOptions }) {
         onChange={onLicencePlateChange}
         placeholder="ABC-123"
       />
-      <Button type="submit">Tovább</Button>
+      <NextButton type="submit" />
     </Form>
   );
 }

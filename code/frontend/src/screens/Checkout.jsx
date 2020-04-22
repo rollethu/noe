@@ -11,8 +11,8 @@ import {
   Text,
   DataRow,
   HR,
-  LinkButton,
   IconButton,
+  NextLinkButton,
 } from "../UI";
 import { ROUTE_PAYMENT_METHODS, ROUTE_SEAT_DETAILS } from "../App";
 
@@ -123,9 +123,7 @@ export default function Checkout() {
           </DataRow>
         </React.Fragment>
       ))}
-      <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
-        Tovább
-      </LinkButton>
+      <NextLinkButton toCenter to={ROUTE_PAYMENT_METHODS} />
     </View>
   );
 }

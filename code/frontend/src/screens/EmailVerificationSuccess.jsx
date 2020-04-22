@@ -1,5 +1,5 @@
 import React from "react";
-import { View, Caption, Text, LinkButton } from "../UI";
+import { View, Caption, Text, NextLinkButton } from "../UI";
 import { ROUTE_REGISTRATION } from "../App";
 
 export default function EmailVerificationSuccess() {
@@ -10,9 +10,7 @@ export default function EmailVerificationSuccess() {
         Sikeres e-mail megerősítés. A Tovább gombra kattintva folytathatja a
         regisztrációt.
       </Text>
-      <LinkButton to={ROUTE_REGISTRATION} toCenter>
-        Tovább
-      </LinkButton>
+      <NextLinkButton to={ROUTE_REGISTRATION} toCenter />
     </View>
   );
 }

@@ -4,7 +4,15 @@ import { useHistory } from "react-router-dom";
 
 import * as utils from "../../utils";
 import { ROUTE_SURVEY as redirectRoute } from "../../App";
-import { InputGroup, Label, Input, Form, Field, Button, Flex } from "../../UI";
+import {
+  InputGroup,
+  Label,
+  Input,
+  Form,
+  Field,
+  NextButton,
+  Flex,
+} from "../../UI";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 
@@ -154,7 +162,7 @@ export default function SeatDetailsForm() {
         hidden={!watch("has_doctor_referral")}
         placeholder="123-456-789"
       />
-      <Button type="submit">Tovább</Button>
+      <NextButton type="submit" />
     </Form>
   );
 }

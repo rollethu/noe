@@ -6,7 +6,7 @@ import moment from "moment";
 import { ROUTE_CHECKOUT } from "../../App";
 import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
-import { Form, Field, Button } from "../../UI";
+import { Form, Field, NextButton } from "../../UI";
 import * as utils from "../../utils";
 
 const DATETIME_FORMAT = "YYYY-MM-DD HH:mm";
@@ -81,7 +81,7 @@ export default function TimeForm() {
         errors={errors}
         required
       />
-      <Button type="submit">Tovább</Button>
+      <NextButton type="submit" />
     </Form>
   );
 }

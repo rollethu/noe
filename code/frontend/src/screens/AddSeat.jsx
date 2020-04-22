@@ -3,7 +3,7 @@ import React from "react";
 import AddSeatSVG from "../assets/add_person.svg";
 import { Context as SeatContext } from "../contexts/seatContext";
 import { ROUTE_TIME, ROUTE_SEAT_DETAILS } from "../App";
-import { View, Caption, Image, Text, LinkButton, Button } from "../UI";
+import { View, Caption, Image, Text, NextLinkButton, Button } from "../UI";
 import { useHistory } from "react-router-dom";
 
 export default function AddSeat() {
@@ -25,9 +25,7 @@ export default function AddSeat() {
         érdekében, csak önnel egy háztartásban élőket regisztráljon. Egy
         regisztrációval maximum 5 személy rögzíthető.
       </Text>
-      <LinkButton to={ROUTE_TIME} toCenter>
-        Tovább
-      </LinkButton>
+      <NextLinkButton to={ROUTE_TIME} toCenter />
       <Button onClick={onNewSeatClick} toCenter inverse>
         Új személy hozzáadása
       </Button>

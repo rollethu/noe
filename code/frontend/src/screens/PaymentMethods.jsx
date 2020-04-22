@@ -6,7 +6,15 @@ import * as consts from "../contexts/consts";
 import ProgressBarSVG from "../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
 import { Context as AppointmentContext } from "../contexts/appointmentContext";
-import { View, Caption, Text, Button, HighlightText, Image } from "../UI";
+import {
+  View,
+  Caption,
+  Text,
+  Button,
+  HighlightText,
+  Image,
+  NextButton,
+} from "../UI";
 
 export default function PaymentMethods() {
   const history = useHistory();
@@ -73,9 +81,7 @@ export default function PaymentMethods() {
       <Button toCenter inverse disabled>
         Hamarosan: Online fizetés
       </Button>
-      <Button toCenter onClick={onNextClick}>
-        Tovább
-      </Button>
+      <NextButton toCenter onClick={onNextClick} />
     </View>
   );
 }

@@ -72,7 +72,8 @@
   display: block;
   text-align: center;
   border: 1px solid #1943EF;
-  margin-bottom: 10px; }
+  margin-bottom: 10px;
+  font-weight: 800; }
   .Button.Inverse {
     color: #1943EF;
     background: white; }
@@ -88,8 +89,7 @@
     display: inline;
     margin-bottom: 0; }
   .Button.NextButton {
-    margin-top: 20px;
-    font-weight: 800; }
+    margin-top: 20px; }
 
 .ToCenter {
   align-self: center; }

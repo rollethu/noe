@@ -263,15 +263,24 @@ export function Image({ src }) {
   );
 }
 
-export function LinkButton({ to, toCenter, inverse, children }) {
+export function LinkButton({ to, toCenter, inverse, nextButton, children }) {
   const classes = classNames("Button", {
     ToCenter: toCenter,
     Inverse: inverse,
+    NextButton: nextButton,
   });
   return (
     <Link className={classes} to={to}>
       {children}
     </Link>
+  );
+}
+
+export function NextLinkButton(props) {
+  return (
+    <LinkButton {...props} nextButton>
+      Tovább
+    </LinkButton>
   );
 }
 

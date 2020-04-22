@@ -4,7 +4,7 @@ import { useHistory } from "react-router-dom";
 
 import { Context as SurveyContext } from "../../contexts/surveyContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
-import { Form, Field, Button, Toggle, InputGroup, Label } from "../../UI";
+import { Form, Field, NextButton, Toggle, InputGroup, Label } from "../../UI";
 import { ROUTE_ADD_SEAT } from "../../App";
 import * as utils from "../../utils";
 
@@ -148,7 +148,7 @@ export default function SurveyForm() {
           />
         );
       })}
-      <Button type="submit">Tovább</Button>
+      <NextButton type="submit" />
     </Form>
   );
 }
