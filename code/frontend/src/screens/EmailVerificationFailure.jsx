@@ -14,8 +14,8 @@ export default function EmailVerificationFailure({ error }) {
         Sikertelen megerősítés
       </Caption>
       <Text>
-        A megadott e-mail címére elüldtük a megerősítő linket, amelyre kattintva
-        visszatérhet a regisztrációs folyamathoz.
+        A megadott e-mail címére elküldtük a megerősítő linket, amelyre
+        kattintva visszatérhet a regisztrációs folyamathoz.
       </Text>
       <LinkButton to={ROUTE_START} toCenter>
         Új regisztráció
