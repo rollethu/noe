@@ -2,6 +2,7 @@ import axios from "axios";
 
 import createContext from "./createContext";
 import * as consts from "./consts";
+import * as utils from "./utils";
 
 /*
 Example `surveyAnswers`:
@@ -59,22 +60,15 @@ const surveyReducer = (state, action) => {
 };
 
 const fetchSurveyQuestions = (dispatch) => async () => {
-  try {
-    const response = await axios.get(consts.SURVEY_QUESTION_LIST_URL);
+  const response = await handleRequest(() =>
+    axios.get(consts.SURVEY_QUESTION_LIST_URL)
+  );
+
+  if (!response.error) {
     dispatch({ type: consts.SET_SURVEY_QUESTIONS, payload: response.data });
-    response.error = false;
-    return response;
-  } catch (error) {
-    const { response } = error;
-    if (!response) {
-      return {
-        error: true,
-      };
-    }
-    response.error = true;
-    response.errors = response.data;
-    return response;
   }
+
+  return response;
 };
 
 function groupAnswersBySeat(answers) {
@@ -87,26 +81,18 @@ function groupAnswersBySeat(answers) {
 }
 
 export const sendSurveyAnswers = (dispatch) => async (values) => {
-  try {
-    const response = await axios.post(consts.SURVEY_ANSWER_LIST_URL, values);
-    const action = {
+  const response = await utils.handleRequest(() =>
+    axios.post(consts.SURVEY_ANSWER_LIST_URL, values)
+  );
+
+  if (!response.error) {
+    dispatch({
       type: consts.ADD_SURVEY_ANSWERS,
       payload: groupAnswersBySeat(response.data),
-    };
-    dispatch(action);
-    response.error = false;
-    return response;
-  } catch (error) {
-    const { response } = error;
-    if (!response) {
-      return {
-        error: true,
-      };
-    }
-    response.error = true;
-    response.errors = response.data;
-    return response;
+    });
   }
+
+  return response;
 };
 
 const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
