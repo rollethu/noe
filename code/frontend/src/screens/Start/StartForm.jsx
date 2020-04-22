@@ -5,7 +5,7 @@ import { useHistory } from "react-router-dom";
 import * as utils from "../../utils";
 import { ROUTE_EMAIL_VERIFICATION } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
-import { Form, Field, Button } from "../../UI";
+import { Form, Field, NextButton } from "../../UI";
 
 const GTC_VERSION = "1.0";
 const PRIVACY_POLICY_VERSION = "1.0";
@@ -57,7 +57,7 @@ export default function StartForm() {
           errors={errors}
         />
       ))}
-      <Button type="submit">Tovább</Button>
+      <NextButton type="submit" />
     </Form>
   );
 }

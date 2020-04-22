@@ -176,6 +176,7 @@ export function Button({
   iconOnly,
   noBorder,
   inline,
+  nextButton,
 }) {
   const classes = classNames("Button", {
     ToCenter: toCenter,
@@ -184,6 +185,7 @@ export function Button({
     IconOnly: iconOnly,
     NoBorder: noBorder,
     Inline: inline,
+    NextButton: nextButton,
   });
   return (
     <button
@@ -194,6 +196,14 @@ export function Button({
     >
       {children}
     </button>
+  );
+}
+
+export function NextButton(props) {
+  return (
+    <Button {...props} nextButton>
+      Tovább
+    </Button>
   );
 }
 

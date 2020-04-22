@@ -50,6 +50,8 @@
     display: inline; }
   .Label .Input[type=checkbox] {
     margin-right: 10px; }
+  .Label.NoMargin {
+    margin: 0; }
 
 .Input {
   width: 100%;
@@ -83,6 +85,9 @@
   .Button.Inline {
     display: inline;
     margin-bottom: 0; }
+  .Button.NextButton {
+    margin-top: 20px;
+    font-weight: 800; }
 
 .ToCenter {
   align-self: center; }
