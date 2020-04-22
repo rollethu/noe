@@ -10,7 +10,12 @@ import { Form, Field, Button } from "../../UI";
 const GTC_VERSION = "1.0";
 const PRIVACY_POLICY_VERSION = "1.0";
 const registrationFields = [
-  { name: "email", label: "E-mail cím", type: "email" },
+  {
+    name: "email",
+    label: "E-mail cím",
+    type: "email",
+    placeholder: "pelda@gmail.com",
+  },
   {
     name: "gtc",
     label: "Elfogadom az ÁSZF-et.",
