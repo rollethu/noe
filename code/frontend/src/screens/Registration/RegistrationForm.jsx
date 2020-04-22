@@ -43,7 +43,7 @@ export default function RegistrationForm({ locationOptions }) {
       <Field
         register={register}
         name="location"
-        label="Helyszín"
+        label="Tesztelőállomás kiválasztása"
         type="select"
         errors={errors}
         options={locationOptions}
