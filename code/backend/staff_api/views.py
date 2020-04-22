@@ -56,22 +56,6 @@ class SeatViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
     queryset = Seat.objects.all()
     serializer_class = s.SeatSerializer
 
-    def retrieve(self, request, *args, **kwargs):
-        # request.auth is set only on Token authentication
-        # When logged in through the api browser, only request.user will be set
-        token_authenticated = request.auth is not None
-
-        # the ?format=api or ?format=json URL query parameter will be set
-        # when using the top right dropdown button next "GET"
-        api_browser_format_param = "format" in request.GET
-
-        if token_authenticated or api_browser_format_param:
-            # business as usual, return the resource with the appropriate renderer
-            return super().retrieve(request)
-
-        # Redirect the logged-in user to the Seat admin page
-        return redirect(django_reverse("admin:appointments_seat_change", kwargs={"object_id": kwargs["pk"]}))
-
 
 class PaymentViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     permission_classes = [StaffApiPermissions]

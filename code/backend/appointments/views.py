@@ -1,16 +1,24 @@
 import os
 import logging
+from urllib.parse import urlencode
 from django.conf import settings
+from django.contrib import messages
+from django.urls import reverse as django_reverse
+from django.utils.translation import gettext as _
 from django.core.mail import send_mail
+from django.shortcuts import redirect, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
+from rest_framework.exceptions import NotFound
+from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view, permission_classes
 from project_noe.views import NoReadModelViewSet
 from . import filters as f
 from . import models as m
 from . import serializers as s
+
 
 logger = logging.getLogger(__name__)
 
@@ -51,6 +59,42 @@ class AppointmentViewSet(NoReadModelViewSet):
 class SeatViewSet(NoReadModelViewSet):
     queryset = m.Seat.objects.all()
     serializer_class = s.SeatSerializer
+
+
+class QRCodeView(generics.GenericAPIView):
+    queryset = m.QRCode.objects.all()
+    lookup_field = "code"
+
+    def get(self, request, *args, **kwargs):
+        # request.auth is set only on Token authentication
+        # When logged in through the api browser, only request.user will be set
+        token_authenticated = request.auth is not None
+
+        # Nothing to see here. A non-admin user should not be able to do anything with this!
+        if not token_authenticated and not request.user.is_authenticated:
+            return redirect(settings.FRONTEND_URL)
+
+        qr = self.get_object()
+
+        # the ?format=api or ?format=json URL query parameter will be set
+        # when using the top right dropdown button next "GET"
+        api_browser_format_param = "format" in request.GET
+
+        if token_authenticated or api_browser_format_param:
+            if qr.seat is None:
+                raise NotFound(_("This QR code has no associated Seat!"))
+
+            seat_staff_api_url = reverse("staff-seat-detail", args=[qr.seat.pk])
+            if request.query_params:
+                seat_staff_api_url += "?" + urlencode(request.query_params)
+            return redirect(seat_staff_api_url)
+
+        if qr.seat is None:
+            messages.error(request, _("This QR code has no Seat assigned!"))
+            return redirect(django_reverse("admin:appointments_qrcode_change", kwargs={"object_id": qr.pk}))
+
+        # Redirect the logged-in user to the Seat admin page
+        return redirect(django_reverse("admin:appointments_seat_change", kwargs={"object_id": qr.seat.pk}))
 
 
 class VerifyEmailView(generics.GenericAPIView):

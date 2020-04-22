@@ -70,4 +70,5 @@ urlpatterns = [
     path("staff-api/", include(staff_api.urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
+    path("qrcode/<code>/", appointments.views.QRCodeView.as_view(), name="qrcode"),
 ]
