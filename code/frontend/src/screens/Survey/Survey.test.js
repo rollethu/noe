@@ -1,31 +1,49 @@
 import React from "react";
 import axios from "axios";
-import { mount } from "enzyme";
+import { shallow, mount } from "enzyme";
+import renderer from "react-test-renderer";
 
 import { sendSurveyAnswers } from "../../contexts/surveyContext";
 import SurveyForm from "./SurveyForm";
 
 jest.mock("axios");
 
-test("Survey submission without questsions doesn't break", () => {
-  const surveyQuestions = [];
-  const activeSeat = { url: "seat-url-1" };
-  const mock = jest.fn(() => {});
-  const tree = mount(
-    <SurveyForm
-      surveyQuestions={surveyQuestions}
-      activeSurvey={null}
-      activeSeat={activeSeat}
-      sendSurveyAnswers={mock}
-      setActiveSeat={() => {}}
-      setActiveSurvey={() => {}}
-    />
-  );
-  const submitButton = tree.find("button");
-  expect(submitButton.text()).toBe("Tovább");
-  const form = tree.find("form");
-  form.simulate("submit");
-  expect(mock).toHaveBeenCalled();
+test("SurveyForm for creation renders OK", () => {
+  const tree = renderer
+    .create(
+      <SurveyForm
+        activeSurvey={null}
+        surveyQuestions={[
+          { url: "fake-url-1" },
+          { url: "fake-url-2" },
+          { url: "fake-url-3" },
+        ]}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test("SurveyForm for update renders OK", () => {
+  const activeSurvey = [
+    { seat: "seat-1-url", question: "fake-url-1", url: "answer-1-url" },
+    { seat: "seat-1-url", question: "fake-url-2", url: "answer-2-url" },
+    { seat: "seat-1-url", question: "fake-url-3", url: "answer-3-url" },
+  ];
+  const surveyQuestions = [
+    { url: "fake-url-1" },
+    { url: "fake-url-2" },
+    { url: "fake-url-3" },
+  ];
+  const tree = renderer
+    .create(
+      <SurveyForm
+        activeSurvey={activeSurvey}
+        surveyQuestions={surveyQuestions}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
 });
 
 test("Survey submission doesn't break without questsions", async () => {

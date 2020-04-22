@@ -1,0 +1,86 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`SurveyForm for creation renders OK 1`] = `
+<form
+  className="Form"
+  onSubmit={[Function]}
+>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      defaultValue=""
+      name="fake-url-1"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      defaultValue=""
+      name="fake-url-2"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      defaultValue=""
+      name="fake-url-3"
+      type="text"
+    />
+  </div>
+  <button
+    className="Button NextButton"
+    type="submit"
+  >
+    Tovább
+  </button>
+</form>
+`;
+
+exports[`SurveyForm for update renders OK 1`] = `
+<form
+  className="Form"
+  onSubmit={[Function]}
+>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      name="answer-1-url"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      name="answer-2-url"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <input
+      className="Input"
+      name="answer-3-url"
+      type="text"
+    />
+  </div>
+  <button
+    className="Button NextButton"
+    type="submit"
+  >
+    Tovább
+  </button>
+</form>
+`;
