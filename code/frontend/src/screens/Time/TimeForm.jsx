@@ -95,6 +95,6 @@ function getTimeSlotOptions(timeSlots) {
     value: slot.url,
     text: `${moment(slot.start).format("HH:mm")}-${moment(slot.end).format(
       "HH:mm"
-    )} (${slot.usage}/${slot.capacity})`,
+    )}`,
   }));
 }
