@@ -171,6 +171,9 @@ class Seat(models.Model):
     email = models.EmailField(help_text=_("Notification email for the test results."))
     phone_number = models.CharField(max_length=30, blank=True)
 
+    class Meta:
+        ordering = ("created_at",)
+
     def __str__(self):
         return f"{self.full_name} - {self.appointment}"
 
@@ -178,8 +181,6 @@ class Seat(models.Model):
     def full_address(self):
         return f"{self.post_code} {self.city}, {self.address_line1} {self.address_line2}"
 
-    class Meta:
-        ordering = ("created_at",)
 
 
 class TimeSlotManager(models.Manager):
