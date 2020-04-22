@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from . import models as m
+from . import phone_numbers
 
 
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
@@ -61,6 +62,9 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         if birth_date > timezone.now().date():
             raise ValidationError(_("Birth date must be in the past."))
         return birth_date
+
+    def validate_phone_number(self, raw_phone_number):
+        return phone_numbers.get_normalized_phone_number(raw_phone_number)
 
     def _validate_healthcare_number_with_referral(self, validated_data):
         has_doctor_referral = validated_data.get("has_doctor_referral")

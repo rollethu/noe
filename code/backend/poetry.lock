@@ -227,6 +227,14 @@ version = "0.7.0"
 
 [[package]]
 category = "main"
+description = "Python version of Google's common library for parsing, formatting, storing and validating international phone numbers."
+name = "phonenumbers"
+optional = false
+python-versions = "*"
+version = "8.12.1"
+
+[[package]]
+category = "main"
 description = "Python Imaging Library (Fork)"
 name = "pillow"
 optional = false
@@ -456,7 +464,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "2d5e21b08a372b0d8b925328fab2abc40e69d3b4aa83d5311019a4910dbd78b5"
+content-hash = "37fe1972030e018a31eb8307e56d58e26993ab6ea6b652053a4ceeec63057c94"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -582,6 +590,10 @@ packaging = [
 pathspec = [
     {file = "pathspec-0.7.0-py2.py3-none-any.whl", hash = "sha256:163b0632d4e31cef212976cf57b43d9fd6b0bac6e67c26015d611a647d5e7424"},
     {file = "pathspec-0.7.0.tar.gz", hash = "sha256:562aa70af2e0d434367d9790ad37aed893de47f1693e4201fd1d3dca15d19b96"},
+]
+phonenumbers = [
+    {file = "phonenumbers-8.12.1-py2.py3-none-any.whl", hash = "sha256:bebf881ef0e775b93062fbd107bf164b5baef877a7b8f702e93a9a5d24ae4065"},
+    {file = "phonenumbers-8.12.1.tar.gz", hash = "sha256:59ae9cb25fb03027c9f2bf5584098e699be7eca12c443838b83752956be15cda"},
 ]
 pillow = [
     {file = "Pillow-7.1.1-cp35-cp35m-macosx_10_10_intel.whl", hash = "sha256:b7453750cf911785009423789d2e4e5393aae9cbb8b3f471dab854b85a26cb89"},
