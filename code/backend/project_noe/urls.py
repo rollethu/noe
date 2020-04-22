@@ -49,6 +49,4 @@ urlpatterns = [
     path("staff-api/", include(staff_api.urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
-    # for reversing only
-    path("email-megerosites/", view=lambda: None, name="verify-email"),
 ]
