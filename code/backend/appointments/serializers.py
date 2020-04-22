@@ -76,7 +76,10 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         return birth_date
 
     def validate_phone_number(self, raw_phone_number):
-        return phone_numbers.get_normalized_phone_number(raw_phone_number)
+        try:
+            return phone_numbers.get_normalized_phone_number(raw_phone_number, check_validity=True)
+        except phone_numbers.InvalidPhoneNumber:
+            raise ValidationError(_("Invalid phone number."))
 
     def _validate_healthcare_number_with_referral(self, validated_data):
         has_doctor_referral = validated_data.get("has_doctor_referral")

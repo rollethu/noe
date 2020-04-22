@@ -65,12 +65,11 @@ def test_phone_number_normalization(api_client, appointment, monkeypatch):
 
 
 @pytest.mark.django_db
-def test_phone_number_normalization_validation(api_client, appointment, monkeypatch):
+def test_invalid_phone_number(api_client, appointment, monkeypatch):
     monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
     now = timezone.now()
     rv = api_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"phone_number": "0620123"})
     )
-    assert rv.status_code == status.HTTP_201_CREATED
-    seat = m.Seat.objects.first()
-    assert seat.phone_number == "0620123"
+    assert rv.status_code == status.HTTP_400_BAD_REQUEST
+    assert "phone_number" in rv.data
