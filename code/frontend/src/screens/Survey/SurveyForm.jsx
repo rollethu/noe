@@ -88,6 +88,8 @@ export default function SurveyForm({
     } else {
       onUpdateSubmit(values);
     }
+
+    setActiveSeat(null);
     setActiveSurveyAnswers(null);
   };
 
@@ -104,8 +106,6 @@ export default function SurveyForm({
       history,
       redirectRoute: ROUTE_ADD_SEAT,
     });
-    setActiveSeat(null);
-    setActiveSurvey(null);
   }
 
   async function onUpdateSubmit(values) {
@@ -123,8 +123,6 @@ export default function SurveyForm({
       history,
       redirectRoute: ROUTE_ADD_SEAT,
     });
-    setActiveSeat(null);
-    setActiveSurvey(null);
   }
 
   return (
