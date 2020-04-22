@@ -12,6 +12,7 @@ import {
   Field,
   NextButton,
   Flex,
+  HelpBlock,
 } from "../../UI";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
@@ -105,22 +106,26 @@ export default function SeatDetailsForm() {
         helpText="Személyigazolvány hiányában, jogosítvány vagy útlevél száma"
         placeholder="123456AB"
       />
-      <InputGroup>
+      <InputGroup
+        hasError={errors.post_code || errors.city || errors.address_line1}
+      >
         <Label>Tartózkodási cím</Label>
         <InputGroup>
           <Flex>
-            <Input
-              style={{ flex: 2 }}
-              register={register}
-              name="post_code"
-              placeholder="Irányítósz."
-            />
-            <Input
-              style={{ flex: 5, marginLeft: 10 }}
-              register={register}
-              name="city"
-              placeholder="Település"
-            />
+            <div style={{ flex: 2 }}>
+              <Input
+                register={register}
+                name="post_code"
+                placeholder="Irányítósz."
+              />
+              {errors.post_code && (
+                <HelpBlock>{errors.post_code.message}</HelpBlock>
+              )}
+            </div>
+            <div style={{ flex: 5, marginLeft: 10 }}>
+              <Input register={register} name="city" placeholder="Település" />
+              {errors.city && <HelpBlock>{errors.city.message}</HelpBlock>}
+            </div>
           </Flex>
         </InputGroup>
         <Input
@@ -128,6 +133,9 @@ export default function SeatDetailsForm() {
           name="address_line1"
           placeholder="Utca és Házszám"
         />
+        {errors.address_line1 && (
+          <HelpBlock>{errors.address_line1.message}</HelpBlock>
+        )}
       </InputGroup>
       <Field
         register={register}
