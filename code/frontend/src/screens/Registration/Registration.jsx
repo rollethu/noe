@@ -33,7 +33,7 @@ export default function Registration() {
       <Image src={ProgressBarSVG} />
       <Caption>Regisztráció</Caption>
       <Text>
-        Válassza ki a tesztelőállomást és adja meg a gépjármű redszámát, amivel
+        Válassza ki a tesztelőállomást és adja meg a gépjármű rendszámát, amivel
         érkezni fog
       </Text>
       <RegistrationForm locationOptions={locationOptions} />
