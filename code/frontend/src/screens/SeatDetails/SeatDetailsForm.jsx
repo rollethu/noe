@@ -75,7 +75,13 @@ export default function SeatDetailsForm() {
 
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
-      <Field register={register} name="full_name" label="Név" errors={errors} />
+      <Field
+        register={register}
+        name="full_name"
+        label="Név"
+        errors={errors}
+        placeholder="Példa Péter"
+      />
       <Field
         register={register}
         name="birth_date"
@@ -89,6 +95,7 @@ export default function SeatDetailsForm() {
         label="Személyi igazolvány száma"
         errors={errors}
         helpText="Személyigazolvány hiányában, jogosítvány vagy útlevél száma"
+        placeholder="123456AB"
       />
       <InputGroup>
         <Label>Tartózkodási cím</Label>
@@ -111,9 +118,17 @@ export default function SeatDetailsForm() {
         <Input
           register={register}
           name="address_line1"
-          placeholder="Utca, házszám"
+          placeholder="Utca és Házszám"
         />
       </InputGroup>
+      <Field
+        register={register}
+        name="phone_number"
+        label="Értesítési telefonszám"
+        type="text"
+        errors={errors}
+        placeholder="+36 70 123 4567"
+      />
       <Field
         register={register}
         name="email"
@@ -121,18 +136,12 @@ export default function SeatDetailsForm() {
         type="email"
         errors={errors}
         helpText="Amennyiben értesítési e-mail címe eltér a megadottól "
-      />
-      <Field
-        register={register}
-        name="phone_number"
-        label="Értesítési telefonszám"
-        type="text"
-        errors={errors}
+        placeholder="pelda@gmail.com"
       />
       <Field
         register={register}
         name="has_doctor_referral"
-        label="Beutalóval érkezem"
+        label="Orvosi beutalóval érkezem"
         type="checkbox"
         errors={errors}
       />
@@ -143,6 +152,7 @@ export default function SeatDetailsForm() {
         type="text"
         errors={errors}
         hidden={!watch("has_doctor_referral")}
+        placeholder="123-456-789"
       />
       <Button type="submit">Tovább</Button>
     </Form>
