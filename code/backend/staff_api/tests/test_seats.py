@@ -48,6 +48,14 @@ def test_seat_detail_returns_response_when_using_browsable_api(staff_api_browser
 
 
 @pytest.mark.django_db
+def test_seat_detail_returns_response_when_using_json_format(staff_api_browser, api_user, seat):
+    seat_staff_api_url = reverse("staff-seat-detail", kwargs={"pk": seat.pk})
+    http_get_params = {"format": "json"}
+    rv = staff_api_browser.get(seat_staff_api_url, http_get_params)
+    assert rv.status_code == status.HTTP_200_OK
+
+
+@pytest.mark.django_db
 def test_seat_detail_returns_response_when_using_token_auth(staff_api_client, seat):
     seat_staff_api_url = reverse("staff-seat-detail", kwargs={"pk": seat.pk})
     rv = staff_api_client.get(seat_staff_api_url)

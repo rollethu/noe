@@ -61,9 +61,9 @@ class SeatViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewsets.G
         # When logged in through the api browser, only request.user will be set
         token_authenticated = request.auth is not None
 
-        # the ?format=api URL query parameter will be set when clicking
-        # the "api" toggle button below the "GET" top-right button
-        api_browser_format_param = request.GET.get("format", "") == "api"
+        # the ?format=api or ?format=json URL query parameter will be set
+        # when using the top right dropdown button next "GET"
+        api_browser_format_param = "format" in request.GET
 
         if token_authenticated or api_browser_format_param:
             # business as usual, return the resource with the appropriate renderer
