@@ -38,13 +38,11 @@ const surveyReducer = (state, action) => {
       };
       return newState;
     case consts.UPDATE_SURVEY_ANSWERS:
-      seat = action.payload[0].seat; // all answers must have the same Seat
-      answersGroupedBySeat = { [seat]: action.payload }; // Overrides existing answers
       newState = {
         ...state,
         surveyAnswers: {
           ...state.surveyAnswers,
-          ...answersGroupedBySeat, // {seatUrl: [{Answer Details}, {Answer Details}]}
+          ...action.payload, // {seatUrl: [{Answer Details}, {Answer Details}]}
         },
       };
       return newState;
@@ -77,7 +75,7 @@ function groupAnswersBySeat(answers) {
   }
 
   const seat = answers[0].seat; // all answers must have the same Seat
-  return { [seat]: answers };
+  return { [seat]: answers }; // Overrides existing keys (when updates)
 }
 
 export const sendSurveyAnswers = (dispatch) => async (values) => {
@@ -95,11 +93,15 @@ export const sendSurveyAnswers = (dispatch) => async (values) => {
   return response;
 };
 
-const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
+export const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
   try {
     // const response = await axios.patch(consts.SURVEY_ANSWER_LIST_URL, surveyAnswerList);
     // dispatch({ type: consts.ADD_SURVEY_ANSWERS, payload: response.data });
-    dispatch({ type: consts.UPDATE_SURVEY_ANSWERS, payload: surveyAnswerList });
+    // dispatch({ type: consts.UPDATE_SURVEY_ANSWERS, payload: surveyAnswerList });
+    dispatch({
+      type: consts.UPDATE_SURVEY_ANSWERS,
+      payload: groupAnswersBySeat(surveyAnswerList),
+    });
     return { error: false };
     // response.error = false;
     // return response;

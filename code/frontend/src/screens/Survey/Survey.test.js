@@ -3,7 +3,10 @@ import axios from "axios";
 import { shallow, mount } from "enzyme";
 import renderer from "react-test-renderer";
 
-import { sendSurveyAnswers } from "../../contexts/surveyContext";
+import {
+  sendSurveyAnswers,
+  updateSurveyAnswers,
+} from "../../contexts/surveyContext";
 import SurveyForm from "./SurveyForm";
 
 jest.mock("axios");
@@ -52,6 +55,16 @@ test("Survey submission doesn't break without questions", async () => {
   await sendSurveyAnswers(mockDispatch)();
   expect(mockDispatch).toHaveBeenCalledWith({
     type: "ADD_SURVEY_ANSWERS",
+    payload: {},
+  });
+});
+
+test("Survey update submission doesn't break without questions", async () => {
+  axios.post.mockImplementationOnce(() => Promise.resolve({ data: [] }));
+  const mockDispatch = jest.fn(() => {});
+  await updateSurveyAnswers(mockDispatch)([]);
+  expect(mockDispatch).toHaveBeenCalledWith({
+    type: "UPDATE_SURVEY_ANSWERS",
     payload: {},
   });
 });
