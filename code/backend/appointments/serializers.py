@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -55,6 +56,11 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         self._validate_healthcare_number_with_referral(validated_data)
         return super().create(validated_data)
+
+    def validate_birth_date(self, birth_date):
+        if birth_date > timezone.now().date():
+            raise ValidationError(_("Birth date must be in the past."))
+        return birth_date
 
     def _validate_healthcare_number_with_referral(self, validated_data):
         has_doctor_referral = validated_data.get("has_doctor_referral")
