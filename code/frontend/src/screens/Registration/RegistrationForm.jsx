@@ -47,6 +47,7 @@ export default function RegistrationForm({ locationOptions }) {
         type="select"
         errors={errors}
         options={locationOptions}
+        selectOptionText="Kiválasztás"
       />
       <Field
         register={register}
@@ -55,6 +56,7 @@ export default function RegistrationForm({ locationOptions }) {
         type="text"
         errors={errors}
         onChange={onLicencePlateChange}
+        placeholder="ABC-123"
       />
       <Button type="submit">Tovább</Button>
     </Form>

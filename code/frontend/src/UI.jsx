@@ -41,6 +41,7 @@ export function Field({
   onChange,
   placeholder,
   defaultValue,
+  selectOptionText,
 }) {
   const errors = allErrors[name];
   let errorMessage = null;
@@ -84,6 +85,7 @@ export function Field({
             onChange={onChange}
             placeholder={placeholder}
             defaultValue={defaultValue}
+            selectOptionText={selectOptionText}
           />
         </>
       )}
@@ -105,6 +107,7 @@ export function Input({
   style,
   placeholder,
   defaultValue,
+  selectOptionText,
 }) {
   if (type === "checkbox") {
     return (
@@ -125,8 +128,13 @@ export function Input({
         name={name}
         ref={register({ required })}
         type={type}
-        defaultValue={defaultValue}
+        defaultValue={defaultValue || ""}
       >
+        {!!selectOptionText && (
+          <option disabled value="" hidden>
+            {selectOptionText}
+          </option>
+        )}
         {options.map((option) => (
           <option key={option.value} value={option.value}>
             {option.text}
