@@ -28,16 +28,7 @@ const surveyReducer = (state, action) => {
         ...state,
         surveyQuestions: action.payload,
       };
-    case consts.ADD_SURVEY_ANSWERS:
-      newState = {
-        ...state,
-        surveyAnswers: {
-          ...state.surveyAnswers,
-          ...action.payload, // {seatUrl: [{Answer Details}, {Answer Details}]}
-        },
-      };
-      return newState;
-    case consts.UPDATE_SURVEY_ANSWERS:
+    case consts.SET_NEW_SURVEY_ANSWERS:
       newState = {
         ...state,
         surveyAnswers: {
@@ -85,7 +76,7 @@ export const sendSurveyAnswers = (dispatch) => async (values) => {
 
   if (!response.error) {
     dispatch({
-      type: consts.ADD_SURVEY_ANSWERS,
+      type: consts.SET_NEW_SURVEY_ANSWERS,
       payload: groupAnswersBySeat(response.data),
     });
   }
@@ -97,9 +88,9 @@ export const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
   try {
     // const response = await axios.patch(consts.SURVEY_ANSWER_LIST_URL, surveyAnswerList);
     // dispatch({ type: consts.ADD_SURVEY_ANSWERS, payload: response.data });
-    // dispatch({ type: consts.UPDATE_SURVEY_ANSWERS, payload: surveyAnswerList });
+    // dispatch({ type: consts.SET_NEW_SURVEY_ANSWERS, payload: surveyAnswerList });
     dispatch({
-      type: consts.UPDATE_SURVEY_ANSWERS,
+      type: consts.SET_NEW_SURVEY_ANSWERS,
       payload: groupAnswersBySeat(surveyAnswerList),
     });
     return { error: false };

@@ -54,7 +54,7 @@ test("Survey submission doesn't break without questions", async () => {
   const mockDispatch = jest.fn(() => {});
   await sendSurveyAnswers(mockDispatch)();
   expect(mockDispatch).toHaveBeenCalledWith({
-    type: "ADD_SURVEY_ANSWERS",
+    type: "SET_NEW_SURVEY_ANSWERS",
     payload: {},
   });
 });
@@ -64,7 +64,7 @@ test("Survey update submission doesn't break without questions", async () => {
   const mockDispatch = jest.fn(() => {});
   await updateSurveyAnswers(mockDispatch)([]);
   expect(mockDispatch).toHaveBeenCalledWith({
-    type: "UPDATE_SURVEY_ANSWERS",
+    type: "SET_NEW_SURVEY_ANSWERS",
     payload: {},
   });
 });
