@@ -1,9 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 
-import { Context as SurveyContext } from "../../contexts/surveyContext";
-import { Context as SeatContext } from "../../contexts/seatContext";
 import { Form, Field, NextButton, Toggle, InputGroup, Label } from "../../UI";
 import { ROUTE_ADD_SEAT } from "../../App";
 import * as utils from "../../utils";
@@ -28,21 +25,19 @@ function getFieldTypeFromSurveyAnswerType(question) {
 const SUBMIT_MODE_CREATE = "CREATE";
 const SUBMIT_MODE_UPDATE = "UPDATE";
 
-export default function SurveyForm() {
-  const history = useHistory();
-  const {
-    state: { surveyQuestions, activeSurvey },
-    sendSurveyAnswers,
-    updateSurveyAnswers,
-    setActiveSurvey,
-  } = React.useContext(SurveyContext);
+export default function SurveyForm({
+  surveyQuestions,
+  activeSurvey,
+  sendSurveyAnswers,
+  updateSurveyAnswers,
+  setActiveSurvey,
+  activeSeat,
+  setActiveSeat,
+  history,
+}) {
   const submitMode =
     activeSurvey === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
   const { register, handleSubmit, errors, setError } = useForm();
-  const {
-    state: { activeSeat },
-    setActiveSeat,
-  } = React.useContext(SeatContext);
 
   let formData;
   if (submitMode === SUBMIT_MODE_CREATE) {
@@ -60,7 +55,6 @@ export default function SurveyForm() {
       const existingAnswer = activeSurvey.filter(
         (answer) => answer.question === question.url
       )[0];
-      console.log("default value", existingAnswer.answer);
       return {
         label: question.question,
         name: existingAnswer.url, // To update existing answers based on their urls
