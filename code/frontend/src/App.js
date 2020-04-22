@@ -61,7 +61,7 @@ function App() {
   return (
     <div className="App">
       {process.env.NODE_ENV === "development" && <TopStripe>LOCAL</TopStripe>}
-      {process.env.REACT_APP_ENV === "staging" && (
+      {process.env.REACT_APP_NODE_ENV === "staging" && (
         <TopStripe>SANDBOX</TopStripe>
       )}
       <Router>
