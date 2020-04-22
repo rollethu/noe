@@ -30,7 +30,7 @@ export default function Checkout() {
     state: { selectedTimeSlot },
     fetchSelectedTimeSlot,
   } = React.useContext(TimeSlotContext);
-  const { setActiveSurvey } = React.useContext(SurveyContext);
+  const { setActiveSurveyAnswers } = React.useContext(SurveyContext);
 
   React.useEffect(() => {
     if (!appointment) {
@@ -41,7 +41,7 @@ export default function Checkout() {
 
   function onSeatEditClick(seat) {
     setActiveSeat(seat);
-    setActiveSurvey(seat);
+    setActiveSurveyAnswers(seat);
     history.push(ROUTE_SEAT_DETAILS);
   }
 

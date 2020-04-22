@@ -47,7 +47,7 @@ const surveyReducer = (state, action) => {
         },
       };
       return newState;
-    case consts.SET_ACTIVE_SURVEY:
+    case consts.SET_ACTIVE_SURVEY_ANSWERS:
       newState = {
         ...state,
         activeSurvey: state.surveyAnswers[action.payload.seat],
@@ -130,9 +130,12 @@ const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
   }
 };
 
-const setActiveSurvey = (dispatch) => (seat) => {
+const setActiveSurveyAnswers = (dispatch) => (seat) => {
   const newValue = seat === null ? null : seat.url;
-  dispatch({ type: consts.SET_ACTIVE_SURVEY, payload: { seat: newValue } });
+  dispatch({
+    type: consts.SET_ACTIVE_SURVEY_ANSWERS,
+    payload: { seat: newValue },
+  });
 };
 
 export const { Provider, Context } = createContext(
@@ -140,7 +143,7 @@ export const { Provider, Context } = createContext(
   {
     fetchSurveyQuestions,
     sendSurveyAnswers,
-    setActiveSurvey,
+    setActiveSurveyAnswers,
     updateSurveyAnswers,
   },
   initialState

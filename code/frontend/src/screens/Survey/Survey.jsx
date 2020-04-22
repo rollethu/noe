@@ -13,7 +13,7 @@ export default function Survey() {
     state: { surveyQuestions, activeSurvey },
     sendSurveyAnswers,
     updateSurveyAnswers,
-    setActiveSurvey,
+    setActiveSurveyAnswers,
     fetchSurveyQuestions,
   } = React.useContext(SurveyContext);
   const {
@@ -45,7 +45,7 @@ export default function Survey() {
         activeSurvey={activeSurvey}
         sendSurveyAnswers={sendSurveyAnswers}
         updateSurveyAnswers={updateSurveyAnswers}
-        setActiveSurvey={setActiveSurvey}
+        setActiveSurveyAnswers={setActiveSurveyAnswers}
         activeSeat={activeSeat}
         setActiveSeat={setActiveSeat}
         history={history}

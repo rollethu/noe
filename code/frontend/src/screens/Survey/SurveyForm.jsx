@@ -30,7 +30,7 @@ export default function SurveyForm({
   activeSurvey,
   sendSurveyAnswers,
   updateSurveyAnswers,
-  setActiveSurvey,
+  setActiveSurveyAnswers,
   activeSeat,
   setActiveSeat,
   history,
@@ -75,6 +75,7 @@ export default function SurveyForm({
     } else {
       onUpdateSubmit(values);
     }
+    setActiveSurveyAnswers(null);
   };
 
   async function onCreateSubmit(values) {
