@@ -1,8 +1,10 @@
 import uuid
 import string
 import secrets
+import datetime as dt
 from django.db import models
 from django.conf import settings
+from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.signing import Signer
 from django.utils import timezone
@@ -181,6 +183,56 @@ class Seat(models.Model):
     def full_address(self):
         return f"{self.post_code} {self.city}, {self.address_line1} {self.address_line2}"
 
+
+def generate_uuid():
+    return uuid.uuid4().hex
+
+
+class QRCode(models.Model):
+    LOCATION_DIGITS = 4
+    DAY_SERIAL_DIGITS = 4
+
+    seat = models.OneToOneField(Seat, null=True, on_delete=models.SET_NULL)
+    created_at = models.DateTimeField(auto_now_add=True)
+    # We need the id to be set, which will only be available after save. In
+    # order to allow the unique constraint, first we make a random string which
+    # makes it possible to save, but keep the field unique. Otherwise, we would
+    # need to save first with empty string default and calculate the real code
+    # after that, which would make IntegrityErrors possible.
+    code = models.CharField(max_length=40, unique=True, default=generate_uuid)
+
+    def __str__(self):
+        return self.code
+
+    def save(self, *args, **kwargs):
+        new_object = self.pk is None
+        # we need to save first to get the id
+        super().save(*args, **kwargs)
+        # We don't want this to change after it has been set
+        if new_object:
+            self.code = self._calc_code()
+            super().save(update_fields=["code"])
+
+    def _calc_code(self):
+        # https://gitlab.com/rollet/project-noe/-/wikis/Seat-QR-codes
+        try:
+            location_pk_str = str(self.seat.appointment.location.pk)
+        except AttributeError:
+            # appointment has no Location
+            location_pk_str = "0" * self.LOCATION_DIGITS
+        location_id = location_pk_str.zfill(self.LOCATION_DIGITS)
+
+        # This needs to be localtime, so can be verified by just looking at it
+        localdt = timezone.localtime()
+        local_date = localdt.strftime("%y%m%d")
+
+        modulus = 10 ** (self.DAY_SERIAL_DIGITS + 1)
+        day_serial = str(self.pk % modulus).zfill(self.DAY_SERIAL_DIGITS)
+
+        return f"{location_id}-{local_date}-{day_serial}"
+
+    def get_absolute_url(self):
+        return reverse("qrcode", args=[str(self.code)])
 
 
 class TimeSlotManager(models.Manager):
