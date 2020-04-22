@@ -55,7 +55,7 @@ export function Field({
   return (
     <InputGroup hidden={hidden} hasError={errorMessage !== null}>
       {type === "checkbox" ? (
-        <Label htmlFor={name}>
+        <Label htmlFor={name} noMargin>
           <Input
             value={value}
             name={name}
@@ -157,9 +157,10 @@ export function InputGroup({ children, hidden, hasError }) {
   return <div className={classes}>{children}</div>;
 }
 
-export function Label({ children, className, htmlFor }) {
+export function Label({ children, className, htmlFor, noMargin }) {
+  const classes = classNames("Label", { NoMargin: noMargin });
   return (
-    <label className={`Label ${className || ""}`} htmlFor={htmlFor}>
+    <label className={`${classes} ${className || ""}`} htmlFor={htmlFor}>
       {children}
     </label>
   );
