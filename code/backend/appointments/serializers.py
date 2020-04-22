@@ -4,6 +4,7 @@ from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
 from . import models as m
+from . import licence_plates
 from . import phone_numbers
 
 
@@ -29,10 +30,21 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             "licence_plate": {"allow_blank": False},
         }
 
+    def create(self, validated_data):
+        appointment = self.create(validated_data)
+        appointment.set_normalized_licence_plate(save=True)
+        return appointment
+
     def update(self, instance, validated_data):
         self._bump_time_slot_usage(instance, validated_data)
-        appointment = super().update(instance, validated_data)
 
+        # Licence plate should only be added as an update,
+        # but not during creation
+        licence_plate = validated_data.get("licence_plate", None)
+        if licence_plate is not None:
+            validated_data["normalized_licence_plate"] = licence_plates.get_normalized_licence_plate(licence_plate)
+
+        appointment = super().update(instance, validated_data)
         return appointment
 
     def _bump_time_slot_usage(self, appointment, validated_data):

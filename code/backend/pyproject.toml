@@ -16,6 +16,7 @@ django-filter = "^2.2.0"
 qrcode = {version = "^6.1", extras = ["pil"]}
 psycopg2-binary = "^2.8.5"
 phonenumbers = "^8.12.1"
+unidecode = "^1.1.1"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"

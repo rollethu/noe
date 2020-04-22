@@ -25,10 +25,6 @@ export default function RegistrationForm({ locationOptions }) {
       return;
     }
 
-    values.normalized_licence_plate = utils.normalizeLicencePlate(
-      values.licence_plate
-    );
-
     const response = await updateAppointment(appointment.url, values);
     utils.handleResponse({
       response,
