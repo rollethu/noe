@@ -13,7 +13,13 @@ export default function AppointmentSuccess() {
         információt a megadott e-mail címre küldött üzenetben talál. Kérjük
         időben érkezzen a csúszások elkerülése végett.
       </Text>
-      <Button toCenter>Rendben</Button>
+      <a
+        href="https://tesztallomas.hu"
+        target="_blank"
+        className="Button ToCenter"
+      >
+        Rendben
+      </a>
     </View>
   );
 }
