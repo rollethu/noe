@@ -57,7 +57,8 @@
   width: 100%;
   padding: 10px;
   border-radius: 10px;
-  border: 1px solid #787D90; }
+  border: 1px solid #787D90;
+  height: 40px; }
   .Input.Inline {
     width: auto; }
 
