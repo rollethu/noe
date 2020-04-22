@@ -1,5 +1,7 @@
+from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
+
 from . import models as m
 
 
@@ -49,6 +51,16 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Seat
         fields = "__all__"
+
+    def create(self, validated_data):
+        self._validate_healthcare_number_with_referral(validated_data)
+        return super().create(validated_data)
+
+    def _validate_healthcare_number_with_referral(self, validated_data):
+        has_doctor_referral = validated_data.get("has_doctor_referral")
+        healthcare_number = validated_data.get("healthcare_number")
+        if has_doctor_referral and not healthcare_number:
+            raise ValidationError({"healthcare_number": _("This field is required.")})
 
 
 class VerifyEmailSerializer(serializers.Serializer):
