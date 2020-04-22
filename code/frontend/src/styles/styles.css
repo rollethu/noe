@@ -44,7 +44,8 @@
   display: block;
   margin-bottom: 10px;
   display: flex;
-  align-items: center; }
+  align-items: center;
+  color: #07185F; }
   .Label.Inline {
     margin-bottom: 0;
     display: inline; }
