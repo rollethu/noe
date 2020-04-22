@@ -46,7 +46,7 @@ test("SurveyForm for update renders OK", () => {
   expect(tree).toMatchSnapshot();
 });
 
-test("Survey submission doesn't break without questsions", async () => {
+test("Survey submission doesn't break without questions", async () => {
   axios.post.mockImplementationOnce(() => Promise.resolve({ data: [] }));
   const mockDispatch = jest.fn(() => {});
   await sendSurveyAnswers(mockDispatch)();
