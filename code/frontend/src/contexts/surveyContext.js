@@ -21,7 +21,7 @@ const initialState = {
 };
 
 const surveyReducer = (state, action) => {
-  let newState, seat, answersGroupedBySeat;
+  let newState;
   switch (action.type) {
     case consts.SET_SURVEY_QUESTIONS:
       return {
