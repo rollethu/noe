@@ -128,6 +128,8 @@
     color: #4B5D68; }
     .Text.SemiLight strong {
       color: #07185F; }
+  .Text.Dark {
+    color: #07185F; }
 
 .Flex {
   display: flex; }

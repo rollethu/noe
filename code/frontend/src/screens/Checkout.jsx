@@ -75,17 +75,17 @@ export default function Checkout() {
       <Caption center>Összegzés</Caption>
       <DataRow>
         <Text light>Regisztrált jármű</Text>
-        <Text strong>{appointment.licence_plate}</Text>
+        <Text dark>{appointment.licence_plate}</Text>
       </DataRow>
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
-        <Text strong right>
+        <Text dark right>
           {formatAppointmentDate(selectedTimeSlot)}
         </Text>
       </DataRow>
       <DataRow>
         <Text light>Mintavétel helyszíne</Text>
-        <Text strong>{appointment.location_name}</Text>
+        <Text dark>{appointment.location_name}</Text>
       </DataRow>
       {seats.map((seat) => (
         <React.Fragment key={seat.url}>
@@ -97,11 +97,11 @@ export default function Checkout() {
           </Text>
           <DataRow>
             <Text light>Születési dátum</Text>
-            <Text strong>{seat.birth_date}</Text>
+            <Text dark>{seat.birth_date}</Text>
           </DataRow>
           <DataRow>
             <Text light>Személyi igazolvány száma</Text>
-            <Text strong>{seat.identity_card_number}</Text>
+            <Text dark>{seat.identity_card_number}</Text>
           </DataRow>
           <DataRow>
             <Text light>Tartózkodási lakcím</Text>
@@ -111,15 +111,15 @@ export default function Checkout() {
           </DataRow>
           <DataRow>
             <Text light>Értesítési telefonszám</Text>
-            <Text strong>{seat.phone_number}</Text>
+            <Text dark>{seat.phone_number}</Text>
           </DataRow>
           <DataRow>
             <Text light>Értesítési e-mail cím</Text>
-            <Text strong>{seat.email}</Text>
+            <Text dark>{seat.email}</Text>
           </DataRow>
           <DataRow>
             <Text light>TAJ kártya száma</Text>
-            <Text strong>{seat.healthcare_number}</Text>
+            <Text dark>{seat.healthcare_number}</Text>
           </DataRow>
         </React.Fragment>
       ))}
