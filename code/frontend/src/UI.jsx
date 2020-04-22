@@ -209,10 +209,10 @@ export function Button({
   );
 }
 
-export function NextButton(props) {
+export function NextButton({ children, ...props }) {
   return (
     <Button {...props} nextButton>
-      Tovább
+      {children || "Tovább"}
     </Button>
   );
 }

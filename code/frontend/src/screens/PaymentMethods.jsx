@@ -81,7 +81,9 @@ export default function PaymentMethods() {
       <Button toCenter inverse disabled paymentOption>
         Hamarosan: Online fizetés
       </Button>
-      <NextButton toCenter onClick={onNextClick} />
+      <NextButton toCenter onClick={onNextClick}>
+        Fizetés
+      </NextButton>
     </View>
   );
 }
