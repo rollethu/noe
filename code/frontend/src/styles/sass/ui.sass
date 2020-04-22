@@ -87,7 +87,7 @@
 
     &.Disabled
         background: $light-gray
-        color: $dark-gray
+        color: $dark-gray !important
         border-color: $dark-gray
 
     &.IconOnly
@@ -102,6 +102,11 @@
 
     &.NextButton
         margin-top: $large-space-size
+
+    &.PaymentOption
+        padding: $large-space-size
+        font-weight: 300
+        color: $dark-blue
 
 .ToCenter
     align-self: center

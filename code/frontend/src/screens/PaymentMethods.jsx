@@ -75,10 +75,10 @@ export default function PaymentMethods() {
       <Caption>Fizetési mód választás</Caption>
       <HighlightText toCenter>Fizetendő összeg: {total}</HighlightText>
       <Text>Válassza ki a kívánt fizetési módot.</Text>
-      <Button toCenter inverse>
+      <Button toCenter inverse paymentOption>
         Fizetés a helyszínen bankkártyával
       </Button>
-      <Button toCenter inverse disabled>
+      <Button toCenter inverse disabled paymentOption>
         Hamarosan: Online fizetés
       </Button>
       <NextButton toCenter onClick={onNextClick} />

@@ -185,6 +185,7 @@ export function Button({
   noBorder,
   inline,
   nextButton,
+  paymentOption,
 }) {
   const classes = classNames("Button", {
     ToCenter: toCenter,
@@ -194,6 +195,7 @@ export function Button({
     NoBorder: noBorder,
     Inline: inline,
     NextButton: nextButton,
+    PaymentOption: paymentOption,
   });
   return (
     <button

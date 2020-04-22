@@ -79,7 +79,7 @@
     background: white; }
   .Button.Disabled {
     background: #EBECEE;
-    color: #787D90;
+    color: #787D90 !important;
     border-color: #787D90; }
   .Button.IconOnly {
     width: 40px; }
@@ -90,6 +90,10 @@
     margin-bottom: 0; }
   .Button.NextButton {
     margin-top: 20px; }
+  .Button.PaymentOption {
+    padding: 20px;
+    font-weight: 300;
+    color: #07185F; }
 
 .ToCenter {
   align-self: center; }
