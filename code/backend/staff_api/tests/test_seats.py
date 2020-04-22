@@ -1,4 +1,5 @@
 import pytest
+from django.contrib.auth.models import Group, Permission
 from rest_framework import status
 from rest_framework.authtoken.models import Token
 from rest_framework.reverse import reverse
@@ -8,7 +9,12 @@ from users.models import User
 
 @pytest.fixture
 def api_user():
-    return User.objects.create(username="testuser", password="testpassword", is_admin=True)
+    group = Group.objects.create(name="seatgroup")
+    p = Permission.objects.get(codename="view_seat")
+    group.permissions.add(p)
+    user = User.objects.create(username="testuser", password="testpassword", is_admin=True)
+    user.groups.add(group)
+    return user
 
 
 @pytest.fixture
