@@ -1,6 +1,5 @@
 import React from "react";
 import axios from "axios";
-import { shallow, mount } from "enzyme";
 import renderer from "react-test-renderer";
 
 import {
