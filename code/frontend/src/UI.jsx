@@ -221,6 +221,7 @@ export function Text({
   right,
   onClick,
   style,
+  semiLight,
 }) {
   const classes = classNames("Text", {
     CenterText: center,
@@ -229,6 +230,7 @@ export function Text({
     Light: light,
     Strong: strong,
     RightText: right,
+    SemiLight: semiLight,
   });
   return (
     <p style={style} onClick={onClick} className={classes}>

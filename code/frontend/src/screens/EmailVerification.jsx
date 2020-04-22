@@ -22,7 +22,7 @@ export default function EmailVerification() {
         A megadott e-mail címére elüldtük a megerősítő linket, amelyre kattintva
         visszatérhet a regisztrációs folyamathoz.
       </Text>
-      <Text center onClick={onResendClick}>
+      <Text center onClick={onResendClick} semiLight>
         Nem érkezett meg a link? <strong>Újraküldöm</strong>
       </Text>
     </View>

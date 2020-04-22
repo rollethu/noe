@@ -122,6 +122,10 @@
   .Text.Strong {
     color: #1943EF;
     font-weight: 800; }
+  .Text.SemiLight {
+    color: #4B5D68; }
+    .Text.SemiLight strong {
+      color: #07185F; }
 
 .Flex {
   display: flex; }
