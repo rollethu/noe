@@ -30,11 +30,6 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             "licence_plate": {"allow_blank": False},
         }
 
-    def create(self, validated_data):
-        appointment = self.create(validated_data)
-        appointment.set_normalized_licence_plate(save=True)
-        return appointment
-
     def update(self, instance, validated_data):
         self._bump_time_slot_usage(instance, validated_data)
 
