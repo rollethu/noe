@@ -60,7 +60,7 @@ const surveyReducer = (state, action) => {
 };
 
 const fetchSurveyQuestions = (dispatch) => async () => {
-  const response = await handleRequest(() =>
+  const response = await utils.handleRequest(() =>
     axios.get(consts.SURVEY_QUESTION_LIST_URL)
   );
 
