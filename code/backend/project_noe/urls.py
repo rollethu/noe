@@ -14,10 +14,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, path
+from django.contrib.auth.decorators import login_required
+from django.urls import include, path, re_path
 from rest_framework.routers import DefaultRouter
+from rest_framework import permissions
+from drf_yasg.views import get_schema_view
+from drf_yasg import openapi
 
 import staff_api.urls
+from staff_api.permissions import StaffApiPermissions
 from project_noe.views import health_check
 import appointments.views
 import surveys.views
@@ -35,14 +40,30 @@ api_router.register("survey-questions", surveys.views.SurveyQuestionViewSet)
 api_router.register("survey-answers", surveys.views.SurveyAnswerViewSet)
 
 
+schema_view = get_schema_view(
+    openapi.Info(title="Tesztallomas.hu API", default_version="v1",),
+    public=False,
+    permission_classes=([StaffApiPermissions]),
+)
+
+swagger_urls = [
+    re_path(
+        r"^swagger(?P<format>\.json|\.yaml)$",
+        login_required(schema_view.without_ui(cache_timeout=0)),
+        name="schema-json",
+    ),
+    re_path(r"^swagger/$", login_required(schema_view.with_ui("swagger", cache_timeout=0)), name="schema-swagger-ui"),
+    re_path(r"^redoc/$", login_required(schema_view.with_ui("redoc", cache_timeout=0)), name="schema-redoc"),
+]
+
 api_urls = [
     path("", include(api_router.urls)),
     path("verify/email/", appointments.views.VerifyEmailView.as_view()),
     path("verify/resend-email/", appointments.views.ResendVerifyEmailView.as_view()),
     path("get-price/", payments.views.GetPriceView.as_view()),
     path("pay-appointment/", payments.views.PayAppointmentView.as_view()),
+    path("", include(swagger_urls)),
 ]
-
 
 urlpatterns = [
     path("api/", include(api_urls)),

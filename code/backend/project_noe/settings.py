@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "rest_framework",
     "rest_framework.authtoken",
+    "drf_yasg",
     "django_filters",
     "appointments",
     "surveys",
@@ -134,6 +135,9 @@ USE_TZ = True
 STATIC_URL = "/static/"
 
 AUTH_USER_MODEL = "users.User"
+
+LOGIN_URL = "/admin/"
+LOGOUT_URL = "/admin/logout/"
 
 ALLOWED_CORS_HOSTS = os.environ.get("ALLOWED_CORS_HOSTS", "").strip()
 

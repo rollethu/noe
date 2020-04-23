@@ -8,6 +8,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Payment
+        ref_name = "Staff Payment"
         fields = ["url", "amount", "currency", "paid_at", "payment_method_type"]
 
 
@@ -17,6 +18,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Appointment
+        ref_name = "Staff Appointment"
         fields = [
             "url",
             "location",
@@ -41,6 +43,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
 
     class Meta:
         model = Seat
+        ref_name = "Staff Seat"
         fields = [
             "url",
             "full_name",

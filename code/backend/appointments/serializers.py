@@ -10,6 +10,7 @@ from . import phone_numbers
 
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
+        ref_name = "Public Location"
         model = m.Location
         fields = "__all__"
 
@@ -25,6 +26,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Appointment
         fields = "__all__"
+        ref_name = "Public Appointments"
         extra_kwargs = {
             "location": {"allow_null": False},
             "licence_plate": {"allow_blank": False},
@@ -60,6 +62,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Seat
         fields = "__all__"
+        ref_name = "Public Seat"
 
     def create(self, validated_data):
         self._validate_healthcare_number_with_referral(validated_data)
@@ -112,3 +115,4 @@ class TimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.TimeSlot
         fields = "__all__"
+        ref_name = "Public TimeSlot"
