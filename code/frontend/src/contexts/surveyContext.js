@@ -40,7 +40,10 @@ const surveyReducer = (state, action) => {
     case consts.SET_ACTIVE_SURVEY_ANSWERS:
       newState = {
         ...state,
-        surveyAnswersForActiveSeat: state.surveyAnswers[action.payload.seat],
+        surveyAnswersForActiveSeat:
+          action.payload === null
+            ? null
+            : state.surveyAnswers[action.payload.seat],
       };
       return newState;
     default:
@@ -110,10 +113,13 @@ export const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
 };
 
 const setActiveSurveyAnswers = (dispatch) => (seat) => {
-  const newValue = seat === null ? null : seat.url;
+  let payload = null;
+  if (seat !== null) {
+    payload = { seat: seat.url };
+  }
   dispatch({
     type: consts.SET_ACTIVE_SURVEY_ANSWERS,
-    payload: { seat: newValue },
+    payload: payload,
   });
 };
 
