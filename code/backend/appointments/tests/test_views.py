@@ -42,11 +42,6 @@ def staff_api_browser(api_user, api_client):
     return api_client
 
 
-@pytest.fixture
-def qr(seat):
-    return m.QRCode.objects.create(seat=seat)
-
-
 def test_email_verify_with_invalid_token(factory):
     request = factory.post("/email/verify/", {"token": "invalid-token"})
     view = views.VerifyEmailView.as_view()
