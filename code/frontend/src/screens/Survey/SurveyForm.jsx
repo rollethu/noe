@@ -94,9 +94,6 @@ export default function SurveyForm({
     } else {
       onUpdateSubmit(values);
     }
-
-    setActiveSeat(null);
-    setActiveSurveyAnswers(null);
   };
 
   async function onCreateSubmit(values) {
@@ -112,6 +109,11 @@ export default function SurveyForm({
       history,
       redirectRoute: ROUTE_ADD_SEAT,
     });
+
+    if (!response.error) {
+      setActiveSeat(null);
+      setActiveSurveyAnswers(null);
+    }
   }
 
   async function onUpdateSubmit(values) {
@@ -123,6 +125,7 @@ export default function SurveyForm({
         (answer) => answer.url === answerUrl
       )[0].question,
     }));
+
     const response = await updateSurveyAnswers(processedAnswers);
     utils.handleResponse({
       response,
@@ -130,6 +133,11 @@ export default function SurveyForm({
       history,
       redirectRoute: ROUTE_ADD_SEAT,
     });
+
+    if (!response.error) {
+      setActiveSeat(null);
+      setActiveSurveyAnswers(null);
+    }
   }
 
   return (
