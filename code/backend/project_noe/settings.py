@@ -141,6 +141,9 @@ LOGOUT_URL = "/admin/logout/"
 
 ALLOWED_CORS_HOSTS = os.environ.get("ALLOWED_CORS_HOSTS", "").strip()
 
+# Trust in Proxy's "X-Forwarder-Proto" header
+SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+
 if ALLOWED_CORS_HOSTS:
     INSTALLED_APPS += ["corsheaders"]
     MIDDLEWARE = ["corsheaders.middleware.CorsMiddleware"] + MIDDLEWARE
