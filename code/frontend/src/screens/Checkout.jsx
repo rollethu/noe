@@ -105,7 +105,7 @@ export default function Checkout() {
           </DataRow>
           <DataRow>
             <Text light>Tartózkodási lakcím</Text>
-            <Text strong>
+            <Text dark>
               {seat.post_code} {seat.city} {seat.address_line1}
             </Text>
           </DataRow>
