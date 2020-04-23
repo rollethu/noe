@@ -1,7 +1,9 @@
 import logging
 from urllib.parse import urlencode, urljoin
 from django.conf import settings
-from django.core.mail import send_mail
+from django.shortcuts import render
+from django.core.mail import send_mail, EmailMessage
+from django.template.loader import render_to_string
 
 logger = logging.getLogger(__name__)
 
@@ -19,3 +21,16 @@ def send_verification(token, address):
         [address],
         fail_silently=False,
     )
+
+
+def send_summary(appointment, png_image, address):
+    context = {"appointment": appointment, "seats": appointment.seats.all()}
+    body = render_to_string("summary.txt", context)
+
+    email = EmailMessage(
+        subject="Regisztráció megerősítése",
+        body=body,
+        to=[address],
+        attachments=[("koronavirus_azonosito.png", png_image)],
+    )
+    email.send()

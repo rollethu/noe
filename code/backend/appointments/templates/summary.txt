@@ -1,0 +1,19 @@
+Sikeres regisztráció áthajtásos koronavírus tesztre
+---------------------------------------------------
+
+Időpont:       {{ appointment.start }}
+Helyszín:      {{ appointment.location }}
+Rendszám:      {{ appointment.normalized_licence_plate }}
+Fizetés módja: {{ payment_method }}
+Fizetendő:     {{ payment_amount }}
+
+
+Tesztelendő személyek:
+----------------------
+{% for seat in seats %}
+Név: {{ seat.full_name }}
+Születési év: {{ seat.birth_date|time:"%Y" }}
+{% if seat.has_doctor_referral %}
+Orvosi beutalóval érkezik
+{% endif %}
+{% endfor %}
