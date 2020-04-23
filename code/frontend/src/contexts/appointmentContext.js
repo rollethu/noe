@@ -5,8 +5,7 @@ import * as consts from "./consts";
 
 const initialState = {
   appointment: {
-    url:
-      "http://localhost:8000/api/appointments/35bd70e1-831b-41b4-812c-b0b45b4abd0f/",
+    url: null,
     email: null,
     isEmailVerified: null,
   },
