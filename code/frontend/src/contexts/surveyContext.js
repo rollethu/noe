@@ -89,16 +89,16 @@ export const sendSurveyAnswers = (dispatch) => async (values) => {
 
 export const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
   try {
-    // const response = await axios.patch(consts.SURVEY_ANSWER_LIST_URL, surveyAnswerList);
-    // dispatch({ type: consts.ADD_SURVEY_ANSWERS, payload: response.data });
-    // dispatch({ type: consts.SET_NEW_SURVEY_ANSWERS, payload: surveyAnswerList });
+    const response = await axios.put(
+      consts.SURVEY_ANSWER_LIST_URL,
+      surveyAnswerList
+    );
     dispatch({
       type: consts.SET_NEW_SURVEY_ANSWERS,
       payload: groupAnswersBySeat(surveyAnswerList),
     });
-    return { error: false };
-    // response.error = false;
-    // return response;
+    response.error = false;
+    return response;
   } catch (error) {
     const { response } = error;
     if (!response) {
