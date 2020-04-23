@@ -8,6 +8,7 @@ env_vars = {
   ALLOWED_CORS_HOSTS        = "https://noe.rollet.app"
   EMAIL_BACKEND             = "django.core.mail.backends.smtp.EmailBackend"
   FRONTEND_URL              = "https://noe.rollet.app"
+  BACKEND_URL               = "https://api.noe.rollet.app"
   DJANGO_EMAIL_HOST         = "email-smtp.eu-central-1.amazonaws.com"
   DJANGO_EMAIL_PORT         = "587"
   DJANGO_EMAIL_USE_TLS      = "true"

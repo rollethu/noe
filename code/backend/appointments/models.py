@@ -1,7 +1,10 @@
+import io
+import os
 import uuid
 import string
 import secrets
 import datetime as dt
+from urllib.parse import urljoin
 from django.db import models
 from django.conf import settings
 from django.shortcuts import reverse
@@ -9,7 +12,7 @@ from django.utils.translation import gettext_lazy as _
 from django.core.signing import Signer
 from django.utils import timezone
 from cryptography.fernet import Fernet
-
+import qrcode
 
 encrypter = Fernet(settings.EMAIL_VERIFICATION_KEY)
 
@@ -233,6 +236,14 @@ class QRCode(models.Model):
 
     def get_absolute_url(self):
         return reverse("qrcode", args=[str(self.code)])
+
+    def make_png(self) -> bytes:
+        qrcode_path = reverse("qrcode", kwargs={"code": self.code})
+        full_url = urljoin(settings.BACKEND_URL, qrcode_path)
+        img = qrcode.make(full_url, error_correction=qrcode.constants.ERROR_CORRECT_H)
+        png = io.BytesIO()
+        img.save(png)
+        return png.getvalue()
 
 
 class TimeSlotManager(models.Manager):

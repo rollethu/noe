@@ -1,4 +1,5 @@
 import datetime as dt
+from pathlib import Path
 from django.utils import timezone
 import pytest
 from .. import models as m
@@ -53,3 +54,14 @@ def test_absolute_url():
 
     qr2 = m.QRCode.objects.create()
     assert qr2.get_absolute_url() == "/qrcode/0000-200422-0002/"
+
+
+class TestImageGeneration:
+    def test_make_png(self, settings, datadir):
+        settings.BACKEND_URL = "https://127.0.0.1:8000"
+        qr = m.QRCode()
+        qr.code = "0000-200423-0053"
+        result = qr.make_png()
+        assert type(result) is bytes
+        expected = datadir.joinpath("qr-https-127.0.0.1-8000-code-0000-200423-0053.png").read_bytes()
+        assert result == expected

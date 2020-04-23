@@ -150,6 +150,7 @@ if ALLOWED_CORS_HOSTS:
     CORS_ORIGIN_WHITELIST = [h.strip() for h in ALLOWED_CORS_HOSTS.split(",")]
 
 FRONTEND_URL = os.environ.get("FRONTEND_URL", "https://regisztracio.tesztallomas.hu")
+BACKEND_URL = os.environ.get("BACKEND_URL", "https://api.tesztallomas.hu")
 
 LOGGING = {
     # fmt: off
