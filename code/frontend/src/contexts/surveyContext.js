@@ -17,7 +17,7 @@ Example `surveyAnswers`:
 const initialState = {
   surveyQuestions: null,
   surveyAnswers: {},
-  activeSurvey: null, // To update existing survey questions
+  surveyAnswersForActiveSeat: null,
 };
 
 const surveyReducer = (state, action) => {
@@ -40,7 +40,7 @@ const surveyReducer = (state, action) => {
     case consts.SET_ACTIVE_SURVEY_ANSWERS:
       newState = {
         ...state,
-        activeSurvey: state.surveyAnswers[action.payload.seat],
+        surveyAnswersForActiveSeat: state.surveyAnswers[action.payload.seat],
       };
       return newState;
     default:

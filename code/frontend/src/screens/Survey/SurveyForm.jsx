@@ -25,16 +25,18 @@ function getFieldTypeFromSurveyAnswerType(question) {
 const SUBMIT_MODE_CREATE = "CREATE";
 const SUBMIT_MODE_UPDATE = "UPDATE";
 
-function getSubmitMode(activeSurvey) {
-  return activeSurvey === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
+function getSubmitMode(surveyAnswersForActiveSeat) {
+  return surveyAnswersForActiveSeat === null
+    ? SUBMIT_MODE_CREATE
+    : SUBMIT_MODE_UPDATE;
 }
 
-function getFormData(submitMode, surveyQuestions, activeSurvey) {
+function getFormData(submitMode, surveyQuestions, surveyAnswersForActiveSeat) {
   if (submitMode === SUBMIT_MODE_CREATE) {
     return getFormDataForCreation(surveyQuestions);
   }
 
-  return getFormDataForUpdate(surveyQuestions, activeSurvey);
+  return getFormDataForUpdate(surveyQuestions, surveyAnswersForActiveSeat);
 }
 
 function getFormDataForCreation(surveyQuestions) {
@@ -49,9 +51,9 @@ function getFormDataForCreation(surveyQuestions) {
   });
 }
 
-function getFormDataForUpdate(surveyQuestions, activeSurvey) {
+function getFormDataForUpdate(surveyQuestions, surveyAnswersForActiveSeat) {
   return surveyQuestions.map((question) => {
-    const existingAnswer = activeSurvey.filter(
+    const existingAnswer = surveyAnswersForActiveSeat.filter(
       (answer) => answer.question === question.url
     )[0];
     return {
@@ -65,7 +67,7 @@ function getFormDataForUpdate(surveyQuestions, activeSurvey) {
 
 export default function SurveyForm({
   surveyQuestions,
-  activeSurvey,
+  surveyAnswersForActiveSeat,
   sendSurveyAnswers,
   updateSurveyAnswers,
   setActiveSurveyAnswers,
@@ -74,8 +76,12 @@ export default function SurveyForm({
   history,
 }) {
   const { register, handleSubmit, errors, setError } = useForm();
-  const submitMode = getSubmitMode(activeSurvey);
-  const formData = getFormData(submitMode, surveyQuestions, activeSurvey);
+  const submitMode = getSubmitMode(surveyAnswersForActiveSeat);
+  const formData = getFormData(
+    submitMode,
+    surveyQuestions,
+    surveyAnswersForActiveSeat
+  );
 
   const onSubmit = (values) => {
     if (!activeSeat) {
@@ -113,8 +119,9 @@ export default function SurveyForm({
       url: answerUrl,
       answer: values[answerUrl],
       seat: activeSeat.url,
-      question: activeSurvey.filter((answer) => answer.url === answerUrl)[0]
-        .question,
+      question: surveyAnswersForActiveSeat.filter(
+        (answer) => answer.url === answerUrl
+      )[0].question,
     }));
     const response = await updateSurveyAnswers(processedAnswers);
     utils.handleResponse({

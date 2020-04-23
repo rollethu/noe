@@ -10,7 +10,7 @@ import SurveyForm from "./SurveyForm";
 export default function Survey() {
   const history = useHistory();
   const {
-    state: { surveyQuestions, activeSurvey },
+    state: { surveyQuestions, surveyAnswersForActiveSeat },
     sendSurveyAnswers,
     updateSurveyAnswers,
     setActiveSurveyAnswers,
@@ -42,7 +42,7 @@ export default function Survey() {
       </Text>
       <SurveyForm
         surveyQuestions={surveyQuestions}
-        activeSurvey={activeSurvey}
+        surveyAnswersForActiveSeat={surveyAnswersForActiveSeat}
         sendSurveyAnswers={sendSurveyAnswers}
         updateSurveyAnswers={updateSurveyAnswers}
         setActiveSurveyAnswers={setActiveSurveyAnswers}

@@ -14,7 +14,7 @@ test("SurveyForm for creation renders OK", () => {
   const tree = renderer
     .create(
       <SurveyForm
-        activeSurvey={null}
+        surveyAnswersForActiveSeat={null}
         surveyQuestions={[
           { url: "fake-url-1" },
           { url: "fake-url-2" },
@@ -27,7 +27,7 @@ test("SurveyForm for creation renders OK", () => {
 });
 
 test("SurveyForm for update renders OK", () => {
-  const activeSurvey = [
+  const surveyAnswersForActiveSeat = [
     { seat: "seat-1-url", question: "fake-url-1", url: "answer-1-url" },
     { seat: "seat-1-url", question: "fake-url-2", url: "answer-2-url" },
     { seat: "seat-1-url", question: "fake-url-3", url: "answer-3-url" },
@@ -40,7 +40,7 @@ test("SurveyForm for update renders OK", () => {
   const tree = renderer
     .create(
       <SurveyForm
-        activeSurvey={activeSurvey}
+        surveyAnswersForActiveSeat={surveyAnswersForActiveSeat}
         surveyQuestions={surveyQuestions}
       />
     )
