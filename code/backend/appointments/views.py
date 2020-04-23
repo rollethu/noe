@@ -5,7 +5,6 @@ from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse as django_reverse
 from django.utils.translation import gettext as _
-from django.core.mail import send_mail
 from django.shortcuts import redirect, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import status
@@ -18,30 +17,15 @@ from project_noe.views import NoReadModelViewSet
 from . import filters as f
 from . import models as m
 from . import serializers as s
+from . import email
 
 
 logger = logging.getLogger(__name__)
-
-# It is important to not start with a slash, because we use os.path on it!
-EMAIL_CONFIRMATION_PATH = "email-megerosites/"
 
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = m.Location.objects.all()
     serializer_class = s.LocationSerializer
-
-
-def _send_verification_email(request, email_verification, email):
-    token = email_verification.make_token()
-    verify_url = os.path.join(settings.FRONTEND_URL, f"{EMAIL_CONFIRMATION_PATH}?token={token}")
-    logger.info("Sending verification email for %s", email)
-    send_mail(
-        "Email cím megerősítése áthajtásos koronavírus teszthez",
-        f"Kérjük erősítse meg email címét: {verify_url}\nA linkre kattintva folytathatja a regisztrációt",
-        "no-reply@tesztallomas.hu",
-        [email],
-        fail_silently=False,
-    )
 
 
 class AppointmentViewSet(NoReadModelViewSet):
@@ -53,7 +37,8 @@ class AppointmentViewSet(NoReadModelViewSet):
         # FIXME: this is ugly, but works until we have only one email
         # for every appointment
         ev = appointment.email_verifications.first()
-        _send_verification_email(self.request, ev, serializer.validated_data["email"])
+        token = ev.make_token()
+        email.send_verification(token, serializer.validated_data["email"])
 
 
 class SeatViewSet(NoReadModelViewSet):
@@ -114,9 +99,10 @@ class ResendVerifyEmailView(generics.CreateAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         ev = m.EmailVerification.objects.get(pk=serializer.validated_data["uuid"])
-        email = ev.appointment.email
-        _send_verification_email(self.request, ev, email)
-        return Response({"success": True, "email": email})
+        address = ev.appointment.email
+        token = ev.make_token()
+        email.send_verification(token, address)
+        return Response({"success": True, "email": address})
 
 
 class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet):

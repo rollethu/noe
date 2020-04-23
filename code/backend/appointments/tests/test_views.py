@@ -71,6 +71,17 @@ def test_email_verify_with_valid_token(factory, email_verification):
 
 
 @pytest.mark.django_db
+def test_appointment_creation_sends_email(factory):
+    view = views.AppointmentViewSet.as_view({"post": "create"})
+
+    request = factory.post("/api/appointments/", {"email": "test@rollet.app", "gtc": "1.0", "privacy_policy": "1.0"})
+    assert len(mail.outbox) == 0
+    response = view(request)
+    assert response.status_code == status.HTTP_201_CREATED
+    assert len(mail.outbox) == 1
+
+
+@pytest.mark.django_db
 def test_resend_email_verification_sends_email(factory, email_verification):
     view = views.ResendVerifyEmailView.as_view()
 
