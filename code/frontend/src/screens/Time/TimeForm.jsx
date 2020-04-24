@@ -1,62 +1,16 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
 import moment from "moment";
 
-import { ROUTE_CHECKOUT } from "../../App";
-import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
-import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Form, Field, NextButton } from "../../UI";
-import * as utils from "../../utils";
+import * as timeUtils from "./utils";
 
-const DATETIME_FORMAT = "YYYY-MM-DD HH:mm";
-
-export default function TimeForm() {
-  const {
-    state: { timeSlots },
-    fetchTimeSlots,
-  } = React.useContext(TimeSlotContext);
-
-  const timeSlotOptions = getTimeSlotOptions(timeSlots);
-  const history = useHistory();
-  const { register, handleSubmit, setError, errors, watch } = useForm();
-  const {
-    state: { appointment },
-    updateAppointment,
-  } = React.useContext(AppointmentContext);
-
-  const selectedDate = watch("date") || null;
-
-  React.useEffect(() => {
-    const locationUuid = utils.getResourceUuidFromUrl(appointment.location);
-    const filters = { location: locationUuid };
-    if (selectedDate) {
-      filters.start_date = selectedDate;
-    } else {
-      filters.start_date = moment().format("YYYY-MM-DD");
-    }
-
-    fetchTimeSlots(filters);
-  }, [selectedDate]);
-
-  const onSubmit = async (values) => {
-    delete values.date;
-    if (!appointment.url) {
-      alert("No appointment to update");
-      return;
-    }
-
-    const response = await updateAppointment(appointment.url, values);
-    utils.handleResponse({
-      response,
-      setError,
-      history,
-      redirectRoute: ROUTE_CHECKOUT,
-    });
-  };
+export default function TimeForm({ onSubmit, onDateChange, timeSlots }) {
+  const { register, handleSubmit, setError, errors } = useForm();
+  const timeSlotOptions = timeUtils.getTimeSlotOptions(timeSlots);
 
   return (
-    <Form onSubmit={handleSubmit(onSubmit)}>
+    <Form onSubmit={handleSubmit((values) => onSubmit(values, setError))}>
       <Field
         register={register}
         name="date"
@@ -64,6 +18,7 @@ export default function TimeForm() {
         type="date"
         defaultValue={moment().format("YYYY-MM-DD")}
         errors={errors}
+        onChange={(event) => onDateChange(event.target.value)}
       />
       <Field
         register={register}
@@ -84,17 +39,4 @@ export default function TimeForm() {
       <NextButton type="submit" />
     </Form>
   );
-}
-
-function getTimeSlotOptions(timeSlots) {
-  if (timeSlots === null) {
-    return [];
-  }
-
-  return timeSlots.map((slot) => ({
-    value: slot.url,
-    text: `${moment(slot.start).format("HH:mm")}-${moment(slot.end).format(
-      "HH:mm"
-    )}`,
-  }));
 }
