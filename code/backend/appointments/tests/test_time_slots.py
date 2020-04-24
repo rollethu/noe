@@ -1,6 +1,8 @@
 import datetime as dt
 
+import pytz
 import pytest
+from django.utils.timezone import make_aware as maw, make_naive
 from django.utils import timezone
 from rest_framework import status
 from rest_framework.reverse import reverse
@@ -47,7 +49,8 @@ def test_time_slot_creation_count(location_count, start, end, expected_count, lo
 
 
 @pytest.mark.django_db
-def test_time_slot_api_filtering(api_client, location, location2):
+def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
+    monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
     day1 = timezone.now()
     day2 = day1 + dt.timedelta(days=1)
     m.TimeSlot.objects.create(location=location, start=day1, end=day1, is_active=True)
@@ -68,16 +71,16 @@ def test_time_slot_api_filtering(api_client, location, location2):
     assert rv.status_code == status.HTTP_200_OK, rv.data
     assert len(rv.data) == 1
 
-    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day1.strftime("%Y-%m-%d"))
+    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day1.isoformat())
     assert rv.status_code == status.HTTP_200_OK, rv.data
     assert len(rv.data) == 2
 
-    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day2.strftime("%Y-%m-%d"))
+    rv = api_client.get(reverse("timeslot-list") + "?start_date=" + day2.isoformat())
     assert rv.status_code == status.HTTP_200_OK, rv.data
     assert len(rv.data) == 1
 
     rv = api_client.get(
-        reverse("timeslot-list") + "?start_date=" + day2.strftime("%Y-%m-%d") + "&location=" + str(location2.pk)
+        reverse("timeslot-list") + "?start_date=" + day2.isoformat() + "&location=" + str(location2.pk)
     )
     assert rv.status_code == status.HTTP_200_OK, rv.data
     assert len(rv.data) == 0
@@ -85,7 +88,6 @@ def test_time_slot_api_filtering(api_client, location, location2):
 
 @pytest.mark.django_db
 def test_patch_appointment_with_time_slot(api_client, appointment, location, seat):
-
     time_slot = m.TimeSlot.objects.create(start=timezone.now(), end=timezone.now(), location=location, is_active=True)
     rv = api_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
@@ -96,3 +98,26 @@ def test_patch_appointment_with_time_slot(api_client, appointment, location, sea
     time_slot.refresh_from_db()
     assert appointment.time_slot == time_slot
     assert time_slot.usage == 1
+
+
+@pytest.mark.django_db
+@pytest.mark.parametrize(
+    "slot_start, start_date, expected",
+    [
+        (dt.datetime(2020, 1, 1, 23, 1, tzinfo=pytz.UTC), "2020-01-02T00:15:00+01:00", 1),
+        (dt.datetime(2020, 1, 1, 23, 1, tzinfo=pytz.UTC), "2020-01-02T00:15:00+00:00", 0),
+        (dt.datetime(2020, 1, 1, 12, tzinfo=pytz.UTC), "2020-01-02T00:15:00+01:00", 0),
+        (dt.datetime(2020, 1, 1, 12, tzinfo=pytz.UTC), "2020-01-02T00:15:00+00:00", 0),
+        (dt.datetime(2020, 1, 1, 12, tzinfo=pytz.UTC), "2020-01-01T00:15:00+01:00", 1),
+        (dt.datetime(2020, 1, 1, 12, tzinfo=pytz.UTC), "2020-01-01T00:15:00+00:00", 1),
+    ],
+)
+def test_time_slot_filter_for_date(slot_start, start_date, expected, api_client, location, monkeypatch):
+    time_slot = m.TimeSlot.objects.create(
+        start=slot_start, end=slot_start + dt.timedelta(minutes=15), location=location
+    )
+
+    date_filter = f"?start_date={start_date}"
+    rv = api_client.get((reverse("timeslot-list") + date_filter))
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+    assert len(rv.data) == expected

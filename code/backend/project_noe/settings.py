@@ -120,7 +120,7 @@ EMAIL_VERIFICATION_KEY = os.environb[b"EMAIL_VERIFICATION_KEY"]
 
 LANGUAGE_CODE = "hu-hu"
 
-TIME_ZONE = "Europe/Budapest"
+TIME_ZONE = "UTC"
 
 USE_I18N = True
 
