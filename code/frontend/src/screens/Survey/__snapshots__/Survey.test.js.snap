@@ -11,7 +11,7 @@ exports[`SurveyForm for creation renders OK 1`] = `
     <input
       className="Input"
       defaultValue=""
-      name="fake-url-1"
+      name="question-0"
       type="text"
     />
   </div>
@@ -21,7 +21,7 @@ exports[`SurveyForm for creation renders OK 1`] = `
     <input
       className="Input"
       defaultValue=""
-      name="fake-url-2"
+      name="question-1"
       type="text"
     />
   </div>
@@ -31,7 +31,7 @@ exports[`SurveyForm for creation renders OK 1`] = `
     <input
       className="Input"
       defaultValue=""
-      name="fake-url-3"
+      name="question-2"
       type="text"
     />
   </div>
@@ -54,7 +54,7 @@ exports[`SurveyForm for update renders OK 1`] = `
   >
     <input
       className="Input"
-      name="answer-1-url"
+      name="answer-0"
       type="text"
     />
   </div>
@@ -63,7 +63,7 @@ exports[`SurveyForm for update renders OK 1`] = `
   >
     <input
       className="Input"
-      name="answer-2-url"
+      name="answer-1"
       type="text"
     />
   </div>
@@ -72,7 +72,7 @@ exports[`SurveyForm for update renders OK 1`] = `
   >
     <input
       className="Input"
-      name="answer-3-url"
+      name="answer-2"
       type="text"
     />
   </div>

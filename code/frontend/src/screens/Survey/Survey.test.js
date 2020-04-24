@@ -1,12 +1,14 @@
 import React from "react";
 import axios from "axios";
 import renderer from "react-test-renderer";
-
+import { act } from "react-dom/test-utils";
+import { mount } from "enzyme";
 import {
   sendSurveyAnswers,
   updateSurveyAnswers,
 } from "../../contexts/surveyContext";
 import SurveyForm from "./SurveyForm";
+import * as surveyUtils from "./utils";
 
 jest.mock("axios");
 
@@ -14,6 +16,7 @@ test("SurveyForm for creation renders OK", () => {
   const tree = renderer
     .create(
       <SurveyForm
+        submitMode={surveyUtils.SUBMIT_MODE_CREATE}
         surveyAnswersForActiveSeat={null}
         surveyQuestions={[
           { url: "fake-url-1" },
@@ -40,6 +43,7 @@ test("SurveyForm for update renders OK", () => {
   const tree = renderer
     .create(
       <SurveyForm
+        submitMode={surveyUtils.SUBMIT_MODE_UPDATE}
         surveyAnswersForActiveSeat={surveyAnswersForActiveSeat}
         surveyQuestions={surveyQuestions}
       />
@@ -66,4 +70,117 @@ test("Survey update submission doesn't break without questions", async () => {
     type: "SET_NEW_SURVEY_ANSWERS",
     payload: {},
   });
+});
+
+test("Process survey answers for create", () => {
+  const submitValues = {
+    "question-0": "Hello",
+    "question-1": "Yolo",
+  };
+  const activeSeat = { url: "http://localhost:8000/api/seats/1/" };
+  const surveyQuestions = [
+    { url: "http://localhost:8000/api/survey-questsions/1/" },
+    { url: "http://localhost:8000/api/survey-questsions/2/" },
+  ];
+  const expected = [
+    {
+      question: "http://localhost:8000/api/survey-questsions/1/",
+      answer: "Hello",
+      seat: "http://localhost:8000/api/seats/1/",
+    },
+    {
+      question: "http://localhost:8000/api/survey-questsions/2/",
+      answer: "Yolo",
+      seat: "http://localhost:8000/api/seats/1/",
+    },
+  ];
+  const res = surveyUtils.processCreateValues(
+    submitValues,
+    activeSeat,
+    surveyQuestions
+  );
+  expect(res).toEqual(expected);
+});
+
+test("Survey Form create submit with questions as subdomains", async () => {
+  const surveyQuestions = [
+    {
+      url:
+        "https://api.noe.rollet.app/api/survey-questsions/1231-123-123-124asdf1/",
+    },
+    {
+      url:
+        "https://api.noe.rollet.app/api/survey-questsions/1232-123-123-124asdf2/",
+    },
+    {
+      url:
+        "https://api.noe.rollet.app/api/survey-questsions/1233-123-123-124asdf3/",
+    },
+  ];
+  const activeSeat = {
+    url: "https://api.noe.rollet.app/api/seats/1/",
+  };
+
+  const mockSubmit = jest.fn();
+  const wrapper = mount(
+    <SurveyForm
+      submitMode={surveyUtils.SUBMIT_MODE_CREATE}
+      surveyQuestions={surveyQuestions}
+      activeSeat={activeSeat}
+      surveyAnswersForActiveSeat={null}
+      onSubmit={mockSubmit}
+    />
+  );
+  const form = wrapper.find("form");
+
+  await act(async () => {
+    await form.simulate("submit");
+  });
+
+  expect(mockSubmit.mock.calls[0][0]).toEqual({
+    "question-0": "",
+    "question-1": "",
+    "question-2": "",
+  });
+});
+
+test("Processing update answers", () => {
+  const seatUrl = "https://api.noe.rollet.app/api/seats/1/";
+  const surveyAnswersForActiveSeat = [
+    {
+      seat: seatUrl,
+      question: "https://api.noe.rollet.app/api/survey-questions/1/",
+      url: "https://api.noe.rollet.app/api/survey-answers/1/",
+      answer: "",
+    },
+    {
+      seat: seatUrl,
+      question: "https://api.noe.rollet.app/api/survey-questions/2/",
+      url: "https://api.noe.rollet.app/api/survey-answers/2/",
+      answer: "",
+    },
+  ];
+  const submitValues = {
+    "answer-0": "Hello",
+    "answer-1": "Yolo",
+  };
+  const expected = [
+    {
+      url: "https://api.noe.rollet.app/api/survey-answers/1/",
+      question: "https://api.noe.rollet.app/api/survey-questions/1/",
+      answer: "Hello",
+      seat: seatUrl,
+    },
+    {
+      url: "https://api.noe.rollet.app/api/survey-answers/2/",
+      question: "https://api.noe.rollet.app/api/survey-questions/2/",
+      answer: "Yolo",
+      seat: seatUrl,
+    },
+  ];
+  const res = surveyUtils.processUpdateValues(
+    submitValues,
+    surveyAnswersForActiveSeat
+  );
+  expect(res).toEqual(expected);
 });

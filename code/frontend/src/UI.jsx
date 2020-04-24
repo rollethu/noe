@@ -43,13 +43,15 @@ export function Field({
   defaultValue,
   selectOptionText,
 }) {
-  const errors = allErrors[name];
   let errorMessage = null;
-  if (errors) {
-    if (errors.type === "required") {
-      errorMessage = "Ez a mező kötelező.";
-    } else {
-      errorMessage = errors.message;
+  if (!!allErrors) {
+    const errors = allErrors[name];
+    if (errors) {
+      if (errors.type === "required") {
+        errorMessage = "Ez a mező kötelező.";
+      } else {
+        errorMessage = errors.message;
+      }
     }
   }
 

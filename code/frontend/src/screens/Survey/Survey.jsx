@@ -6,6 +6,9 @@ import { Context as SurveyContext } from "../../contexts/surveyContext";
 import ProgressBarSVG from "../../assets/progressbar_3.svg";
 import { View, Caption, Image, Text } from "../../UI";
 import SurveyForm from "./SurveyForm";
+import { ROUTE_ADD_SEAT } from "../../App";
+import * as utils from "../../utils";
+import * as surveyUtils from "./utils";
 
 export default function Survey() {
   const history = useHistory();
@@ -21,9 +24,64 @@ export default function Survey() {
     setActiveSeat,
   } = React.useContext(SeatContext);
 
+  const submitMode = surveyUtils.getSubmitMode(surveyAnswersForActiveSeat);
+
   React.useEffect(() => {
     fetchSurveyQuestions();
   }, []);
+
+  const onSubmit = (values, setError) => {
+    if (!activeSeat) {
+      alert("No active seat");
+      return;
+    }
+
+    if (submitMode === surveyUtils.SUBMIT_MODE_CREATE) {
+      onCreateSubmit(values, setError);
+    } else {
+      onUpdateSubmit(values, setError);
+    }
+  };
+
+  async function onCreateSubmit(values, setError) {
+    const processedAnswers = surveyUtils.processCreateValues(
+      values,
+      activeSeat,
+      surveyQuestions
+    );
+    const response = await sendSurveyAnswers(processedAnswers);
+    utils.handleResponse({
+      response,
+      setError,
+      history,
+      redirectRoute: ROUTE_ADD_SEAT,
+    });
+
+    if (!response.error) {
+      setActiveSeat(null);
+      setActiveSurveyAnswers(null);
+    }
+  }
+
+  async function onUpdateSubmit(values, setError) {
+    const processedAnswers = surveyUtils.processUpdateValues(
+      values,
+      surveyAnswersForActiveSeat
+    );
+
+    const response = await updateSurveyAnswers(processedAnswers);
+    utils.handleResponse({
+      response,
+      setError,
+      history,
+      redirectRoute: ROUTE_ADD_SEAT,
+    });
+
+    if (!response.error) {
+      setActiveSeat(null);
+      setActiveSurveyAnswers(null);
+    }
+  }
 
   if (surveyQuestions === null) {
     return (
@@ -41,14 +99,10 @@ export default function Survey() {
         Töltse ki az alábbi kérdőívet. Kérjük, valós adatokat adjon meg.
       </Text>
       <SurveyForm
+        submitMode={submitMode}
         surveyQuestions={surveyQuestions}
         surveyAnswersForActiveSeat={surveyAnswersForActiveSeat}
-        sendSurveyAnswers={sendSurveyAnswers}
-        updateSurveyAnswers={updateSurveyAnswers}
-        setActiveSurveyAnswers={setActiveSurveyAnswers}
-        activeSeat={activeSeat}
-        setActiveSeat={setActiveSeat}
-        history={history}
+        onSubmit={onSubmit}
       />
     </View>
   );
