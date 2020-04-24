@@ -174,7 +174,7 @@ class Seat(models.Model):
         ordering = ("created_at",)
 
     def __str__(self):
-        return f"{self.full_name} - {self.appointment}"
+        return f"{self.full_name} ({self.identity_card_number})"
 
     @property
     def full_address(self):

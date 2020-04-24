@@ -1,6 +1,7 @@
 from django.contrib import admin
 from billing import models as bm
 from samples.models import Sample
+from payments.models import Payment
 from . import models as m
 
 
@@ -71,18 +72,54 @@ class QrCodeInline(admin.TabularInline):
     model = m.QRCode
     readonly_fields = ["code"]
 
+    def has_delete_permission(self, request, obj=None):
+        return False
+
+
+class PaymentInline(admin.StackedInline):
+    model = Payment
+    exclude = ["simplepay_transaction"]
+    readonly_fields = ["amount", "payment_method_type", "currency"]
+    fieldsets = (
+        (None, {"fields": (("amount", "currency", "payment_method_type"),)}),
+        (None, {"fields": (("paid_at", "proof_number", "note"),)}),
+    )
+
+    def has_delete_permission(self, request, obj=None):
+        return False
+
 
 class SeatAdmin(admin.ModelAdmin):
-    list_display = [
-        "__str__",
+    fieldsets = (
+        (
+            None,
+            {
+                "fields": (
+                    ("full_name", "birth_date"),
+                    ("identity_card_number", "healthcare_number", "has_doctor_referral"),
+                )
+            },
+        ),
+        (None, {"fields": (("phone_number", "email"),)}),
+        ("Address", {"classes": ("collapse",), "fields": (("post_code", "city"), "address_line1", "address_line2")}),
+    )
+    list_display = (
+        "full_name",
         "birth_date",
         "full_address",
+        "identity_card_number",
+        "healthcare_number",
         "has_doctor_referral",
-    ]
-    readonly_fields = [
-        "payment",
-    ]
-    inlines = [SampleInline, QrCodeInline]
+        "created_at",
+    )
+    search_fields = ("qrcode__code", "full_name", "identity_card_number", "healthcare_number")
+    list_filter = ("birth_date", "has_doctor_referral")
+    inlines = [SampleInline, PaymentInline, QrCodeInline]
+    date_hierarchy = "created_at"
+    save_on_top = True
+
+    def has_delete_permission(self, request, obj=None):
+        return False
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
