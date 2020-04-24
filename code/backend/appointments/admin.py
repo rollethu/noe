@@ -26,7 +26,7 @@ class BillingInline(admin.StackedInline):
 
 
 class AppointmentAdmin(admin.ModelAdmin):
-    list_display = ["__str__", "phone_number"]
+    list_display = ["uuid", "licence_plate", "start", "phone_number", "email", "is_registration_completed"]
     inlines = [
         BillingInline,
         SeatInline,

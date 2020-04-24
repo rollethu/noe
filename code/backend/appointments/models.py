@@ -79,12 +79,6 @@ class Appointment(models.Model):
     class Meta:
         ordering = ("created_at",)
 
-    def __str__(self):
-        if self.start:
-            return f"{self.location} - {self.start:%Y-%m-%d %H:%M}"
-        else:
-            return f"{self.location} - in progress"
-
 
 class PhoneVerification(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
