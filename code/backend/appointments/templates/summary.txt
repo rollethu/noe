@@ -1,19 +1,23 @@
 Sikeres regisztráció áthajtásos koronavírus tesztre
----------------------------------------------------
 
-Időpont:       {{ appointment.start }}
-Helyszín:      {{ appointment.location }}
-Rendszám:      {{ appointment.normalized_licence_plate }}
-Fizetés módja: {{ payment_method }}
-Fizetendő:     {{ payment_amount }}
+Vizsgálat azonosítója: {{ seat.qrcode }}
+A mellékelt QR kódot telefonjára letöltve és a bejáratnál felmutatva tudja azonosítani magát.
 
-
-Tesztelendő személyek:
-----------------------
-{% for seat in seats %}
-Név: {{ seat.full_name }}
-Születési év: {{ seat.birth_date|time:"%Y" }}
-{% if seat.has_doctor_referral %}
-Orvosi beutalóval érkezik
+{% if appointment.start %}
+Vizsgálat időpontja: {{ appointment.start }} - {{ appointment.end|time:"H:i"}}
+{% else %}
+Időpont egyeztetéshez kérjük vegye fel velünk a kapcsolatot telefonon!
 {% endif %}
-{% endfor %}
+Vizsgálat helyszíne: {{ appointment.location }}
+Autó rendszáma: {{ appointment.normalized_licence_plate }}
+Autóban ülők száma: {{ seat_count }}
+
+Név: {{ seat.full_name }}
+Születési év: {{ seat.birth_date|date:"Y" }}
+{% if payment.amount > 0 %}
+Fizetés módja: {{ payment.get_payment_method_type_display }}
+Fizetendő: {{ payment.amount }}
+{% endif %}
+{% if seat.has_doctor_referral %}
+Kérjük ne felejtse el magával hozni az orvosi beutalót!
+{% endif %}

@@ -55,7 +55,7 @@ class AppointmentViewSet(NoReadModelViewSet):
 
         if is_registration_completed:
             # we need to refresh seats, because QR codes has been attached
-            self._send_summaries(appointment, appointment.seats.all())
+            self._send_summaries(appointment.seats.all())
 
         if getattr(appointment, "_prefetched_objects_cache", None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -68,15 +68,12 @@ class AppointmentViewSet(NoReadModelViewSet):
         for seat in seats:
             m.QRCode.objects.create(seat=seat)
 
-    def _send_summaries(self, appointment, seats):
-        emails = set()
+    def _send_summaries(self, seats):
+        seat_count = len(seats)
         for seat in seats:
-            if seat.email in emails:
-                continue
             if not seat.email:
-                raise ValidationError({"email": "This field is required"})
-            email.send_summary(appointment, seat.qrcode.make_png(), seat.email)
-            emails.add(seat.email)
+                raise ValidationError({"email": "Email field is required"})
+            email.send_qrcode(seat, seat_count)
 
 
 class SeatViewSet(NoReadModelViewSet):

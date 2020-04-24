@@ -2,7 +2,10 @@ import datetime as dt
 from urllib.parse import quote
 from django.core import mail
 from django.conf import settings
+from django.utils import timezone
 import pytest
+from payments.models import Payment
+from payments.prices import PaymentMethodType
 from .. import email
 from .. import models as m
 
@@ -24,24 +27,47 @@ def test_send_verification():
     assert quote(token) in sent_mail.body
 
 
-@pytest.mark.django_db
-def test_send_summary(appointment, location, seat, qr):
-    appointment.start = dt.datetime(2020, 4, 24, 9, 10)
+def test_send_qrcode():
+    code = "0123-123456-1111"
+    licence_plate = "ABC123"
+    location_name = "Test Location"
+    full_name = "Gipsz Jakab"
 
-    email.send_summary(appointment, qr.make_png(), "test@rollet.app")
+    location = m.Location(name=location_name)
+    appointment = m.Appointment(
+        start=dt.datetime(2020, 4, 24, 9, 10), location=location, normalized_licence_plate=licence_plate
+    )
+    seat = m.Seat(
+        full_name=full_name,
+        birth_date=timezone.now(),
+        email="test@rollet.app",
+        appointment=appointment,
+        qrcode=m.QRCode(code=code),
+        payment=Payment(amount=100, payment_method_type=PaymentMethodType.ON_SITE),
+    )
+
+    email.send_qrcode(seat, 1)
     assert len(mail.outbox) == 1
 
     sent_mail = mail.outbox[0]
-    print(sent_mail.body)
-    assert appointment.normalized_licence_plate in sent_mail.body
+    assert full_name in sent_mail.body
+    assert licence_plate in sent_mail.body
     assert location.name in sent_mail.body
+    assert "On-site" in sent_mail.body
+    assert "Test Location" in sent_mail.body
+    assert code in sent_mail.body
 
 
-@pytest.mark.django_db
-def test_send_summary_doctor_referral(appointment, seat, qr):
-    seat.has_doctor_referral = True
-    seat.save()
-    appointment.seats.add(seat)
-    email.send_summary(appointment, qr.make_png(), "test@rollet.app")
+def test_send_qrcode_with_doctor_referral():
+    seat = m.Seat(
+        has_doctor_referral=True,
+        birth_date=timezone.now(),
+        email="test@rollet.app",
+        appointment=m.Appointment(),
+        qrcode=m.QRCode(),
+        payment=Payment(),
+    )
+
+    email.send_qrcode(seat, 1)
     sent_mail = mail.outbox[0]
-    assert "Orvosi beutalóval érkezik" in sent_mail.body
+    assert "orvosi beutalót" in sent_mail.body

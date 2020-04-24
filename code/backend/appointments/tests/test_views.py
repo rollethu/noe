@@ -8,6 +8,7 @@ from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory, APIClient
 import pytest
 from users.models import User
+from payments.models import Payment
 from .. import views
 from .. import models as m
 
@@ -150,7 +151,8 @@ class TestRegistrationCompleted:
         assert appointment.is_registration_completed is False
 
     def test_one_seat(self, appointment, api_client):
-        m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
+        seat = m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat)
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
         res = api_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK
@@ -162,8 +164,10 @@ class TestRegistrationCompleted:
 
     def test_multiple_seats_same_email(self, appointment, api_client):
         same_email = "test@rollet.app"
-        m.Seat.objects.create(birth_date=timezone.now(), email=same_email, appointment=appointment)
-        m.Seat.objects.create(birth_date=timezone.now(), email=same_email, appointment=appointment)
+        seat1 = m.Seat.objects.create(birth_date=timezone.now(), email=same_email, appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat1)
+        seat2 = m.Seat.objects.create(birth_date=timezone.now(), email=same_email, appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat2)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
         res = api_client.patch(appointment_url, {"is_registration_completed": True})
@@ -172,12 +176,15 @@ class TestRegistrationCompleted:
 
         appointment.refresh_from_db()
         assert appointment.is_registration_completed is True
-        assert len(mail.outbox) == 1
+        assert len(mail.outbox) == 2
 
     def test_multiple_seats_different_emails(self, appointment, api_client):
-        m.Seat.objects.create(birth_date=timezone.now(), email="test1@rollet.app", appointment=appointment)
-        m.Seat.objects.create(birth_date=timezone.now(), email="test2@rollet.app", appointment=appointment)
-        m.Seat.objects.create(birth_date=timezone.now(), email="test3@rollet.app", appointment=appointment)
+        seat1 = m.Seat.objects.create(birth_date=timezone.now(), email="test1@rollet.app", appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat1)
+        seat2 = m.Seat.objects.create(birth_date=timezone.now(), email="test2@rollet.app", appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat2)
+        seat3 = m.Seat.objects.create(birth_date=timezone.now(), email="test3@rollet.app", appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat3)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
         res = api_client.patch(appointment_url, {"is_registration_completed": True})
@@ -189,7 +196,9 @@ class TestRegistrationCompleted:
         assert len(mail.outbox) == 3
 
     def test_proper_qrcode_format(self, appointment, api_client):
-        m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
+        seat = m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
+        Payment.objects.create(amount=100, seat=seat)
+
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
         res = api_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK

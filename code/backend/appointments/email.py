@@ -23,14 +23,19 @@ def send_verification(token, address):
     )
 
 
-def send_summary(appointment, png_image, address):
-    context = {"appointment": appointment, "seats": appointment.seats.all()}
+def send_qrcode(seat, seat_count):
+    context = {
+        "appointment": seat.appointment,
+        "seat": seat,
+        "payment": seat.payment,
+        "seat_count": seat_count,
+    }
     body = render_to_string("summary.txt", context)
 
     email = EmailMessage(
         subject="Regisztráció megerősítése",
         body=body,
-        to=[address],
-        attachments=[("koronavirus_azonosito.png", png_image)],
+        to=[seat.email],
+        attachments=[("koronavirus_teszt_azonosito.png", seat.qrcode.make_png())],
     )
     email.send()
