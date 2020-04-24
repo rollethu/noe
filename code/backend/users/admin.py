@@ -10,6 +10,7 @@ class TokenInline(admin.TabularInline):
 
 class UserAdmin(admin.ModelAdmin):
     exclude = ["user_permissions"]
+    readonly_fields = ["password"]
     inlines = [TokenInline]
 
 
