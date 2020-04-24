@@ -59,6 +59,11 @@ class SampleInline(admin.TabularInline):
     fields = ["sampled_at", "vial"]
 
 
+class QrCodeInline(admin.TabularInline):
+    model = m.QRCode
+    readonly_fields = ["code"]
+
+
 class SeatAdmin(admin.ModelAdmin):
     list_display = [
         "__str__",
@@ -69,12 +74,17 @@ class SeatAdmin(admin.ModelAdmin):
     readonly_fields = [
         "payment",
     ]
-    inlines = [SampleInline]
+    inlines = [SampleInline, QrCodeInline]
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
     list_display = ["location", "start", "end", "capacity"]
     readonly_fields = ["usage"]
+
+
+class QRCodeAdmin(admin.ModelAdmin):
+    list_display = ["code", "seat", "created_at"]
+    readonly_fields = ["created_at"]
 
 
 admin.site.register(m.Location, LocationAdmin)
@@ -83,3 +93,4 @@ admin.site.register(m.PhoneVerification, PhoneVerificationAdmin)
 admin.site.register(m.EmailVerification, EmailVerificationAdmin)
 admin.site.register(m.Seat, SeatAdmin)
 admin.site.register(m.TimeSlot, TimeSlotAdmin)
+admin.site.register(m.QRCode, QRCodeAdmin)
