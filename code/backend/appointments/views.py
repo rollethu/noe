@@ -65,11 +65,8 @@ class AppointmentViewSet(NoReadModelViewSet):
         return Response(serializer.data)
 
     def _make_qrs(self, seats):
-        qrs = []
         for seat in seats:
-            qr = m.QRCode(seat=seat)
-            qrs.append(qr)
-        m.QRCode.objects.bulk_create(qrs)
+            m.QRCode.objects.create(seat=seat)
 
     def _send_summaries(self, appointment, seats):
         emails = set()

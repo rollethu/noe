@@ -187,3 +187,13 @@ class TestRegistrationCompleted:
         appointment.refresh_from_db()
         assert appointment.is_registration_completed is True
         assert len(mail.outbox) == 3
+
+    def test_proper_qrcode_format(self, appointment, api_client):
+        m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
+        appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
+        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        assert res.status_code == status.HTTP_200_OK
+        assert m.QRCode.objects.count() == 1
+
+        qr = m.QRCode.objects.get()
+        assert qr.code == qr._calc_code()
