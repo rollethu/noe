@@ -73,6 +73,7 @@ class SeatAdmin(admin.ModelAdmin):
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
+    list_display = ["location", "start", "end", "capacity"]
     readonly_fields = ["usage"]
 
 
