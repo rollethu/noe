@@ -98,6 +98,8 @@ def test_patch_appointment_with_time_slot(api_client, appointment, location, sea
     time_slot.refresh_from_db()
     assert appointment.time_slot == time_slot
     assert time_slot.usage == 1
+    assert appointment.start == time_slot.start
+    assert appointment.end == time_slot.end
 
 
 @pytest.mark.django_db

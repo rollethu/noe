@@ -42,6 +42,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             validated_data["normalized_licence_plate"] = licence_plates.get_normalized_licence_plate(licence_plate)
 
         appointment = super().update(instance, validated_data)
+        self._match_appointment_start_and_end_with_time_slot(appointment)
         return appointment
 
     def _bump_time_slot_usage(self, appointment, validated_data):
@@ -56,6 +57,16 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
         time_slot.usage += seat_count
         time_slot.save()
+
+    def _match_appointment_start_and_end_with_time_slot(self, appointment):
+        start, end = None, None
+        if appointment.time_slot is not None:
+            start = appointment.time_slot.start
+            end = appointment.time_slot.end
+
+        appointment.start = start
+        appointment.end = end
+        appointment.save()
 
 
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
