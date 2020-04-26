@@ -116,7 +116,6 @@ class SeatAdmin(admin.ModelAdmin):
     list_filter = ("birth_date", "has_doctor_referral")
     inlines = [SampleInline, PaymentInline, QrCodeInline]
     date_hierarchy = "created_at"
-    save_on_top = True
 
     def has_delete_permission(self, request, obj=None):
         return False
