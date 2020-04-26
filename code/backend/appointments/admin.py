@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from billing import models as bm
 from samples.models import Sample
@@ -139,12 +140,12 @@ class SeatAdmin(admin.ModelAdmin):
 
     def appointment_time(self, obj=None):
         try:
-            start = obj.appointment.start
+            start = timezone.localtime(obj.appointment.start).replace(tzinfo=None)
         except AttributeError:
             start = ""
 
         try:
-            end_time = obj.appointment.end.strftime("%H:%M")
+            end_time = timezone.localtime(obj.appointment.end).strftime("%H:%M")
         except AttributeError:
             end_time = ""
 
