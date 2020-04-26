@@ -1,4 +1,5 @@
 from django.contrib import admin
+from django.utils.translation import gettext_lazy as _
 from billing import models as bm
 from samples.models import Sample
 from payments.models import Payment
@@ -91,6 +92,7 @@ class PaymentInline(admin.StackedInline):
 
 class SeatAdmin(admin.ModelAdmin):
     fieldsets = (
+        (None, {"fields": (("appointment_location", "appointment_licence_plate", "appointment_time",),)}),
         (
             None,
             {
@@ -112,6 +114,11 @@ class SeatAdmin(admin.ModelAdmin):
         "has_doctor_referral",
         "created_at",
     )
+    readonly_fields = (
+        "appointment_location",
+        "appointment_licence_plate",
+        "appointment_time",
+    )
     search_fields = ("qrcode__code", "full_name", "identity_card_number", "healthcare_number")
     list_filter = ("birth_date", "has_doctor_referral")
     inlines = [SampleInline, PaymentInline, QrCodeInline]
@@ -119,6 +126,31 @@ class SeatAdmin(admin.ModelAdmin):
 
     def has_delete_permission(self, request, obj=None):
         return False
+
+    def appointment_location(self, obj=None):
+        return obj.appointment.location.name
+
+    appointment_location.short_description = _("Location")
+
+    def appointment_licence_plate(self, obj=None):
+        return obj.appointment.normalized_licence_plate
+
+    appointment_licence_plate.short_description = _("Licence plate")
+
+    def appointment_time(self, obj=None):
+        try:
+            start = obj.appointment.start
+        except AttributeError:
+            start = ""
+
+        try:
+            end_time = obj.appointment.end.strftime("%H:%M")
+        except AttributeError:
+            end_time = ""
+
+        return f"{start} - {end_time}"
+
+    appointment_time.short_description = _("Time slot")
 
 
 class TimeSlotAdmin(admin.ModelAdmin):
