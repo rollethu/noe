@@ -36,7 +36,7 @@ if [ $? -gt 0 ]; then
 fi
 
 aws ecs describe-task-definition --task-definition ${ORIGINAL_TD_NAME} --region eu-central-1 > task-definition.temp.json
-cat task-definition.temp.json | jq ".taskDefinition.containerDefinitions[0].image = \"${IMAGE}\"" | | jq -r '.taskDefinition | del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.status)' > task-definition.json
+cat task-definition.temp.json | jq ".taskDefinition.containerDefinitions[0].image = \"${IMAGE}\"" | jq -r '.taskDefinition | del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.status)' > task-definition.json
 
 CONTAINER_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].name')
 LOG_GROUP_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].logConfiguration.options."awslogs-group"')
