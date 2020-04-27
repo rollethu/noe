@@ -5,14 +5,14 @@ from .prices import PRODUCT_CHOICES, PRODUCTS
 from . import models as m
 
 
-class GetPriceSerializer(serializers.Serializer):
+class PaySerializer(serializers.Serializer):
     appointment = serializers.HyperlinkedRelatedField(
         view_name="appointment-detail", queryset=Appointment.objects.all(), write_only=True
     )
     product_type = serializers.ChoiceField(choices=PRODUCT_CHOICES)
 
-    total_price = serializers.FloatField(read_only=True)
-    currency = serializers.CharField(read_only=True)
+    total_price = serializers.FloatField()
+    currency = serializers.CharField()
 
     class Meta:
         fields = ["appointment", "product_type", "total_price", "currency"]
@@ -24,11 +24,6 @@ class GetPriceSerializer(serializers.Serializer):
         return validated_data["appointment"], product
 
 
-class PaySerializer(serializers.Serializer):
-    appointment = serializers.URLField()
-    product_type = serializers.ChoiceField(choices=PRODUCT_CHOICES)
-    total_price = serializers.FloatField()
-    currency = serializers.CharField()
-
-    class Meta:
-        fields = ["appointment", "product_type", "total_price", "currency"]
+class GetPriceSerializer(PaySerializer):
+    total_price = serializers.FloatField(read_only=True)
+    currency = serializers.CharField(read_only=True)
