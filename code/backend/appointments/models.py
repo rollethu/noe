@@ -246,6 +246,7 @@ class TimeSlotManager(models.Manager):
     ):
         time_slots = self._make_time_slots(locations, start, end, duration, is_active, capacity)
         TimeSlot.objects.bulk_create(time_slots)
+        return time_slots
 
     @staticmethod
     def _make_time_slots(locations, start, end, duration, is_active, capacity):
