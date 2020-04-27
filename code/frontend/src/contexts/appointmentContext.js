@@ -12,6 +12,7 @@ const initialState = {
   emailVerification: {
     error: null,
   },
+  productID: null,
 };
 
 const appointmentReducer = (state, action) => {
@@ -39,6 +40,11 @@ const appointmentReducer = (state, action) => {
           ...state.appointment,
           ...action.payload,
         },
+      };
+    case consts.SET_PRODUCT:
+      return {
+        ...state,
+        productID: action.payload,
       };
     default:
       return state;
@@ -144,6 +150,10 @@ const fetchPrice = (dispatch) => async (values) => {
   }
 };
 
+const setProduct = (dispatch) => (productID) => {
+  dispatch({ type: consts.SET_PRODUCT, payload: productID });
+};
+
 export const { Provider, Context } = createContext(
   appointmentReducer,
   {
@@ -152,6 +162,7 @@ export const { Provider, Context } = createContext(
     verifyToken,
     resendEmailVerification,
     fetchPrice,
+    setProduct,
   },
   initialState
 );

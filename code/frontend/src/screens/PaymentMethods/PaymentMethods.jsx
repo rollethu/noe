@@ -20,9 +20,10 @@ import {
 export default function PaymentMethods() {
   const history = useHistory();
   const {
-    state: { appointment },
+    state: { appointment, productID: selectedProductID },
     updateAppointment,
     fetchPrice,
+    setProduct,
   } = React.useContext(AppointmentContext);
 
   React.useEffect(() => {
@@ -41,6 +42,13 @@ export default function PaymentMethods() {
       appointment.currency === "HUF" ? "Ft" : appointment.currency;
     total = `${appointment.total_price} ${currency}`;
   }
+    if (selectedProductID !== null) {
+      fetchPrice({ appointment: appointment.url, product: selectedProductID });
+    } else {
+      setProduct(products[0].id);
+      fetchPrice({ appointment: appointment.url, product: products[0].id });
+    }
+  }, []);
 
   async function onNextClick() {
     if (!appointment.url) {
@@ -65,6 +73,11 @@ export default function PaymentMethods() {
     } else {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
+  }
+
+  function onProductSelect(productID) {
+    setProduct(productID);
+    fetchPrice({ appointment: appointment.url, product: productID });
   }
 
   return (
