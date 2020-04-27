@@ -5,7 +5,7 @@ from rest_framework import status
 import pytest
 from appointments.models import Seat
 from ..views import GetPriceView, PayAppointmentView
-from ..prices import PaymentMethodType
+from ..prices import ProductType
 from .. import models as m
 
 get_price_view = GetPriceView.as_view()
@@ -20,9 +20,7 @@ def appointment_url(appointment):
 
 @pytest.fixture
 def get_price_request(factory, appointment_url):
-    return factory.post(
-        "/api/get-price/", {"appointment": appointment_url, "payment_method_type": PaymentMethodType.ON_SITE}
-    )
+    return factory.post("/api/get-price/", {"appointment": appointment_url, "product_type": ProductType.NORMAL_EXAM})
 
 
 def _assert_payments(count, expected_total_price):
@@ -33,7 +31,7 @@ def _assert_payments(count, expected_total_price):
 
 @pytest.mark.django_db
 class TestGetPriceView:
-    def test_appointment_with_no_seats(self, get_price_request):
+    def test_appointment_with_no_seats(self, appointment_url, get_price_request, factory):
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
         assert res.data["total_price"] == 0
@@ -42,7 +40,7 @@ class TestGetPriceView:
     def test_appointment_with_one_seat(self, get_price_request, seat):
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 12_000
+        assert res.data["total_price"] == 26_990
         _assert_payments(count=0, expected_total_price=None)
 
     def test_appointment_with_multiple_seats(self, get_price_request, appointment):
@@ -50,7 +48,7 @@ class TestGetPriceView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 24_000
+        assert res.data["total_price"] == 26_990 * 2
         _assert_payments(count=0, expected_total_price=None)
 
     def test_appointment_seat_with_has_doctor_referral(self, get_price_request, appointment):
@@ -66,7 +64,7 @@ class TestGetPriceView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 24_000
+        assert res.data["total_price"] == 26_990 * 2
         _assert_payments(count=0, expected_total_price=None)
 
     def test_completed_registration(self, get_price_request, appointment):
@@ -84,7 +82,7 @@ class TestPayAppointmentView:
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": 0,
                 "currency": "HUF",
             },
@@ -95,12 +93,12 @@ class TestPayAppointmentView:
         _assert_payments(count=0, expected_total_price=None)
 
     def test_pay_one_seat(self, appointment_url, seat, factory):
-        total_price = 12_000
+        total_price = 26_990
         request = factory.post(
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": total_price,
                 "currency": "HUF",
             },
@@ -114,12 +112,12 @@ class TestPayAppointmentView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
 
-        total_price = 24_000
+        total_price = 26_990 * 2
         request = factory.post(
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": total_price,
                 "currency": "HUF",
             },
@@ -138,7 +136,7 @@ class TestPayAppointmentView:
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": total_price,
                 "currency": "HUF",
             },
@@ -156,7 +154,7 @@ class TestPayAppointmentView:
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": 0,
                 "currency": "HUF",
             },
@@ -171,7 +169,7 @@ class TestPayAppointmentView:
             "/api/pay-appointment/",
             {
                 "appointment": appointment_url,
-                "payment_method_type": PaymentMethodType.ON_SITE,
+                "product_type": ProductType.NORMAL_EXAM,
                 "total_price": 0,
                 "currency": "HUF",
             },

@@ -7,7 +7,7 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from appointments.models import Appointment
-from .prices import calc_payments
+from .prices import calc_payments, PRODUCTS
 from . import models as m
 from . import serializers as s
 
@@ -35,11 +35,12 @@ class GetPriceView(_GetAppointmentMixin, generics.GenericAPIView):
     serializer_class = s.GetPriceSerializer
 
     def post(self, request, *args, **kwargs):
-        appointment, validated_data = self._get_appointment(request)
+        serializer = self.get_serializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+        appointment, product = serializer.save()
+
         # This is a public endpoint. Make sure someone can't brute force find prices for finished registrations.
-        if appointment.is_registration_completed:
-            raise ValidationError({"appointment": "This appointment registration has already been closed."})
-        _, summary = calc_payments(appointment.seats.all(), validated_data["payment_method_type"])
+        _, summary = calc_payments(appointment.seats.all(), product)
         return Response(summary, status=status.HTTP_200_OK)
 
 
@@ -56,7 +57,7 @@ class PayAppointmentView(_GetAppointmentMixin, generics.GenericAPIView):
         if appointment.seats.count() == 0:
             raise ValidationError({"appointment": "This appointment has no persons yet!"})
 
-        payments, summary = calc_payments(appointment.seats.all(), validated_data["payment_method_type"])
+        payments, summary = calc_payments(appointment.seats.all(), validated_data["product"])
 
         # This is just a sanity check, so we don't calculate a wrong amount.
         # What we show on the frontend, should always match on the backend.
