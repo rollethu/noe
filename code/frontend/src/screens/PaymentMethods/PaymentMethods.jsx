@@ -40,7 +40,7 @@ export default function PaymentMethods() {
     fetchPrice,
     setProduct,
   } = React.useContext(AppointmentContext);
-  const defaultValues = { product: selectedProductID || products[0].id };
+  const defaultValues = { product_type: selectedProductID || products[0].id };
   const { register } = useForm({
     defaultValues,
   });
@@ -52,7 +52,7 @@ export default function PaymentMethods() {
 
     fetchPrice({
       appointment: appointment.url,
-      product: selectedProductID || products[0].id,
+      product_type: selectedProductID || products[0].id,
     });
   }, []);
 
@@ -84,7 +84,7 @@ export default function PaymentMethods() {
 
   function onProductSelect(productID) {
     setProduct(productID);
-    fetchPrice({ appointment: appointment.url, product: productID });
+    fetchPrice({ appointment: appointment.url, product_type: productID });
   }
 
   return (
@@ -100,7 +100,7 @@ export default function PaymentMethods() {
         options={productOptions}
         onChange={(newValue) => onProductSelect(newValue)}
         register={register}
-        name="product"
+        name="product_type"
       />
       <NextButton toCenter onClick={onNextClick}>
         Véglegesítés
