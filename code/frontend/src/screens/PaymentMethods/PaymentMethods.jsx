@@ -22,15 +22,24 @@ import {
 
 // Ordering matters. First is the default value.
 const products = [
-  { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true },
-  { id: "PRIORITY_EXAM", text: "Elsőbbségi vizsgálat", isActive: true },
+  { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true, price: 26990 },
+  {
+    id: "PRIORITY_EXAM",
+    text: "Elsőbbségi vizsgálat",
+    isActive: true,
+    price: 36990,
+  },
   {
     id: "PRIORITY_EXAM_FRADI",
     text: "Elsőbbségi vizsgálat Fradi Szurkólói Kártya kedvezménnyel",
     isActive: true,
+    price: 33500,
   },
 ];
-const productOptions = products.map((p) => ({ value: p.id, text: p.text }));
+const productOptions = products.map((p) => ({
+  value: p.id,
+  text: `${p.text} (${p.price} Ft/db)`,
+}));
 
 export default function PaymentMethods() {
   const history = useHistory();
