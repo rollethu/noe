@@ -88,12 +88,14 @@ def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
 
 @pytest.mark.django_db
 def test_patch_appointment_with_time_slot(api_client, appointment, location, seat):
-    time_slot = m.TimeSlot.objects.create(start=timezone.now(), end=timezone.now(), location=location, is_active=True)
+    time_slot = m.TimeSlot.objects.create(
+        start=timezone.now(), end=timezone.now(), location=location, is_active=True, capacity=10
+    )
     rv = api_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": time_slot.pk})},
     )
-    assert rv.status_code == status.HTTP_200_OK
+    assert rv.status_code == status.HTTP_200_OK, rv.data
     appointment.refresh_from_db()
     time_slot.refresh_from_db()
     assert appointment.time_slot == time_slot
