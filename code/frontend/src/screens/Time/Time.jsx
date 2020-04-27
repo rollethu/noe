@@ -4,6 +4,7 @@ import { useHistory } from "react-router-dom";
 import ProgressBarSVG from "../../assets/progressbar_4.svg";
 import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
+import { Context as SeatContext } from "../../contexts/seatContext";
 import { ROUTE_CHECKOUT } from "../../App";
 import { View, Caption, Text, Image } from "../../UI";
 import TimeForm from "./TimeForm";
@@ -18,11 +19,14 @@ export default function Time() {
     updateAppointment,
   } = React.useContext(AppointmentContext);
   const {
+    state: { seats },
+  } = React.useContext(SeatContext);
+  const {
     state: { timeSlots },
     fetchTimeSlots,
   } = React.useContext(TimeSlotContext);
   const locationUuid = utils.getResourceUuidFromUrl(appointment.location);
-  const filters = { location: locationUuid };
+  const filters = { location: locationUuid, min_availability: seats.length };
 
   const onSubmit = async (values, setError) => {
     delete values.date;
