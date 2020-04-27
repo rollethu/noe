@@ -9,39 +9,60 @@ class PaymentMethodType:
     ON_SITE = "ON_SITE"
 
 
+class ProductType:
+    DOCTOR_REFERRAL = "DOCTOR_REFERRAL"
+    NORMAL_EXAM = "NORMAL_EXAM"
+    PRIORITY_EXAM = "PRIORITY_EXAM"
+    PRIORITY_EXAM_FRADI = "PRIORITY_EXAM_FRADI"
+
+
 PAYMENT_METHOD_TYPE_CHOICES = (
     (PaymentMethodType.SIMPLEPAY, _("SimplePay")),
     (PaymentMethodType.ON_SITE, _("On-site")),
 )
 
+PRODUCT_CHOICES = (
+    # DOCTOR_REFERRAL is dynamically chosen based on Seat.has_doctor_referral, not needed here
+    (ProductType.NORMAL_EXAM, _("Normál vizsgálat")),
+    (ProductType.PRIORITY_EXAM, _("Elsőbbségi vizsgálat")),
+    (ProductType.PRIORITY_EXAM_FRADI, _("Elsőbbségi vizsgálat Fradi Szurkolói Kártya kedvezménnyel")),
+)
+
 
 @dataclass
-class Price:
-    name: str
+class Product:
+    product_type: str
     amount: float
     currency: str
     payment_method_type: str
 
 
-DOCTOR_REFERRAL = Price(_("Orvosi beutaló"), 0, "HUF", PaymentMethodType.ON_SITE)
+PRODUCTS = {
+    ProductType.DOCTOR_REFERRAL: Product(ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE),
+    ProductType.NORMAL_EXAM: Product(ProductType.NORMAL_EXAM, 26_990, "HUF", PaymentMethodType.ON_SITE),
+    ProductType.PRIORITY_EXAM: Product(ProductType.PRIORITY_EXAM, 36_990, "HUF", PaymentMethodType.ON_SITE),
+    ProductType.PRIORITY_EXAM_FRADI: Product(
+        ProductType.PRIORITY_EXAM_FRADI, 33_500, "HUF", PaymentMethodType.ON_SITE
+    ),
+}
 
-TEST_ONLINE = Price(_("Online fizetés"), 10_000, "HUF", PaymentMethodType.SIMPLEPAY)
 
-TEST_ON_SITE = Price(_("Fizetés a helyszínen bankkártyával"), 12_000, "HUF", PaymentMethodType.ON_SITE)
-
-
-def calc_payments(seats, payment_method_type: PaymentMethodType):
+def calc_payments(seats, product: Product):
     payments = []
 
     for seat in seats:
-        p = m.Payment(seat=seat, payment_method_type=payment_method_type)
-
         if seat.has_doctor_referral:
-            p.amount = DOCTOR_REFERRAL.amount
-        elif payment_method_type == PaymentMethodType.ON_SITE:
-            p.amount = TEST_ON_SITE.amount
-        elif payment_method_type == PaymentMethodType.SIMPLEPAY:
-            p.amount = TEST_ONLINE.amount
+            current_product = PRODUCTS[ProductType.DOCTOR_REFERRAL]
+        else:
+            current_product = product
+
+        p = m.Payment(
+            seat=seat,
+            amount=current_product.amount,
+            currency=current_product.currency,
+            product_type=current_product.product_type,
+            payment_method_type=current_product.payment_method_type,
+        )
 
         payments.append(p)
 
