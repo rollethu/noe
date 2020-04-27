@@ -87,3 +87,37 @@ export const processUpdateValues = (values, surveyAnswersForActiveSeat) => {
 export function getRedirectRoute(submitMode) {
   return submitMode === SUBMIT_MODE_CREATE ? ROUTE_ADD_SEAT : ROUTE_CHECKOUT;
 }
+
+export function matchQuestionErrors(errors, questions) {
+  return matchErrors(errors, questions, "question-");
+}
+
+export function matchAnswerErrors(errors, existingAnswers) {
+  return matchErrors(errors, existingAnswers, "answer-");
+}
+
+export function matchErrors(errors, data, prefix) {
+  // Data can be list of question, or a list of existing answers
+  // Matches error keys (urls) with form fields (question or answer)
+
+  if (errors === undefined) {
+    return {};
+  }
+
+  const matchedErrors = {};
+  Object.keys(errors).forEach((error) => {
+    const questionUrl = error;
+    let matchingIndex = null;
+    data.forEach((q, i) => {
+      if (q.url === questionUrl) {
+        matchingIndex = i;
+      }
+    });
+
+    if (matchingIndex !== null) {
+      matchedErrors[`${prefix}${matchingIndex}`] = errors[error];
+    }
+  });
+
+  return matchedErrors;
+}

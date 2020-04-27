@@ -131,7 +131,7 @@ export function Input({
         ref={register({ required })}
         type={type}
         defaultValue={defaultValue || ""}
-        onChange={(event) => onChange(event.target.value)}
+        onChange={onChange && ((event) => onChange(event.target.value))}
       >
         {!!selectOptionText && (
           <option disabled value="" hidden>

@@ -194,3 +194,30 @@ test("Redirect Route", () => {
     ROUTE_CHECKOUT
   );
 });
+
+test("matchQuestionErrors", () => {
+  const questions = [{ url: "url1" }, { url: "url2" }, { url: "url3" }];
+  const errors = { url1: "error1", url3: "error3" };
+
+  const matchings = surveyUtils.matchQuestionErrors(errors, questions);
+  const expected = { "question-0": "error1", "question-2": "error3" };
+  expect(matchings).toEqual(expected);
+});
+
+test("matchQuestionErrors if no errors", () => {
+  const questions = [{ url: "url1" }, { url: "url2" }, { url: "url3" }];
+  const errors = {};
+
+  const matchings = surveyUtils.matchQuestionErrors(errors, questions);
+  const expected = {};
+  expect(matchings).toEqual(expected);
+});
+
+test("matchQuestionErrors if errors are undefined", () => {
+  const questions = [{ url: "url1" }, { url: "url2" }, { url: "url3" }];
+  const errors = undefined;
+
+  const matchings = surveyUtils.matchQuestionErrors(errors, questions);
+  const expected = {};
+  expect(matchings).toEqual(expected);
+});
