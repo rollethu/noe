@@ -11,7 +11,8 @@ from django.core.wsgi import get_wsgi_application
 from whitenoise import WhiteNoise
 
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", "project_noe.settings")
+static_root = os.environ.get("STATIC_ROOT", "./static_root")
 
 application = get_wsgi_application()
-application = WhiteNoise(application, root="/project_noe/static_root")
-application.add_files("/project_noe/static_root", prefix="static/")
+application = WhiteNoise(application, root=static_root)
+application.add_files(static_root, prefix="static/")
