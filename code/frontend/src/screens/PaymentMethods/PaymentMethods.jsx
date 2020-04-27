@@ -20,6 +20,7 @@ import {
   Field,
 } from "../../UI";
 
+// Ordering matters. First is the default value.
 const products = [
   { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true },
   { id: "PRIORITY_EXAM", text: "Elsőbbségi vizsgálat", isActive: true },
@@ -29,7 +30,6 @@ const products = [
     isActive: true,
   },
 ];
-
 const productOptions = products.map((p) => ({ value: p.id, text: p.text }));
 
 export default function PaymentMethods() {
@@ -40,17 +40,20 @@ export default function PaymentMethods() {
     fetchPrice,
     setProduct,
   } = React.useContext(AppointmentContext);
+  const defaultValues = { product: selectedProductID || products[0].id };
   const { register } = useForm({
-    defaultValues: { product: selectedProductID || products[0].id },
+    defaultValues,
   });
 
   React.useEffect(() => {
     if (selectedProductID !== null) {
-      fetchPrice({ appointment: appointment.url, product: selectedProductID });
-    } else {
       setProduct(products[0].id);
-      fetchPrice({ appointment: appointment.url, product: products[0].id });
     }
+
+    fetchPrice({
+      appointment: appointment.url,
+      product: selectedProductID || products[0].id,
+    });
   }, []);
 
   async function onNextClick() {
