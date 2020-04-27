@@ -43,7 +43,7 @@ LOG_GROUP_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].logC
 LOG_STREAM_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].logConfiguration.options."awslogs-stream-prefix"')
 
 echo "------Registering new Task Definition for the cluster" >&2
-aws ecs register-task-definition --region ${AWS_REGION} --family ${ORIGINAL_TD_NAME}-migration --cli-input-json file://task-definition.json >/dev/null
+aws ecs register-task-definition --region ${AWS_REGION} --family ${TD_NAME} --cli-input-json file://task-definition.json >/dev/null
 if [ $? -gt 0 ]; then
   echo "------Failed registering task to ECS" >&2
   exit 2
