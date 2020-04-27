@@ -1,3 +1,5 @@
+import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT } from "../../App";
+
 export const SUBMIT_MODE_CREATE = "CREATE";
 export const SUBMIT_MODE_UPDATE = "UPDATE";
 
@@ -81,3 +83,7 @@ export const processUpdateValues = (values, surveyAnswersForActiveSeat) => {
     };
   });
 };
+
+export function getRedirectRoute(submitMode) {
+  return submitMode === SUBMIT_MODE_CREATE ? ROUTE_ADD_SEAT : ROUTE_CHECKOUT;
+}

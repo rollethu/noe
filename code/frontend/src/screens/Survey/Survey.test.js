@@ -9,6 +9,7 @@ import {
 } from "../../contexts/surveyContext";
 import SurveyForm from "./SurveyForm";
 import * as surveyUtils from "./utils";
+import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT } from "../../App";
 
 jest.mock("axios");
 
@@ -183,4 +184,13 @@ test("Processing update answers", () => {
     surveyAnswersForActiveSeat
   );
   expect(res).toEqual(expected);
+});
+
+test("Redirect Route", () => {
+  expect(surveyUtils.getRedirectRoute(surveyUtils.SUBMIT_MODE_CREATE)).toBe(
+    ROUTE_ADD_SEAT
+  );
+  expect(surveyUtils.getRedirectRoute(surveyUtils.SUBMIT_MODE_UPDATE)).toBe(
+    ROUTE_CHECKOUT
+  );
 });

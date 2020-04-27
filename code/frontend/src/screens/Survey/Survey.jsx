@@ -54,7 +54,7 @@ export default function Survey() {
       response,
       setError,
       history,
-      redirectRoute: ROUTE_ADD_SEAT,
+      redirectRoute: surveyUtils.getRedirectRoute(submitMode),
     });
 
     if (!response.error) {
@@ -74,7 +74,7 @@ export default function Survey() {
       response,
       setError,
       history,
-      redirectRoute: ROUTE_ADD_SEAT,
+      redirectRoute: surveyUtils.getRedirectRoute(submitMode),
     });
 
     if (!response.error) {
