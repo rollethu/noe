@@ -1,7 +1,7 @@
 import React from "react";
 
 import AppointmentSuccessSVG from "../assets/success.svg";
-import { View, Caption, Text, Image, Button } from "../UI";
+import { View, Caption, Text, Image } from "../UI";
 
 export default function AppointmentSuccess() {
   return (
@@ -17,6 +17,7 @@ export default function AppointmentSuccess() {
         href="https://tesztallomas.hu"
         target="_blank"
         className="Button ToCenter"
+        rel="noopener noreferrer"
       >
         Rendben
       </a>
