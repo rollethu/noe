@@ -105,7 +105,7 @@ export default function PaymentMethods() {
         name="product"
       />
       <NextButton toCenter onClick={onNextClick}>
-        Fizetés
+        Véglegesítés
       </NextButton>
     </View>
   );
