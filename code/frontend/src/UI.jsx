@@ -341,3 +341,59 @@ export function Toggle({ options, value, register, name, defaultValue }) {
 export function TopStripe({ children }) {
   return <div className="TopStripe">{children}</div>;
 }
+
+export function Pill({ text, icon, info, success, error, to }) {
+  const classes = classNames("Pill", {
+    Info: info,
+    Success: success,
+    Error: error,
+  });
+
+  let iconClass = icon;
+  if (!icon) {
+    if (info) {
+      iconClass = "info";
+    } else if (success) {
+      iconClass = "check";
+    } else if (error) {
+      iconClass = "close";
+    }
+  }
+
+  if (to) {
+    if (to.startsWith("http")) {
+      // external link
+      return (
+        <div className="PillContainer">
+          <a className={classes} href={to} target="_blank">
+            <div className="Text">{text}</div>
+            <div className="Circle">
+              <Icon icon={iconClass} />
+            </div>
+          </a>
+        </div>
+      );
+    }
+    return (
+      <div className="PillContainer">
+        <Link className={classes} to={to}>
+          <div className="Text">{text}</div>
+          <div className="Circle">
+            <Icon icon={iconClass} />
+          </div>
+        </Link>
+      </div>
+    );
+  }
+
+  return (
+    <div className="PillContainer">
+      <div className={classes}>
+        <div className="Text">{text}</div>
+        <div className="Circle">
+          <Icon icon={iconClass} />
+        </div>
+      </div>
+    </div>
+  );
+}
