@@ -55,7 +55,7 @@ export default function PaymentMethods() {
   });
 
   React.useEffect(() => {
-    if (selectedProductID !== null) {
+    if (selectedProductID === null) {
       setProduct(products[0].id);
     }
 
