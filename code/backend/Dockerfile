@@ -20,4 +20,4 @@ RUN pip install poetry
 RUN poetry install --no-dev
 
 
-CMD ./entrypoint.sh
+CMD ["gunicorn", "-b", "0.0.0.0:8000", "-w", "4", "project_noe.wsgi"]
