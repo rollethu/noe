@@ -1,6 +1,6 @@
 export function handleResponse({ response, setError, history, redirectRoute }) {
   if (response.error) {
-    if (response.errors) {
+    if (response.status !== 500 && response.errors) {
       Object.keys(response.errors).map((fieldName) =>
         setError(fieldName, "", response.errors[fieldName])
       );
