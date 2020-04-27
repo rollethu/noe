@@ -361,7 +361,12 @@ export function Pill({ text, icon, info, success, error, to }) {
       // external link
       return (
         <div className="PillContainer">
-          <a className={classes} href={to} target="_blank">
+          <a
+            className={classes}
+            href={to}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="Text">{text}</div>
             <div className="Circle">
               <Icon icon={iconClass} />
