@@ -6,3 +6,17 @@ export function makePaymentUpdateRequest(appointment) {
     currency: appointment.currency,
   };
 }
+
+export function getTotalPriceDisplay(appointment) {
+  let total = "Ár nem elérhető!";
+  if (
+    appointment.total_price !== undefined &&
+    appointment.currency !== undefined
+  ) {
+    const currency =
+      appointment.currency === "HUF" ? "Ft" : appointment.currency;
+    total = `${appointment.total_price} ${currency}`;
+  }
+
+  return total;
+}

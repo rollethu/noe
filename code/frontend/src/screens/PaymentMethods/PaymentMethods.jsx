@@ -33,15 +33,6 @@ export default function PaymentMethods() {
     });
   }, [appointment?.total_price]);
 
-  let total = "Ár nem elérhető!";
-  if (
-    appointment.total_price !== undefined &&
-    appointment.currency !== undefined
-  ) {
-    const currency =
-      appointment.currency === "HUF" ? "Ft" : appointment.currency;
-    total = `${appointment.total_price} ${currency}`;
-  }
     if (selectedProductID !== null) {
       fetchPrice({ appointment: appointment.url, product: selectedProductID });
     } else {
@@ -84,7 +75,9 @@ export default function PaymentMethods() {
     <View>
       <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
-      <HighlightText toCenter>Fizetendő összeg: {total}</HighlightText>
+      <HighlightText toCenter>
+        Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}
+      </HighlightText>
       <Text>Válassza ki a kívánt fizetési módot.</Text>
       <Button toCenter inverse paymentOption>
         Fizetés a helyszínen bankkártyával
