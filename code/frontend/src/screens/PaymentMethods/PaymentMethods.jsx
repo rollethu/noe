@@ -73,8 +73,9 @@ export default function PaymentMethods() {
       paymentUtils.makePaymentUpdateRequest(appointment)
     );
 
-    const values = { is_registration_completed: true };
-    const response = await updateAppointment(appointment.url, values);
+    const response = await updateAppointment(appointment.url, {
+      is_registration_completed: true,
+    });
     if (response.error) {
       if (!response.errors) {
         alert("Váratlan hiba történt.");
