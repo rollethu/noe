@@ -6,7 +6,6 @@ import { Context as SurveyContext } from "../../contexts/surveyContext";
 import ProgressBarSVG from "../../assets/progressbar_3.svg";
 import { View, Caption, Image, Text } from "../../UI";
 import SurveyForm from "./SurveyForm";
-import { ROUTE_ADD_SEAT } from "../../App";
 import * as utils from "../../utils";
 import * as surveyUtils from "./utils";
 
