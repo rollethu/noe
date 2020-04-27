@@ -140,3 +140,16 @@ def test_exclude_appointments_with_no_enough_capacity(api_client, location):
     rv = api_client.get(reverse("timeslot-list") + "?min_availability=2")
     assert rv.status_code == status.HTTP_200_OK
     assert len(rv.data) == 1
+
+
+@pytest.mark.django_db
+def test_forbid_taken_timeslot(api_client, location, appointment, seat):
+    slot = m.TimeSlot.objects.create(
+        start=timezone.now(), end=timezone.now(), capacity=10, usage=10, location=location
+    )
+    rv = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}),
+        {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
+    )
+    assert rv.status_code == status.HTTP_400_BAD_REQUEST
+    assert "time_slot" in rv.data

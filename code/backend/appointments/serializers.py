@@ -50,6 +50,11 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         if not time_slot:
             return
 
+        availability = time_slot.capacity - time_slot.usage
+        required_space = appointment.seats.count()
+        if availability < required_space:
+            raise ValidationError({"time_slot": _("Time slot doesn't have enough capacity")})
+
         seat_count = appointment.seats.count()
         # TODO: Uncomment if we want to forbid overbooking
         # if time_slot.capacity - time_slot.usage < seat_count:
