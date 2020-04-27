@@ -5,7 +5,7 @@
     "overrides": {
         "containerOverrides": [
             {
-                "name": "noe-db-migration-container",
+                "name": "noe-backend-${ENV}_container",
                 "command": [
                     "./manage.py",
                     "migrate"

@@ -8,6 +8,7 @@ set e
 # TD_NAME='juice-db-migrate'
 # ORIGINAL_TD_NAME='zxcv'
 # IMAGE='asd'
+# ENV=noe-staging
 
 echo "------Starting script." >&2
 
@@ -50,6 +51,9 @@ if [ $? -gt 0 ]; then
   echo "------Failed registering task to ECS" >&2
   exit 2
 fi
+
+sed -i "s/\${ENV}/${ENV}/g" override.json
+
 RUNTASK_RESPONSE=$(aws ecs run-task \
   --region ${AWS_REGION} \
   --cluster ${ECS_CLUSTER} \
