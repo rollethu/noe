@@ -2,10 +2,11 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
 
-import * as consts from "../contexts/consts";
-import ProgressBarSVG from "../assets/progressbar_5.svg";
-import { ROUTE_APPOINTMENT_SUCCESS } from "../App";
-import { Context as AppointmentContext } from "../contexts/appointmentContext";
+import * as consts from "../../contexts/consts";
+import * as paymentUtils from "./utils";
+import ProgressBarSVG from "../../assets/progressbar_5.svg";
+import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
+import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import {
   View,
   Caption,
@@ -14,7 +15,7 @@ import {
   HighlightText,
   Image,
   NextButton,
-} from "../UI";
+} from "../../UI";
 
 export default function PaymentMethods() {
   const history = useHistory();

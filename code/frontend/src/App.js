@@ -17,7 +17,7 @@ import Start from "./screens/Start/Start";
 import AddSeat from "./screens/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
 import VerifyEmail from "./screens/VerifyEmail";
-import PaymentMethods from "./screens/PaymentMethods";
+import PaymentMethods from "./screens/PaymentMethods/PaymentMethods";
 import Registration from "./screens/Registration/Registration";
 import SeatDetails from "./screens/SeatDetails/SeatDetails";
 import Survey from "./screens/Survey/Survey";
