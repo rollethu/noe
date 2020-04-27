@@ -36,14 +36,14 @@ if [ $? -gt 0 ]; then
 fi
 
 aws ecs describe-task-definition --task-definition ${ORIGINAL_TD_NAME} --region eu-central-1 > task-definition.temp.json
-cat task-definition.temp.json | jq ".taskDefinition.containerDefinitions[0].image = \"${IMAGE}\"" | jq -r '{containerDefinitions: .taskDefinition.containerDefinitions}' > task-definition.json
+cat task-definition.temp.json | jq ".taskDefinition.containerDefinitions[0].image = \"${IMAGE}\"" | | jq -r '.taskDefinition | del(.taskDefinitionArn,.revision,.requiresAttributes,.compatibilities,.status)' > task-definition.json
 
 CONTAINER_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].name')
 LOG_GROUP_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].logConfiguration.options."awslogs-group"')
 LOG_STREAM_NAME=$(cat task-definition.json | jq -r '.containerDefinitions[0].logConfiguration.options."awslogs-stream-prefix"')
 
 echo "------Registering new Task Definition for the cluster" >&2
-aws ecs register-task-definition --region ${AWS_REGION} --cli-input-json file://task-definition.json >/dev/null
+aws ecs register-task-definition --region ${AWS_REGION} --family ${ORIGINAL_TD_NAME}-migration --cli-input-json file://task-definition.json >/dev/null
 if [ $? -gt 0 ]; then
   echo "------Failed registering task to ECS" >&2
   exit 2
