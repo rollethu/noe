@@ -1,5 +1,6 @@
 import datetime as dt
 import pytz
+from django.db.models import F
 from django.utils import timezone
 from django_filters import fields
 from django_filters import rest_framework as filters
@@ -24,6 +25,7 @@ class SpaceTolerantIsoDateTimeFilter(filters.IsoDateTimeFilter):
 
 class TimeSlotFilter(filters.FilterSet):
     start_date = SpaceTolerantIsoDateTimeFilter(method="filter_start_date")
+    min_availability = filters.NumberFilter(method="filter_min_availability")
 
     class Meta:
         model = m.TimeSlot
@@ -38,3 +40,6 @@ class TimeSlotFilter(filters.FilterSet):
         day_end_in_utc = day_start_in_utc + dt.timedelta(days=1)
 
         return queryset.filter(start__range=[day_start_in_utc, day_end_in_utc])
+
+    def filter_min_availability(self, queryset, name, value):
+        return queryset.filter(capacity__gte=F("usage") + value)

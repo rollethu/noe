@@ -123,3 +123,20 @@ def test_time_slot_filter_for_date(slot_start, start_date, expected, api_client,
     rv = api_client.get((reverse("timeslot-list") + date_filter))
     assert rv.status_code == status.HTTP_200_OK, rv.data
     assert len(rv.data) == expected
+
+
+@pytest.mark.django_db
+def test_exclude_appointments_with_no_enough_capacity(api_client, location):
+    m.TimeSlot.objects.create(start=timezone.now(), end=timezone.now(), capacity=10, usage=8, location=location)
+
+    rv = api_client.get(reverse("timeslot-list"))
+    assert rv.status_code == status.HTTP_200_OK
+    assert len(rv.data) == 1
+
+    rv = api_client.get(reverse("timeslot-list") + "?min_availability=3")
+    assert rv.status_code == status.HTTP_200_OK
+    assert len(rv.data) == 0
+
+    rv = api_client.get(reverse("timeslot-list") + "?min_availability=2")
+    assert rv.status_code == status.HTTP_200_OK
+    assert len(rv.data) == 1
