@@ -1,9 +1,9 @@
-export function makePaymentUpdateRequest(appointment) {
+export function makePaymentUpdateRequest(appointment, productID) {
   return {
     appointment: appointment.url,
-    payment_method_type: "ON_SITE",
     total_price: appointment.total_price,
     currency: appointment.currency,
+    product_type: productID,
   };
 }
 

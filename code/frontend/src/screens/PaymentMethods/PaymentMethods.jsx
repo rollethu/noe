@@ -76,7 +76,7 @@ export default function PaymentMethods() {
     // This must change in the future
     await axios.post(
       consts.PAY_APPOINTMENT_URL,
-      paymentUtils.makePaymentUpdateRequest(appointment)
+      paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID)
     );
 
     const response = await updateAppointment(appointment.url, {
