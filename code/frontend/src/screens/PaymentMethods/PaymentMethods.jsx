@@ -49,15 +49,12 @@ export default function PaymentMethods() {
     }
 
     // Updates Appointment's all Seats's Payments's payment_method_type
-    const requestData = {
-      appointment: appointment.url,
-      payment_method_type: "ON_SITE",
-      total_price: appointment.total_price,
-      currency: appointment.currency,
-    };
     // We don't do anything if this request fails
     // This must change in the future
-    await axios.post(consts.PAY_APPOINTMENT_URL, requestData);
+    await axios.post(
+      consts.PAY_APPOINTMENT_URL,
+      paymentUtils.makePaymentUpdateRequest(appointment)
+    );
 
     const values = { is_registration_completed: true };
     const response = await updateAppointment(appointment.url, values);
