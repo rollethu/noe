@@ -1,0 +1,18 @@
+{
+    "count": 1,
+    "enableECSManagedTags": true,
+    "launchType": "EC2",
+    "overrides": {
+        "containerOverrides": [
+            {
+                "name": "noe-db-migration-container",
+                "command": [
+                    "./manage.py",
+                    "migrate"
+                ],
+                "memory": 512,
+                "cpu": 512
+            }
+        ]
+    }
+}

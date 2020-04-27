@@ -1,0 +1,26 @@
+pipeline {
+  agent any
+  parameters {
+    choice(name: 'ENV', choices: ['noe-staging','noe'], description: 'Environment to run the migration on')
+    string(name: 'IMAGE',description: 'Image version to run the migration on',defaultValue: '999-master')
+  }
+  environment {
+    AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
+    AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
+    AWS_REGION            = 'eu-central-1'
+    ECS_CLUSTER           = "${params.ENV}-ecs-private-cluster"
+    TD_NAME               = 'noe-db-migrate'
+    ORIGINAL_TD_NAME      = "noe-backend-${params.ENV}-td"
+    IMAGE                 = "074164835766.dkr.ecr.eu-central-1.amazonaws.com/noe-backend:${params.IMAGE}"
+  }
+  stages {
+    stage('Running migration script') {
+      steps {
+        dir('utils/db-migration') {
+          sh './db-migrate.sh'
+        }
+      }
+    }
+  }
+
+}
