@@ -1,5 +1,7 @@
 #!/bin/bash
 
+set e
+
 # # Global vars
 # AWS_REGION='eu-west-1'
 # ECS_CLUSTER='dev-ecs-pri-cluster'
