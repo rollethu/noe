@@ -1,6 +1,7 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
 import axios from "axios";
+import { useForm } from "react-hook-form";
 
 import * as consts from "../../contexts/consts";
 import * as paymentUtils from "./utils";
@@ -15,7 +16,21 @@ import {
   HighlightText,
   Image,
   NextButton,
+  Form,
+  Field,
 } from "../../UI";
+
+const products = [
+  { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true },
+  { id: "PRIORITY_EXAM", text: "Elsőbbségi vizsgálat", isActive: true },
+  {
+    id: "PRIORITY_EXAM_FRADI",
+    text: "Elsőbbségi vizsgálat Fradi Szurkólói Kártya kedvezménnyel",
+    isActive: true,
+  },
+];
+
+const productOptions = products.map((p) => ({ value: p.id, text: p.text }));
 
 export default function PaymentMethods() {
   const history = useHistory();
@@ -25,6 +40,9 @@ export default function PaymentMethods() {
     fetchPrice,
     setProduct,
   } = React.useContext(AppointmentContext);
+  const { register } = useForm({
+    defaultValues: { product: selectedProductID || products[0].id },
+  });
 
   React.useEffect(() => {
     fetchPrice({
@@ -79,12 +97,13 @@ export default function PaymentMethods() {
         Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}
       </HighlightText>
       <Text>Válassza ki a kívánt fizetési módot.</Text>
-      <Button toCenter inverse paymentOption>
-        Fizetés a helyszínen bankkártyával
-      </Button>
-      <Button toCenter inverse disabled paymentOption>
-        Hamarosan: Online fizetés
-      </Button>
+      <Field
+        type="select"
+        options={productOptions}
+        onChange={(newValue) => onProductSelect(newValue)}
+        register={register}
+        name="product"
+      />
       <NextButton toCenter onClick={onNextClick}>
         Fizetés
       </NextButton>
