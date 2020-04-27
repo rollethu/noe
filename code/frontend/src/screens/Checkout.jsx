@@ -10,7 +10,6 @@ import {
   Caption,
   Text,
   DataRow,
-  HR,
   IconButton,
   NextLinkButton,
 } from "../UI";
