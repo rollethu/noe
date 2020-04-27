@@ -45,12 +45,6 @@ export default function PaymentMethods() {
   });
 
   React.useEffect(() => {
-    fetchPrice({
-      appointment: appointment.url,
-      payment_method_type: "ON_SITE",
-    });
-  }, [appointment?.total_price]);
-
     if (selectedProductID !== null) {
       fetchPrice({ appointment: appointment.url, product: selectedProductID });
     } else {
