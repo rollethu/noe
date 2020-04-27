@@ -49,6 +49,10 @@ export default function Survey() {
       surveyQuestions
     );
     const response = await sendSurveyAnswers(processedAnswers);
+    response.errors = surveyUtils.matchQuestionErrors(
+      response.errors,
+      surveyQuestions
+    );
     utils.handleResponse({
       response,
       setError,
@@ -69,6 +73,10 @@ export default function Survey() {
     );
 
     const response = await updateSurveyAnswers(processedAnswers);
+    response.errors = surveyUtils.matchAnswerErrors(
+      response.errors,
+      surveyAnswersForActiveSeat
+    );
     utils.handleResponse({
       response,
       setError,
