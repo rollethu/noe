@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 10:27+0200\n"
-"PO-Revision-Date: 2020-04-28 11:10+0116\n"
+"POT-Creation-Date: 2020-04-28 17:27+0200\n"
+"PO-Revision-Date: 2020-04-28 17:28+0116\n"
 "Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.4\n"
 
-#: appointments/admin.py:136
+#: appointments/admin.py:137
 msgid "Location"
 msgstr "Helyszín"
 
-#: appointments/admin.py:141
+#: appointments/admin.py:142
 msgid "Licence plate"
 msgstr "Rendszám"
 
-#: appointments/admin.py:156
+#: appointments/admin.py:157
 msgid "Time slot"
 msgstr "Idősáv"
 
@@ -91,24 +91,28 @@ msgstr ""
 "A telefonszámnak tartalmaznia kell a \"+\" jelet, valamint az ország és "
 "körzet számot is."
 
-#: appointments/serializers.py:56
+#: appointments/serializers.py:54
+msgid "You can not choose time slots started in the past"
+msgstr "Elkezdődött időpontot nem lehet kiválasztani"
+
+#: appointments/serializers.py:59
 msgid "Time slot doesn't have enough capacity"
 msgstr "Ebben az idősávban már nincs elég szabad hely"
 
-#: appointments/serializers.py:89
+#: appointments/serializers.py:92
 msgid "Birth date must be in the past."
 msgstr "Születési dátumnak a múltban kell lennie."
 
-#: appointments/serializers.py:96
+#: appointments/serializers.py:99
 msgid "Invalid phone number."
 msgstr "Érvénytelen telefonszám."
 
-#: appointments/serializers.py:102 surveys/serializers.py:90
+#: appointments/serializers.py:105 surveys/serializers.py:90
 #: surveys/serializers.py:101
 msgid "This field is required."
 msgstr "Ez a mező szükséges."
 
-#: appointments/views.py:89
+#: appointments/views.py:90
 msgid "This QR code has no associated Seat!"
 msgstr "A QR kódhoz nem tartozik foglalás!"
 
@@ -186,10 +190,6 @@ msgstr ""
 
 #: payments/prices.py:27
 msgid "Elsőbbségi vizsgálat"
-msgstr ""
-
-#: payments/prices.py:28
-msgid "Elsőbbségi vizsgálat Fradi Szurkolói Kártya kedvezménnyel"
 msgstr ""
 
 #: samples/models.py:19
