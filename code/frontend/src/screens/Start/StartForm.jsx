@@ -25,7 +25,19 @@ const registrationFields = [
   },
   {
     name: "privacy_policy",
-    label: "Elfogadom az Adatvédelmi Szabályzatot.",
+    label: (
+      <>
+        Elfogadom az
+        <a
+          style={{ marginLeft: "5px", fontWeight: 800 }}
+          href="https://www.tesztallomas.hu/adatkezeles"
+          target="_blank"
+        >
+          Adatvédelmi Szabályzatot
+        </a>
+        .
+      </>
+    ),
     type: "checkbox",
     required: true,
     value: PRIVACY_POLICY_VERSION,
