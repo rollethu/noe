@@ -86,6 +86,7 @@ class QRCodeView(generics.GenericAPIView):
     lookup_field = "code"
 
     def get(self, request, *args, **kwargs):
+        error_message = _("This QR code has no associated Seat!")
         # request.auth is set only on Token authentication
         # When logged in through the api browser, only request.user will be set
         token_authenticated = request.auth is not None
@@ -102,7 +103,7 @@ class QRCodeView(generics.GenericAPIView):
 
         if token_authenticated or api_browser_format_param:
             if qr.seat is None:
-                raise NotFound(_("This QR code has no associated Seat!"))
+                raise NotFound(error_message)
 
             seat_staff_api_url = reverse("staff-seat-detail", args=[qr.seat.pk])
             if request.query_params:
@@ -110,7 +111,7 @@ class QRCodeView(generics.GenericAPIView):
             return redirect(seat_staff_api_url)
 
         if qr.seat is None:
-            messages.error(request, _("This QR code has no Seat assigned!"))
+            messages.error(request, error_message)
             return redirect(django_reverse("admin:appointments_qrcode_change", kwargs={"object_id": qr.pk}))
 
         # Redirect the logged-in user to the Seat admin page
