@@ -18,7 +18,19 @@ const registrationFields = [
   },
   {
     name: "gtc",
-    label: "Elfogadom az ÁSZF-et.",
+    label: (
+      <>
+        Elfogadom az
+        <a
+          style={{ marginLeft: "5px", fontWeight: 800 }}
+          href="https://www.tesztallomas.hu/aszf"
+          target="_blank"
+        >
+          ÁSZF-et
+        </a>
+        .
+      </>
+    ),
     type: "checkbox",
     required: true,
     value: GTC_VERSION,
