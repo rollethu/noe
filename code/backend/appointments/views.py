@@ -5,6 +5,7 @@ from django.db import transaction
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse as django_reverse
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from django.shortcuts import redirect, get_object_or_404
 from rest_framework import viewsets
@@ -145,3 +146,6 @@ class TimeSlotViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = m.TimeSlot.objects.filter(is_active=True)
     serializer_class = s.TimeSlotSerializer
     filterset_class = f.TimeSlotFilter
+
+    def get_queryset(self):
+        return super().get_queryset().filter(start__gt=timezone.now())

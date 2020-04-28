@@ -51,7 +51,7 @@ def test_time_slot_creation_count(location_count, start, end, expected_count, lo
 @pytest.mark.django_db
 def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
     monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
-    day1 = timezone.now()
+    day1 = timezone.now() + dt.timedelta(seconds=1)
     day2 = day1 + dt.timedelta(days=1)
     m.TimeSlot.objects.create(location=location, start=day1, end=day1, is_active=True)
     m.TimeSlot.objects.create(location=location, start=day2, end=day2, is_active=True)
@@ -116,6 +116,9 @@ def test_patch_appointment_with_time_slot(api_client, appointment, location, sea
     ],
 )
 def test_time_slot_filter_for_date(slot_start, start_date, expected, api_client, location, monkeypatch):
+    # Make sure all time slots start in the "future"
+    monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2019, 1, 1)))
+
     time_slot = m.TimeSlot.objects.create(
         start=slot_start, end=slot_start + dt.timedelta(minutes=15), location=location
     )
@@ -127,8 +130,12 @@ def test_time_slot_filter_for_date(slot_start, start_date, expected, api_client,
 
 
 @pytest.mark.django_db
-def test_exclude_appointments_with_no_enough_capacity(api_client, location):
-    m.TimeSlot.objects.create(start=timezone.now(), end=timezone.now(), capacity=10, usage=8, location=location)
+def test_exclude_appointments_with_no_enough_capacity(api_client, location, monkeypatch):
+    now = maw(dt.datetime(2020, 1, 1, 12))
+    monkeypatch.setattr(timezone, "now", lambda: now)
+
+    start = maw(dt.datetime(2020, 1, 1, 12, 0, 1))
+    m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=8, location=location)
 
     rv = api_client.get(reverse("timeslot-list"))
     assert rv.status_code == status.HTTP_200_OK
@@ -165,3 +172,16 @@ def test_forbid_timeslot_in_the_past(api_client, location, appointment):
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert rv.data["time_slot"] == "You can not choose time slots started in the past"
+
+
+@pytest.mark.django_db
+def test_started_time_slot_is_excluded_from_list(api_client, location, monkeypatch):
+    now = maw(dt.datetime(2020, 1, 1, 12))
+    monkeypatch.setattr(timezone, "now", lambda: now)
+
+    start = maw(dt.datetime(2020, 1, 1, 11, 59, 59))
+    m.TimeSlot.objects.create(start=start, end=start, location=location, capacity=10)
+
+    rv = api_client.get(reverse("timeslot-list"))
+    assert rv.status_code == status.HTTP_200_OK
+    assert len(rv.data) == 0
