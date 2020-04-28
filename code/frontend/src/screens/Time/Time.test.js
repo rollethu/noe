@@ -13,6 +13,7 @@ import TimeForm from "./TimeForm";
 import { makeDateTimeFromDate, updateFiltersWithDate } from "./utils";
 import { Provider as AppointmentProvider } from "../../contexts/appointmentContext";
 import { Provider as TimeSlotProvider } from "../../contexts/timeSlotContext";
+import { Provider as SeatProvider } from "../../contexts/seatContext";
 
 test("Transforms date string to datetime with timezone", () => {
   Date.now = () => new Date("2020-06-14T12:34:56+02:00").getTime();
@@ -51,7 +52,9 @@ test("Sends API request on date change", async () => {
   const wrapper = mount(
     <AppointmentProvider>
       <TimeSlotProvider>
-        <Time />
+        <SeatProvider>
+          <Time />
+        </SeatProvider>
       </TimeSlotProvider>
     </AppointmentProvider>
   );
@@ -62,6 +65,6 @@ test("Sends API request on date change", async () => {
   });
 
   expect(axios.get.mock.calls[0][0].split("?")[1]).toBe(
-    "location=null&start_date=2020-01-04T12:34:56+01:00"
+    "location=null&min_availability=0&start_date=2020-01-04T12:34:56+01:00"
   );
 });
