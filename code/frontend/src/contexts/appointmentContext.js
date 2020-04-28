@@ -125,10 +125,19 @@ const verifyToken = (dispatch) => async (token) => {
 
 const resendEmailVerification = (dispatch) => async (uuid) => {
   try {
-    await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
+    const response = await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
       uuid,
     });
-  } catch (error) {}
+    response.error = false;
+    return response;
+  } catch (error) {
+    const { response } = error;
+    if (response === undefined) {
+      return { error: true };
+    }
+    response.error = true;
+    return response;
+  }
 };
 
 const fetchPrice = (dispatch) => async (values) => {
