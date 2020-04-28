@@ -154,7 +154,7 @@ export default function SeatDetailsForm() {
         helpText="Amennyiben értesítési e-mail címe eltér a megadottól "
         placeholder="pelda@gmail.com"
       />
-      <Field
+      {/* <Field
         register={register}
         name="has_doctor_referral"
         label="Orvosi beutalóval érkezem"
@@ -169,7 +169,7 @@ export default function SeatDetailsForm() {
         errors={errors}
         hidden={!watch("has_doctor_referral")}
         placeholder="123-456-789"
-      />
+      /> */}
       <NextButton type="submit" />
     </Form>
   );
