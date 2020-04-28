@@ -8,171 +8,177 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 10:07+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2020-04-28 10:27+0200\n"
+"PO-Revision-Date: 2020-04-28 10:28+0116\n"
+"Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.9.4\n"
 
 #: appointments/admin.py:136
 msgid "Location"
-msgstr ""
+msgstr "Helyszín"
 
 #: appointments/admin.py:141
 msgid "Licence plate"
-msgstr ""
+msgstr "Rendszám"
 
 #: appointments/admin.py:156
 msgid "Time slot"
-msgstr ""
+msgstr "Idősáv"
 
 #: appointments/models.py:51
 msgid "Primary communication channel with the patient."
-msgstr ""
+msgstr "Elsődleges kommunikációs csatorna a pácienssel."
 
 #: appointments/models.py:55
 msgid ""
 "Accepted version of General Terms and Conditions. Applied to everyone whose "
 "Seat belong to this Appointment."
 msgstr ""
+"ÁSZF elfogadott változata. Az Appointment összes Seat-je által elfogadásra "
+"kerül."
 
 #: appointments/models.py:61
 msgid ""
-"Accepted version of privacy policy. Applied to everyone whose Seat belong to "
-"this Appointment."
+"Accepted version of privacy policy. Applied to everyone whose Seat belong to"
+" this Appointment."
 msgstr ""
+"Adatvédelmi Szabályzat elfogadott változata. Az Appointment összes Seat-je "
+"által elfogadásra kerül."
 
 #: appointments/models.py:63
 msgid "The appointment is valid from this time."
-msgstr ""
+msgstr "Az Appointment ettől az időtől kezdve érvényes."
 
 #: appointments/models.py:68
 msgid ""
 "The appointment is valid until this time. This probably should be handled "
 "more lightly than the start time."
 msgstr ""
+"Az Appointment eddig az időpontig érvényes. Ezt valószínüleg lazábban lehet "
+"kezelni, mint a kezdetét"
 
 #: appointments/models.py:167
 msgid "Apartment, building, floor, suite, door, etc..."
-msgstr ""
+msgstr "Emelet, ajtó, stb."
 
 #: appointments/models.py:170
 msgid "Notification email for the test results."
-msgstr ""
+msgstr "Értesítési e-mail cím a teszt eredményéről."
 
 #: appointments/models.py:290
 msgid "Determines how many Seats can book for this period."
-msgstr ""
+msgstr "Hány Seat érkezhet erre az időszakra"
 
 #: appointments/models.py:292
 msgid ""
 "Number of Seats who booked for this period. This should't be edited by "
 "humans :)"
-msgstr ""
+msgstr "Seat-ek száma erre az időpontra. Ezt nem szabad kézzel módosítani :)"
 
 #: appointments/models.py:295
 msgid "Time Slot is only availabe to be booked for if active."
-msgstr ""
+msgstr "Csak aktív Time Slot-ra lehet időpontot foglalni."
 
 #: appointments/phone_numbers.py:14 appointments/phone_numbers.py:20
 msgid "Include \"+\" sign, country code and area code."
 msgstr ""
+"A telefonszámnak tartalmaznia kell a \"+\" jelet, valamint az ország és "
+"körzet számot is."
 
 #: appointments/serializers.py:56
 msgid "Time slot doesn't have enough capacity"
-msgstr ""
+msgstr "Ebben az idősávban már nincs elég szabad hely"
 
 #: appointments/serializers.py:89
 msgid "Birth date must be in the past."
-msgstr ""
+msgstr "Születési dátumnak a múltban kell lennie."
 
 #: appointments/serializers.py:96
 msgid "Invalid phone number."
-msgstr ""
+msgstr "Érvénytelen telefonszám."
 
 #: appointments/serializers.py:102 surveys/serializers.py:90
 #: surveys/serializers.py:101
 msgid "This field is required."
-msgstr ""
+msgstr "Ez a mező szükséges."
 
-#: appointments/views.py:105
+#: appointments/views.py:89
 msgid "This QR code has no associated Seat!"
-msgstr ""
-
-#: appointments/views.py:113
-msgid "This QR code has no Seat assigned!"
-msgstr ""
+msgstr "A QR kódhoz nem tartozik foglalás!"
 
 #: billing/models.py:11
 msgid "receipt"
-msgstr ""
+msgstr "nyugta"
 
 #: billing/models.py:12
 msgid "VAT invoice"
-msgstr ""
+msgstr "áfás számla"
 
 #: payments/models.py:20
 msgid ""
 "When this field is empty, no payment for the person has been made (yet)."
-msgstr ""
+msgstr "Amennyiben ez a mező üres, még nem történt befizetés."
 
 #: payments/models.py:26
 msgid ""
-"Printed receipt/bill number, healthcare number (TAJ kártya szám) or anything "
-"which proves this payment has been made."
+"Printed receipt/bill number, healthcare number (TAJ kártya szám) or anything"
+" which proves this payment has been made."
 msgstr ""
+"Kinyomtatott nyugta-, számla-, TAJ kártyaszáma, ami a befizetést igazolja"
 
 #: payments/models.py:30
 msgid "Anything important to note about this payment."
-msgstr ""
+msgstr "A befizetésről bármilyen fontos jegyzet"
 
 #: payments/models.py:55
 msgid "created"
-msgstr ""
+msgstr "létrehozva"
 
 #: payments/models.py:56
 msgid "waiting for authorization"
-msgstr ""
+msgstr "zárolásra vár"
 
 #: payments/models.py:57
 msgid "authorized"
-msgstr ""
+msgstr "zárolva"
 
 #: payments/models.py:58
 msgid "waiting for completion"
-msgstr ""
+msgstr "befejezésre vár"
 
 #: payments/models.py:59
 msgid "completed"
-msgstr ""
+msgstr "kész"
 
 #: payments/models.py:60
 msgid "waiting for refund"
-msgstr ""
+msgstr "visszautalásra vár"
 
 #: payments/models.py:61
 msgid "refunded"
-msgstr ""
+msgstr "visszautalva"
 
 #: payments/models.py:62
 msgid "rejected"
-msgstr ""
+msgstr "elutasítva"
 
 #: payments/models.py:63
 msgid "cancelled"
-msgstr ""
+msgstr "megszakítva"
 
 #: payments/prices.py:20
 msgid "SimplePay"
-msgstr ""
+msgstr "SimplePay"
 
 #: payments/prices.py:21
 msgid "On-site"
-msgstr ""
+msgstr "Helyszíni"
 
 #: payments/prices.py:26
 msgid "Normál vizsgálat"
@@ -188,52 +194,52 @@ msgstr ""
 
 #: samples/models.py:19
 msgid "empty"
-msgstr ""
+msgstr "üres"
 
 #: samples/models.py:20
 msgid "sampled"
-msgstr ""
+msgstr "minta levéve"
 
 #: samples/models.py:21
 msgid "in transport"
-msgstr ""
+msgstr "úton a labroba"
 
 #: samples/models.py:22
 msgid "waiting in lab"
-msgstr ""
+msgstr "laborban várakozik"
 
 #: samples/models.py:23
 msgid "examined"
-msgstr ""
+msgstr "megvizsgálva"
 
 #: samples/models.py:30
 msgid "positive"
-msgstr ""
+msgstr "pozitív"
 
 #: samples/models.py:31
 msgid "negative"
-msgstr ""
+msgstr "negatív"
 
 #: samples/models.py:32
 msgid "not tested yet"
-msgstr ""
+msgstr "még nem tesztelt"
 
 #: samples/models.py:38
 msgid "The time when it is extraxted from a real person"
-msgstr ""
+msgstr "A mintavétel időpontja valós személytől"
 
 #: samples/models.py:40
 msgid "The identifier of the vial (the number below the barcode)."
-msgstr ""
+msgstr "A kémcső azonosítója (az alábbi vonalkód a szám)"
 
 #: surveys/models.py:8
 msgid "boolean"
-msgstr ""
+msgstr "boolean"
 
 #: surveys/models.py:9
 msgid "integer"
-msgstr ""
+msgstr "szám"
 
 #: surveys/models.py:10
 msgid "string"
-msgstr ""
+msgstr "szöveg"
