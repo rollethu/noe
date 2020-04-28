@@ -95,7 +95,7 @@ class PaymentInline(admin.StackedInline):
 
 class SeatAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": (("appointment_location", "appointment_licence_plate", "appointment_time",),)}),
+        (None, {"fields": (("qrcode", "appointment_location", "appointment_licence_plate", "appointment_time"),)},),
         (
             None,
             {
@@ -121,6 +121,7 @@ class SeatAdmin(admin.ModelAdmin):
         "appointment_location",
         "appointment_licence_plate",
         "appointment_time",
+        "qrcode",
     )
     search_fields = ("qrcode__code", "full_name", "identity_card_number", "healthcare_number")
     list_filter = ("birth_date", "has_doctor_referral")
