@@ -10,6 +10,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         model = Payment
         ref_name = "Staff Payment"
         fields = ["url", "amount", "currency", "paid_at", "payment_method_type", "proof_number"]
+        read_only_fields = ["amount", "currency"]
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
