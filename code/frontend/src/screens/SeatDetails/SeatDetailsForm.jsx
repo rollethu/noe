@@ -160,16 +160,15 @@ export default function SeatDetailsForm() {
         label="Orvosi beutalóval érkezem"
         type="checkbox"
         errors={errors}
-      />
+      /> */}
       <Field
         register={register}
         name="healthcare_number"
         label="TAJ kártyaszám"
         type="text"
         errors={errors}
-        hidden={!watch("has_doctor_referral")}
         placeholder="123-456-789"
-      /> */}
+      />
       <NextButton type="submit" />
     </Form>
   );
