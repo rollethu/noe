@@ -31,6 +31,8 @@ app_tg_ports = {
 }
 
 desired_count    = 1
+minimum_percent  = 0
+maximum_percent  = 150
 cooldown_seconds = 3
 
 cw_log_group_name   = "noe-staging-ecs-private-cluster"

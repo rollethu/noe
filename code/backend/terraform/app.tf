@@ -6,8 +6,8 @@ module "backend_app" {
   cpu_units       = 512
   memory_mbytes   = 512
   desired_count   = var.desired_count
-  minimum_percent = 0
-  maximum_percent = 150
+  minimum_percent = var.minimum_percent
+  maximum_percent = var.maximum_percent
 
   port_mappings = var.app_tg_ports
 

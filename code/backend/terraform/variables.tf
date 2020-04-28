@@ -42,3 +42,9 @@ variable "cw_log_group_region" {
 variable "desired_count" {
   description = "Number of tasks to start"
 }
+variable "minimum_percent" {
+  description = "This percentage of the desired tasks will keep running unless stopped manually"
+}
+variable "maximum_percent" {
+  description = "We can scale up to a maximum this percentage of the task"
+}
