@@ -77,7 +77,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.Seat
-        exclude = ["healthcare_number", "has_doctor_referral"]
+        exclude = ["has_doctor_referral"]
         ref_name = "Public Seat"
 
     def create(self, validated_data):

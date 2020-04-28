@@ -45,10 +45,6 @@ export default function SeatDetailsForm() {
       return;
     }
 
-    if (!values.has_doctor_referral) {
-      delete values.healthcare_number;
-    }
-
     if (submitMode === SUBMIT_MODE_CREATE) {
       onCreateSubmit(values);
     } else {
