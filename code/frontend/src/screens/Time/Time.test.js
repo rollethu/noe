@@ -5,7 +5,7 @@ jest.mock("axios");
 import axios from "axios";
 
 import React from "react";
-import { mount } from "enzyme";
+import { mount, shallow } from "enzyme";
 import { act } from "react-dom/test-utils";
 
 import Time from "./Time";
@@ -67,4 +67,11 @@ test("Sends API request on date change", async () => {
   expect(axios.get.mock.calls[0][0].split("?")[1]).toBe(
     "location=null&min_availability=0&start_date=2020-01-04T12:34:56+01:00"
   );
+});
+
+test("Min date is today on date field", () => {
+  Date.now = () => new Date("2020-01-31T12:34:56+02:00").getTime();
+  const wrapper = mount(<TimeForm timeSlots={[]} />);
+  const dateInput = wrapper.find("input[type='date']");
+  expect(dateInput.props()).toHaveProperty("min", "2020-01-31");
 });
