@@ -20,6 +20,7 @@ if DEBUG:
 
     load_dotenv()
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
     "billing",
     "users",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ["rosetta"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -185,3 +189,7 @@ EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("DJANGO_EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = bool(os.environ.get("DJANGO_EMAIL_USE_TLS", ""))
 DEFAULT_FROM_EMAIL = os.environ.get("DJANGO_DEFAULT_FROM_EMAIL", "")
+
+LOCALE_PATHS = [
+    "locale/",
+]

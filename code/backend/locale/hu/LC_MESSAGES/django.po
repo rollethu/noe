@@ -1,0 +1,239 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 10:07+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#: appointments/admin.py:136
+msgid "Location"
+msgstr ""
+
+#: appointments/admin.py:141
+msgid "Licence plate"
+msgstr ""
+
+#: appointments/admin.py:156
+msgid "Time slot"
+msgstr ""
+
+#: appointments/models.py:51
+msgid "Primary communication channel with the patient."
+msgstr ""
+
+#: appointments/models.py:55
+msgid ""
+"Accepted version of General Terms and Conditions. Applied to everyone whose "
+"Seat belong to this Appointment."
+msgstr ""
+
+#: appointments/models.py:61
+msgid ""
+"Accepted version of privacy policy. Applied to everyone whose Seat belong to "
+"this Appointment."
+msgstr ""
+
+#: appointments/models.py:63
+msgid "The appointment is valid from this time."
+msgstr ""
+
+#: appointments/models.py:68
+msgid ""
+"The appointment is valid until this time. This probably should be handled "
+"more lightly than the start time."
+msgstr ""
+
+#: appointments/models.py:167
+msgid "Apartment, building, floor, suite, door, etc..."
+msgstr ""
+
+#: appointments/models.py:170
+msgid "Notification email for the test results."
+msgstr ""
+
+#: appointments/models.py:290
+msgid "Determines how many Seats can book for this period."
+msgstr ""
+
+#: appointments/models.py:292
+msgid ""
+"Number of Seats who booked for this period. This should't be edited by "
+"humans :)"
+msgstr ""
+
+#: appointments/models.py:295
+msgid "Time Slot is only availabe to be booked for if active."
+msgstr ""
+
+#: appointments/phone_numbers.py:14 appointments/phone_numbers.py:20
+msgid "Include \"+\" sign, country code and area code."
+msgstr ""
+
+#: appointments/serializers.py:56
+msgid "Time slot doesn't have enough capacity"
+msgstr ""
+
+#: appointments/serializers.py:89
+msgid "Birth date must be in the past."
+msgstr ""
+
+#: appointments/serializers.py:96
+msgid "Invalid phone number."
+msgstr ""
+
+#: appointments/serializers.py:102 surveys/serializers.py:90
+#: surveys/serializers.py:101
+msgid "This field is required."
+msgstr ""
+
+#: appointments/views.py:105
+msgid "This QR code has no associated Seat!"
+msgstr ""
+
+#: appointments/views.py:113
+msgid "This QR code has no Seat assigned!"
+msgstr ""
+
+#: billing/models.py:11
+msgid "receipt"
+msgstr ""
+
+#: billing/models.py:12
+msgid "VAT invoice"
+msgstr ""
+
+#: payments/models.py:20
+msgid ""
+"When this field is empty, no payment for the person has been made (yet)."
+msgstr ""
+
+#: payments/models.py:26
+msgid ""
+"Printed receipt/bill number, healthcare number (TAJ kártya szám) or anything "
+"which proves this payment has been made."
+msgstr ""
+
+#: payments/models.py:30
+msgid "Anything important to note about this payment."
+msgstr ""
+
+#: payments/models.py:55
+msgid "created"
+msgstr ""
+
+#: payments/models.py:56
+msgid "waiting for authorization"
+msgstr ""
+
+#: payments/models.py:57
+msgid "authorized"
+msgstr ""
+
+#: payments/models.py:58
+msgid "waiting for completion"
+msgstr ""
+
+#: payments/models.py:59
+msgid "completed"
+msgstr ""
+
+#: payments/models.py:60
+msgid "waiting for refund"
+msgstr ""
+
+#: payments/models.py:61
+msgid "refunded"
+msgstr ""
+
+#: payments/models.py:62
+msgid "rejected"
+msgstr ""
+
+#: payments/models.py:63
+msgid "cancelled"
+msgstr ""
+
+#: payments/prices.py:20
+msgid "SimplePay"
+msgstr ""
+
+#: payments/prices.py:21
+msgid "On-site"
+msgstr ""
+
+#: payments/prices.py:26
+msgid "Normál vizsgálat"
+msgstr ""
+
+#: payments/prices.py:27
+msgid "Elsőbbségi vizsgálat"
+msgstr ""
+
+#: payments/prices.py:28
+msgid "Elsőbbségi vizsgálat Fradi Szurkolói Kártya kedvezménnyel"
+msgstr ""
+
+#: samples/models.py:19
+msgid "empty"
+msgstr ""
+
+#: samples/models.py:20
+msgid "sampled"
+msgstr ""
+
+#: samples/models.py:21
+msgid "in transport"
+msgstr ""
+
+#: samples/models.py:22
+msgid "waiting in lab"
+msgstr ""
+
+#: samples/models.py:23
+msgid "examined"
+msgstr ""
+
+#: samples/models.py:30
+msgid "positive"
+msgstr ""
+
+#: samples/models.py:31
+msgid "negative"
+msgstr ""
+
+#: samples/models.py:32
+msgid "not tested yet"
+msgstr ""
+
+#: samples/models.py:38
+msgid "The time when it is extraxted from a real person"
+msgstr ""
+
+#: samples/models.py:40
+msgid "The identifier of the vial (the number below the barcode)."
+msgstr ""
+
+#: surveys/models.py:8
+msgid "boolean"
+msgstr ""
+
+#: surveys/models.py:9
+msgid "integer"
+msgstr ""
+
+#: surveys/models.py:10
+msgid "string"
+msgstr ""

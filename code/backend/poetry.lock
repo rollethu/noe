@@ -189,6 +189,20 @@ Django = ">=1.11"
 
 [[package]]
 category = "main"
+description = "A Django application that eases the translation of Django projects"
+name = "django-rosetta"
+optional = false
+python-versions = "*"
+version = "0.9.4"
+
+[package.dependencies]
+Django = ">=1.11"
+polib = ">=1.1.0"
+requests = ">=2.1.0"
+six = ">=1.2.0"
+
+[[package]]
+category = "main"
 description = "Web APIs for Django, made easy."
 name = "djangorestframework"
 optional = false
@@ -358,6 +372,14 @@ version = ">=0.12"
 
 [package.extras]
 dev = ["pre-commit", "tox"]
+
+[[package]]
+category = "main"
+description = "A library to manipulate gettext files (po and mo files)."
+name = "polib"
+optional = false
+python-versions = "*"
+version = "1.1.0"
 
 [[package]]
 category = "main"
@@ -619,7 +641,7 @@ docs = ["sphinx", "jaraco.packaging (>=3.2)", "rst.linker (>=1.9)"]
 testing = ["jaraco.itertools", "func-timeout"]
 
 [metadata]
-content-hash = "800f1ae2c75c3a7e279c90d4be80be1096424f42bd4616110364c9a78a29f824"
+content-hash = "79faa3bb667b0275f738d917e58cd4ced7147a43c1d535d3f61d4235edfb14d3"
 python-versions = "^3.6"
 
 [metadata.files]
@@ -729,6 +751,10 @@ django-cors-headers = [
 django-filter = [
     {file = "django-filter-2.2.0.tar.gz", hash = "sha256:c3deb57f0dd7ff94d7dce52a047516822013e2b441bed472b722a317658cfd14"},
     {file = "django_filter-2.2.0-py3-none-any.whl", hash = "sha256:558c727bce3ffa89c4a7a0b13bc8976745d63e5fd576b3a9a851650ef11c401b"},
+]
+django-rosetta = [
+    {file = "django-rosetta-0.9.4.tar.gz", hash = "sha256:0315a6406818c51f0f0fe04aa30328e802c8befcab1d3a34a242961284cb3387"},
+    {file = "django_rosetta-0.9.4-py2-none-any.whl", hash = "sha256:1b8077931550cc105b9079e6faa470d2d6edbb04afec2599621cbda4cdd12c08"},
 ]
 djangorestframework = [
     {file = "djangorestframework-3.11.0-py3-none-any.whl", hash = "sha256:05809fc66e1c997fd9a32ea5730d9f4ba28b109b9da71fccfa5ff241201fd0a4"},
@@ -841,6 +867,10 @@ pillow = [
 pluggy = [
     {file = "pluggy-0.13.1-py2.py3-none-any.whl", hash = "sha256:966c145cd83c96502c3c3868f50408687b38434af77734af1e9ca461a4081d2d"},
     {file = "pluggy-0.13.1.tar.gz", hash = "sha256:15b2acde666561e1298d71b523007ed7364de07029219b604cf808bfa1c765b0"},
+]
+polib = [
+    {file = "polib-1.1.0-py2.py3-none-any.whl", hash = "sha256:93b730477c16380c9a96726c54016822ff81acfa553977fdd131f2b90ba858d7"},
+    {file = "polib-1.1.0.tar.gz", hash = "sha256:fad87d13696127ffb27ea0882d6182f1a9cf8a5e2b37a587751166c51e5a332a"},
 ]
 psycopg2-binary = [
     {file = "psycopg2-binary-2.8.5.tar.gz", hash = "sha256:ccdc6a87f32b491129ada4b87a43b1895cf2c20fdb7f98ad979647506ffc41b6"},
