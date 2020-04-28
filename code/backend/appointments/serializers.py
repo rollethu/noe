@@ -50,6 +50,9 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         if not time_slot:
             return
 
+        if time_slot.start <= timezone.now():
+            raise ValidationError({"time_slot": _("You can not choose time slots started in the past")})
+
         availability = time_slot.capacity - time_slot.usage
         required_space = appointment.seats.count()
         if availability < required_space:

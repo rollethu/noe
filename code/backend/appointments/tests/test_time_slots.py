@@ -88,9 +88,8 @@ def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
 
 @pytest.mark.django_db
 def test_patch_appointment_with_time_slot(api_client, appointment, location, seat):
-    time_slot = m.TimeSlot.objects.create(
-        start=timezone.now(), end=timezone.now(), location=location, is_active=True, capacity=10
-    )
+    start = timezone.now() + dt.timedelta(days=1)
+    time_slot = m.TimeSlot.objects.create(start=start, end=start, location=location, is_active=True, capacity=10)
     rv = api_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": time_slot.pk})},
@@ -146,12 +145,23 @@ def test_exclude_appointments_with_no_enough_capacity(api_client, location):
 
 @pytest.mark.django_db
 def test_forbid_taken_timeslot(api_client, location, appointment, seat):
-    slot = m.TimeSlot.objects.create(
-        start=timezone.now(), end=timezone.now(), capacity=10, usage=10, location=location
-    )
+    start = timezone.now() + dt.timedelta(days=1)
+    slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
     rv = api_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert "time_slot" in rv.data
+
+
+@pytest.mark.django_db
+def test_forbid_timeslot_in_the_past(api_client, location, appointment):
+    start = timezone.now()
+    slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
+    rv = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}),
+        {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
+    )
+    assert rv.status_code == status.HTTP_400_BAD_REQUEST
+    assert rv.data["time_slot"] == "You can not choose time slots started in the past"
