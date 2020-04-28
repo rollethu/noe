@@ -14,7 +14,7 @@ Example `surveyAnswers`:
 }
 */
 
-const initialState = {
+export const initialState = {
   surveyQuestions: null,
   surveyAnswers: {},
   surveyAnswersForActiveSeat: null,

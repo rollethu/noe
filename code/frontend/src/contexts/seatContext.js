@@ -3,7 +3,7 @@ import axios from "axios";
 import createContext from "./createContext";
 import * as consts from "./consts";
 
-const initialState = {
+export const initialState = {
   seats: [],
   activeSeat: null, // To update existing seat
 };
