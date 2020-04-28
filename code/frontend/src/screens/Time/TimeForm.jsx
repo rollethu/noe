@@ -16,6 +16,7 @@ export default function TimeForm({ onSubmit, onDateChange, timeSlots }) {
         name="date"
         label="Nap kiválasztása"
         type="date"
+        min={moment().format("YYYY-MM-DD")}
         defaultValue={moment().format("YYYY-MM-DD")}
         errors={errors}
         onChange={(event) => onDateChange(event.target.value)}

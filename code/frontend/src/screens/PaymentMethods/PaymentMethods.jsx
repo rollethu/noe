@@ -29,12 +29,12 @@ const products = [
     isActive: true,
     price: 36990,
   },
-  {
-    id: "PRIORITY_EXAM_FRADI",
-    text: "Elsőbbségi vizsgálat Fradi Szurkólói Kártya kedvezménnyel",
-    isActive: true,
-    price: 33500,
-  },
+  // {
+  //   id: "PRIORITY_EXAM_FRADI",
+  //   text: "Elsőbbségi vizsgálat Fradi Szurkólói Kártya kedvezménnyel",
+  //   isActive: true,
+  //   price: 33500,
+  // },
 ];
 const productOptions = products.map((p) => ({
   value: p.id,

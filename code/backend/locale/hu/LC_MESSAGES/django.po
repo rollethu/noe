@@ -1,0 +1,245 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2020-04-28 17:27+0200\n"
+"PO-Revision-Date: 2020-04-28 17:28+0116\n"
+"Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Translated-Using: django-rosetta 0.9.4\n"
+
+#: appointments/admin.py:137
+msgid "Location"
+msgstr "Helyszín"
+
+#: appointments/admin.py:142
+msgid "Licence plate"
+msgstr "Rendszám"
+
+#: appointments/admin.py:157
+msgid "Time slot"
+msgstr "Idősáv"
+
+#: appointments/models.py:51
+msgid "Primary communication channel with the patient."
+msgstr "Elsődleges kommunikációs csatorna a pácienssel."
+
+#: appointments/models.py:55
+msgid ""
+"Accepted version of General Terms and Conditions. Applied to everyone whose "
+"Seat belong to this Appointment."
+msgstr ""
+"ÁSZF elfogadott változata. Az Appointment összes Seat-je által elfogadásra "
+"kerül."
+
+#: appointments/models.py:61
+msgid ""
+"Accepted version of privacy policy. Applied to everyone whose Seat belong to"
+" this Appointment."
+msgstr ""
+"Adatvédelmi Szabályzat elfogadott változata. Az Appointment összes Seat-je "
+"által elfogadásra kerül."
+
+#: appointments/models.py:63
+msgid "The appointment is valid from this time."
+msgstr "Az Appointment ettől az időtől kezdve érvényes."
+
+#: appointments/models.py:68
+msgid ""
+"The appointment is valid until this time. This probably should be handled "
+"more lightly than the start time."
+msgstr ""
+"Az Appointment eddig az időpontig érvényes. Ezt valószínüleg lazábban lehet "
+"kezelni, mint a kezdetét"
+
+#: appointments/models.py:167
+msgid "Apartment, building, floor, suite, door, etc..."
+msgstr "Emelet, ajtó, stb."
+
+#: appointments/models.py:170
+msgid "Notification email for the test results."
+msgstr "Értesítési e-mail cím a teszt eredményéről."
+
+#: appointments/models.py:290
+msgid "Determines how many Seats can book for this period."
+msgstr "Hány Seat érkezhet erre az időszakra"
+
+#: appointments/models.py:292
+msgid ""
+"Number of Seats who booked for this period. This should't be edited by "
+"humans :)"
+msgstr "Seat-ek száma erre az időpontra. Ezt nem szabad kézzel módosítani :)"
+
+#: appointments/models.py:295
+msgid "Time Slot is only availabe to be booked for if active."
+msgstr "Csak aktív Time Slot-ra lehet időpontot foglalni."
+
+#: appointments/phone_numbers.py:14 appointments/phone_numbers.py:20
+msgid "Include \"+\" sign, country code and area code."
+msgstr ""
+"A telefonszámnak tartalmaznia kell a \"+\" jelet, valamint az ország és "
+"körzet számot is."
+
+#: appointments/serializers.py:54
+msgid "You can not choose time slots started in the past"
+msgstr "Elkezdődött időpontot nem lehet kiválasztani"
+
+#: appointments/serializers.py:59
+msgid "Time slot doesn't have enough capacity"
+msgstr "Ebben az idősávban már nincs elég szabad hely"
+
+#: appointments/serializers.py:92
+msgid "Birth date must be in the past."
+msgstr "Születési dátumnak a múltban kell lennie."
+
+#: appointments/serializers.py:99
+msgid "Invalid phone number."
+msgstr "Érvénytelen telefonszám."
+
+#: appointments/serializers.py:105 surveys/serializers.py:90
+#: surveys/serializers.py:101
+msgid "This field is required."
+msgstr "Ez a mező szükséges."
+
+#: appointments/views.py:90
+msgid "This QR code has no associated Seat!"
+msgstr "A QR kódhoz nem tartozik foglalás!"
+
+#: billing/models.py:11
+msgid "receipt"
+msgstr "nyugta"
+
+#: billing/models.py:12
+msgid "VAT invoice"
+msgstr "áfás számla"
+
+#: payments/models.py:20
+msgid ""
+"When this field is empty, no payment for the person has been made (yet)."
+msgstr "Amennyiben ez a mező üres, még nem történt befizetés."
+
+#: payments/models.py:26
+msgid ""
+"Printed receipt/bill number, healthcare number (TAJ kártya szám) or anything"
+" which proves this payment has been made."
+msgstr ""
+"Kinyomtatott nyugta-, számla-, TAJ kártyaszáma, ami a befizetést igazolja"
+
+#: payments/models.py:30
+msgid "Anything important to note about this payment."
+msgstr "A befizetésről bármilyen fontos jegyzet"
+
+#: payments/models.py:55
+msgid "created"
+msgstr "létrehozva"
+
+#: payments/models.py:56
+msgid "waiting for authorization"
+msgstr "zárolásra vár"
+
+#: payments/models.py:57
+msgid "authorized"
+msgstr "zárolva"
+
+#: payments/models.py:58
+msgid "waiting for completion"
+msgstr "befejezésre vár"
+
+#: payments/models.py:59
+msgid "completed"
+msgstr "kész"
+
+#: payments/models.py:60
+msgid "waiting for refund"
+msgstr "visszautalásra vár"
+
+#: payments/models.py:61
+msgid "refunded"
+msgstr "visszautalva"
+
+#: payments/models.py:62
+msgid "rejected"
+msgstr "elutasítva"
+
+#: payments/models.py:63
+msgid "cancelled"
+msgstr "megszakítva"
+
+#: payments/prices.py:20
+msgid "SimplePay"
+msgstr "SimplePay"
+
+#: payments/prices.py:21
+msgid "On-site"
+msgstr "Helyszínen"
+
+#: payments/prices.py:26
+msgid "Normál vizsgálat"
+msgstr ""
+
+#: payments/prices.py:27
+msgid "Elsőbbségi vizsgálat"
+msgstr ""
+
+#: samples/models.py:19
+msgid "empty"
+msgstr "üres"
+
+#: samples/models.py:20
+msgid "sampled"
+msgstr "minta levéve"
+
+#: samples/models.py:21
+msgid "in transport"
+msgstr "úton a labroba"
+
+#: samples/models.py:22
+msgid "waiting in lab"
+msgstr "laborban várakozik"
+
+#: samples/models.py:23
+msgid "examined"
+msgstr "megvizsgálva"
+
+#: samples/models.py:30
+msgid "positive"
+msgstr "pozitív"
+
+#: samples/models.py:31
+msgid "negative"
+msgstr "negatív"
+
+#: samples/models.py:32
+msgid "not tested yet"
+msgstr "még nem tesztelt"
+
+#: samples/models.py:38
+msgid "The time when it is extraxted from a real person"
+msgstr "A mintavétel időpontja valós személytől"
+
+#: samples/models.py:40
+msgid "The identifier of the vial (the number below the barcode)."
+msgstr "A kémcső azonosítója (az alábbi vonalkód a szám)"
+
+#: surveys/models.py:8
+msgid "boolean"
+msgstr "boolean"
+
+#: surveys/models.py:9
+msgid "integer"
+msgstr "szám"
+
+#: surveys/models.py:10
+msgid "string"
+msgstr "szöveg"

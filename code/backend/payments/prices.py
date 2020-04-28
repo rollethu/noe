@@ -13,7 +13,7 @@ class ProductType:
     DOCTOR_REFERRAL = "DOCTOR_REFERRAL"
     NORMAL_EXAM = "NORMAL_EXAM"
     PRIORITY_EXAM = "PRIORITY_EXAM"
-    PRIORITY_EXAM_FRADI = "PRIORITY_EXAM_FRADI"
+    # PRIORITY_EXAM_FRADI = "PRIORITY_EXAM_FRADI"
 
 
 PAYMENT_METHOD_TYPE_CHOICES = (
@@ -25,7 +25,7 @@ PRODUCT_CHOICES = (
     # DOCTOR_REFERRAL is dynamically chosen based on Seat.has_doctor_referral, not needed here
     (ProductType.NORMAL_EXAM, _("Normál vizsgálat")),
     (ProductType.PRIORITY_EXAM, _("Elsőbbségi vizsgálat")),
-    (ProductType.PRIORITY_EXAM_FRADI, _("Elsőbbségi vizsgálat Fradi Szurkolói Kártya kedvezménnyel")),
+    # (ProductType.PRIORITY_EXAM_FRADI, _("Elsőbbségi vizsgálat Fradi Szurkolói Kártya kedvezménnyel")),
 )
 
 
@@ -41,9 +41,9 @@ PRODUCTS = {
     ProductType.DOCTOR_REFERRAL: Product(ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE),
     ProductType.NORMAL_EXAM: Product(ProductType.NORMAL_EXAM, 26_990, "HUF", PaymentMethodType.ON_SITE),
     ProductType.PRIORITY_EXAM: Product(ProductType.PRIORITY_EXAM, 36_990, "HUF", PaymentMethodType.ON_SITE),
-    ProductType.PRIORITY_EXAM_FRADI: Product(
-        ProductType.PRIORITY_EXAM_FRADI, 33_500, "HUF", PaymentMethodType.ON_SITE
-    ),
+    # ProductType.PRIORITY_EXAM_FRADI: Product(
+    #     ProductType.PRIORITY_EXAM_FRADI, 33_500, "HUF", PaymentMethodType.ON_SITE
+    # ),
 }
 
 

@@ -25,6 +25,7 @@ def _make_create_seat_request_body(appointment, extra=None):
     return request_body
 
 
+@pytest.mark.skip("doctor referral is temporarily disabled")
 @pytest.mark.django_db
 def test_healthcare_number_is_required_if_has_referral(api_client, appointment):
     rv = api_client.post(

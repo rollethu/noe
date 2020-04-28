@@ -20,6 +20,7 @@ if DEBUG:
 
     load_dotenv()
 
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -53,6 +54,9 @@ INSTALLED_APPS = [
     "billing",
     "users",
 ]
+
+if DEBUG:
+    INSTALLED_APPS += ["rosetta"]
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
@@ -132,7 +136,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = "/static/"
-STATIC_ROOT = os.environ.get("STATIC_ROOT", "./static_root")
+STATIC_ROOT = os.environ.get("STATIC_ROOT", "/project_noe/static_root")
 
 AUTH_USER_MODEL = "users.User"
 
@@ -185,3 +189,7 @@ EMAIL_HOST_USER = os.environ.get("DJANGO_EMAIL_HOST_USER", "")
 EMAIL_HOST_PASSWORD = os.environ.get("DJANGO_EMAIL_HOST_PASSWORD", "")
 EMAIL_USE_TLS = bool(os.environ.get("DJANGO_EMAIL_USE_TLS", ""))
 DEFAULT_FROM_EMAIL = os.environ.get("DJANGO_DEFAULT_FROM_EMAIL", "")
+
+LOCALE_PATHS = [
+    "locale/",
+]

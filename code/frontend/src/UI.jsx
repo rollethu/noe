@@ -42,6 +42,7 @@ export function Field({
   placeholder,
   defaultValue,
   selectOptionText,
+  min,
 }) {
   let errorMessage = null;
   if (!!allErrors) {
@@ -88,6 +89,7 @@ export function Field({
             placeholder={placeholder}
             defaultValue={defaultValue}
             selectOptionText={selectOptionText}
+            min={min}
           />
         </>
       )}
@@ -110,6 +112,7 @@ export function Input({
   placeholder,
   defaultValue,
   selectOptionText,
+  min,
 }) {
   if (type === "checkbox") {
     return (
@@ -156,6 +159,7 @@ export function Input({
       onChange={onChange}
       placeholder={placeholder}
       defaultValue={defaultValue}
+      min={min || null}
     />
   );
 }

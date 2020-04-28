@@ -45,10 +45,6 @@ export default function SeatDetailsForm() {
       return;
     }
 
-    if (!values.has_doctor_referral) {
-      delete values.healthcare_number;
-    }
-
     if (submitMode === SUBMIT_MODE_CREATE) {
       onCreateSubmit(values);
     } else {
@@ -154,20 +150,19 @@ export default function SeatDetailsForm() {
         helpText="Amennyiben értesítési e-mail címe eltér a megadottól "
         placeholder="pelda@gmail.com"
       />
-      <Field
+      {/* <Field
         register={register}
         name="has_doctor_referral"
         label="Orvosi beutalóval érkezem"
         type="checkbox"
         errors={errors}
-      />
+      /> */}
       <Field
         register={register}
         name="healthcare_number"
         label="TAJ kártyaszám"
         type="text"
         errors={errors}
-        hidden={!watch("has_doctor_referral")}
         placeholder="123-456-789"
       />
       <NextButton type="submit" />

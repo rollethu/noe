@@ -53,7 +53,7 @@ def test_send_qrcode():
     assert full_name in sent_mail.body
     assert licence_plate in sent_mail.body
     assert location.name in sent_mail.body
-    assert "On-site" in sent_mail.body
+    assert "Helyszínen" in sent_mail.body
     assert "Test Location" in sent_mail.body
     assert code in sent_mail.body
 

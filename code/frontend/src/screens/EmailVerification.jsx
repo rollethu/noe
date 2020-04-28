@@ -5,13 +5,17 @@ import VerificationSVG from "../assets/verification.svg";
 import { View, Caption, Text, Image } from "../UI";
 
 export default function EmailVerification() {
+  const [resendSuccess, setResendSuccess] = React.useState(null);
   const {
     state: { emailVerification },
     resendEmailVerification,
   } = React.useContext(AppointmentContext);
 
-  function onResendClick() {
-    resendEmailVerification(emailVerification.uuid);
+  async function onResendClick() {
+    const response = await resendEmailVerification(emailVerification.uuid);
+    if (!response.error) {
+      setResendSuccess(true);
+    }
   }
 
   return (
@@ -25,6 +29,14 @@ export default function EmailVerification() {
       <Text center onClick={onResendClick} semiLight>
         Nem érkezett meg a link? <strong>Újraküldöm</strong>
       </Text>
+      {resendSuccess && (
+        <Text>
+          E-mail újraküldése sikeres. Amennyiben nem találja perceken belül
+          levelét, nézze meg a "Spam/Levélszemét" mappában is. Ha nem érkezett
+          meg az üzenet, kérjük írjon nekünk a info@tesztallomas.hu e-mail
+          címre.
+        </Text>
+      )}
     </View>
   );
 }
