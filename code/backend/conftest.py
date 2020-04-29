@@ -24,8 +24,12 @@ def api_client():
 def api_user():
     group = Group.objects.create(name="seatgroup")
     p = Permission.objects.get(codename="view_seat")
+    l = Location.objects.create(name="Test Location")
     group.permissions.add(p)
-    user = User.objects.create(username="testuser", password="testpassword", is_admin=True)
+    user = User(username="testuser", is_admin=True, location=l)
+    user.PASSWORD = "testpassword"
+    user.set_password(user.PASSWORD)
+    user.save()
     user.groups.add(group)
     return user
 
