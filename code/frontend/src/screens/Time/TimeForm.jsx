@@ -28,6 +28,7 @@ export default function TimeForm({ onSubmit, onDateChange, timeSlots }) {
         type="select"
         errors={errors}
         options={timeSlotOptions}
+        required
       />
       <Field
         register={register}
