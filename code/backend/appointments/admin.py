@@ -128,9 +128,6 @@ class SeatAdmin(admin.ModelAdmin):
     inlines = [SampleInline, PaymentInline, QrCodeInline]
     date_hierarchy = "created_at"
 
-    def has_delete_permission(self, request, obj=None):
-        return False
-
     def appointment_location(self, obj=None):
         return obj.appointment.location.name
 
