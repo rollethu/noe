@@ -1,3 +1,5 @@
+export const MAX_SEATS_PER_APPOINTMENT = 5;
+
 export function handleResponse({ response, setError, history, redirectRoute }) {
   if (response.error) {
     if (response.status !== 500 && response.errors) {
@@ -34,4 +36,8 @@ export function getResourceUuidFromUrl(url) {
       ? parts[parts.length - 2] // due to trailing slash, last `part` is ""
       : parts[parts.length - 1];
   return uuid;
+}
+
+export function isMaxSeatCountReached(seatCount) {
+  return seatCount >= MAX_SEATS_PER_APPOINTMENT;
 }

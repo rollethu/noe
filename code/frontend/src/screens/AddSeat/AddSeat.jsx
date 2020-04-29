@@ -1,19 +1,25 @@
 import React from "react";
 
-import AddSeatSVG from "../assets/add_person.svg";
-import { Context as SeatContext } from "../contexts/seatContext";
-import { ROUTE_TIME, ROUTE_SEAT_DETAILS } from "../App";
-import { View, Caption, Image, Text, NextLinkButton, Button } from "../UI";
+import AddSeatSVG from "../../assets/add_person.svg";
+import { Context as SeatContext } from "../../contexts/seatContext";
+import { ROUTE_TIME, ROUTE_SEAT_DETAILS } from "../../App";
+import { View, Caption, Image, Text, NextLinkButton, Button } from "../../UI";
 import { useHistory } from "react-router-dom";
+import * as utils from "../../utils";
 
 export default function AddSeat() {
   const history = useHistory();
-  const { setActiveSeat } = React.useContext(SeatContext);
+  const {
+    state: { seats },
+    setActiveSeat,
+  } = React.useContext(SeatContext);
 
   function onNewSeatClick() {
     setActiveSeat(null);
     history.push(ROUTE_SEAT_DETAILS);
   }
+
+  const isAddSeatDisabled = utils.isMaxSeatCountReached(seats.length);
 
   return (
     <View>
@@ -26,7 +32,13 @@ export default function AddSeat() {
         regisztrációval maximum 5 személy rögzíthető.
       </Text>
       <NextLinkButton to={ROUTE_TIME} toCenter />
-      <Button onClick={onNewSeatClick} toCenter inverse>
+      <Button
+        id="AddSeatButton"
+        onClick={onNewSeatClick}
+        toCenter
+        inverse
+        disabled={isAddSeatDisabled}
+      >
         Új személy hozzáadása
       </Button>
     </View>

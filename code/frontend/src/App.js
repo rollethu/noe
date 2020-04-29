@@ -14,7 +14,7 @@ import { Provider as SurveyProvider } from "./contexts/surveyContext";
 import { Provider as TimeSlotProvider } from "./contexts/timeSlotContext";
 import Nav from "./components/Nav";
 import Start from "./screens/Start/Start";
-import AddSeat from "./screens/AddSeat";
+import AddSeat from "./screens/AddSeat/AddSeat";
 import EmailVerification from "./screens/EmailVerification";
 import VerifyEmail from "./screens/VerifyEmail";
 import PaymentMethods from "./screens/PaymentMethods/PaymentMethods";
