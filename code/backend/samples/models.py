@@ -1,6 +1,7 @@
 import uuid
 
 from django.db import models
+from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 
 
@@ -35,7 +36,7 @@ class Sample(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     seat = models.ForeignKey("appointments.Seat", on_delete=models.SET_NULL, null=True, blank=True)
     sampled_at = models.DateTimeField(
-        blank=True, null=True, help_text=_("The time when it is extraxted from a real person"),
+        blank=True, null=True, default=timezone.now, help_text=_("The time when it is extraxted from a real person"),
     )
     vial = models.CharField(max_length=50, help_text=_("The identifier of the vial (the number below the barcode)."))
     location = models.ForeignKey("appointments.Location", on_delete=models.SET_NULL, null=True)
