@@ -44,6 +44,7 @@ class AppointmentAdmin(admin.ModelAdmin):
         BillingInline,
         SeatInline,
     ]
+    list_filter = ["is_registration_completed"]
 
 
 class PhoneVerificationAdmin(admin.ModelAdmin):
