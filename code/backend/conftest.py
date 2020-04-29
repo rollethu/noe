@@ -1,10 +1,13 @@
+from pathlib import Path
 import datetime as dt
 from django.conf import settings
-from pathlib import Path
+from django.contrib.auth.models import Group, Permission
 from rest_framework.test import APIRequestFactory, APIClient
+from rest_framework.authtoken.models import Token
 import pytest
 from appointments.models import Location, Appointment, Seat, QRCode
 from payments.models import Payment
+from users.models import User
 
 
 @pytest.fixture
@@ -15,6 +18,23 @@ def factory():
 @pytest.fixture
 def api_client():
     return APIClient()
+
+
+@pytest.fixture
+def api_user():
+    group = Group.objects.create(name="seatgroup")
+    p = Permission.objects.get(codename="view_seat")
+    group.permissions.add(p)
+    user = User.objects.create(username="testuser", password="testpassword", is_admin=True)
+    user.groups.add(group)
+    return user
+
+
+@pytest.fixture
+def staff_api_client(api_user, api_client):
+    token = Token.objects.create(user=api_user)
+    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
+    return api_client
 
 
 @pytest.fixture

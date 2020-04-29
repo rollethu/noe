@@ -1,13 +1,10 @@
 from django.core import mail
 from django.conf import settings
 from django.utils import timezone
-from django.contrib.auth.models import Group, Permission
 from rest_framework import status
-from rest_framework.authtoken.models import Token
 from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory, APIClient
 import pytest
-from users.models import User
 from payments.models import Payment
 from .. import views
 from .. import models as m
@@ -18,23 +15,6 @@ def email_verification():
     appointment = m.Appointment.objects.create(gtc="1.0", privacy_policy="1.0", email="info@tesztallomas.hu")
     ev = appointment.email_verifications.first()
     return ev
-
-
-@pytest.fixture
-def api_user():
-    group = Group.objects.create(name="seatgroup")
-    p = Permission.objects.get(codename="view_seat")
-    group.permissions.add(p)
-    user = User.objects.create(username="testuser", password="testpassword", is_admin=True)
-    user.groups.add(group)
-    return user
-
-
-@pytest.fixture
-def staff_api_client(api_user, api_client):
-    token = Token.objects.create(user=api_user)
-    api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
-    return api_client
 
 
 @pytest.fixture
