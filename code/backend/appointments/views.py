@@ -81,6 +81,11 @@ class SeatViewSet(NoReadModelViewSet):
     queryset = m.Seat.objects.all()
     serializer_class = s.SeatSerializer
 
+    def perform_destroy(self, instance):
+        super().perform_destroy(instance)
+        time_slot = instance.appointment.time_slot
+        time_slot.add_usage(-1)
+
 
 class QRCodeView(generics.GenericAPIView):
     queryset = m.QRCode.objects.all()

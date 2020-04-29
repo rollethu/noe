@@ -185,3 +185,18 @@ def test_started_time_slot_is_excluded_from_list(api_client, location, monkeypat
     rv = api_client.get(reverse("timeslot-list"))
     assert rv.status_code == status.HTTP_200_OK
     assert len(rv.data) == 0
+
+
+@pytest.mark.django_db
+def test_decrease_usage_on_seat_deletion(api_client, seat, appointment, location):
+    start = timezone.now()
+    time_slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
+
+    appointment.time_slot = time_slot
+    appointment.save()
+
+    rv = api_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
+    assert rv.status_code == status.HTTP_204_NO_CONTENT
+
+    time_slot.refresh_from_db()
+    assert time_slot.usage == 9
