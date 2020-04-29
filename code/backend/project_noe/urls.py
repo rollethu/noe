@@ -25,6 +25,7 @@ from drf_yasg import openapi
 import staff_api.urls
 from staff_api.permissions import StaffApiPermissions
 from project_noe.views import health_check
+from project_noe.views import build_info
 import appointments.views
 import surveys.views
 import samples.views
@@ -71,6 +72,7 @@ urlpatterns = [
     path("staff-api/", include(staff_api.urls)),
     path("admin/", admin.site.urls),
     path("health/", health_check),
+    path("health/a1fb4d04460143e8a80b39505974859/", build_info),
     path("qrcode/<code>/", appointments.views.QRCodeView.as_view(), name="qrcode"),
 ]
 
