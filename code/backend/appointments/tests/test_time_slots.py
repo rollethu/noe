@@ -171,7 +171,7 @@ def test_forbid_timeslot_in_the_past(api_client, location, appointment):
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
-    assert rv.data["time_slot"] == "You can not choose time slots started in the past"
+    assert rv.data["time_slot"] == "Elkezdődött időpontot nem lehet kiválasztani"
 
 
 @pytest.mark.django_db
