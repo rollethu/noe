@@ -16,7 +16,7 @@ class LocationAdmin(admin.ModelAdmin):
 class SeatInline(admin.StackedInline):
     model = m.Seat
     # We don't want to allow buses or bigger groups sitting in the same car
-    max_num = 5
+    max_num = m.MAX_SEATS_PER_APPOINTMENT
 
     def get_extra(self, request, obj=None, **kwargs):
         extra = 3

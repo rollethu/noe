@@ -17,6 +17,8 @@ import qrcode
 
 encrypter = Fernet(settings.EMAIL_VERIFICATION_KEY)
 
+MAX_SEATS_PER_APPOINTMENT = 5
+
 
 class Location(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)

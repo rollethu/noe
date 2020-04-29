@@ -85,6 +85,14 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         self._validate_healthcare_number_with_referral(validated_data)
         return super().create(validated_data)
 
+    def validate_appointment(self, appointment):
+        if appointment.seats.count() >= m.MAX_SEATS_PER_APPOINTMENT:
+            raise ValidationError(
+                _("Maximum %(max_seat_count)s Seats can belong to an appointment")
+                % {"max_seat_count": m.MAX_SEATS_PER_APPOINTMENT}
+            )
+        return appointment
+
     def validate_birth_date(self, birth_date):
         if birth_date > timezone.now().date():
             raise ValidationError(_("Birth date must be in the past."))

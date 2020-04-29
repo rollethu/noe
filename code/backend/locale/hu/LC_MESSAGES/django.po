@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-28 17:27+0200\n"
-"PO-Revision-Date: 2020-04-28 17:28+0116\n"
+"POT-Creation-Date: 2020-04-29 17:23+0200\n"
+"PO-Revision-Date: 2020-04-29 17:25+0116\n"
 "Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -31,11 +31,11 @@ msgstr "Rendszám"
 msgid "Time slot"
 msgstr "Idősáv"
 
-#: appointments/models.py:51
+#: appointments/models.py:54
 msgid "Primary communication channel with the patient."
 msgstr "Elsődleges kommunikációs csatorna a pácienssel."
 
-#: appointments/models.py:55
+#: appointments/models.py:58
 msgid ""
 "Accepted version of General Terms and Conditions. Applied to everyone whose "
 "Seat belong to this Appointment."
@@ -43,7 +43,7 @@ msgstr ""
 "ÁSZF elfogadott változata. Az Appointment összes Seat-je által elfogadásra "
 "kerül."
 
-#: appointments/models.py:61
+#: appointments/models.py:64
 msgid ""
 "Accepted version of privacy policy. Applied to everyone whose Seat belong to"
 " this Appointment."
@@ -51,11 +51,11 @@ msgstr ""
 "Adatvédelmi Szabályzat elfogadott változata. Az Appointment összes Seat-je "
 "által elfogadásra kerül."
 
-#: appointments/models.py:63
+#: appointments/models.py:66
 msgid "The appointment is valid from this time."
 msgstr "Az Appointment ettől az időtől kezdve érvényes."
 
-#: appointments/models.py:68
+#: appointments/models.py:71
 msgid ""
 "The appointment is valid until this time. This probably should be handled "
 "more lightly than the start time."
@@ -63,25 +63,25 @@ msgstr ""
 "Az Appointment eddig az időpontig érvényes. Ezt valószínüleg lazábban lehet "
 "kezelni, mint a kezdetét"
 
-#: appointments/models.py:167
+#: appointments/models.py:170
 msgid "Apartment, building, floor, suite, door, etc..."
 msgstr "Emelet, ajtó, stb."
 
-#: appointments/models.py:170
+#: appointments/models.py:173
 msgid "Notification email for the test results."
 msgstr "Értesítési e-mail cím a teszt eredményéről."
 
-#: appointments/models.py:290
+#: appointments/models.py:293
 msgid "Determines how many Seats can book for this period."
 msgstr "Hány Seat érkezhet erre az időszakra"
 
-#: appointments/models.py:292
+#: appointments/models.py:295
 msgid ""
 "Number of Seats who booked for this period. This should't be edited by "
 "humans :)"
 msgstr "Seat-ek száma erre az időpontra. Ezt nem szabad kézzel módosítani :)"
 
-#: appointments/models.py:295
+#: appointments/models.py:298
 msgid "Time Slot is only availabe to be booked for if active."
 msgstr "Csak aktív Time Slot-ra lehet időpontot foglalni."
 
@@ -91,28 +91,33 @@ msgstr ""
 "A telefonszámnak tartalmaznia kell a \"+\" jelet, valamint az ország és "
 "körzet számot is."
 
-#: appointments/serializers.py:54
+#: appointments/serializers.py:55
 msgid "You can not choose time slots started in the past"
 msgstr "Elkezdődött időpontot nem lehet kiválasztani"
 
-#: appointments/serializers.py:59
+#: appointments/serializers.py:60
 msgid "Time slot doesn't have enough capacity"
 msgstr "Ebben az idősávban már nincs elég szabad hely"
 
-#: appointments/serializers.py:92
+#: appointments/serializers.py:91
+#, python-format
+msgid "Maximum %(max_seat_count)s Seats can belong to an appointment"
+msgstr "Maximum %(max_seat_count)s fő tartozhat egy foglaláshoz"
+
+#: appointments/serializers.py:98
 msgid "Birth date must be in the past."
 msgstr "Születési dátumnak a múltban kell lennie."
 
-#: appointments/serializers.py:99
+#: appointments/serializers.py:105
 msgid "Invalid phone number."
 msgstr "Érvénytelen telefonszám."
 
-#: appointments/serializers.py:105 surveys/serializers.py:90
+#: appointments/serializers.py:111 surveys/serializers.py:90
 #: surveys/serializers.py:101
 msgid "This field is required."
 msgstr "Ez a mező szükséges."
 
-#: appointments/views.py:90
+#: appointments/views.py:95
 msgid "This QR code has no associated Seat!"
 msgstr "A QR kódhoz nem tartozik foglalás!"
 
