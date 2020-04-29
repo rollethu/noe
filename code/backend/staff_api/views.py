@@ -7,7 +7,7 @@ from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
-from appointments.models import Appointment, Seat
+from appointments.models import Appointment, Seat, QRCode
 from payments.models import Payment
 from samples.models import Sample
 from . import serializers as s
@@ -32,9 +32,17 @@ class LoginView(ObtainAuthToken):
         serializer.is_valid(raise_exception=True)
         user = serializer.validated_data["user"]
         token, _ = Token.objects.get_or_create(user=user)
+        qrcode_location_prefix = QRCode.get_location_prefix(user.location)
         location_url = reverse("location-detail", kwargs={"pk": user.location.pk}, request=request)
         group = self._get_group_or_fail(user)
-        return Response({"token": token.key, "location": location_url, "group": group.name})
+        return Response(
+            {
+                "token": token.key,
+                "location": location_url,
+                "qrcode_location_prefix": qrcode_location_prefix,
+                "group": group.name,
+            }
+        )
 
     def _get_group_or_fail(self, user):
         try:
