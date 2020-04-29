@@ -59,9 +59,6 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
             raise ValidationError({"time_slot": _("Time slot doesn't have enough capacity")})
 
         seat_count = appointment.seats.count()
-        # TODO: Uncomment if we want to forbid overbooking
-        # if time_slot.capacity - time_slot.usage < seat_count:
-        #     raise ValidationError({"time_slot": "Idősáv már tele. Válasszon másik idősávot."})
 
         time_slot.usage += seat_count
         time_slot.save()
