@@ -9,6 +9,7 @@ from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from appointments.models import Appointment, Seat
 from payments.models import Payment
+from samples.models import Sample
 from . import serializers as s
 from . import filters as f
 from .permissions import StaffApiPermissions
@@ -61,3 +62,11 @@ class PaymentViewSet(mixins.RetrieveModelMixin, mixins.UpdateModelMixin, viewset
     permission_classes = [StaffApiPermissions]
     queryset = Payment.objects.all()
     serializer_class = s.PaymentSerializer
+
+
+class SampleViewSet(
+    mixins.CreateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet,
+):
+    permission_classes = [StaffApiPermissions]
+    queryset = Sample.objects.all()
+    serializer_class = s.SampleSerializer

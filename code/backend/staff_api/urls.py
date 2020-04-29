@@ -12,6 +12,7 @@ staff_router = StaffRouter()
 staff_router.register("appointments", views.AppointmentViewSet, basename="staff-appointment")
 staff_router.register("seats", views.SeatViewSet, basename="staff-seat")
 staff_router.register("payments", views.PaymentViewSet, basename="staff-payment")
+staff_router.register("samples", views.SampleViewSet, basename="staff-sample")
 
 urlpatterns = [
     re_path(r"login/", views.LoginView.as_view()),

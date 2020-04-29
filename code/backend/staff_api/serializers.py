@@ -1,6 +1,7 @@
 from rest_framework import serializers
-from appointments.models import Appointment, Seat
+from appointments.models import Location, Appointment, Seat
 from payments.models import Payment
+from samples.models import Sample
 
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
@@ -54,3 +55,14 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
             "appointment",
             "payment",
         ]
+
+
+class SampleSerializer(serializers.HyperlinkedModelSerializer):
+    url = serializers.HyperlinkedIdentityField(view_name="staff-sample-detail")
+    seat = serializers.HyperlinkedRelatedField(view_name="staff-seat-detail", queryset=Seat.objects.all())
+    location = serializers.HyperlinkedRelatedField(view_name="location-detail", queryset=Location.objects.all())
+    status = serializers.ChoiceField(choices=Sample.SAMPLE_STATUS_CHOICES, required=True)
+
+    class Meta:
+        model = Sample
+        fields = ["url", "seat", "location", "vial", "status", "sampled_at"]
