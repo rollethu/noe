@@ -28,7 +28,6 @@ from project_noe.views import health_check
 from project_noe.views import build_info
 import appointments.views
 import surveys.views
-import samples.views
 import payments.views
 import users.views
 
