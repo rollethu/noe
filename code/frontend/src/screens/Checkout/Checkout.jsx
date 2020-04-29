@@ -1,0 +1,56 @@
+import React from "react";
+import { useHistory } from "react-router-dom";
+import { Context as SeatContext } from "../../contexts/seatContext";
+import { Context as AppointmentContext } from "../../contexts/appointmentContext";
+import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
+import { Context as SurveyContext } from "../../contexts/surveyContext";
+import { ROUTE_SEAT_DETAILS } from "../../App";
+import CheckoutContent from "./CheckoutContent";
+
+export default function Checkout() {
+  const history = useHistory();
+  const {
+    state: { seats },
+    deleteSeat,
+    setActiveSeat,
+  } = React.useContext(SeatContext);
+  const {
+    state: { appointment },
+  } = React.useContext(AppointmentContext);
+  const {
+    state: { selectedTimeSlot },
+    fetchSelectedTimeSlot,
+  } = React.useContext(TimeSlotContext);
+  const { setActiveSurveyAnswers } = React.useContext(SurveyContext);
+
+  React.useEffect(() => {
+    if (!appointment) {
+      return;
+    }
+    fetchSelectedTimeSlot(appointment.time_slot);
+  }, []);
+
+  function onSeatEditClick(seat) {
+    setActiveSeat(seat);
+    setActiveSurveyAnswers(seat);
+    history.push(ROUTE_SEAT_DETAILS);
+  }
+
+  function onSeatDeleteClick(seat) {
+    const confirmed = window.confirm("Biztosan törölni akarja?");
+    if (!confirmed) {
+      return;
+    }
+    deleteSeat(seat.url);
+  }
+
+  return (
+    <CheckoutContent
+      appointment={appointment}
+      seats={seats}
+      onSeatEditClick={onSeatEditClick}
+      onSeatDeleteClick={onSeatDeleteClick}
+      selectedTimeSlot={selectedTimeSlot}
+    />
+  );
+}

@@ -22,7 +22,7 @@ import Registration from "./screens/Registration/Registration";
 import SeatDetails from "./screens/SeatDetails/SeatDetails";
 import Survey from "./screens/Survey/Survey";
 import Time from "./screens/Time/Time";
-import Checkout from "./screens/Checkout";
+import Checkout from "./screens/Checkout/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess";
 import { TopStripe } from "./UI";
 
