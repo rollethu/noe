@@ -26,11 +26,11 @@ class Location(models.Model):
     name = models.CharField(max_length=100)
     address = models.TextField(blank=True)
 
-    def __str__(self):
-        return self.name
-
     class Meta:
         ordering = ("created_at",)
+
+    def __str__(self):
+        return self.name
 
 
 class AppointmentManager(models.Manager):
@@ -214,13 +214,12 @@ class QRCode(models.Model):
             super().save(update_fields=["code"])
 
     def _calc_code(self):
-        # https://gitlab.com/rollet/project-noe/-/wikis/Seat-QR-codes
         try:
-            location_pk_str = str(self.seat.appointment.location.pk)
+            location = self.seat.appointment.location
         except AttributeError:
             # appointment has no Location
-            location_pk_str = "0" * self.LOCATION_DIGITS
-        location_id = location_pk_str.zfill(self.LOCATION_DIGITS)
+            location = None
+        location_prefix = self.get_location_prefix(location)
 
         # This needs to be localtime, so can be verified by just looking at it
         localdt = timezone.localtime()
@@ -229,7 +228,13 @@ class QRCode(models.Model):
         modulus = 10 ** (self.DAY_SERIAL_DIGITS + 1)
         day_serial = str(self.pk % modulus).zfill(self.DAY_SERIAL_DIGITS)
 
-        return f"{location_id}-{local_date}-{day_serial}"
+        return f"{location_prefix}-{local_date}-{day_serial}"
+
+    @classmethod
+    def get_location_prefix(cls, location):
+        # https://gitlab.com/rollet/project-noe/-/wikis/Seat-QR-codes
+        location_str = str(location.pk) if location is not None else ""
+        return location_str.zfill(cls.LOCATION_DIGITS)
 
     def get_absolute_url(self):
         return reverse("qrcode", args=[str(self.code)])

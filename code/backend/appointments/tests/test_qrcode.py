@@ -65,3 +65,13 @@ class TestImageGeneration:
         assert type(result) is bytes
         expected = datadir.joinpath("qr-https-127.0.0.1-8000-code-0000-200423-0053.png").read_bytes()
         assert result == expected
+
+
+def test_location_prefix():
+    assert m.QRCode.get_location_prefix(None) == "0000"
+
+    location = m.Location(pk=1)
+    assert m.QRCode.get_location_prefix(location) == "0001"
+
+    location = m.Location(pk=9999)
+    assert m.QRCode.get_location_prefix(location) == "9999"
