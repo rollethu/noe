@@ -53,6 +53,7 @@ export default function RegistrationForm({ locationOptions }) {
         errors={errors}
         onChange={onLicencePlateChange}
         placeholder="ABC-123"
+        helpText="Kérjük figyelmesen töltse ki ezeket az adatokat, a későbbekben nem tudja módosítani."
       />
       <NextButton type="submit" />
     </Form>

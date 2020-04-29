@@ -29,6 +29,7 @@ export default function TimeForm({ onSubmit, onDateChange, timeSlots }) {
         errors={errors}
         options={timeSlotOptions}
         required
+        helpText="Kérjük figyelmesen töltse ki ezeket az adatokat, a későbbekben nem tudja módosítani."
       />
       <Field
         register={register}
