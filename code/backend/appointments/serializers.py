@@ -30,6 +30,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         extra_kwargs = {
             "location": {"allow_null": False},
             "licence_plate": {"allow_blank": False},
+            "time_slot": {"allow_null": False},
         }
 
     def update(self, instance, validated_data):

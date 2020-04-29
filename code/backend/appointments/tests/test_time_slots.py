@@ -208,3 +208,17 @@ def test_usage_can_not_go_negative(location):
     time_slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=0, location=location)
     time_slot.add_usage(-100)
     assert time_slot.usage == 0
+
+
+@pytest.mark.django_db
+def test_time_slot_is_optional_but_can_not_be_empty(api_client, appointment):
+    # Test time_slot is optional
+    rv1 = api_client.patch(reverse("appointment-detail", kwargs={"pk": appointment.pk}), {})
+    assert rv1.status_code == status.HTTP_200_OK
+
+    # Test time_slot can not be null
+    rv2 = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}), {"time_slot": None}, format="json"
+    )
+    assert rv2.status_code == status.HTTP_400_BAD_REQUEST
+    assert rv2.data["time_slot"] == ["Ez a mező nem lehet null értékű."]
