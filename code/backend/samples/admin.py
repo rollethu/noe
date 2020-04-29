@@ -3,4 +3,8 @@ from django.contrib import admin
 from . import models as m
 
 
-admin.site.register(m.Sample)
+class SampleAdmin(admin.ModelAdmin):
+    list_display = ["vial", "seat", "location", "sampled_at", "created_at"]
+
+
+admin.site.register(m.Sample, SampleAdmin)
