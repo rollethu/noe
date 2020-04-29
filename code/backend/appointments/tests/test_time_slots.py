@@ -200,3 +200,11 @@ def test_decrease_usage_on_seat_deletion(api_client, seat, appointment, location
 
     time_slot.refresh_from_db()
     assert time_slot.usage == 9
+
+
+@pytest.mark.django_db
+def test_usage_can_not_go_negative(location):
+    start = timezone.now()
+    time_slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=0, location=location)
+    time_slot.add_usage(-100)
+    assert time_slot.usage == 0

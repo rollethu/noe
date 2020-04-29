@@ -321,3 +321,7 @@ class TimeSlot(models.Model):
         # Making a save call here is *required*, *not* optional
         self.save()
         self.refresh_from_db()
+
+        if self.usage < 0:
+            self.usage = 0
+            self.save()
