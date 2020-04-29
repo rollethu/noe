@@ -6,6 +6,7 @@ import secrets
 import datetime as dt
 from urllib.parse import urljoin
 from django.db import models
+from django.db.models import F
 from django.conf import settings
 from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
@@ -299,3 +300,24 @@ class TimeSlot(models.Model):
 
     class Meta:
         ordering = ("created_at",)
+
+    def add_usage(self, value):
+        self.usage = F("usage") + value
+        # Important!
+        #
+        # Using the F object method to update field prevents
+        # race conditions
+        #
+        # On the other hand, it is not idempotent.
+        # with each `.save()` call, the usage will keep increasing
+        # .save() => 3
+        # .save() => 6
+        # .save() => 9
+        # ...
+        #
+        # To prevent this, we do call save() here with a refresh_from_db
+        # to override the usage value from the expression above to an int
+        #
+        # Making a save call here is *required*, *not* optional
+        self.save()
+        self.refresh_from_db()

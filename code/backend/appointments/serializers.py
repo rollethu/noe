@@ -60,7 +60,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
         seat_count = appointment.seats.count()
 
-        time_slot.usage += seat_count
+        time_slot.add_usage(seat_count)
         time_slot.save()
 
     def _match_appointment_start_and_end_with_time_slot(self, appointment):
