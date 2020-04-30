@@ -157,9 +157,13 @@ export default function SeatDetailsForm() {
         register={register}
         name="healthcare_number"
         label="TAJ kártyaszám"
-        type="text"
+        type="number"
         errors={errors}
         placeholder="123-456-789"
+        pattern={{
+          value: /[0-9]{9}/,
+          message: "Használjon 9 számjegyet.",
+        }}
       />
       <NextButton type="submit" />
     </Form>

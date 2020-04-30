@@ -43,6 +43,7 @@ export function Field({
   defaultValue,
   selectOptionText,
   min,
+  pattern,
 }) {
   let errorMessage = null;
   if (!!allErrors) {
@@ -50,6 +51,8 @@ export function Field({
     if (errors) {
       if (errors.type === "required") {
         errorMessage = "Ez a mező kötelező.";
+      } else if (errors.type === "pattern") {
+        errorMessage = errors.message || "Érvénytelen formátum";
       } else {
         errorMessage = errors.message;
       }
@@ -90,6 +93,7 @@ export function Field({
             defaultValue={defaultValue}
             selectOptionText={selectOptionText}
             min={min}
+            pattern={pattern}
           />
         </>
       )}
@@ -113,6 +117,7 @@ export function Input({
   defaultValue,
   selectOptionText,
   min,
+  pattern,
 }) {
   if (type === "checkbox") {
     return (
@@ -154,7 +159,7 @@ export function Input({
       style={style}
       className="Input"
       name={name}
-      ref={register({ required })}
+      ref={register({ required, pattern })}
       type={type || "text"}
       onChange={onChange}
       placeholder={placeholder}
