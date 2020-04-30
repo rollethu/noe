@@ -27,7 +27,8 @@ export default function EmailVerification() {
         kattintva visszatérhet a regisztrációs folyamathoz.
       </Text>
       <Text center onClick={onResendClick} semiLight>
-        Nem érkezett meg a link? <strong>Újraküldöm</strong>
+        Nem érkezett meg a link?{" "}
+        <strong className="PointerCursor">Újraküldöm</strong>
       </Text>
       {resendSuccess && (
         <Text>

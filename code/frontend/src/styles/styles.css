@@ -213,6 +213,9 @@
     align-items: center;
     border-radius: 50px; }
 
+a, .PointerCursor {
+  cursor: pointer; }
+
 .Nav {
   position: absolute;
   top: 0;
