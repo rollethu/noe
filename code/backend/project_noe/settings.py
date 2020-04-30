@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+import sentry_sdk
+from sentry_sdk.integrations.django import DjangoIntegration
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", False)
@@ -20,6 +22,19 @@ if DEBUG:
 
     load_dotenv()
 
+
+SENTRY_DSN_URL = os.environ.get("SENTRY_DSN_URL", None)
+
+if SENTRY_DSN_URL:
+    sentry_sdk.init(
+        dsn=SENTRY_DSN_URL,
+        integrations=[DjangoIntegration()],
+        # If you wish to associate users to errors (assuming you are using
+        # django.contrib.auth) you may enable sending PII data.
+        # We are not interested in Users, we are interested in errors during registrations,
+        # which don't have Users associated with them.
+        send_default_pii=False,
+    )
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
