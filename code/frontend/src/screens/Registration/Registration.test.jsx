@@ -1,5 +1,6 @@
 import React from "react";
 import { mount } from "enzyme";
+import renderer from "react-test-renderer";
 
 import RegistrationForm from "./RegistrationForm";
 import { Field } from "../../UI";
@@ -34,5 +35,48 @@ test("Location field is disbaled", () => {
   expect(wrapper.find("select[name='location']").props()).toHaveProperty(
     "disabled",
     true
+  );
+});
+
+test("Registration form before save", () => {
+  const tree = renderer
+    .create(
+      <RegistrationForm
+        locationOptions={[]}
+        appointment={{ url: "fake-url" }}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+});
+
+test("Registration form after save", () => {
+  const tree = renderer
+    .create(
+      <RegistrationForm
+        locationOptions={[]}
+        appointment={{
+          url: "fake-url",
+          location: "fake-url",
+          licence_plate: "fake-plate",
+        }}
+      />
+    )
+    .toJSON();
+  expect(tree).toMatchSnapshot();
+
+  // Snapshot tests don't see input values
+  const wrapper = mount(
+    <RegistrationForm
+      locationOptions={[]}
+      appointment={{
+        url: "fake-url",
+        location: "fake-url",
+        licence_plate: "fake-plate",
+      }}
+    />
+  );
+  expect(wrapper.find("input[name='licence_plate']").getDOMNode().value).toBe(
+    "fake-plate"
   );
 });

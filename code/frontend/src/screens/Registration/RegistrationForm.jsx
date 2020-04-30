@@ -11,6 +11,7 @@ export default function RegistrationForm({
   const { register, handleSubmit, setError, errors, setValue } = useForm({
     defaultValues: {
       location: appointment?.location,
+      licence_plate: appointment?.licence_plate,
     },
   });
 

@@ -1,0 +1,125 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Registration form after save 1`] = `
+<form
+  className="Form"
+  onSubmit={[Function]}
+>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="location"
+    >
+      Tesztelőállomás kiválasztása
+    </label>
+    <select
+      className="Input"
+      defaultValue=""
+      disabled={true}
+      name="location"
+      type="select"
+    >
+      <option
+        disabled={true}
+        hidden={true}
+        value=""
+      >
+        Kiválasztás
+      </option>
+    </select>
+    <p
+      className="HelpBlock"
+    >
+      Kérjük figyelmesen válasszon helyszínt, később nem lehet módosítani.
+    </p>
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="licence_plate"
+    >
+      Rendszám
+    </label>
+    <input
+      className="Input"
+      min={null}
+      name="licence_plate"
+      onChange={[Function]}
+      placeholder="ABC-123"
+      type="text"
+    />
+  </div>
+  <button
+    className="Button NextButton"
+    type="submit"
+  >
+    Tovább
+  </button>
+</form>
+`;
+
+exports[`Registration form before save 1`] = `
+<form
+  className="Form"
+  onSubmit={[Function]}
+>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="location"
+    >
+      Tesztelőállomás kiválasztása
+    </label>
+    <select
+      className="Input"
+      defaultValue=""
+      disabled={false}
+      name="location"
+      type="select"
+    >
+      <option
+        disabled={true}
+        hidden={true}
+        value=""
+      >
+        Kiválasztás
+      </option>
+    </select>
+    <p
+      className="HelpBlock"
+    >
+      Kérjük figyelmesen válasszon helyszínt, később nem lehet módosítani.
+    </p>
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="licence_plate"
+    >
+      Rendszám
+    </label>
+    <input
+      className="Input"
+      min={null}
+      name="licence_plate"
+      onChange={[Function]}
+      placeholder="ABC-123"
+      type="text"
+    />
+  </div>
+  <button
+    className="Button NextButton"
+    type="submit"
+  >
+    Tovább
+  </button>
+</form>
+`;
