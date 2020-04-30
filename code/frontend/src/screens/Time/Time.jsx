@@ -1,5 +1,6 @@
 import React from "react";
 import { useHistory } from "react-router-dom";
+import _ from "lodash";
 
 import ProgressBarSVG from "../../assets/progressbar_4.svg";
 import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
@@ -10,6 +11,7 @@ import { View, Caption, Text, Image } from "../../UI";
 import TimeForm from "./TimeForm";
 import * as utils from "../../utils";
 import * as timeUtils from "./utils";
+import moment from "moment";
 
 export default function Time() {
   const history = useHistory();
@@ -45,9 +47,14 @@ export default function Time() {
   };
 
   function onDateChange(newDate) {
+    if (!moment(newDate).isValid()) {
+      return;
+    }
+
     timeUtils.updateFiltersWithDate(filters, newDate);
     fetchTimeSlots(filters);
   }
+  onDateChange = _.debounce(onDateChange, 1000);
 
   React.useEffect(() => {
     timeUtils.updateFiltersWithDate(filters, null);
