@@ -53,3 +53,32 @@ def test_max_seat_for_appointments(api_client, appointment):
 
 def test_max_seats_per_appointment_count():
     assert m.MAX_SEATS_PER_APPOINTMENT == 5
+
+
+@pytest.mark.django_db
+def test_update_with_location(api_client, appointment, location, location2):
+    assert appointment.location is None
+
+    rv = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}),
+        {"location": reverse("location-detail", kwargs={"pk": location.pk})},
+    )
+    assert rv.status_code == status.HTTP_200_OK
+
+    appointment.refresh_from_db()
+    assert appointment.location == location
+
+    # Update to the same location
+    rv = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}),
+        {"location": reverse("location-detail", kwargs={"pk": location.pk})},
+    )
+    assert rv.status_code == status.HTTP_200_OK
+
+    # Update to the other location
+    rv = api_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}),
+        {"location": reverse("location-detail", kwargs={"pk": location2.pk})},
+    )
+    assert rv.status_code == status.HTTP_400_BAD_REQUEST
+    assert rv.data["location"] == "Helyszín nem cserélhető"

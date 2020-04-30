@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-30 13:21+0200\n"
-"PO-Revision-Date: 2020-04-30 13:21+0116\n"
+"POT-Creation-Date: 2020-04-30 16:32+0200\n"
+"PO-Revision-Date: 2020-04-30 16:35+0116\n"
 "Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.4\n"
 
-#: appointments/admin.py:135
+#: appointments/admin.py:144
 msgid "Location"
 msgstr "Helyszín"
 
-#: appointments/admin.py:140
+#: appointments/admin.py:149
 msgid "Licence plate"
 msgstr "Rendszám"
 
-#: appointments/admin.py:155
+#: appointments/admin.py:164
 msgid "Time slot"
 msgstr "Idősáv"
 
@@ -91,32 +91,37 @@ msgstr ""
 "A telefonszámnak tartalmaznia kell a \"+\" jelet, valamint az ország és "
 "körzet számot is."
 
-#: appointments/serializers.py:56
+#: appointments/serializers.py:57
 msgid "You can not choose time slots started in the past"
 msgstr "Elkezdődött időpontot nem lehet kiválasztani"
 
-#: appointments/serializers.py:61
+#: appointments/serializers.py:62
 msgid "Time slot doesn't have enough capacity"
 msgstr "Ebben az idősávban már nincs elég szabad hely"
 
-#: appointments/serializers.py:91
+#: appointments/serializers.py:82
+#| msgid "Last Seat can not be deleted"
+msgid "Location can not be replaced"
+msgstr "Helyszín nem cserélhető"
+
+#: appointments/serializers.py:97
 msgid "Invalid format"
 msgstr "Érvénytelen formátum"
 
-#: appointments/serializers.py:97
+#: appointments/serializers.py:103
 #, python-format
 msgid "Maximum %(max_seat_count)s Seats can belong to an appointment"
 msgstr "Maximum %(max_seat_count)s fő tartozhat egy foglaláshoz"
 
-#: appointments/serializers.py:104
+#: appointments/serializers.py:110
 msgid "Birth date must be in the past."
 msgstr "Születési dátumnak a múltban kell lennie."
 
-#: appointments/serializers.py:111
+#: appointments/serializers.py:117
 msgid "Invalid phone number."
 msgstr "Érvénytelen telefonszám."
 
-#: appointments/serializers.py:117 surveys/serializers.py:90
+#: appointments/serializers.py:123 surveys/serializers.py:90
 #: surveys/serializers.py:101
 msgid "This field is required."
 msgstr "Ez a mező szükséges."

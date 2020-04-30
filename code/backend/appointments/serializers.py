@@ -36,6 +36,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
     def update(self, instance, validated_data):
         self._bump_time_slot_usage(instance, validated_data)
+        self._validate_location_change(instance, validated_data)
 
         # Licence plate should only be added as an update,
         # but not during creation
@@ -74,6 +75,11 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
         appointment.start = start
         appointment.end = end
         appointment.save()
+
+    def _validate_location_change(self, appointment, validated_data):
+        current_location = appointment.location
+        if current_location and validated_data["location"] != current_location:
+            raise ValidationError({"location": _("Location can not be replaced")})
 
 
 class SeatSerializer(serializers.HyperlinkedModelSerializer):
