@@ -32,3 +32,23 @@ test("Delete user works", () => {
 
   expect(mockOnDeleteClick).toHaveBeenCalled();
 });
+
+test("There is delete button if more seats than 1", () => {
+  const wrapper = mount(
+    <Router>
+      <CheckoutContent seats={[{ url: 1 }, { url: 2 }]} appointment={{}} />
+    </Router>
+  );
+  const deleteButtons = wrapper.find("button i.fa-close");
+  expect(deleteButtons.length).toBe(2);
+});
+
+test("There is delete button if more seats than 1", () => {
+  const wrapper = mount(
+    <Router>
+      <CheckoutContent seats={[{ url: 1 }]} appointment={{}} />
+    </Router>
+  );
+  const deleteButtons = wrapper.find("button i.fa-close");
+  expect(deleteButtons.exists()).toBeFalsy();
+});

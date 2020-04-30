@@ -6,6 +6,7 @@ import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
 import { ROUTE_SEAT_DETAILS } from "../../App";
 import CheckoutContent from "./CheckoutContent";
+import * as checkoutUtils from "./utils";
 
 export default function Checkout() {
   const history = useHistory();
@@ -37,6 +38,10 @@ export default function Checkout() {
   }
 
   function onSeatDeleteClick(seat) {
+    if (!checkoutUtils.canDeleteSeat(seats)) {
+      return;
+    }
+
     const confirmed = window.confirm("Biztosan törölni akarja?");
     if (!confirmed) {
       return;

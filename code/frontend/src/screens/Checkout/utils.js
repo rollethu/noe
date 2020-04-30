@@ -17,3 +17,7 @@ export function formatAppointmentDate(selectedTimeSlot) {
     </>
   );
 }
+
+export function canDeleteSeat(seats) {
+  return seats.length > 1;
+}

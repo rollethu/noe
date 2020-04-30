@@ -17,6 +17,8 @@ export default function CheckoutContent({
   onSeatDeleteClick,
   selectedTimeSlot,
 }) {
+  const shouldShowDeleteButtons = checkoutUtils.canDeleteSeat(seats);
+
   return (
     <View>
       <Caption center>Összegzés</Caption>
@@ -40,7 +42,12 @@ export default function CheckoutContent({
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
             <IconButton icon="pencil" onClick={() => onSeatEditClick(seat)} />
-            <IconButton icon="close" onClick={() => onSeatDeleteClick(seat)} />
+            {shouldShowDeleteButtons && (
+              <IconButton
+                icon="close"
+                onClick={() => onSeatDeleteClick(seat)}
+              />
+            )}
           </Text>
           <DataRow>
             <Text light>Születési dátum</Text>
