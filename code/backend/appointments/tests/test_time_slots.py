@@ -61,7 +61,6 @@ def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
     rv = api_client.get(reverse("timeslot-list"))
     assert rv.status_code == status.HTTP_200_OK
     assert len(rv.data) == 3
-    assert all([slot["is_active"] for slot in rv.data])
 
     rv = api_client.get(reverse("timeslot-list") + "?location=" + str(location.pk))
     assert rv.status_code == status.HTTP_200_OK, rv.data
