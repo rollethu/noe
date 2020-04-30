@@ -87,7 +87,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         return super().create(validated_data)
 
     def validate_healthcare_number(self, data):
-        if not u.is_healthcare_number_valid(data):
+        if data and not u.is_healthcare_number_valid(data):
             raise ValidationError(_("Invalid format"))
         return data
 

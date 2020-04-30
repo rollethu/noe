@@ -112,3 +112,6 @@ def test_api_error_with_invalid_healthcare_number(api_client, appointment):
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": "123456789"})
     )
     assert rv.status_code == status.HTTP_201_CREATED
+
+    rv = api_client.post(reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": ""}))
+    assert rv.status_code == status.HTTP_201_CREATED
