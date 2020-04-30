@@ -2,7 +2,7 @@ import React from "react";
 import { useHistory } from "react-router-dom";
 
 import * as utils from "../../utils";
-import { ROUTE_SEAT_DETAILS } from "../../App";
+import { ROUTE_SEAT_DETAILS, ROUTE_CHECKOUT } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as LocationContext } from "../../contexts/locationContext";
 import RegistrationForm from "./RegistrationForm";
@@ -36,6 +36,9 @@ export default function Registration() {
     text: location.name,
     value: location.url,
   }));
+  const redirectRoute = !!appointment?.location
+    ? ROUTE_CHECKOUT
+    : ROUTE_SEAT_DETAILS;
 
   const onSubmit = async (values, setError) => {
     if (!appointment.url) {
@@ -48,7 +51,7 @@ export default function Registration() {
       response,
       setError,
       history,
-      redirectRoute: ROUTE_SEAT_DETAILS,
+      redirectRoute,
     });
   };
 
