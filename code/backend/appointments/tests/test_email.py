@@ -43,7 +43,7 @@ def test_send_qrcode():
         email="test@rollet.app",
         appointment=appointment,
         qrcode=m.QRCode(code=code),
-        payment=Payment(amount=100, payment_method_type=PaymentMethodType.ON_SITE),
+        payment=Payment(amount=26_990, payment_method_type=PaymentMethodType.ON_SITE),
     )
 
     email.send_qrcode(seat, 1)
@@ -56,6 +56,7 @@ def test_send_qrcode():
     assert "Helyszínen" in sent_mail.body
     assert "Test Location" in sent_mail.body
     assert code in sent_mail.body
+    assert "Fizetendő összeg: 26990 Ft" in sent_mail.body
 
 
 def test_send_qrcode_with_doctor_referral():
@@ -65,7 +66,7 @@ def test_send_qrcode_with_doctor_referral():
         email="test@rollet.app",
         appointment=m.Appointment(),
         qrcode=m.QRCode(),
-        payment=Payment(),
+        payment=Payment(amount=0),
     )
 
     email.send_qrcode(seat, 1)

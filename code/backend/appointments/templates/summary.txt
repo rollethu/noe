@@ -1,3 +1,4 @@
+{% load money %}
 Kedves {{ seat.full_name }}!
 
 Köszönjük regisztrációját, időpontfoglalása az áthajtásos koronavírus
@@ -18,7 +19,7 @@ Rendszám: {{ appointment.normalized_licence_plate }}
 Név: {{ seat.full_name }}
 Születési év: {{ seat.birth_date|date:"Y" }}
 Fizetés módja: {{ payment.get_payment_method_type_display }}
-Fizetendő összeg: {{ payment.amount }} {{ payment.currency }}
+Fizetendő összeg: {% format_money payment.amount payment.currency %}
 
 A helyszíni fizetés a fertőzésveszély minimalizásása érdekében csak és kizárólag
 bankkártyával történhet. Kérjük a helyszínen kísérje figyelemmel a kihelyezett
