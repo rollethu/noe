@@ -1,6 +1,6 @@
 import React from "react";
 import { useForm } from "react-hook-form";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import * as utils from "../../utils";
 import { ROUTE_SURVEY as redirectRoute } from "../../App";
@@ -22,6 +22,7 @@ const SUBMIT_MODE_UPDATE = "UPDATE";
 
 export default function SeatDetailsForm() {
   const history = useHistory();
+  const location = useLocation();
   const {
     state: { activeSeat },
     createSeat,
@@ -59,9 +60,10 @@ export default function SeatDetailsForm() {
     utils.handleResponse({
       response,
       setError,
-      history,
-      redirectRoute,
     });
+    if (!response.error) {
+      history.push(redirectRoute, location.state);
+    }
   };
 
   const onUpdateSubmit = async (values) => {
@@ -69,9 +71,11 @@ export default function SeatDetailsForm() {
     utils.handleResponse({
       response,
       setError,
-      history,
-      redirectRoute,
     });
+
+    if (!response.error) {
+      history.push(redirectRoute, location.state);
+    }
   };
 
   return (
