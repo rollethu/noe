@@ -23,3 +23,16 @@ test("Location field has help test", () => {
   const helpBlock = licencePlateField.find(".HelpBlock");
   expect(helpBlock.exists()).toBeTruthy();
 });
+
+test("Location field is disbaled", () => {
+  const wrapper = mount(
+    <RegistrationForm
+      locationOptions={[]}
+      appointment={{ location: "fake-url" }}
+    />
+  );
+  expect(wrapper.find("select[name='location']").props()).toHaveProperty(
+    "disabled",
+    true
+  );
+});

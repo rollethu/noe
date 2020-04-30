@@ -60,7 +60,11 @@ export default function Registration() {
         Válassza ki a tesztelőállomást és adja meg a gépjármű rendszámát, amivel
         érkezni fog
       </Text>
-      <RegistrationForm locationOptions={locationOptions} onSubmit={onSubmit} />
+      <RegistrationForm
+        locationOptions={locationOptions}
+        onSubmit={onSubmit}
+        appointment={appointment}
+      />
     </View>
   );
 }

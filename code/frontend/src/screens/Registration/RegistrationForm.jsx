@@ -3,8 +3,16 @@ import { useForm } from "react-hook-form";
 
 import { Form, Field, NextButton } from "../../UI";
 
-export default function RegistrationForm({ locationOptions, onSubmit }) {
-  const { register, handleSubmit, setError, errors, setValue } = useForm();
+export default function RegistrationForm({
+  locationOptions,
+  onSubmit,
+  appointment,
+}) {
+  const { register, handleSubmit, setError, errors, setValue } = useForm({
+    defaultValues: {
+      location: appointment?.location,
+    },
+  });
 
   function onLicencePlateChange(event) {
     setValue("licence_plate", event.target.value.toUpperCase());
@@ -21,6 +29,7 @@ export default function RegistrationForm({ locationOptions, onSubmit }) {
         options={locationOptions}
         selectOptionText="Kiválasztás"
         helpText="Kérjük figyelmesen válasszon helyszínt, később nem lehet módosítani."
+        disabled={!!appointment?.location}
       />
       <Field
         register={register}

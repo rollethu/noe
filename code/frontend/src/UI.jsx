@@ -44,6 +44,7 @@ export function Field({
   selectOptionText,
   min,
   pattern,
+  disabled,
 }) {
   let errorMessage = null;
   if (!!allErrors) {
@@ -94,6 +95,7 @@ export function Field({
             selectOptionText={selectOptionText}
             min={min}
             pattern={pattern}
+            disabled={disabled}
           />
         </>
       )}
@@ -118,6 +120,7 @@ export function Input({
   selectOptionText,
   min,
   pattern,
+  disabled,
 }) {
   if (type === "checkbox") {
     return (
@@ -140,6 +143,7 @@ export function Input({
         type={type}
         defaultValue={defaultValue || ""}
         onChange={onChange && ((event) => onChange(event.target.value))}
+        disabled={disabled}
       >
         {!!selectOptionText && (
           <option disabled value="" hidden>
