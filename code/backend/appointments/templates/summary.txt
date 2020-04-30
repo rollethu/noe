@@ -1,23 +1,31 @@
-Sikeres regisztráció áthajtásos koronavírus tesztre
+Kedves {{ seat.full_name }}!
 
-Vizsgálat azonosítója: {{ seat.qrcode }}
-A mellékelt QR kódot telefonjára letöltve és a bejáratnál felmutatva tudja azonosítani magát.
+Köszönjük regisztrációját, időpontfoglalása az áthajtásos koronavírus
+tesztelésre sikeres.
 
-{% if appointment.start %}
-Vizsgálat időpontja: {{ appointment.start }} - {{ appointment.end|time:"H:i"}}
-{% else %}
-Időpont egyeztetéshez kérjük vegye fel velünk a kapcsolatot telefonon!
-{% endif %}
-Vizsgálat helyszíne: {{ appointment.location }}
-Autó rendszáma: {{ appointment.normalized_licence_plate }}
-Autóban ülők száma: {{ seat_count }}
-
-Név: {{ seat.full_name }}
-Születési év: {{ seat.birth_date|date:"Y" }}
-{% if payment.amount > 0 %}
-Fizetés módja: {{ payment.get_payment_method_type_display }}
-Fizetendő: {{ payment.amount }}
-{% endif %}
+A helyszínen a mellékletben csatolt QR kód segítségével tudja magát azonosítani.
+Ehhez kérjük töltse le a kódot telefonjára és érkezéskor személyazonosító
+igazolványával együtt mutassa fel a személyzetnek.
 {% if seat.has_doctor_referral %}
 Kérjük ne felejtse el magával hozni az orvosi beutalót!
 {% endif %}
+
+Mintavétel adatai:
+Vizsgálat azonosítója: {{ seat.qrcode }}
+Vizsgálat időpontja: {{ appointment.start }}-{{ appointment.end|time:"H:i"}}
+Vizsgálat helyszíne: {{ appointment.location }}
+Rendszám: {{ appointment.normalized_licence_plate }}
+Név: {{ seat.full_name }}
+Születési év: {{ seat.birth_date|date:"Y" }}
+Fizetés módja: {{ payment.get_payment_method_type_display }}
+Fizetendő összeg: {{ payment.amount }} {{ payment.currency }}
+
+A helyszíni fizetés a fertőzésveszély minimalizásása érdekében csak és kizárólag
+bankkártyával történhet. Kérjük a helyszínen kísérje figyelemmel a kihelyezett
+tájékoztatóinkat és a személyzet utasításait. Saját és környezete biztonsága
+érdekében viseljen maszkot, a tesztelés ideje alatt mindvégig maradjon
+gépjárműjében és csak a személyzet utasítására húzza le autója ablakát! További
+információért látogasson el a tesztallomas.hu/gyik weboldalra vagy üzenjen
+nekünk az info@tesztallomas.hu e-mail címre.
+
+Jó egészséget kíván a Tesztállomás csapata!
