@@ -31,8 +31,8 @@ app_tg_ports = {
   }
 }
 
-desired_count    = 1
-minimum_percent  = 0
+desired_count    = 2
+minimum_percent  = 50
 maximum_percent  = 150
 cooldown_seconds = 3
 
