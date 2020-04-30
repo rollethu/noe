@@ -13,6 +13,7 @@ env_vars = {
   DJANGO_EMAIL_PORT         = "587"
   DJANGO_EMAIL_USE_TLS      = "true"
   DJANGO_DEFAULT_FROM_EMAIL = "no-reply@tesztallomas.hu"
+  SENTRY_DSN_URL            = ""
 }
 
 env_secrets = {
