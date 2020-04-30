@@ -6,6 +6,7 @@ import {
   DataRow,
   IconButton,
   NextLinkButton,
+  Button,
 } from "../../UI";
 import * as checkoutUtils from "./utils";
 import { ROUTE_PAYMENT_METHODS } from "../../App";
@@ -16,6 +17,8 @@ export default function CheckoutContent({
   onSeatEditClick,
   onSeatDeleteClick,
   selectedTimeSlot,
+  onNewSeatClick,
+  isAddSeatDisabled,
 }) {
   const shouldShowDeleteButtons = checkoutUtils.canDeleteSeat(seats);
 
@@ -78,6 +81,15 @@ export default function CheckoutContent({
         </div>
       ))}
       <NextLinkButton toCenter to={ROUTE_PAYMENT_METHODS} />
+      <Button
+        id="AddSeatButton"
+        onClick={onNewSeatClick}
+        toCenter
+        inverse
+        disabled={isAddSeatDisabled}
+      >
+        Új személy hozzáadása
+      </Button>
     </View>
   );
 }

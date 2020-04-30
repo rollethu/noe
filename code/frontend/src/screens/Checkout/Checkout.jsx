@@ -7,6 +7,7 @@ import { Context as SurveyContext } from "../../contexts/surveyContext";
 import { ROUTE_SEAT_DETAILS } from "../../App";
 import CheckoutContent from "./CheckoutContent";
 import * as checkoutUtils from "./utils";
+import * as utils from "../../utils";
 
 export default function Checkout() {
   const history = useHistory();
@@ -23,6 +24,7 @@ export default function Checkout() {
     fetchSelectedTimeSlot,
   } = React.useContext(TimeSlotContext);
   const { setActiveSurveyAnswers } = React.useContext(SurveyContext);
+  const isAddSeatDisabled = utils.isMaxSeatCountReached(seats);
 
   React.useEffect(() => {
     if (!appointment) {
@@ -49,6 +51,10 @@ export default function Checkout() {
     deleteSeat(seat.url);
   }
 
+  function onNewSeatClick() {
+    history.push(ROUTE_SEAT_DETAILS);
+  }
+
   return (
     <CheckoutContent
       appointment={appointment}
@@ -56,6 +62,8 @@ export default function Checkout() {
       onSeatEditClick={onSeatEditClick}
       onSeatDeleteClick={onSeatDeleteClick}
       selectedTimeSlot={selectedTimeSlot}
+      onNewSeatClick={onNewSeatClick}
+      isAddSeatDisabled={isAddSeatDisabled}
     />
   );
 }
