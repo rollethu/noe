@@ -145,5 +145,5 @@ class ResendEmailVerificationSerializer(serializers.ModelSerializer):
 class TimeSlotSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = m.TimeSlot
-        fields = "__all__"
+        fields = ["url", "start", "end"]
         ref_name = "Public TimeSlot"
