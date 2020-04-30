@@ -84,9 +84,9 @@ class QrCodeInline(admin.TabularInline):
 class PaymentInline(admin.StackedInline):
     model = Payment
     exclude = ["simplepay_transaction"]
-    readonly_fields = ["amount", "payment_method_type", "currency"]
+    readonly_fields = ["amount", "product_type", "payment_method_type", "currency"]
     fieldsets = (
-        (None, {"fields": (("amount", "currency", "payment_method_type"),)}),
+        (None, {"fields": (("amount", "currency", "product_type", "payment_method_type"),)}),
         (None, {"fields": (("paid_at", "proof_number", "note"),)}),
     )
 
@@ -96,7 +96,15 @@ class PaymentInline(admin.StackedInline):
 
 class SeatAdmin(admin.ModelAdmin):
     fieldsets = (
-        (None, {"fields": (("qrcode", "appointment_location", "appointment_licence_plate", "appointment_time"),)},),
+        (
+            None,
+            {
+                "fields": (
+                    ("qrcode", "payment_product_type"),
+                    ("appointment_location", "appointment_licence_plate", "appointment_time"),
+                )
+            },
+        ),
         (
             None,
             {
@@ -123,6 +131,7 @@ class SeatAdmin(admin.ModelAdmin):
         "appointment_licence_plate",
         "appointment_time",
         "qrcode",
+        "payment_product_type",
     )
     search_fields = ("qrcode__code", "full_name", "identity_card_number", "healthcare_number")
     list_filter = ("birth_date", "has_doctor_referral")
@@ -153,6 +162,9 @@ class SeatAdmin(admin.ModelAdmin):
         return f"{start} - {end_time}"
 
     appointment_time.short_description = _("Time slot")
+
+    def payment_product_type(self, obj=None):
+        return obj.payment.get_product_type_display()
 
 
 class TimeSlotAdmin(admin.ModelAdmin):

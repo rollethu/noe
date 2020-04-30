@@ -4,7 +4,15 @@ from . import models as m
 
 
 class PaymentAdmin(admin.ModelAdmin):
-    list_display = ["uuid", "amount", "simplepay_transaction_id", "currency", "payment_method_type", "paid_at"]
+    list_display = [
+        "uuid",
+        "amount",
+        "simplepay_transaction_id",
+        "currency",
+        "product_type",
+        "payment_method_type",
+        "paid_at",
+    ]
 
     def get_readonly_fields(self, request, obj=None):
         if obj and obj.paid_at is not None:

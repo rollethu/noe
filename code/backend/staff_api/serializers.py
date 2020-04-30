@@ -10,8 +10,8 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
     class Meta:
         model = Payment
         ref_name = "Staff Payment"
-        fields = ["url", "amount", "currency", "paid_at", "payment_method_type", "proof_number"]
-        read_only_fields = ["amount", "currency"]
+        fields = ["url", "amount", "currency", "paid_at", "product_type", "payment_method_type", "proof_number"]
+        read_only_fields = ["amount", "currency", "product_type"]
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
