@@ -11,10 +11,12 @@ from django.shortcuts import redirect, get_object_or_404
 from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
+from rest_framework import routers
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.permissions import IsAdminUser
 from rest_framework.settings import api_settings
 from project_noe.views import NoReadModelViewSet
 from . import filters as f
@@ -24,6 +26,10 @@ from . import email
 
 
 logger = logging.getLogger(__name__)
+
+
+class ApiRootView(routers.APIRootView):
+    permission_classes = [IsAdminUser]
 
 
 class LocationViewSet(viewsets.ReadOnlyModelViewSet):

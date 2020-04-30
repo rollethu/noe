@@ -32,7 +32,11 @@ import payments.views
 import users.views
 
 
-api_router = DefaultRouter()
+class ApiRouter(DefaultRouter):
+    APIRootView = appointments.views.ApiRootView
+
+
+api_router = ApiRouter()
 api_router.register("locations", appointments.views.LocationViewSet)
 api_router.register("appointments", appointments.views.AppointmentViewSet)
 api_router.register("seats", appointments.views.SeatViewSet)
