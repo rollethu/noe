@@ -65,10 +65,6 @@ export default function SeatDetailsForm() {
   };
 
   const onUpdateSubmit = async (values) => {
-    if (!values.has_doctor_referral) {
-      delete values.healthcare_number;
-    }
-
     const response = await updateSeat(activeSeat.url, values);
     utils.handleResponse({
       response,
