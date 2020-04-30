@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
@@ -11,6 +11,7 @@ import * as surveyUtils from "./utils";
 
 export default function Survey() {
   const history = useHistory();
+  const location = useLocation();
   const {
     state: { surveyQuestions, surveyAnswersForActiveSeat },
     sendSurveyAnswers,
@@ -57,7 +58,10 @@ export default function Survey() {
       response,
       setError,
       history,
-      redirectRoute: surveyUtils.getRedirectRoute(submitMode),
+      redirectRoute: surveyUtils.getRedirectRoute(
+        submitMode,
+        location?.state?.from
+      ),
     });
 
     if (!response.error) {
@@ -81,7 +85,10 @@ export default function Survey() {
       response,
       setError,
       history,
-      redirectRoute: surveyUtils.getRedirectRoute(submitMode),
+      redirectRoute: surveyUtils.getRedirectRoute(
+        submitMode,
+        location?.state?.from
+      ),
     });
 
     if (!response.error) {

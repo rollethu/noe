@@ -10,7 +10,9 @@ export function handleResponse({ response, setError, history, redirectRoute }) {
       alert("Váratlan hiba történt.");
     }
   } else {
-    history.push(redirectRoute);
+    if (!!history) {
+      history.push(redirectRoute);
+    }
   }
 }
 

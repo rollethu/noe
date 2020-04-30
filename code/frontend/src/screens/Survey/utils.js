@@ -84,7 +84,11 @@ export const processUpdateValues = (values, surveyAnswersForActiveSeat) => {
   });
 };
 
-export function getRedirectRoute(submitMode) {
+export function getRedirectRoute(submitMode, explicitTo) {
+  if (explicitTo) {
+    return explicitTo;
+  }
+
   return submitMode === SUBMIT_MODE_CREATE ? ROUTE_ADD_SEAT : ROUTE_CHECKOUT;
 }
 

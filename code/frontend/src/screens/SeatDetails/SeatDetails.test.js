@@ -13,6 +13,7 @@ jest.mock("react-router-dom", () => ({
   useHistory: jest.fn(() => ({
     push: () => {},
   })),
+  useLocation: jest.fn(() => ({})),
 }));
 
 test("Update sends healthcare_number", async () => {

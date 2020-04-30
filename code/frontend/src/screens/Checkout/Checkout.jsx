@@ -4,7 +4,7 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
-import { ROUTE_SEAT_DETAILS } from "../../App";
+import { ROUTE_SEAT_DETAILS, ROUTE_CHECKOUT } from "../../App";
 import CheckoutContent from "./CheckoutContent";
 import * as checkoutUtils from "./utils";
 import * as utils from "../../utils";
@@ -52,7 +52,9 @@ export default function Checkout() {
   }
 
   function onNewSeatClick() {
-    history.push(ROUTE_SEAT_DETAILS);
+    setActiveSeat(null);
+    setActiveSurveyAnswers(null);
+    history.push(ROUTE_SEAT_DETAILS, { from: ROUTE_CHECKOUT });
   }
 
   return (

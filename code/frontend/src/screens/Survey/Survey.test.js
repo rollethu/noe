@@ -9,7 +9,7 @@ import {
 } from "../../contexts/surveyContext";
 import SurveyForm from "./SurveyForm";
 import * as surveyUtils from "./utils";
-import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT } from "../../App";
+import { ROUTE_ADD_SEAT, ROUTE_CHECKOUT, ROUTE_START } from "../../App";
 
 jest.mock("axios");
 
@@ -220,4 +220,18 @@ test("matchQuestionErrors if errors are undefined", () => {
   const matchings = surveyUtils.matchQuestionErrors(errors, questions);
   const expected = {};
   expect(matchings).toEqual(expected);
+});
+
+test("Test redirect route on submission", () => {
+  const cases = [
+    [["CREATE", undefined], ROUTE_ADD_SEAT],
+    [["UPDATE", undefined], ROUTE_CHECKOUT],
+    [["CREATE", ROUTE_START], ROUTE_START],
+    [["CREATE", ROUTE_CHECKOUT], ROUTE_CHECKOUT],
+    [["UPDATE", ROUTE_START], ROUTE_START],
+    [["UPDATE", ROUTE_CHECKOUT], ROUTE_CHECKOUT],
+  ];
+  cases.forEach((testCase) => {
+    expect(surveyUtils.getRedirectRoute(...testCase[0])).toBe(testCase[1]);
+  });
 });
