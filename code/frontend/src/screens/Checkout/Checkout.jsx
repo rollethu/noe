@@ -24,7 +24,7 @@ export default function Checkout() {
     fetchSelectedTimeSlot,
   } = React.useContext(TimeSlotContext);
   const { setActiveSurveyAnswers } = React.useContext(SurveyContext);
-  const isAddSeatDisabled = utils.isMaxSeatCountReached(seats);
+  const isAddSeatDisabled = utils.isMaxSeatCountReached(seats.length);
 
   React.useEffect(() => {
     if (!appointment) {
