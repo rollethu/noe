@@ -6,6 +6,7 @@ from rest_framework.exceptions import ValidationError
 from . import models as m
 from . import licence_plates
 from . import phone_numbers
+from . import utils as u
 
 
 class LocationSerializer(serializers.HyperlinkedModelSerializer):
@@ -84,6 +85,11 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     def create(self, validated_data):
         self._validate_healthcare_number_with_referral(validated_data)
         return super().create(validated_data)
+
+    def validate_healthcare_number(self, data):
+        if not u.is_healthcare_number_valid(data):
+            raise ValidationError(_("Invalid format"))
+        return data
 
     def validate_appointment(self, appointment):
         if appointment.seats.count() >= m.MAX_SEATS_PER_APPOINTMENT:
