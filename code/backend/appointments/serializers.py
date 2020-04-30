@@ -78,7 +78,8 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
     def _validate_location_change(self, appointment, validated_data):
         current_location = appointment.location
-        if current_location and validated_data["location"] != current_location:
+        new_location = validated_data.get("location")
+        if current_location and new_location and new_location != current_location:
             raise ValidationError({"location": _("Location can not be replaced")})
 
 

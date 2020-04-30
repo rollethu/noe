@@ -82,3 +82,7 @@ def test_update_with_location(api_client, appointment, location, location2):
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert rv.data["location"] == "Helyszín nem cserélhető"
+
+    # Make sure doesn't break without location, once it's set
+    rv = api_client.patch(reverse("appointment-detail", kwargs={"pk": appointment.pk}),)
+    assert rv.status_code == status.HTTP_200_OK
