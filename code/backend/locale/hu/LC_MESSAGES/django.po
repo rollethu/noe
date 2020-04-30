@@ -8,8 +8,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2020-04-29 17:23+0200\n"
-"PO-Revision-Date: 2020-04-29 17:25+0116\n"
+"POT-Creation-Date: 2020-04-30 10:31+0200\n"
+"PO-Revision-Date: 2020-04-30 10:31+0116\n"
 "Last-Translator: b'Anonymous User <anonymous@user.tld>'\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
@@ -19,15 +19,15 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 "X-Translated-Using: django-rosetta 0.9.4\n"
 
-#: appointments/admin.py:137
+#: appointments/admin.py:135
 msgid "Location"
 msgstr "Helyszín"
 
-#: appointments/admin.py:142
+#: appointments/admin.py:140
 msgid "Licence plate"
 msgstr "Rendszám"
 
-#: appointments/admin.py:157
+#: appointments/admin.py:155
 msgid "Time slot"
 msgstr "Idősáv"
 
@@ -117,7 +117,11 @@ msgstr "Érvénytelen telefonszám."
 msgid "This field is required."
 msgstr "Ez a mező szükséges."
 
-#: appointments/views.py:95
+#: appointments/views.py:87
+msgid "Last Seat can not be deleted"
+msgstr "Az utolsó személy nem törölhető"
+
+#: appointments/views.py:101
 msgid "This QR code has no associated Seat!"
 msgstr "A QR kódhoz nem tartozik foglalás!"
 
@@ -197,43 +201,43 @@ msgstr ""
 msgid "Elsőbbségi vizsgálat"
 msgstr ""
 
-#: samples/models.py:19
+#: samples/models.py:20
 msgid "empty"
 msgstr "üres"
 
-#: samples/models.py:20
+#: samples/models.py:21
 msgid "sampled"
 msgstr "minta levéve"
 
-#: samples/models.py:21
+#: samples/models.py:22
 msgid "in transport"
 msgstr "úton a labroba"
 
-#: samples/models.py:22
+#: samples/models.py:23
 msgid "waiting in lab"
 msgstr "laborban várakozik"
 
-#: samples/models.py:23
+#: samples/models.py:24
 msgid "examined"
 msgstr "megvizsgálva"
 
-#: samples/models.py:30
+#: samples/models.py:31
 msgid "positive"
 msgstr "pozitív"
 
-#: samples/models.py:31
+#: samples/models.py:32
 msgid "negative"
 msgstr "negatív"
 
-#: samples/models.py:32
+#: samples/models.py:33
 msgid "not tested yet"
 msgstr "még nem tesztelt"
 
-#: samples/models.py:38
+#: samples/models.py:39
 msgid "The time when it is extraxted from a real person"
 msgstr "A mintavétel időpontja valós személytől"
 
-#: samples/models.py:40
+#: samples/models.py:42
 msgid "The identifier of the vial (the number below the barcode)."
 msgstr "A kémcső azonosítója (az alábbi vonalkód a szám)"
 

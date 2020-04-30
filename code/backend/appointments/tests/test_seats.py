@@ -74,3 +74,10 @@ def test_invalid_phone_number(api_client, appointment, monkeypatch):
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert "phone_number" in rv.data
+
+
+@pytest.mark.django_db
+def test_can_not_delete_last_seat(api_client, seat):
+    rv = api_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
+    assert rv.status_code == status.HTTP_400_BAD_REQUEST
+    assert rv.data["non_field_errors"] == "Az utolsó személy nem törölhető"

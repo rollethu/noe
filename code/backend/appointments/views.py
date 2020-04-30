@@ -15,6 +15,7 @@ from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
+from rest_framework.settings import api_settings
 from project_noe.views import NoReadModelViewSet
 from . import filters as f
 from . import models as m
@@ -81,10 +82,15 @@ class SeatViewSet(NoReadModelViewSet):
     queryset = m.Seat.objects.all()
     serializer_class = s.SeatSerializer
 
-    def perform_destroy(self, instance):
-        super().perform_destroy(instance)
-        time_slot = instance.appointment.time_slot
-        time_slot.add_usage(-1)
+    def perform_destroy(self, seat):
+        if seat.appointment.seats.count() == 1:
+            raise ValidationError({api_settings.NON_FIELD_ERRORS_KEY: _("Last Seat can not be deleted")})
+
+        super().perform_destroy(seat)
+
+        time_slot = seat.appointment.time_slot
+        if time_slot:
+            time_slot.add_usage(-1)
 
 
 class QRCodeView(generics.GenericAPIView):

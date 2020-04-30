@@ -67,6 +67,11 @@ def seat(appointment):
 
 
 @pytest.fixture
+def seat2(appointment):
+    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment)
+
+
+@pytest.fixture
 def payment(seat):
     return Payment.objects.create(seat=seat, amount=10_000)
 

@@ -188,7 +188,7 @@ def test_started_time_slot_is_excluded_from_list(api_client, location, monkeypat
 
 
 @pytest.mark.django_db
-def test_decrease_usage_on_seat_deletion(api_client, seat, appointment, location):
+def test_decrease_usage_on_seat_deletion(api_client, seat, seat2, appointment, location):
     start = timezone.now()
     time_slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
 
