@@ -1,4 +1,4 @@
-app_name      = "noe-backend"
+app_name = "noe-backend"
 env_vars = {
   DJANGO_DEBUG              = "true"
   DJANGO_DATABASE_HOST      = "noe-staging-postgres.co7irzuctvdj.eu-central-1.rds.amazonaws.com"
@@ -38,3 +38,15 @@ cooldown_seconds = 3
 
 cw_log_group_name   = "noe-staging-ecs-private-cluster"
 cw_log_group_region = "eu-central-1"
+# scheduled_tasks_to_run = {
+#   0 = {
+#     cron      = "cron(* * * * ? *)" # every minute
+#     command   = ["echo", "hello"]
+#     task_name = "test"
+#   }
+#   1 = {
+#     cron      = "cron(20 * * * ? *)"
+#     task_name = "test2"
+#     command   = ["echo", "hello2"]
+#   }
+# }

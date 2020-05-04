@@ -14,3 +14,7 @@ data "terraform_remote_state" "aws_core" {
 locals {
   core_config = data.terraform_remote_state.aws_core.outputs.account["live"].stack[terraform.workspace]
 }
+
+data "aws_ecs_cluster" "private_cluster" {
+  cluster_name = local.core_config.ecs_cluster.private.cluster_name
+}

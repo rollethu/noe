@@ -48,3 +48,7 @@ variable "minimum_percent" {
 variable "maximum_percent" {
   description = "We can scale up to a maximum this percentage of the task"
 }
+variable "scheduled_tasks_to_run" {
+  description = "You can run extra tasks on a cron from the same container as the backend. Useful for batch processing"
+  default = {}
+}
