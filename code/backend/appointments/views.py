@@ -17,7 +17,7 @@ from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
 from rest_framework.decorators import api_view, permission_classes
-from rest_framework.permissions import IsAdminUser
+from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.settings import api_settings
 from project_noe.views import NoReadModelViewSet
 from . import auth
@@ -45,6 +45,11 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
     serializer_class = s.AppointmentSerializer
     authentication_classes = [auth.AppointmentAuthentication]
     permission_classes = [permissions.AppointmentPermission]
+
+    def get_permissions(self):
+        if self.action == "create":
+            return [AllowAny()]
+        return super().get_permissions()
 
     def has_object_permission(self, request, view, obj):
         return request.appointment == obj
