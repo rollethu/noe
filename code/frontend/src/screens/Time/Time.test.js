@@ -2,6 +2,9 @@ jest.mock("react-router-dom", () => ({
   useHistory: () => {},
 }));
 jest.mock("axios");
+jest.mock("lodash", () => ({
+  debounce: (functionToWrap) => functionToWrap,
+}));
 import axios from "axios";
 
 import React from "react";
