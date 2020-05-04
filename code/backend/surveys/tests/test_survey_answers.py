@@ -20,12 +20,12 @@ def survey_question2():
 
 
 @pytest.mark.django_db
-def test_create_multiple_answers(api_client, survey_question, survey_question2, seat):
+def test_create_multiple_answers(appointment_client, survey_question, survey_question2, seat):
     question1_url = reverse("surveyquestion-detail", kwargs={"pk": survey_question.pk})
     question2_url = reverse("surveyquestion-detail", kwargs={"pk": survey_question2.pk})
     seat_url = reverse("seat-detail", kwargs={"pk": seat.pk})
 
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("surveyanswer-list"),
         [
             {"question": question1_url, "seat": seat_url, "answer": "Test answer 1"},
@@ -49,7 +49,7 @@ def test_create_multiple_answers(api_client, survey_question, survey_question2, 
 
 
 @pytest.mark.django_db
-def test_answer_for_required_question(factory, api_client, survey_question, survey_question2, seat):
+def test_answer_for_required_question(factory, appointment_client, survey_question, survey_question2, seat):
     request = factory.get("/")
     question1_url = reverse("surveyquestion-detail", request=request, kwargs={"pk": survey_question.pk})
     question2_url = reverse("surveyquestion-detail", request=request, kwargs={"pk": survey_question2.pk})
@@ -60,7 +60,7 @@ def test_answer_for_required_question(factory, api_client, survey_question, surv
     survey_question.save()
     survey_question2.save()
 
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("surveyanswer-list"),
         [
             {"question": question1_url, "seat": seat_url, "answer": ""},
@@ -74,7 +74,7 @@ def test_answer_for_required_question(factory, api_client, survey_question, surv
 
 
 @pytest.mark.django_db
-def test_multiple_answer_update(api_client, survey_question, survey_question2, seat):
+def test_multiple_answer_update(appointment_client, survey_question, survey_question2, seat):
     survey_question.is_required = True
     survey_question2.is_required = True
     survey_question.save()
@@ -86,7 +86,7 @@ def test_multiple_answer_update(api_client, survey_question, survey_question2, s
     answer1_url = reverse("surveyanswer-detail", kwargs={"pk": answer1.pk})
     answer2_url = reverse("surveyanswer-detail", kwargs={"pk": answer2.pk})
 
-    rv = api_client.put(
+    rv = appointment_client.put(
         reverse("surveyanswer-list"),
         [{"url": answer1_url, "answer": "NOT OK"}, {"url": answer2_url, "answer": "NOT OK"},],
         format="json",
@@ -101,7 +101,7 @@ def test_multiple_answer_update(api_client, survey_question, survey_question2, s
 
 
 @pytest.mark.django_db
-def test_mulitple_answer_update_errors(factory, api_client, survey_question, survey_question2, seat):
+def test_mulitple_answer_update_errors(factory, appointment_client, survey_question, survey_question2, seat):
     request = factory.get("/")
     survey_question.is_required = True
     survey_question2.is_required = True
@@ -114,7 +114,7 @@ def test_mulitple_answer_update_errors(factory, api_client, survey_question, sur
     answer1_url = reverse("surveyanswer-detail", request=request, kwargs={"pk": answer1.pk})
     answer2_url = reverse("surveyanswer-detail", request=request, kwargs={"pk": answer2.pk})
 
-    rv = api_client.put(
+    rv = appointment_client.put(
         reverse("surveyanswer-list", request=request),
         [{"url": answer1_url, "answer": ""}, {"url": answer2_url, "answer": ""},],
         format="json",

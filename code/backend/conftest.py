@@ -2,10 +2,11 @@ from pathlib import Path
 import datetime as dt
 from django.conf import settings
 from django.contrib.auth.models import Group, Permission
+from django.utils import timezone
 from rest_framework.test import APIRequestFactory, APIClient
 from rest_framework.authtoken.models import Token
 import pytest
-from appointments.models import Location, Appointment, Seat, QRCode
+from appointments.models import Location, Appointment, Seat, QRCode, EmailVerification
 from payments.models import Payment
 from users.models import User
 
@@ -18,6 +19,16 @@ def factory():
 @pytest.fixture
 def api_client():
     return APIClient()
+
+
+@pytest.fixture
+def appointment_client(appointment):
+    ev = EmailVerification.objects.create(appointment=appointment, verified_at=timezone.now())
+    token = ev.make_token()
+
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION=f"Apptoken {token}")
+    return client
 
 
 @pytest.fixture

@@ -86,10 +86,10 @@ def test_time_slot_api_filtering(api_client, location, location2, monkeypatch):
 
 
 @pytest.mark.django_db
-def test_patch_appointment_with_time_slot(api_client, appointment, location, seat):
+def test_patch_appointment_with_time_slot(appointment_client, appointment, location, seat):
     start = timezone.now() + dt.timedelta(days=1)
     time_slot = m.TimeSlot.objects.create(start=start, end=start, location=location, is_active=True, capacity=10)
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": time_slot.pk})},
     )
@@ -129,7 +129,7 @@ def test_time_slot_filter_for_date(slot_start, start_date, expected, api_client,
 
 
 @pytest.mark.django_db
-def test_exclude_appointments_with_no_enough_capacity(api_client, location, monkeypatch):
+def test_exclude_time_slots_with_no_enough_capacity(api_client, location, monkeypatch):
     now = maw(dt.datetime(2020, 1, 1, 12))
     monkeypatch.setattr(timezone, "now", lambda: now)
 
@@ -150,10 +150,10 @@ def test_exclude_appointments_with_no_enough_capacity(api_client, location, monk
 
 
 @pytest.mark.django_db
-def test_forbid_taken_timeslot(api_client, location, appointment, seat):
+def test_forbid_taken_timeslot(appointment_client, location, appointment, seat):
     start = timezone.now() + dt.timedelta(days=1)
     slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
     )
@@ -162,10 +162,10 @@ def test_forbid_taken_timeslot(api_client, location, appointment, seat):
 
 
 @pytest.mark.django_db
-def test_forbid_timeslot_in_the_past(api_client, location, appointment):
+def test_forbid_timeslot_in_the_past(appointment_client, location, appointment):
     start = timezone.now()
     slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"time_slot": reverse("timeslot-detail", kwargs={"pk": slot.pk})},
     )
@@ -187,14 +187,14 @@ def test_started_time_slot_is_excluded_from_list(api_client, location, monkeypat
 
 
 @pytest.mark.django_db
-def test_decrease_usage_on_seat_deletion(api_client, seat, seat2, appointment, location):
+def test_decrease_usage_on_seat_deletion(appointment_client, seat, seat2, appointment, location):
     start = timezone.now()
     time_slot = m.TimeSlot.objects.create(start=start, end=start, capacity=10, usage=10, location=location)
 
     appointment.time_slot = time_slot
     appointment.save()
 
-    rv = api_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
+    rv = appointment_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
     assert rv.status_code == status.HTTP_204_NO_CONTENT
 
     time_slot.refresh_from_db()
@@ -210,13 +210,13 @@ def test_usage_can_not_go_negative(location):
 
 
 @pytest.mark.django_db
-def test_time_slot_is_optional_but_can_not_be_empty(api_client, appointment):
+def test_time_slot_is_optional_but_can_not_be_empty(appointment_client, appointment):
     # Test time_slot is optional
-    rv1 = api_client.patch(reverse("appointment-detail", kwargs={"pk": appointment.pk}), {})
+    rv1 = appointment_client.patch(reverse("appointment-detail", kwargs={"pk": appointment.pk}), {})
     assert rv1.status_code == status.HTTP_200_OK
 
     # Test time_slot can not be null
-    rv2 = api_client.patch(
+    rv2 = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}), {"time_slot": None}, format="json"
     )
     assert rv2.status_code == status.HTTP_400_BAD_REQUEST

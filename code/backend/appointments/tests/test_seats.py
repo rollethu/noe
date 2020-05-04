@@ -28,8 +28,8 @@ def _make_create_seat_request_body(appointment, extra=None):
 
 @pytest.mark.skip("doctor referral is temporarily disabled")
 @pytest.mark.django_db
-def test_healthcare_number_is_required_if_has_referral(api_client, appointment):
-    rv = api_client.post(
+def test_healthcare_number_is_required_if_has_referral(appointment_client, appointment):
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"has_doctor_referral": True}),
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
@@ -37,17 +37,17 @@ def test_healthcare_number_is_required_if_has_referral(api_client, appointment):
 
 
 @pytest.mark.django_db
-def test_healthcare_number_is_not_required_without_has_referral(api_client, appointment):
-    rv = api_client.post(reverse("seat-list"), _make_create_seat_request_body(appointment))
+def test_healthcare_number_is_not_required_without_has_referral(appointment_client, appointment):
+    rv = appointment_client.post(reverse("seat-list"), _make_create_seat_request_body(appointment))
     assert rv.status_code == status.HTTP_201_CREATED
     assert m.Seat.objects.count() == 1
 
 
 @pytest.mark.django_db
-def test_birth_date_cant_be_in_future(api_client, appointment, monkeypatch):
+def test_birth_date_cant_be_in_future(appointment_client, appointment, monkeypatch):
     monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
     now = timezone.now()
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"birth_date": "2020-01-02"})
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
@@ -55,10 +55,10 @@ def test_birth_date_cant_be_in_future(api_client, appointment, monkeypatch):
 
 
 @pytest.mark.django_db
-def test_phone_number_normalization(api_client, appointment, monkeypatch):
+def test_phone_number_normalization(appointment_client, appointment, monkeypatch):
     monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
     now = timezone.now()
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"phone_number": "06201231234"})
     )
     assert rv.status_code == status.HTTP_201_CREATED
@@ -67,10 +67,10 @@ def test_phone_number_normalization(api_client, appointment, monkeypatch):
 
 
 @pytest.mark.django_db
-def test_invalid_phone_number(api_client, appointment, monkeypatch):
+def test_invalid_phone_number(appointment_client, appointment, monkeypatch):
     monkeypatch.setattr(timezone, "now", lambda: maw(dt.datetime(2020, 1, 1, 12)))
     now = timezone.now()
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"phone_number": "0620123"})
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
@@ -78,8 +78,8 @@ def test_invalid_phone_number(api_client, appointment, monkeypatch):
 
 
 @pytest.mark.django_db
-def test_can_not_delete_last_seat(api_client, seat):
-    rv = api_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
+def test_can_not_delete_last_seat(appointment_client, seat):
+    rv = appointment_client.delete(reverse("seat-detail", kwargs={"pk": seat.pk}))
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert rv.data["non_field_errors"] == "Az utolsó személy nem törölhető"
 
@@ -101,17 +101,19 @@ def test_healthcare_number_format_validation(input_value, expected):
 
 
 @pytest.mark.django_db
-def test_api_error_with_invalid_healthcare_number(api_client, appointment):
-    rv = api_client.post(
+def test_api_error_with_invalid_healthcare_number(appointment_client, appointment):
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": "123"})
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert rv.data["healthcare_number"] == ["Érvénytelen formátum"]
 
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": "123456789"})
     )
     assert rv.status_code == status.HTTP_201_CREATED
 
-    rv = api_client.post(reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": ""}))
+    rv = appointment_client.post(
+        reverse("seat-list"), _make_create_seat_request_body(appointment, {"healthcare_number": ""})
+    )
     assert rv.status_code == status.HTTP_201_CREATED

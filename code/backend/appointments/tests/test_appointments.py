@@ -8,8 +8,10 @@ from appointments import models as m
 
 
 @pytest.mark.django_db
-def test_licence_plate_normalization(api_client, appointment):
-    rv = api_client.patch(reverse("appointment-detail", kwargs={"pk": appointment.pk}), {"licence_plate": "abc-123"})
+def test_licence_plate_normalization(appointment_client, appointment):
+    rv = appointment_client.patch(
+        reverse("appointment-detail", kwargs={"pk": appointment.pk}), {"licence_plate": "abc-123"}
+    )
     assert rv.status_code == status.HTTP_200_OK
     assert rv.data["normalized_licence_plate"] == "ABC123"
     appointment.refresh_from_db()
@@ -17,7 +19,7 @@ def test_licence_plate_normalization(api_client, appointment):
 
 
 @pytest.mark.django_db
-def test_max_seat_for_appointments(api_client, appointment):
+def test_max_seat_for_appointments(appointment_client, appointment):
     seats = []
     for i in range(m.MAX_SEATS_PER_APPOINTMENT):
         seats.append(
@@ -34,7 +36,7 @@ def test_max_seat_for_appointments(api_client, appointment):
         )
     m.Seat.objects.bulk_create(seats)
 
-    rv = api_client.post(
+    rv = appointment_client.post(
         reverse("seat-list"),
         {
             "appointment": reverse("appointment-detail", kwargs={"pk": appointment.pk}),
@@ -56,10 +58,10 @@ def test_max_seats_per_appointment_count():
 
 
 @pytest.mark.django_db
-def test_update_with_location(api_client, appointment, location, location2):
+def test_update_with_location(appointment_client, appointment, location, location2):
     assert appointment.location is None
 
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"location": reverse("location-detail", kwargs={"pk": location.pk})},
     )
@@ -69,14 +71,14 @@ def test_update_with_location(api_client, appointment, location, location2):
     assert appointment.location == location
 
     # Update to the same location
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"location": reverse("location-detail", kwargs={"pk": location.pk})},
     )
     assert rv.status_code == status.HTTP_200_OK
 
     # Update to the other location
-    rv = api_client.patch(
+    rv = appointment_client.patch(
         reverse("appointment-detail", kwargs={"pk": appointment.pk}),
         {"location": reverse("location-detail", kwargs={"pk": location2.pk})},
     )
