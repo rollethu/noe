@@ -48,12 +48,11 @@ def test_email_verify_with_valid_token(factory, email_verification):
 
 
 @pytest.mark.django_db
-def test_appointment_creation_sends_email(factory):
-    view = views.AppointmentViewSet.as_view({"post": "create"})
-
-    request = factory.post("/api/appointments/", {"email": "test@rollet.app", "gtc": "1.0", "privacy_policy": "1.0"})
+def test_appointment_creation_sends_email(api_client):
     assert len(mail.outbox) == 0
-    response = view(request)
+    response = api_client.post(
+        "/api/appointments/", {"email": "test@rollet.app", "gtc": "1.0", "privacy_policy": "1.0"}
+    )
     assert response.status_code == status.HTTP_201_CREATED
     assert len(mail.outbox) == 1
 
@@ -118,11 +117,11 @@ class TestQRCodeView:
 
 @pytest.mark.django_db
 class TestRegistrationCompleted:
-    def test_seat_with_empty_email_raises_ValidationError(self, appointment, seat, api_client):
+    def test_seat_with_empty_email_raises_ValidationError(self, appointment, seat, appointment_client):
         appointment.seats.add(seat)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
-        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        res = appointment_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert len(mail.outbox) == 0
         assert m.QRCode.objects.count() == 0
@@ -130,11 +129,11 @@ class TestRegistrationCompleted:
         appointment.refresh_from_db()
         assert appointment.is_registration_completed is False
 
-    def test_one_seat(self, appointment, api_client):
+    def test_one_seat(self, appointment, appointment_client):
         seat = m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
         Payment.objects.create(amount=100, seat=seat)
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
-        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        res = appointment_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK
         assert m.QRCode.objects.count() == 1
 
@@ -142,7 +141,7 @@ class TestRegistrationCompleted:
         assert appointment.is_registration_completed is True
         assert len(mail.outbox) == 1
 
-    def test_multiple_seats_same_email(self, appointment, api_client):
+    def test_multiple_seats_same_email(self, appointment, appointment_client):
         same_email = "test@rollet.app"
         seat1 = m.Seat.objects.create(birth_date=timezone.now(), email=same_email, appointment=appointment)
         Payment.objects.create(amount=100, seat=seat1)
@@ -150,7 +149,7 @@ class TestRegistrationCompleted:
         Payment.objects.create(amount=100, seat=seat2)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
-        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        res = appointment_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK
         assert m.QRCode.objects.count() == 2
 
@@ -158,7 +157,7 @@ class TestRegistrationCompleted:
         assert appointment.is_registration_completed is True
         assert len(mail.outbox) == 2
 
-    def test_multiple_seats_different_emails(self, appointment, api_client):
+    def test_multiple_seats_different_emails(self, appointment, appointment_client):
         seat1 = m.Seat.objects.create(birth_date=timezone.now(), email="test1@rollet.app", appointment=appointment)
         Payment.objects.create(amount=100, seat=seat1)
         seat2 = m.Seat.objects.create(birth_date=timezone.now(), email="test2@rollet.app", appointment=appointment)
@@ -167,7 +166,7 @@ class TestRegistrationCompleted:
         Payment.objects.create(amount=100, seat=seat3)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
-        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        res = appointment_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK
         assert m.QRCode.objects.count() == 3
 
@@ -175,12 +174,12 @@ class TestRegistrationCompleted:
         assert appointment.is_registration_completed is True
         assert len(mail.outbox) == 3
 
-    def test_proper_qrcode_format(self, appointment, api_client):
+    def test_proper_qrcode_format(self, appointment, appointment_client):
         seat = m.Seat.objects.create(birth_date=timezone.now(), email="test@rollet.app", appointment=appointment)
         Payment.objects.create(amount=100, seat=seat)
 
         appointment_url = reverse("appointment-detail", kwargs={"pk": appointment.pk})
-        res = api_client.patch(appointment_url, {"is_registration_completed": True})
+        res = appointment_client.patch(appointment_url, {"is_registration_completed": True})
         assert res.status_code == status.HTTP_200_OK
         assert m.QRCode.objects.count() == 1
 
