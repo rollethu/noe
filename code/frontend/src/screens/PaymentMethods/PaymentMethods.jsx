@@ -85,6 +85,8 @@ export default function PaymentMethods() {
         alert("A regisztrációt nem sikerült véglegesíteni.");
         console.log(response.errors);
       }
+    } else {
+      history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
 
     const response = await updateAppointment(appointment.url, {
@@ -94,8 +96,6 @@ export default function PaymentMethods() {
       if (!response.errors) {
         alert("Váratlan hiba történt.");
       }
-    } else {
-      history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
   }
 
