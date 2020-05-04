@@ -71,9 +71,6 @@ export default function PaymentMethods() {
       return;
     }
 
-    // Updates Appointment's all Seats's Payments's payment_method_type
-    // We don't do anything if this request fails
-    // This must change in the future
     const response = await axios.post(
       consts.PAY_APPOINTMENT_URL,
       paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID)
