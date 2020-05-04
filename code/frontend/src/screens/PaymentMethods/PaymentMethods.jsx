@@ -83,7 +83,7 @@ export default function PaymentMethods() {
         alert("Váratlan hiba történt.");
       } else {
         alert("A regisztrációt nem sikerült véglegesíteni.");
-        console.log(response.alert);
+        console.log(response.errors);
       }
     }
 
