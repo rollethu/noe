@@ -12,6 +12,7 @@ from rest_framework import viewsets
 from rest_framework import status
 from rest_framework import generics
 from rest_framework import routers
+from rest_framework import mixins
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
@@ -37,7 +38,7 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = s.LocationSerializer
 
 
-class AppointmentViewSet(NoReadModelViewSet):
+class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     queryset = m.Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
 

@@ -3,6 +3,7 @@ from urllib.parse import urlparse
 from django.urls import resolve
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework import mixins
 from rest_framework.response import Response
 from project_noe.views import NoReadModelViewSet
 from . import models as m
@@ -14,7 +15,7 @@ class SurveyQuestionViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = s.SurveyQuestionSerializer
 
 
-class SurveyAnswerViewSet(NoReadModelViewSet):
+class SurveyAnswerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     queryset = m.SurveyAnswer.objects.all()
     serializer_class = s.SurveyAnswerSerializer
 
