@@ -79,6 +79,11 @@ class SurveyAnswerSerializer(serializers.HyperlinkedModelSerializer):
         self.validate_required_question_in_update(instance, validated_data)
         return super().update(instance, validated_data)
 
+    def validate_seat(self, seat):
+        if seat.appointment != self.context["request"].appointment:
+            raise ValidationError(_("Invalid seat"))
+        return seat
+
     def validate_required_question_in_creation(self, validated_data):
         question = validated_data["question"]
         answer = validated_data["answer"]
