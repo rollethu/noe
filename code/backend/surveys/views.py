@@ -25,7 +25,7 @@ class SurveyAnswerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, view
     permission_classes = [permissions.AppointmentPermission]
 
     def has_object_permission(self, request, view, obj):
-        return request.appointment == obj.seat.appointment
+        return request.auth == obj.seat.appointment
 
     def get_one_object_of_many(self, url):
         uuid = resolve(urlparse(url).path).kwargs["pk"]

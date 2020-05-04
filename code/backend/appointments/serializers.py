@@ -99,7 +99,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         return data
 
     def validate_appointment(self, appointment):
-        if appointment != self.context["request"].appointment:
+        if appointment != self.context["request"].auth:
             raise ValidationError(_("Invalid appointment"))
 
         if appointment.seats.count() >= m.MAX_SEATS_PER_APPOINTMENT:

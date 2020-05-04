@@ -80,7 +80,7 @@ class SurveyAnswerSerializer(serializers.HyperlinkedModelSerializer):
         return super().update(instance, validated_data)
 
     def validate_seat(self, seat):
-        if seat.appointment != self.context["request"].appointment:
+        if seat.appointment != self.context["request"].auth:
             raise ValidationError(_("Invalid seat"))
         return seat
 

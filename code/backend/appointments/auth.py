@@ -23,5 +23,5 @@ class AppointmentAuthentication(authentication.BaseAuthentication):
         if ev.verified_at is None:
             raise AuthenticationFailed()
 
-        request.appointment = ev.appointment
-        return (request.appointment, None)
+        # returns as (request.user, request.auth)
+        return (None, ev.appointment)
