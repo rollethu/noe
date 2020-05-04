@@ -24,7 +24,7 @@ class SurveyAnswerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, view
     authentication_classes = [auth.AppointmentAuthentication]
     permission_classes = [permissions.AppointmentPermission]
 
-    def has_object_permission(self, request, view, obj):
+    def check_same_appointment(self, request, view, obj):
         return request.auth == obj.seat.appointment
 
     def get_one_object_of_many(self, url):

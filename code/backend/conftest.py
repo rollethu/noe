@@ -32,6 +32,17 @@ def appointment_client(appointment):
 
 
 @pytest.fixture
+def appointment_client2():
+    appointment = Appointment.objects.create()
+    ev = EmailVerification.objects.create(appointment=appointment, verified_at=timezone.now())
+    token = ev.make_token()
+
+    client = APIClient()
+    client.credentials(HTTP_AUTHORIZATION=f"Apptoken {token}")
+    return client
+
+
+@pytest.fixture
 def api_user():
     group = Group.objects.create(name="seatgroup")
     p = Permission.objects.get(codename="view_seat")

@@ -51,7 +51,7 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
             return [AllowAny()]
         return super().get_permissions()
 
-    def has_object_permission(self, request, view, obj):
+    def check_same_appointment(self, request, view, obj):
         return request.auth == obj
 
     def perform_create(self, serializer):
@@ -103,7 +103,7 @@ class SeatViewSet(NoReadModelViewSet):
     authentication_classes = [auth.AppointmentAuthentication]
     permission_classes = [permissions.AppointmentPermission]
 
-    def has_object_permission(self, request, view, obj):
+    def check_same_appointment(self, request, view, obj):
         return request.auth == obj.appointment
 
     def perform_destroy(self, seat):

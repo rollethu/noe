@@ -2,9 +2,10 @@ from urllib.parse import urljoin
 from django.utils import timezone
 from django.db.models import Sum
 from rest_framework.reverse import reverse
+from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
-from appointments.models import Seat
+from appointments.models import Seat, EmailVerification
 from ..views import GetPriceView, PayAppointmentView
 from ..prices import ProductType
 from .. import models as m
@@ -20,8 +21,17 @@ def appointment_url(appointment):
 
 
 @pytest.fixture
-def get_price_request(factory, appointment_url):
-    return factory.post("/api/get-price/", {"appointment": appointment_url, "product_type": ProductType.NORMAL_EXAM})
+def get_price_request(factory, appointment, appointment_url):
+    request = factory.post(
+        "/api/get-price/", {"appointment": appointment_url, "product_type": ProductType.NORMAL_EXAM}
+    )
+    _authenticate_appointment(request, appointment)
+    return request
+
+
+def _authenticate_appointment(request, appointment):
+    ev = EmailVerification.objects.create(appointment=appointment)
+    force_authenticate(request, token=appointment)
 
 
 def _assert_payments(count, expected_total_price):
@@ -78,7 +88,7 @@ class TestGetPriceView:
 
 @pytest.mark.django_db
 class TestPayAppointmentView:
-    def test_cannot_pay_zero_seats(self, appointment_url, factory):
+    def test_cannot_pay_zero_seats(self, appointment, appointment_url, factory):
         request = factory.post(
             "/api/pay-appointment/",
             {
@@ -88,6 +98,7 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "appointment" in res.data
@@ -104,6 +115,7 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_200_OK
         assert res.data["total_price"] == total_price
@@ -126,6 +138,7 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_200_OK
         assert res.data["total_price"] == total_price
@@ -145,6 +158,7 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_200_OK
         assert res.data["total_price"] == total_price
@@ -163,12 +177,13 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "appointment" in res.data
         _assert_payments(count=0, expected_total_price=None)
 
-    def test_different_total_price_sent_than_calculated(self, appointment_url, seat, factory):
+    def test_different_total_price_sent_than_calculated(self, appointment, appointment_url, seat, factory):
         request = factory.post(
             "/api/pay-appointment/",
             {
@@ -178,6 +193,7 @@ class TestPayAppointmentView:
                 "currency": "HUF",
             },
         )
+        _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "total_price" in res.data

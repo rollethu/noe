@@ -7,6 +7,8 @@ from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from appointments.models import Appointment
+from appointments.auth import AppointmentAuthentication
+from appointments.permissions import AppointmentPermission
 from .prices import calc_payments, PRODUCTS
 from . import models as m
 from . import serializers as s
@@ -18,26 +20,37 @@ class GetPriceView(generics.GenericAPIView):
     """
 
     serializer_class = s.GetPriceSerializer
+    authentication_classes = [AppointmentAuthentication]
+    permission_classes = [AppointmentPermission]
+
+    def check_same_appointment(self, request, view, obj):
+        return request.auth == obj
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         appointment, product = serializer.save()
+        self.check_object_permissions(self.request, appointment)
 
-        # This is a public endpoint. Make sure someone can't brute force find prices for finished registrations.
         _, summary = calc_payments(appointment.seats.all(), product)
-        return Response(summary, status=status.HTTP_200_OK)
+        return Response(summary)
 
 
 class PayAppointmentView(generics.GenericAPIView):
     """Called at the end of registration when user presses the Pay button."""
 
     serializer_class = s.PaySerializer
+    authentication_classes = [AppointmentAuthentication]
+    permission_classes = [AppointmentPermission]
+
+    def check_same_appointment(self, request, view, obj):
+        return request.auth == obj
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         appointment, product = serializer.save()
+        self.check_object_permissions(self.request, appointment)
 
         if any(hasattr(s, "payment") for s in appointment.seats.all()):
             raise ValidationError({"appointment": "This appointment has payment already!"})
@@ -60,4 +73,4 @@ class PayAppointmentView(generics.GenericAPIView):
         appointment.is_registration_completed = True
         appointment.save(update_fields=["is_registration_completed"])
 
-        return Response(summary, status=status.HTTP_200_OK)
+        return Response(summary)
