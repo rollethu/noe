@@ -74,10 +74,18 @@ export default function PaymentMethods() {
     // Updates Appointment's all Seats's Payments's payment_method_type
     // We don't do anything if this request fails
     // This must change in the future
-    await axios.post(
+    const response = await axios.post(
       consts.PAY_APPOINTMENT_URL,
       paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID)
     );
+    if (response.error) {
+      if (!response.errors) {
+        alert("Váratlan hiba történt.");
+      } else {
+        alert("A regisztrációt nem sikerült véglegesíteni.");
+        console.log(response.alert);
+      }
+    }
 
     const response = await updateAppointment(appointment.url, {
       is_registration_completed: true,
