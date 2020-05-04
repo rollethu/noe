@@ -1,0 +1,905 @@
+{
+    "annotations": {
+      "list": [
+        {
+          "builtIn": 1,
+          "datasource": "-- Grafana --",
+          "enable": true,
+          "hide": true,
+          "iconColor": "rgba(0, 211, 255, 1)",
+          "name": "Annotations & Alerts",
+          "type": "dashboard"
+        }
+      ]
+    },
+    "editable": true,
+    "gnetId": null,
+    "graphTooltip": 0,
+    "id": 1,
+    "links": [],
+    "panels": [
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 0
+        },
+        "id": 21,
+        "panels": [],
+        "title": "Sample Counters",
+        "type": "row"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 6,
+          "w": 4,
+          "x": 0,
+          "y": 1
+        },
+        "id": 14,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "purple",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              }
+            ],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select\n  count(*)\nfrom samples_sample\nwhere DATE(created_at) = DATE(NOW())",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "count"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "samples_sample",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Samples taken TODAY",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 6,
+          "w": 4,
+          "x": 4,
+          "y": 1
+        },
+        "id": 17,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_qrcode",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Seats taken TODAY",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 6,
+          "w": 4,
+          "x": 16,
+          "y": 1
+        },
+        "id": 15,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '1 day'\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_qrcode",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Seats taken Tomorrow",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 6,
+          "w": 4,
+          "x": 20,
+          "y": 1
+        },
+        "id": 16,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "sum"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "blue",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '2 day'\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_qrcode",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Seats taken D After Tomorrow",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 7
+        },
+        "id": 19,
+        "panels": [],
+        "title": "Global Stats",
+        "type": "row"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 0,
+          "y": 8
+        },
+        "id": 8,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "firstNotNull"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  count(*)\nFROM appointments_appointment\nWHERE\n  is_registration_completed = 'true'\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_appointment",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "bool",
+                "name": "",
+                "params": [
+                  "is_registration_completed",
+                  "=",
+                  "'true'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Appointments Confirmed",
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 4,
+          "y": 8
+        },
+        "id": 11,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "green",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [
+              {
+                "params": [
+                  "$__interval",
+                  "none"
+                ],
+                "type": "time"
+              }
+            ],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select\n  count(*)\nfrom samples_sample  ",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "column"
+                },
+                {
+                  "params": [
+                    "count"
+                  ],
+                  "type": "aggregate"
+                },
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "alias"
+                }
+              ]
+            ],
+            "table": "samples_sample",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "All Samples taken",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 4,
+          "w": 4,
+          "x": 8,
+          "y": 8
+        },
+        "id": 2,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "mean"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "yellow",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": false
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select \n  count(*)\nfrom appointments_qrcode  ",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_qrcode",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "All QR Codes in the system",
+        "transparent": true,
+        "type": "stat"
+      },
+      {
+        "datasource": "PostgreSQL",
+        "gridPos": {
+          "h": 4,
+          "w": 6,
+          "x": 18,
+          "y": 8
+        },
+        "id": 10,
+        "options": {
+          "colorMode": "value",
+          "fieldOptions": {
+            "calcs": [
+              "firstNotNull"
+            ],
+            "defaults": {
+              "mappings": [],
+              "thresholds": {
+                "mode": "absolute",
+                "steps": [
+                  {
+                    "color": "red",
+                    "value": null
+                  }
+                ]
+              }
+            },
+            "overrides": [],
+            "values": true
+          },
+          "graphMode": "area",
+          "justifyMode": "auto",
+          "orientation": "auto"
+        },
+        "pluginVersion": "6.7.3",
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT\n  count(*)\nFROM appointments_appointment\nWHERE\n  is_registration_completed = 'false'",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "location_id"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_appointment",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              },
+              {
+                "datatype": "bool",
+                "name": "",
+                "params": [
+                  "is_registration_completed",
+                  "=",
+                  "'false'"
+                ],
+                "type": "expression"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "ALL Registration NOT Completed",
+        "type": "stat"
+      },
+      {
+        "collapsed": false,
+        "datasource": null,
+        "gridPos": {
+          "h": 1,
+          "w": 24,
+          "x": 0,
+          "y": 12
+        },
+        "id": 23,
+        "panels": [],
+        "title": "Tables",
+        "type": "row"
+      },
+      {
+        "columns": [],
+        "datasource": "PostgreSQL",
+        "description": "This table won't be impacted by time scale adjustments!!\nAlso, it only shows appointments in the future.",
+        "fontSize": "90%",
+        "gridPos": {
+          "h": 18,
+          "w": 12,
+          "x": 0,
+          "y": 13
+        },
+        "id": 4,
+        "pageSize": null,
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": false
+        },
+        "styles": [
+          {
+            "alias": "Time",
+            "align": "auto",
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "pattern": "start_budapest",
+            "type": "date"
+          },
+          {
+            "alias": "",
+            "align": "right",
+            "colorMode": null,
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "decimals": 2,
+            "pattern": "/.*/",
+            "thresholds": [],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "SELECT \n  apt.start at time zone 'UTC' as start_budapest,\n  regexp_replace(seat.full_name,'\\S*$','') as name,\n  seat.appointment_id,\n  regexp_replace(apt.email,'^.{0,8}','***') as apt_email\nFROM appointments_seat as seat\nINNER JOIN (\n  SELECT \n    appt.uuid as uuid,\n    appt.email as email,\n    slot.start as start\n  FROM appointments_appointment AS appt\n  INNER JOIN appointments_timeslot AS slot\n    ON appt.time_slot_id=slot.uuid\n  WHERE appt.is_registration_completed = 'true'  \n) AS apt\n  ON apt.uuid=seat.appointment_id\nWHERE\n  DATE(apt.start) = CURRENT_DATE\n  AND\n  seat.uuid NOT IN (\n    SELECT seat_id FROM samples_sample\n  )",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "capacity"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "appointments_timeslot",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamptz",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Customers Coming Today",
+        "transform": "table",
+        "type": "table"
+      },
+      {
+        "columns": [],
+        "datasource": "PostgreSQL",
+        "description": "Seats Actually Taken == the time slot have been chosen and registration have also been completed",
+        "fontSize": "100%",
+        "gridPos": {
+          "h": 18,
+          "w": 12,
+          "x": 12,
+          "y": 13
+        },
+        "id": 13,
+        "pageSize": null,
+        "pluginVersion": "6.7.3",
+        "showHeader": true,
+        "sort": {
+          "col": 0,
+          "desc": false
+        },
+        "styles": [
+          {
+            "alias": "time",
+            "align": "auto",
+            "dateFormat": "MM-DD HH:mm a",
+            "pattern": "time",
+            "type": "date"
+          },
+          {
+            "alias": "Seats Booked",
+            "align": "auto",
+            "colorMode": "value",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "#FADE2A",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "mappingType": 1,
+            "pattern": "/usage/",
+            "thresholds": [
+              "15",
+              "25"
+            ],
+            "type": "number",
+            "unit": "short"
+          },
+          {
+            "alias": "Seats Actually Taken",
+            "align": "auto",
+            "colorMode": "cell",
+            "colors": [
+              "rgba(245, 54, 54, 0.9)",
+              "rgba(237, 129, 40, 0.89)",
+              "rgba(50, 172, 45, 0.97)"
+            ],
+            "dateFormat": "YYYY-MM-DD HH:mm:ss",
+            "decimals": 0,
+            "mappingType": 1,
+            "pattern": "/seats_taken/",
+            "thresholds": [
+              "10",
+              "20"
+            ],
+            "type": "number",
+            "unit": "short"
+          }
+        ],
+        "targets": [
+          {
+            "format": "table",
+            "group": [],
+            "metricColumn": "none",
+            "rawQuery": true,
+            "rawSql": "select \n  slot.start as time,\n  slot.capacity,\n  slot.usage,\n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW())\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+            "refId": "A",
+            "select": [
+              [
+                {
+                  "params": [
+                    "amount"
+                  ],
+                  "type": "column"
+                }
+              ]
+            ],
+            "table": "payments_simplepaytransaction",
+            "timeColumn": "created_at",
+            "timeColumnType": "timestamp",
+            "where": [
+              {
+                "name": "$__timeFilter",
+                "params": [],
+                "type": "macro"
+              }
+            ]
+          }
+        ],
+        "timeFrom": null,
+        "timeShift": null,
+        "title": "Bookings Summary",
+        "transform": "table",
+        "transparent": true,
+        "type": "table"
+      }
+    ],
+    "refresh": "5m",
+    "schemaVersion": 22,
+    "style": "dark",
+    "tags": [],
+    "templating": {
+      "list": []
+    },
+    "time": {
+      "from": "now-6h",
+      "to": "now"
+    },
+    "timepicker": {
+      "refresh_intervals": [
+        "5s",
+        "10s",
+        "30s",
+        "1m",
+        "5m",
+        "15m",
+        "30m",
+        "1h",
+        "2h",
+        "1d"
+      ]
+    },
+    "timezone": "",
+    "title": "Business",
+    "uid": "G7c1LneZz",
+    "variables": {
+      "list": []
+    },
+    "version": 35
+  }
