@@ -88,15 +88,6 @@ export default function PaymentMethods() {
     } else {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
-
-    const response = await updateAppointment(appointment.url, {
-      is_registration_completed: true,
-    });
-    if (response.error) {
-      if (!response.errors) {
-        alert("Váratlan hiba történt.");
-      }
-    }
   }
 
   function onProductSelect(productID) {
