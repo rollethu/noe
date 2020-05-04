@@ -92,11 +92,12 @@ const updateAppointment = (dispatch) => async (url, values) => {
   }
 };
 
-const verifyToken = (dispatch) => async (token) => {
+export const verifyToken = (dispatch) => async (token) => {
   try {
     const response = await axios.post(consts.VERIFY_EMAIL_URL, {
       token,
     });
+    axios.defaults.headers.common["Authorization"] = `Apptoken ${token}`;
     dispatch({
       type: consts.SET_APPOINTMENT,
       payload: {
@@ -109,6 +110,7 @@ const verifyToken = (dispatch) => async (token) => {
       type: consts.SET_TOKEN_VERIFICATION,
       payload: { error: null },
     });
+    return response;
   } catch (error) {
     dispatch({
       type: consts.SET_APPOINTMENT,
