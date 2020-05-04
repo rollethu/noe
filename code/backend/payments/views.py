@@ -12,21 +12,6 @@ from . import models as m
 from . import serializers as s
 
 
-class _GetAppointmentMixin:
-    def _get_appointment(self, request):
-        serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)
-        appointment_uuid = self._get_appointment_uuid(serializer.validated_data["appointment"])
-        appointment = Appointment.objects.get(pk=appointment_uuid)
-        return appointment, serializer.validated_data
-
-    def _get_appointment_uuid(self, appointment_url):
-        parsed_url = urlparse(appointment_url)
-        match = resolve(parsed_url.path)
-        appointment_uuid = match.kwargs["pk"]
-        return appointment_uuid
-
-
 class GetPriceView(generics.GenericAPIView):
     """Query the price of the Appointment.
     Get the Appointment ID in POST request body, so we don't leak it accidentally.
