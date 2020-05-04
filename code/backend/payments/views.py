@@ -67,4 +67,12 @@ class PayAppointmentView(generics.GenericAPIView):
             raise ValidationError({"total_price": "Invalid amount!"})
 
         m.Payment.objects.bulk_create(payments)
+
+        # Appointment is done, when the payments are set.
+        # This logic is moved from the frontend to here.
+        # We consider appointments to be done even without
+        # completed payments, including online incomplete payments.
+        appointment.is_registration_completed = True
+        appointment.save(update_fields=["is_registration_completed"])
+
         return Response(summary, status=status.HTTP_200_OK)

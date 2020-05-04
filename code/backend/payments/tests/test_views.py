@@ -92,7 +92,7 @@ class TestPayAppointmentView:
         assert "appointment" in res.data
         _assert_payments(count=0, expected_total_price=None)
 
-    def test_pay_one_seat(self, appointment_url, seat, factory):
+    def test_pay_one_seat(self, appointment_url, seat, factory, appointment):
         total_price = 26_990
         request = factory.post(
             "/api/pay-appointment/",
@@ -107,6 +107,9 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_200_OK
         assert res.data["total_price"] == total_price
         _assert_payments(count=1, expected_total_price=total_price)
+
+        appointment.refresh_from_db()
+        assert appointment.is_registration_completed
 
     def test_pay_multiple_seats(self, appointment, appointment_url, factory):
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
