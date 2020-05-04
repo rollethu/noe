@@ -122,3 +122,17 @@ def test_mulitple_answer_update_errors(factory, appointment_client, survey_quest
     assert rv.status_code == status.HTTP_400_BAD_REQUEST, rv.data
     assert answer1_url in rv.data
     assert answer2_url in rv.data
+
+
+@pytest.mark.django_db
+def test_update_seat_has_no_effect(appointment_client, seat, seat2, survey_question):
+    answer = m.SurveyAnswer.objects.create(question=survey_question, seat=seat)
+    answer_url = reverse("surveyanswer-detail", kwargs={"pk": answer.pk})
+
+    rv = appointment_client.patch(
+        answer_url, {"seat": reverse("seat-detail", kwargs={"pk": seat2.pk}), "url": answer_url, "answer": "yolo"},
+    )
+    assert rv.status_code == status.HTTP_200_OK, rv.data
+
+    answer.refresh_from_db()
+    assert answer.seat == seat  # did not change to `seat2`

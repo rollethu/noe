@@ -76,6 +76,7 @@ class SurveyAnswerSerializer(serializers.HyperlinkedModelSerializer):
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
+        validated_data.pop("seat", None)  # Seat is not editable
         self.validate_required_question_in_update(instance, validated_data)
         return super().update(instance, validated_data)
 
