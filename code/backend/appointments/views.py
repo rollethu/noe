@@ -20,10 +20,12 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.permissions import IsAdminUser
 from rest_framework.settings import api_settings
 from project_noe.views import NoReadModelViewSet
+from . import auth
 from . import filters as f
 from . import models as m
 from . import serializers as s
 from . import email
+from . import permissions
 
 
 logger = logging.getLogger(__name__)
@@ -41,6 +43,11 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
 class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     queryset = m.Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
+    authentication_classes = [auth.AppointmentAuthentication]
+    permission_classes = [permissions.AppointmentPermission]
+
+    def has_object_permission(self, request, view, obj):
+        return request.appointment == obj
 
     def perform_create(self, serializer):
         appointment = serializer.save()
@@ -88,6 +95,11 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
 class SeatViewSet(NoReadModelViewSet):
     queryset = m.Seat.objects.all()
     serializer_class = s.SeatSerializer
+    authentication_classes = [auth.AppointmentAuthentication]
+    permission_classes = [permissions.AppointmentPermission]
+
+    def has_object_permission(self, request, view, obj):
+        return request.appointment == obj.appointment
 
     def perform_destroy(self, seat):
         if seat.appointment.seats.count() == 1:

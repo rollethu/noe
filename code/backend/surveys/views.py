@@ -5,7 +5,10 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework import mixins
 from rest_framework.response import Response
+
 from project_noe.views import NoReadModelViewSet
+from appointments import auth
+from appointments import permissions
 from . import models as m
 from . import serializers as s
 
@@ -18,6 +21,11 @@ class SurveyQuestionViewSet(viewsets.ReadOnlyModelViewSet):
 class SurveyAnswerViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
     queryset = m.SurveyAnswer.objects.all()
     serializer_class = s.SurveyAnswerSerializer
+    authentication_classes = [auth.AppointmentAuthentication]
+    permission_classes = [permissions.AppointmentPermission]
+
+    def has_object_permission(self, request, view, obj):
+        return request.appointment == obj.seat.appointment
 
     def get_one_object_of_many(self, url):
         uuid = resolve(urlparse(url).path).kwargs["pk"]

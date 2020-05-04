@@ -16,7 +16,7 @@ class AppointmentAuthentication(authentication.BaseAuthentication):
             raise AuthenticationFailed()
 
         try:
-            ev = m.EmailVerification.objects.select_realted("appointment").get_by_token(token)
+            ev, signed_uuid = m.EmailVerification.objects.get_by_token(token)
         except m.EmailVerification.DoesNotExist:
             raise AuthenticationFailed()
 
