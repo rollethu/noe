@@ -31,7 +31,7 @@ pipeline {
             steps {
                 dir("code/backend/terraform") {
                     sshagent(['gitlab-build2-ro']) {
-                        sh 'terraform init'
+                        sh 'terraform init -upgrade'
                     }
                 }
             }
