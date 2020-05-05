@@ -51,9 +51,6 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
             return [AllowAny()]
         return super().get_permissions()
 
-    def check_same_appointment(self, request, view, obj):
-        return request.auth == obj
-
     def perform_create(self, serializer):
         appointment = serializer.save()
         # FIXME: this is ugly, but works until we have only one email
@@ -103,8 +100,8 @@ class SeatViewSet(NoReadModelViewSet):
     authentication_classes = [auth.AppointmentAuthentication]
     permission_classes = [permissions.AppointmentPermission]
 
-    def check_same_appointment(self, request, view, obj):
-        return request.auth == obj.appointment
+    def get_appointment(self, obj):
+        return obj.appointment
 
     def perform_destroy(self, seat):
         if seat.appointment.seats.count() == 1:

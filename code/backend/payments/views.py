@@ -23,9 +23,6 @@ class GetPriceView(generics.GenericAPIView):
     authentication_classes = [AppointmentAuthentication]
     permission_classes = [AppointmentPermission]
 
-    def check_same_appointment(self, request, view, obj):
-        return request.auth == obj
-
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -42,9 +39,6 @@ class PayAppointmentView(generics.GenericAPIView):
     serializer_class = s.PaySerializer
     authentication_classes = [AppointmentAuthentication]
     permission_classes = [AppointmentPermission]
-
-    def check_same_appointment(self, request, view, obj):
-        return request.auth == obj
 
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
