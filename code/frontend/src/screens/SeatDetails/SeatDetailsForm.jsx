@@ -169,6 +169,13 @@ export default function SeatDetailsForm() {
           message: "Használjon 9 számjegyet.",
         }}
       />
+      <Field
+        register={register}
+        name="doctor_name"
+        label="Háziorvos neve"
+        type="string"
+        errors={errors}
+      />
       <NextButton type="submit" />
     </Form>
   );
