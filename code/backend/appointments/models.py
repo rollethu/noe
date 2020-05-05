@@ -172,6 +172,7 @@ class Seat(models.Model):
     has_doctor_referral = models.BooleanField(default=False)
     email = models.EmailField(help_text=_("Notification email for the test results."))
     phone_number = models.CharField(max_length=30, blank=True)
+    doctor_name = models.CharField(max_length=255, blank=True)
 
     class Meta:
         ordering = ("created_at",)
