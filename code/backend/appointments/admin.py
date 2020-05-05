@@ -110,7 +110,7 @@ class SeatAdmin(admin.ModelAdmin):
             {
                 "fields": (
                     ("full_name", "birth_date"),
-                    ("identity_card_number", "healthcare_number", "has_doctor_referral"),
+                    ("identity_card_number", "healthcare_number", "has_doctor_referral", "doctor_name"),
                 )
             },
         ),
