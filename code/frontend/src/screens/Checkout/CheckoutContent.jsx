@@ -78,6 +78,10 @@ export default function CheckoutContent({
             <Text light>TAJ kártya száma</Text>
             <Text dark>{seat.healthcare_number}</Text>
           </DataRow>
+          <DataRow>
+            <Text light>Háziorvos neve</Text>
+            <Text dark>{seat.doctor_name}</Text>
+          </DataRow>
         </div>
       ))}
       <NextLinkButton toCenter to={ROUTE_PAYMENT_METHODS} />
