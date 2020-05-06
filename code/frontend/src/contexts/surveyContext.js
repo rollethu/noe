@@ -3,6 +3,7 @@ import axios from "axios";
 import createContext from "./createContext";
 import * as consts from "./consts";
 import * as utils from "./utils";
+import * as common from "./common";
 
 /*
 Example `surveyAnswers`:
@@ -46,6 +47,8 @@ const surveyReducer = (state, action) => {
             : state.surveyAnswers[action.payload.seat],
       };
       return newState;
+    case consts.RESET_STATE:
+      return initialState;
     default:
       return state;
   }
@@ -130,6 +133,7 @@ export const { Provider, Context } = createContext(
     sendSurveyAnswers,
     setActiveSurveyAnswers,
     updateSurveyAnswers,
+    resetState: common.resetState,
   },
   initialState
 );

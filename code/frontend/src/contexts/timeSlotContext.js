@@ -3,6 +3,7 @@ import axios from "axios";
 import createContext from "./createContext";
 import * as consts from "./consts";
 import * as utils from "../utils";
+import * as common from "./common";
 
 const initialState = {
   timeSlots: null,
@@ -15,6 +16,8 @@ const timeSlotReducer = (state, action) => {
       return { ...state, timeSlots: action.payload };
     case consts.SET_SELECTED_TIME_SLOT:
       return { ...state, selectedTimeSlot: action.payload };
+    case consts.RESET_STATE:
+      return initialState;
     default:
       return state;
   }
@@ -54,6 +57,7 @@ export const { Provider, Context } = createContext(
   {
     fetchTimeSlots,
     fetchSelectedTimeSlot,
+    resetState: common.resetState,
   },
   initialState
 );

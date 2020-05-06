@@ -2,6 +2,7 @@ import axios from "axios";
 
 import createContext from "./createContext";
 import * as consts from "./consts";
+import * as common from "./common";
 
 export const initialState = {
   seats: [],
@@ -41,6 +42,8 @@ const seatReducer = (state, action) => {
           return seat;
         }),
       };
+    case consts.RESET_STATE:
+      return initialState;
     default:
       return state;
   }
@@ -114,6 +117,7 @@ export const { Provider, Context } = createContext(
     deleteSeat,
     setActiveSeat,
     updateSeat,
+    resetState: common.resetState,
   },
   initialState
 );

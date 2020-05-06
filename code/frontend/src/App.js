@@ -23,7 +23,7 @@ import SeatDetails from "./screens/SeatDetails/SeatDetails";
 import Survey from "./screens/Survey/Survey";
 import Time from "./screens/Time/Time";
 import Checkout from "./screens/Checkout/Checkout";
-import AppointmentSuccess from "./screens/AppointmentSuccess";
+import AppointmentSuccess from "./screens/AppointmentSuccess/AppointmentSuccess";
 import { TopStripe } from "./UI";
 
 export const ROUTE_START = "/start";

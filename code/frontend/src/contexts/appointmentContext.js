@@ -2,6 +2,7 @@ import axios from "axios";
 
 import createContext from "./createContext";
 import * as consts from "./consts";
+import * as common from "./common";
 
 export const initialState = {
   appointment: {
@@ -46,6 +47,8 @@ const appointmentReducer = (state, action) => {
         ...state,
         productID: action.payload,
       };
+    case consts.RESET_STATE:
+      return initialState;
     default:
       return state;
   }
@@ -174,6 +177,7 @@ export const { Provider, Context } = createContext(
     resendEmailVerification,
     fetchPrice,
     setProduct,
+    resetState: common.resetState,
   },
   initialState
 );
