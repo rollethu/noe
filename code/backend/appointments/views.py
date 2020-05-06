@@ -1,7 +1,6 @@
 import os
 import logging
 from urllib.parse import urlencode
-from django.db import transaction
 from django.conf import settings
 from django.contrib import messages
 from django.urls import reverse as django_reverse
@@ -59,21 +58,12 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
         token = ev.make_token()
         email.send_verification(token, serializer.validated_data["email"])
 
-    @transaction.atomic
     def partial_update(self, request, *args, **kwargs):
         appointment = self.get_object()
         serializer = self.get_serializer(appointment, data=request.data, partial=True)
         serializer.is_valid(raise_exception=True)
 
-        is_registration_completed = serializer.validated_data.get("is_registration_completed", False)
-        if is_registration_completed:
-            self._make_qrs(appointment.seats.all())
-
         self.perform_update(serializer)
-
-        if is_registration_completed:
-            # we need to refresh seats, because QR codes has been attached
-            self._send_summaries(appointment.seats.all())
 
         if getattr(appointment, "_prefetched_objects_cache", None):
             # If 'prefetch_related' has been applied to a queryset, we need to
@@ -81,17 +71,6 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
             appointment._prefetched_objects_cache = {}
 
         return Response(serializer.data)
-
-    def _make_qrs(self, seats):
-        for seat in seats:
-            m.QRCode.objects.create(seat=seat)
-
-    def _send_summaries(self, seats):
-        seat_count = len(seats)
-        for seat in seats:
-            if not seat.email:
-                raise ValidationError({"email": "Email field is required"})
-            email.send_qrcode(seat, seat_count)
 
 
 class SeatViewSet(NoReadModelViewSet):

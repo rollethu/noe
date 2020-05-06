@@ -1,14 +1,16 @@
 from urllib.parse import urlparse
 from django.urls import resolve
+from django.db import transaction
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from appointments.models import Appointment
+from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
 from appointments.permissions import AppointmentPermission
+from appointments import email
 from .prices import calc_payments, PRODUCTS
 from . import models as m
 from . import serializers as s
@@ -40,6 +42,7 @@ class PayAppointmentView(generics.GenericAPIView):
     authentication_classes = [AppointmentAuthentication]
     permission_classes = [AppointmentPermission]
 
+    @transaction.atomic
     def post(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
@@ -60,6 +63,10 @@ class PayAppointmentView(generics.GenericAPIView):
 
         m.Payment.objects.bulk_create(payments)
 
+        self._make_qrs(appointment.seats.all())
+        # we need to refresh seats, because QR codes has been attached
+        self._send_summaries(appointment.seats.all())
+
         # Appointment is done, when the payments are set.
         # This logic is moved from the frontend to here.
         # We consider appointments to be done even without
@@ -68,3 +75,14 @@ class PayAppointmentView(generics.GenericAPIView):
         appointment.save(update_fields=["is_registration_completed"])
 
         return Response(summary)
+
+    def _make_qrs(self, seats):
+        for seat in seats:
+            QRCode.objects.create(seat=seat)
+
+    def _send_summaries(self, seats):
+        seat_count = len(seats)
+        for seat in seats:
+            if not seat.email:
+                raise ValidationError({"email": "Email field is required"})
+            email.send_qrcode(seat, seat_count)

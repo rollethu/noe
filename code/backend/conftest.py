@@ -85,12 +85,12 @@ def appointment():
 
 @pytest.fixture
 def seat(appointment):
-    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment)
+    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment, email="seat@email.com")
 
 
 @pytest.fixture
 def seat2(appointment):
-    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment)
+    return Seat.objects.create(birth_date=dt.date(1990, 6, 14), appointment=appointment, email="seat2@email.com")
 
 
 @pytest.fixture
