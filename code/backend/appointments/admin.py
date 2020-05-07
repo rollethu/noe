@@ -138,6 +138,18 @@ class SeatAdmin(admin.ModelAdmin):
     inlines = [SampleInline, PaymentInline, QrCodeInline]
     date_hierarchy = "created_at"
 
+    def save_model(self, request, obj, form, change):
+        seat = obj
+        should_send_bill = False
+
+        if change and obj.paid_at is None and form.cleaned_data["paid_at"]:
+            should_send_bill = True
+
+        super().save_model(request, obj, form, change)
+
+        if should_send_bill:
+            seat.send_bill()
+
     def appointment_location(self, obj=None):
         return obj.appointment.location.name
 
