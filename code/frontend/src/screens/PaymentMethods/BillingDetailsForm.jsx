@@ -18,11 +18,17 @@ const defaultValues = {
 
 export default function BillingDetailsForm({ onSubmit, seat }) {
   const [wasResetted, setWasResetted] = React.useState(false);
-  const { register, handleSubmit, setError, errors, setValue, reset } = useForm(
-    {
-      defaultValues,
-    }
-  );
+  const {
+    register,
+    handleSubmit,
+    setError,
+    errors,
+    setValue,
+    reset,
+    watch,
+  } = useForm({
+    defaultValues,
+  });
   const managedSubmit = handleSubmit((values) => onSubmit(values, setError));
 
   React.useEffect(() => {
@@ -133,6 +139,7 @@ export default function BillingDetailsForm({ onSubmit, seat }) {
         label="Adószám"
         placeholder="123456789"
         errors={errors}
+        required={watch("isCompany")}
       />
       <Text small style={{ alignSelf: "flex-start" }}>
         * Helyszíni fizetés esetén a számla a tranzakció után kerül kiállításra.
