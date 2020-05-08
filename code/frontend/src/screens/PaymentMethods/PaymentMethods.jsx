@@ -19,6 +19,7 @@ import {
   Form,
   Field,
 } from "../../UI";
+import BillingDetailsForm from "./BillingDetailsForm";
 
 // Ordering matters. First is the default value.
 const products = [
@@ -65,7 +66,7 @@ export default function PaymentMethods() {
     });
   }, []);
 
-  async function onNextClick() {
+  async function onNextClick(values, setError) {
     if (!appointment.url) {
       alert("No appointment to update");
       return;
@@ -107,9 +108,7 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      <NextButton toCenter onClick={onNextClick}>
-        Véglegesítés
-      </NextButton>
+      <BillingDetailsForm onSubmit={onNextClick} />
     </View>
   );
 }

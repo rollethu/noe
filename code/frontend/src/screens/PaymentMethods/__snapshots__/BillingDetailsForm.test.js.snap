@@ -1,0 +1,121 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Matches snapshot 1`] = `
+<form
+  className="Form"
+  onSubmit={[Function]}
+>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="company_name"
+    >
+      Név
+    </label>
+    <input
+      className="Input"
+      min={null}
+      name="company_name"
+      placeholder="Példa Kft."
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="country"
+    >
+      Ország
+    </label>
+    <input
+      className="Input"
+      min={null}
+      name="country"
+      placeholder="Magyarország"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+    >
+      Tartózkodási cím
+    </label>
+    <div
+      className="InputGroup"
+    >
+      <div
+        className="Flex"
+      >
+        <div
+          style={
+            Object {
+              "flex": 2,
+            }
+          }
+        >
+          <input
+            className="Input"
+            min={null}
+            name="post_code"
+            placeholder="Irányítósz."
+            type="text"
+          />
+        </div>
+        <div
+          style={
+            Object {
+              "flex": 5,
+              "marginLeft": 10,
+            }
+          }
+        >
+          <input
+            className="Input"
+            min={null}
+            name="city"
+            placeholder="Település"
+            type="text"
+          />
+        </div>
+      </div>
+    </div>
+    <input
+      className="Input"
+      min={null}
+      name="address_line1"
+      placeholder="Utca és Házszám"
+      type="text"
+    />
+  </div>
+  <div
+    className="InputGroup"
+  >
+    <label
+      className="Label "
+      htmlFor="tax_number"
+    >
+      Adószám
+    </label>
+    <input
+      className="Input"
+      min={null}
+      name="tax_number"
+      placeholder="123456789"
+      type="text"
+    />
+  </div>
+  <button
+    className="Button NextButton"
+    type="submit"
+  >
+    Véglegesítés
+  </button>
+</form>
+`;
