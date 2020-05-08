@@ -3,9 +3,7 @@ export const MAX_SEATS_PER_APPOINTMENT = 5;
 export function handleResponse({ response, setError, history, redirectRoute }) {
   if (response.error) {
     if (response.status !== 500 && response.errors) {
-      Object.keys(response.errors).map((fieldName) =>
-        setError(fieldName, "", response.errors[fieldName])
-      );
+      setErrors(setError, response.errors);
     } else {
       alert("Váratlan hiba történt.");
     }
@@ -14,6 +12,10 @@ export function handleResponse({ response, setError, history, redirectRoute }) {
       history.push(redirectRoute);
     }
   }
+}
+
+export function setErrors(setError, errors) {
+  Object.keys(errors).map((fieldName) => setError(fieldName, "", errors[fieldName]));
 }
 
 export function getQueryParamsFromObject(params) {
