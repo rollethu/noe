@@ -18,13 +18,7 @@ pipeline {
                 script {
                     currentBuild.displayName = "${env.VERSION}"
                 }    
-                checkout([
-                    $class: 'GitSCM',
-                    branches: scm.branches,
-                    doGenerateSubmoduleConfigurations: true,
-                    extensions: scm.extensions + [[$class: 'SubmoduleOption', parentCredentials: true]],
-                    userRemoteConfigs: scm.userRemoteConfigs
-                ]) 
+                sh 'git submodule update --init'
             }
         }  
         stage("Build") {
