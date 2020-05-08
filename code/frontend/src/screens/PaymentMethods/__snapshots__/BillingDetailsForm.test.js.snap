@@ -23,7 +23,7 @@ exports[`Matches snapshot 1`] = `
     </label>
   </div>
   <p
-    className="Text"
+    className="Text Dark"
     style={
       Object {
         "alignSelf": "flex-start",
