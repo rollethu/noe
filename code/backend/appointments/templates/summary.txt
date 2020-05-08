@@ -7,6 +7,21 @@ tesztelésre sikeres.
 A helyszínen a mellékletben csatolt QR kód segítségével tudja magát azonosítani.
 Ehhez kérjük töltse le a kódot telefonjára és érkezéskor személyazonosító
 igazolványával együtt mutassa fel a személyzetnek.
+
+A jogszabályi követelményeknek megfelelően papír alapon szükséges leadnia
+hozzájárulási nyilatkozatát a koronavírus előszűrés elvégzésére. Kérjük töltse le
+a Hozzájáruló Nyilatkozatot a weboldalról: https://www.tesztallomas.hu/nyilatkozat
+a PDF-et nyomtassa ki, töltse ki, majd a tesztállomáson adja le munkatársunknak!
+
+{% if payment.product_type == "NORMAL_EXAM" %}
+A normál vizsgálatok eredményét 72 órán belül küldjük Önnek.
+{% elif payment.product_type == "PRIORITY_EXAM" %}
+Az elsőbbségi vizsgálatok eredményét a teszt elvégzését követő napon küldjük Önnek.
+{% endif %}
+
+Kérjük, a teszt maximális pontossága érdekében a mintavétel előtt legalább 4 óráig
+ne egyen, igyon, mosson fogat vagy dohányozzon!
+
 {% if seat.has_doctor_referral %}
 Kérjük ne felejtse el magával hozni az orvosi beutalót!
 {% endif %}
@@ -18,6 +33,7 @@ Vizsgálat helyszíne: {{ appointment.location }}
 Rendszám: {{ appointment.normalized_licence_plate }}
 Név: {{ seat.full_name }}
 Születési év: {{ seat.birth_date|date:"Y" }}
+Vizsgálat típusa: {{ payment.get_product_type_display }}
 Fizetés módja: {{ payment.get_payment_method_type_display }}
 Fizetendő összeg: {% format_money payment.amount payment.currency %}
 
@@ -26,7 +42,7 @@ bankkártyával történhet. Kérjük a helyszínen kísérje figyelemmel a kihe
 tájékoztatóinkat és a személyzet utasításait. Saját és környezete biztonsága
 érdekében viseljen maszkot, a tesztelés ideje alatt mindvégig maradjon
 gépjárműjében és csak a személyzet utasítására húzza le autója ablakát! További
-információért látogasson el a tesztallomas.hu/gyik weboldalra vagy üzenjen
-nekünk az info@tesztallomas.hu e-mail címre.
+információért látogasson el a https://www.tesztallomas.hu/gyik weboldalra vagy
+üzenjen nekünk az info@tesztallomas.hu e-mail címre.
 
 Jó egészséget kíván a Tesztállomás csapata!
