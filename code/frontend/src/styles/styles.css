@@ -134,6 +134,10 @@
       color: #07185F; }
   .Text.Dark {
     color: #07185F; }
+  .Text.Small {
+    font-size: 12px; }
+  .Text.NoMarginBottom {
+    margin-bottom: 0; }
 
 .Flex {
   display: flex; }

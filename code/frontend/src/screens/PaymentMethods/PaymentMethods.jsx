@@ -8,6 +8,7 @@ import * as paymentUtils from "./utils";
 import ProgressBarSVG from "../../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
+import { Context as SeatContext } from "../../contexts/seatContext";
 import {
   View,
   Caption,
@@ -50,6 +51,8 @@ export default function PaymentMethods() {
     fetchPrice,
     setProduct,
   } = React.useContext(AppointmentContext);
+  const { state } = React.useContext(SeatContext);
+  const firstSeat = state.seats[0] || null;
   const defaultValues = { product_type: selectedProductID || products[0].id };
   const { register } = useForm({
     defaultValues,
@@ -108,7 +111,12 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      <BillingDetailsForm onSubmit={onNextClick} />
+      <Text small style={{ alignSelf: "flex-start" }}>
+        * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay
+        vagy a Google Pay szolgáltatást. Így érintésmentesen fizethet,
+        minimalizálva az esetleges fertőzés kockázatát.
+      </Text>
+      <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>
   );
 }

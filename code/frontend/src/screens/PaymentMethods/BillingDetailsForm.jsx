@@ -9,18 +9,60 @@ import {
   Input,
   HelpBlock,
   NextButton,
+  Text,
 } from "../../UI";
 
-export default function BillingDetailsForm({ onSubmit }) {
-  const { register, handleSubmit, setError, errors } = useForm();
+const defaultValues = {
+  country: "Magyarország",
+};
+
+export default function BillingDetailsForm({ onSubmit, seat }) {
+  const [wasResetted, setWasResetted] = React.useState(false);
+  const { register, handleSubmit, setError, errors, setValue, reset } = useForm(
+    {
+      defaultValues,
+    }
+  );
   const managedSubmit = handleSubmit((values) => onSubmit(values, setError));
+
+  React.useEffect(() => {
+    if (!!seat) {
+      prefillForm(seat);
+    }
+  }, [seat?.url]);
+
+  function prefillForm(seat) {
+    setValue("company_name", seat?.full_name);
+    setValue("country", seat?.country);
+    setValue("post_code", seat?.post_code);
+    setValue("city", seat?.city);
+    setValue("address_line1", seat?.address_line1);
+    setValue("tax_number", seat?.tax_number);
+  }
+
+  function onIsCompanyChange(value) {
+    if (value && !wasResetted) {
+      reset({ ...defaultValues, isCompany: true }); // Prevent resetting checkbox too
+      setWasResetted(true);
+    }
+  }
 
   return (
     <Form onSubmit={managedSubmit}>
       <Field
+        type="checkbox"
+        name="isCompany"
+        register={register}
+        label="Cég számára szeretnék áfás számlát igényelni."
+        onChange={onIsCompanyChange}
+      />
+      <Text dark style={{ alignSelf: "flex-start" }}>
+        Kérjük adja meg számlázási adatait.
+      </Text>
+      <Field
         register={register}
         name="company_name"
-        label="Név"
+        label="Név vagy cégnév"
         placeholder="Példa Kft."
         errors={errors}
         required
@@ -92,6 +134,9 @@ export default function BillingDetailsForm({ onSubmit }) {
         placeholder="123456789"
         errors={errors}
       />
+      <Text small style={{ alignSelf: "flex-start" }}>
+        * Helyszíni fizetés esetén a számla a tranzakció után kerül kiállításra.
+      </Text>
       <NextButton type="submit">Véglegesítés</NextButton>
     </Form>
   );

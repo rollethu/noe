@@ -74,6 +74,7 @@ export function Field({
             id={name}
             required={required}
             defaultValue={defaultValue}
+            onChange={onChange}
           />
           {label}
         </Label>
@@ -132,6 +133,7 @@ export function Input({
         type={type}
         value={value} // Value instead of true
         defaultValue={defaultValue}
+        onChange={onChange && ((e) => onChange(e.target.checked))}
       />
     );
   } else if (type === "select") {
@@ -249,6 +251,8 @@ export function Text({
   style,
   semiLight,
   dark,
+  small,
+  noMarginBottom,
 }) {
   const classes = classNames("Text", {
     CenterText: center,
@@ -259,6 +263,8 @@ export function Text({
     RightText: right,
     SemiLight: semiLight,
     Dark: dark,
+    Small: small,
+    NoMarginBottom: noMarginBottom,
   });
   return (
     <p style={style} onClick={onClick} className={classes}>

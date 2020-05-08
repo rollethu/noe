@@ -9,10 +9,37 @@ exports[`Matches snapshot 1`] = `
     className="InputGroup"
   >
     <label
+      className="Label NoMargin "
+      htmlFor="isCompany"
+    >
+      <input
+        className="Input Inline"
+        id="isCompany"
+        name="isCompany"
+        onChange={[Function]}
+        type="checkbox"
+      />
+      Cég számára szeretnék áfás számlát igényelni.
+    </label>
+  </div>
+  <p
+    className="Text"
+    style={
+      Object {
+        "alignSelf": "flex-start",
+      }
+    }
+  >
+    Kérjük adja meg számlázási adatait.
+  </p>
+  <div
+    className="InputGroup"
+  >
+    <label
       className="Label "
       htmlFor="company_name"
     >
-      Név
+      Név vagy cégnév
     </label>
     <input
       className="Input"
@@ -111,6 +138,16 @@ exports[`Matches snapshot 1`] = `
       type="text"
     />
   </div>
+  <p
+    className="Text Small"
+    style={
+      Object {
+        "alignSelf": "flex-start",
+      }
+    }
+  >
+    * Helyszíni fizetés esetén a számla a tranzakció után kerül kiállításra.
+  </p>
   <button
     className="Button NextButton"
     type="submit"
