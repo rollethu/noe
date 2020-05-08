@@ -2,12 +2,22 @@ Project Noe is founded to help people and government(s) to prevent the spread of
 
 To see the projects full documentation see the [wiki](https://gitlab.com/rollet/project-noe/-/wikis/Home).
 
+# Getting started
+
+The repo containse Git submodules, so you need to clone with the `--recurse-submodules` option:
+
+```bash
+git clone --recurse-submodules git@gitlab.com:rollet/project-noe.git
+```
+
 Build:
-* Prerequisites:
-  * Backend
-    * Non sensitive variables to be put into `code/backend/terraform/non_sensitive.noe.tfvars`
-    * Sensitive variables to be put into [AWS Parameter Store](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters?region=eu-central-1).  
-    The values should be encrypted with KMS (noe-secrets-key), and their ARN should be put in as a variable into the tfvars file above. See example below:
+
+- Prerequisites:
+  - Backend
+    - Non sensitive variables to be put into `code/backend/terraform/non_sensitive.noe.tfvars`
+    - Sensitive variables to be put into [AWS Parameter Store](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters?region=eu-central-1).  
+      The values should be encrypted with KMS (noe-secrets-key), and their ARN should be put in as a variable into the tfvars file above. See example below:
+
 ```
                 env_vars = {
                     DJANGO_DATABASE_HOST = "dev-db.cwcdru6hbnif.eu-west-1.rds.amazonaws.com"
@@ -21,8 +31,8 @@ Build:
                 }
 ```
 
-* Frontend
-  * No separate build process, the deploy process will make the bundle first. Use `code/frontend/Jenkinsfile`
-* Backend
-  * Use `code/backend/Jenkinsfile` to build the application and push it to the registry
-  * Use `code/backend/terraform/Jenkinsfile` to deploy the application to a preexisting cluster  
+- Frontend
+  - No separate build process, the deploy process will make the bundle first. Use `code/frontend/Jenkinsfile`
+- Backend
+  - Use `code/backend/Jenkinsfile` to build the application and push it to the registry
+  - Use `code/backend/terraform/Jenkinsfile` to deploy the application to a preexisting cluster

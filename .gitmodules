@@ -1,0 +1,3 @@
+[submodule "code/backend/online-payments"]
+	path = code/backend/online-payments
+	url = git@gitlab.com:rollet/online-payments.git
