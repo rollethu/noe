@@ -28,7 +28,9 @@ class BillingDetail(models.Model):
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     created_at = models.DateTimeField(auto_now_add=True)
-    appointment = models.OneToOneField("appointments.Appointment", on_delete=models.CASCADE)
+    appointment = models.OneToOneField(
+        "appointments.Appointment", on_delete=models.CASCADE, related_name="billing_detail"
+    )
 
     company_name = models.CharField(max_length=255)
     country = models.CharField(max_length=255)

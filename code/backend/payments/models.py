@@ -19,7 +19,6 @@ class Payment(models.Model):
     paid_at = models.DateTimeField(
         blank=True, null=True, help_text=_("When this field is empty, no payment for the person has been made (yet)."),
     )
-    bill_id = models.CharField(max_length=255, blank=True, default="")
     proof_number = models.CharField(
         blank=True,
         max_length=255,
