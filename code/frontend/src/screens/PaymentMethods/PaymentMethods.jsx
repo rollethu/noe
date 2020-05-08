@@ -9,17 +9,7 @@ import ProgressBarSVG from "../../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
-import {
-  View,
-  Caption,
-  Text,
-  Button,
-  HighlightText,
-  Image,
-  NextButton,
-  Form,
-  Field,
-} from "../../UI";
+import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 
 // Ordering matters. First is the default value.
@@ -100,9 +90,7 @@ export default function PaymentMethods() {
     <View>
       <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
-      <HighlightText toCenter>
-        Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}
-      </HighlightText>
+      <HighlightText toCenter>Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}</HighlightText>
       <Text>Válassza ki a kívánt fizetési módot.</Text>
       <Field
         type="select"
@@ -112,9 +100,8 @@ export default function PaymentMethods() {
         name="product_type"
       />
       <Text small style={{ alignSelf: "flex-start" }}>
-        * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay
-        vagy a Google Pay szolgáltatást. Így érintésmentesen fizethet,
-        minimalizálva az esetleges fertőzés kockázatát.
+        * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay vagy a Google Pay szolgáltatást. Így
+        érintésmentesen fizethet, minimalizálva az esetleges fertőzés kockázatát.
       </Text>
       <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>
