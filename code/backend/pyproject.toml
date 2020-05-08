@@ -24,12 +24,12 @@ django-rosetta = "^0.9.4"
 sentry-sdk = "^0.14.3"
 online-payments = {path = "./online-payments"}
 black = "^19.10b0"
-pytest-vcr = "^1.0.2"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
 pytest = "^5.4.1"
 pytest-django = "^3.9.0"
+pytest-vcr = "^1.0.2"
 
 [tool.black]
 line-length = 119
