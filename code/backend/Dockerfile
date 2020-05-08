@@ -16,6 +16,8 @@ RUN mkdir /project_noe/static_root
 
 COPY pyproject.toml poetry.lock /project_noe/backend/
 
+COPY online-payments /project_noe/backend/online-payments
+
 # This is a workaround for missing wheels for cryptography 2.9.1
 RUN pip install cryptography==2.9
 
