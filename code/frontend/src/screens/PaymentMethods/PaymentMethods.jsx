@@ -10,7 +10,6 @@ import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
-import BillingDetailsForm from "./BillingDetailsForm";
 
 // Ordering matters. First is the default value.
 const products = [
@@ -59,7 +58,7 @@ export default function PaymentMethods() {
     });
   }, []);
 
-  async function onNextClick(values, setError) {
+  async function onNextClick() {
     if (!appointment.url) {
       alert("No appointment to update");
       return;
@@ -99,11 +98,9 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      <Text small style={{ alignSelf: "flex-start" }}>
-        * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay vagy a Google Pay szolgáltatást. Így
-        érintésmentesen fizethet, minimalizálva az esetleges fertőzés kockázatát.
-      </Text>
-      <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
+      <NextButton toCenter onClick={onNextClick}>
+        Véglegesítés
+      </NextButton>
     </View>
   );
 }
