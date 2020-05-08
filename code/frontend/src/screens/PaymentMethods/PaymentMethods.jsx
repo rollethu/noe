@@ -5,11 +5,15 @@ import { useForm } from "react-hook-form";
 
 import * as consts from "../../contexts/consts";
 import * as paymentUtils from "./utils";
+import * as utils from "../../utils";
 import ProgressBarSVG from "../../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
+import BillingDetailsForm from "./BillingDetailsForm";
+
+export const useFeatureBillingDetails = false;
 
 // Ordering matters. First is the default value.
 const products = [
@@ -58,7 +62,7 @@ export default function PaymentMethods() {
     });
   }, []);
 
-  async function onNextClick() {
+  async function onNextClick(billingDetailsValues, setError) {
     if (!appointment.url) {
       alert("No appointment to update");
       return;
@@ -66,7 +70,7 @@ export default function PaymentMethods() {
 
     const response = await axios.post(
       consts.PAY_APPOINTMENT_URL,
-      paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID)
+      paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID, billingDetailsValues)
     );
     if (response.error) {
       if (!response.errors) {
@@ -74,6 +78,10 @@ export default function PaymentMethods() {
       } else {
         alert("A regisztrációt nem sikerült véglegesíteni.");
         console.log(response.errors);
+
+        if (useFeatureBillingDetails) {
+          utils.setErrors(setError, response.errors);
+        }
       }
     } else {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
@@ -98,9 +106,12 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      <NextButton toCenter onClick={onNextClick}>
-        Véglegesítés
-      </NextButton>
+      {useFeatureBillingDetails && <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />}
+      {!useFeatureBillingDetails && (
+        <NextButton toCenter onClick={onNextClick}>
+          Véglegesítés
+        </NextButton>
+      )}
     </View>
   );
 }

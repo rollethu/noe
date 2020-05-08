@@ -1,9 +1,12 @@
-export function makePaymentUpdateRequest(appointment, productID) {
+import { useFeatureBillingDetails } from "./PaymentMethods";
+
+export function makePaymentUpdateRequest(appointment, productID, billingDetailsValues) {
   return {
     appointment: appointment.url,
     total_price: appointment.total_price,
     currency: appointment.currency,
     product_type: productID,
+    ...(useFeatureBillingDetails ? billingDetailsValues : {}),
   };
 }
 
