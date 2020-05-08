@@ -13,6 +13,22 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 
+/*
+Toggles the use of BillingDetails form.
+
+Once it's turned on, both product and billing details are sent in one single
+request.
+
+* paymentUtils.makePaymentUpdateRequest
+* Render: BillingDetailsForm
+* Render: NextButton
+* Error handling in form submit
+
+TODO:
+* Backend should implement handling billing details in /pay-appointment/
+  endpoint, in one **atomic** action.
+
+*/
 export const useFeatureBillingDetails = false;
 
 // Ordering matters. First is the default value.
