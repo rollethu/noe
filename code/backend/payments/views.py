@@ -81,8 +81,7 @@ class PayAppointmentView(generics.GenericAPIView):
             QRCode.objects.create(seat=seat)
 
     def _send_summaries(self, seats):
-        seat_count = len(seats)
         for seat in seats:
             if not seat.email:
                 raise ValidationError({"email": "Email field is required"})
-            email.send_qrcode(seat, seat_count)
+            email.send_qrcode(seat)

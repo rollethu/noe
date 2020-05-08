@@ -23,12 +23,11 @@ def send_verification(token, address):
     )
 
 
-def send_qrcode(seat, seat_count):
+def send_qrcode(seat):
     context = {
         "appointment": seat.appointment,
         "seat": seat,
         "payment": seat.payment,
-        "seat_count": seat_count,
     }
     body = render_to_string("summary.txt", context)
 

@@ -46,7 +46,7 @@ def test_send_qrcode():
         payment=Payment(amount=26_990, payment_method_type=PaymentMethodType.ON_SITE),
     )
 
-    email.send_qrcode(seat, 1)
+    email.send_qrcode(seat)
     assert len(mail.outbox) == 1
 
     sent_mail = mail.outbox[0]
@@ -69,6 +69,6 @@ def test_send_qrcode_with_doctor_referral():
         payment=Payment(amount=0),
     )
 
-    email.send_qrcode(seat, 1)
+    email.send_qrcode(seat)
     sent_mail = mail.outbox[0]
     assert "orvosi beutalót" in sent_mail.body
