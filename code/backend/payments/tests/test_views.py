@@ -1,8 +1,6 @@
-from urllib.parse import urljoin
 from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
-from rest_framework.reverse import reverse
 from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
@@ -13,12 +11,6 @@ from .. import models as m
 
 get_price_view = GetPriceView.as_view()
 pay_appointment_view = PayAppointmentView.as_view()
-
-
-@pytest.fixture
-def appointment_url(appointment):
-    appointment_path = reverse("appointment-detail", args=[appointment.uuid])
-    return urljoin("http://localhost", appointment_path)
 
 
 @pytest.fixture

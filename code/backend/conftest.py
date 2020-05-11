@@ -1,8 +1,10 @@
+from urllib.parse import urljoin
 from pathlib import Path
 import datetime as dt
 from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
+from rest_framework.reverse import reverse
 from rest_framework.test import APIRequestFactory, APIClient
 from rest_framework.authtoken.models import Token
 import pytest
@@ -106,3 +108,9 @@ def qr(seat):
 @pytest.fixture
 def datadir(request):
     return Path(request.fspath.dirname) / "data"
+
+
+@pytest.fixture
+def appointment_url(appointment):
+    appointment_path = reverse("appointment-detail", args=[appointment.uuid])
+    return urljoin("http://localhost", appointment_path)
