@@ -6,6 +6,7 @@ from appointments.models import Seat, EmailVerification
 from billing import models as bm
 from payments.prices import ProductType
 from payments.views import PayAppointmentView
+from feature_flags import use_feature_billing_details
 
 
 pay_appointment_view = PayAppointmentView.as_view()
@@ -16,6 +17,7 @@ def _authenticate_appointment(request, appointment):
     force_authenticate(request, token=appointment)
 
 
+@pytest.mark.skipif(not use_feature_billing_details, reason="Feature flag is not enabled")
 @pytest.mark.django_db
 def test_billing_details_creation(factory, appointment, appointment_url, seat):
     assert not bm.BillingDetail.objects.exists()
