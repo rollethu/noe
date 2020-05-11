@@ -11,6 +11,7 @@ from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
 from appointments.permissions import AppointmentPermission
 from appointments import email
+from billing import serializers as bs
 from .prices import calc_payments, PRODUCTS
 from . import models as m
 from . import serializers as s
@@ -54,6 +55,10 @@ class PayAppointmentView(generics.GenericAPIView):
         if appointment.seats.count() == 0:
             raise ValidationError({"appointment": "This appointment has no persons yet!"})
 
+        use_feature_billing_details = False
+        if use_feature_billing_details:
+            self._add_billing_details_to_appointment(appointment, request)
+
         payments, summary = calc_payments(appointment.seats.all(), product)
 
         # This is just a sanity check, so we don't calculate a wrong amount.
@@ -85,3 +90,8 @@ class PayAppointmentView(generics.GenericAPIView):
             if not seat.email:
                 raise ValidationError({"email": "Email field is required"})
             email.send_qrcode(seat)
+
+    def _add_billing_details_to_appointment(self, appointment, request):
+        serializer = bs.BillingDetailSerializer(data=request.data, context={"request": request})
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
