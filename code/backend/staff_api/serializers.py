@@ -1,7 +1,12 @@
+from django.utils.translation import gettext as _
 from rest_framework import serializers
+from rest_framework.exceptions import ValidationError
+
+from billing.services import send_invoice_to_seat
 from appointments.models import Location, Appointment, Seat
 from payments.models import Payment
 from samples.models import Sample
+from feature_flags import use_feature_billing_details
 
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
@@ -12,6 +17,21 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         ref_name = "Staff Payment"
         fields = ["url", "amount", "currency", "paid_at", "product_type", "payment_method_type", "proof_number"]
         read_only_fields = ["amount", "currency", "product_type"]
+
+    def update(self, instance, validated_data):
+        if use_feature_billing_details:
+            self._handle_paid_at(instance, validated_data)
+        return super().update(instance, validated_data)
+
+    def _handle_paid_at(self, payment, validated_data):
+        new_paid_at = validated_data.get("paid_at", False)
+        if new_paid_at is False:
+            return
+
+        if new_paid_at is not False and new_paid_at != payment.paid_at:
+            raise ValidationError({"paid_at": _("Paid at can not be changed")})
+
+        send_invoice_to_seat(payment.seat)
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
