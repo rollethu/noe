@@ -199,7 +199,7 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 16,
+        "x": 8,
         "y": 1
       },
       "id": 15,
@@ -270,7 +270,7 @@
       "gridPos": {
         "h": 6,
         "w": 4,
-        "x": 20,
+        "x": 12,
         "y": 1
       },
       "id": 16,
@@ -333,6 +333,78 @@
       "timeFrom": null,
       "timeShift": null,
       "title": "Seats taken D After Tomorrow",
+      "transparent": true,
+      "type": "stat"
+    },
+    {
+      "datasource": "PostgreSQL",
+      "description": "excluding today",
+      "gridPos": {
+        "h": 6,
+        "w": 4,
+        "x": 20,
+        "y": 1
+      },
+      "id": 24,
+      "options": {
+        "colorMode": "value",
+        "fieldOptions": {
+          "calcs": [
+            "mean"
+          ],
+          "defaults": {
+            "mappings": [],
+            "thresholds": {
+              "mode": "absolute",
+              "steps": [
+                {
+                  "color": "light-orange",
+                  "value": null
+                }
+              ]
+            }
+          },
+          "overrides": [],
+          "values": false
+        },
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto"
+      },
+      "pluginVersion": "6.7.3",
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW() + interval '1 day')",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "id"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "appointments_qrcode",
+          "timeColumn": "created_at",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "All future seats booked",
       "transparent": true,
       "type": "stat"
     },
@@ -596,79 +668,8 @@
       "datasource": "PostgreSQL",
       "gridPos": {
         "h": 4,
-        "w": 4,
-        "x": 12,
-        "y": 8
-      },
-      "id": 24,
-      "options": {
-        "colorMode": "value",
-        "fieldOptions": {
-          "calcs": [
-            "mean"
-          ],
-          "defaults": {
-            "mappings": [],
-            "thresholds": {
-              "mode": "absolute",
-              "steps": [
-                {
-                  "color": "light-orange",
-                  "value": null
-                }
-              ]
-            }
-          },
-          "overrides": [],
-          "values": false
-        },
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto"
-      },
-      "pluginVersion": "6.7.3",
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select \n  count(*)\nfrom appointments_qrcode  ",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "id"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "appointments_qrcode",
-          "timeColumn": "created_at",
-          "timeColumnType": "timestamptz",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "All future QR codes",
-      "transparent": true,
-      "type": "stat"
-    },
-    {
-      "datasource": "PostgreSQL",
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
+        "w": 3,
+        "x": 21,
         "y": 8
       },
       "id": 10,
@@ -989,5 +990,5 @@
   "variables": {
     "list": []
   },
-  "version": 39
+  "version": 41
 }
