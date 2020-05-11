@@ -1,8 +1,13 @@
+from unittest.mock import Mock
+
 import pytest
 from django.utils import timezone
+from rest_framework.exceptions import ValidationError
+
 from appointments.models import Seat
 from payments.models import Payment
 from .. import serializers as s
+import billing.services
 
 
 @pytest.mark.django_db
@@ -52,3 +57,53 @@ class TestAppointmentSerializer:
         payment2.save()
 
         assert ser.get_all_seats_paid(appointment) is True
+
+
+@pytest.mark.django_db
+class TestPaymentSerializer:
+    def test_no_paid_at_in_data(self, payment, monkeypatch):
+        mock_send = Mock()
+        monkeypatch.setattr(billing.services, "send_invoice_to_seat", mock_send)
+
+        ser = s.PaymentSerializer(payment, {}, partial=True)
+        ser.is_valid(raise_exception=True)
+        ser.save()
+        mock_send.assert_not_called()
+
+    def test_explicit_none_in_data(self, payment, monkeypatch):
+        mock_send = Mock()
+        monkeypatch.setattr(billing.services, "send_invoice_to_seat", mock_send)
+
+        ser = s.PaymentSerializer(payment, {"paid_at": None}, partial=True)
+        ser.is_valid(raise_exception=True)
+        ser.save()
+        mock_send.assert_not_called()
+
+    def test_explicit_none_but_already_set(self, payment):
+        payment.paid_at = timezone.now()
+        payment.save()
+
+        ser = s.PaymentSerializer(payment, {"paid_at": None}, partial=True)
+        ser.is_valid(raise_exception=True)
+        with pytest.raises(ValidationError):
+            ser.save()
+
+    def test_setting_value(self, seat, payment, monkeypatch):
+        mock_send = Mock()
+        monkeypatch.setattr(billing.services, "send_invoice_to_seat", mock_send)
+
+        ser = s.PaymentSerializer(payment, {"paid_at": timezone.now()}, partial=True)
+        ser.is_valid(raise_exception=True)
+        ser.save()
+
+        assert payment.seat == seat
+        mock_send.assert_called_with(seat)
+
+    def test_resetting_value_raises(self, seat, payment):
+        payment.paid_at = timezone.now()
+        payment.save()
+
+        ser = s.PaymentSerializer(payment, {"paid_at": timezone.now()}, partial=True)
+        ser.is_valid(raise_exception=True)
+        with pytest.raises(ValidationError):
+            ser.save()

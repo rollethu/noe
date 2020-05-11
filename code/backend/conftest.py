@@ -10,6 +10,7 @@ from rest_framework.authtoken.models import Token
 import pytest
 from appointments.models import Location, Appointment, Seat, QRCode, EmailVerification
 from payments.models import Payment
+from payments.prices import PRODUCTS, ProductType
 from users.models import User
 
 
@@ -97,7 +98,9 @@ def seat2(appointment):
 
 @pytest.fixture
 def payment(seat):
-    return Payment.objects.create(seat=seat, amount=10_000)
+    return Payment.objects.create(
+        seat=seat, amount=10_000, product_type=PRODUCTS[ProductType.NORMAL_EXAM].product_type
+    )
 
 
 @pytest.fixture
