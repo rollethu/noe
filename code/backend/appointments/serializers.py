@@ -74,7 +74,7 @@ class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
 
         appointment.start = start
         appointment.end = end
-        appointment.save()
+        appointment.save(update_fields=["start", "end"])
 
     def _validate_location_change(self, appointment, validated_data):
         current_location = appointment.location
