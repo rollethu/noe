@@ -15,7 +15,6 @@ from billing import serializers as bs
 from .prices import calc_payments, PRODUCTS
 from . import models as m
 from . import serializers as s
-from feature_flags import use_feature_billing_details
 
 
 class GetPriceView(generics.GenericAPIView):
@@ -56,8 +55,7 @@ class PayAppointmentView(generics.GenericAPIView):
         if appointment.seats.count() == 0:
             raise ValidationError({"appointment": "This appointment has no persons yet!"})
 
-        if use_feature_billing_details:
-            self._add_billing_details_to_appointment(appointment, request)
+        self._add_billing_details_to_appointment(appointment, request)
 
         payments, summary = calc_payments(appointment.seats.all(), product)
 

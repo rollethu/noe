@@ -6,7 +6,6 @@ from billing import services
 from appointments.models import Location, Appointment, Seat
 from payments.models import Payment
 from samples.models import Sample
-from feature_flags import use_feature_billing_details
 
 
 class PaymentSerializer(serializers.HyperlinkedModelSerializer):
@@ -19,8 +18,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         read_only_fields = ["amount", "currency", "product_type"]
 
     def update(self, instance, validated_data):
-        if use_feature_billing_details:
-            self._handle_paid_at(instance, validated_data)
+        self._handle_paid_at(instance, validated_data)
         return super().update(instance, validated_data)
 
     def _handle_paid_at(self, payment, validated_data):
