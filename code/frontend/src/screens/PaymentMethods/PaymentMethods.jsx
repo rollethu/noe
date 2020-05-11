@@ -29,7 +29,7 @@ TODO:
   endpoint, in one **atomic** action.
 
 */
-export const useFeatureBillingDetails = false;
+export const useFeatureBillingDetails = true;
 
 // Ordering matters. First is the default value.
 const products = [

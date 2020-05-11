@@ -1,1 +1,1 @@
-use_feature_billing_details = False
+use_feature_billing_details = True
