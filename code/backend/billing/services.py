@@ -1,3 +1,4 @@
+from decimal import Decimal, ROUND_HALF_UP
 from django.conf import settings
 from online_payments.billing.enums import Currency, VATRate
 from online_payments.billing.models import Item, Receipt, PaymentMethod, Invoice, Customer
@@ -9,17 +10,18 @@ from payments.prices import PRODUCTS
 
 def send_invoice_to_seat(seat):
     product = PRODUCTS[seat.payment.product_type]
-    net_price = product.amount / 1.27
-    vat_value = product.amount - net_price
+    net_price = product.amount / Decimal("1.27")
+    rounded_net_price = net_price.quantize(Decimal("0"), rounding=ROUND_HALF_UP)
+    vat_value = product.amount - rounded_net_price
     invoice_item = Item(
         name=product.product_type,
-        quantity=str(1),
+        quantity=1,
         unit="db",
-        net_unit_price=str(net_price),
-        net_price=str(net_price),
+        net_unit_price=rounded_net_price,
+        net_price=rounded_net_price,
         vat_rate=VATRate.PERCENT_27,
-        vat_value=str(vat_value),
-        gross_price=str(product.amount),
+        vat_value=vat_value,
+        gross_price=product.amount,
     )
     customer = Customer(
         name=seat.appointment.billing_detail.company_name,
