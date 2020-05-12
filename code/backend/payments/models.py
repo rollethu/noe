@@ -13,7 +13,7 @@ class Payment(models.Model):
     )
     payment_method_type = models.CharField(max_length=255, choices=PAYMENT_METHOD_TYPE_CHOICES)
     product_type = models.CharField(max_length=50, choices=PRODUCT_CHOICES)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=7, decimal_places=2)
     currency = models.CharField(max_length=3, default="HUF")
     created_at = models.DateTimeField(auto_now_add=True)
     paid_at = models.DateTimeField(
@@ -64,7 +64,7 @@ class SimplePayTransaction(models.Model):
     ]
 
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    amount = models.FloatField()
+    amount = models.DecimalField(max_digits=7, decimal_places=2)
     currency = models.CharField(max_length=3, default="HUF")
     external_reference_id = models.CharField(max_length=255, blank=True, default="")
     status = models.CharField(max_length=255, choices=STATUS_CHOICES, default=STATUS_CREATED)

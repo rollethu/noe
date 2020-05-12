@@ -11,7 +11,7 @@ class PaySerializer(serializers.Serializer):
     )
     product_type = serializers.ChoiceField(choices=PRODUCT_CHOICES)
 
-    total_price = serializers.FloatField()
+    total_price = serializers.DecimalField(max_digits=7, decimal_places=2)
     currency = serializers.CharField()
 
     class Meta:
@@ -25,5 +25,5 @@ class PaySerializer(serializers.Serializer):
 
 
 class GetPriceSerializer(PaySerializer):
-    total_price = serializers.FloatField(read_only=True)
+    total_price = serializers.DecimalField(read_only=True, max_digits=7, decimal_places=2)
     currency = serializers.CharField(read_only=True)

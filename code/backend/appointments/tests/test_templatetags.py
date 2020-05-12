@@ -1,3 +1,4 @@
+from decimal import Decimal
 import pytest
 from ..templatetags.money import format_money
 
@@ -8,10 +9,10 @@ from ..templatetags.money import format_money
         (100, "HUF", "100 Ft"),
         (26_990, "HUF", "26990 Ft"),
         (36_990, "HUF", "36990 Ft"),
-        (1234.5, "HUF", "1235 Ft"),
-        (1234.1, "HUF", "1234 Ft"),
+        (Decimal("1234.5"), "HUF", "1235 Ft"),
+        (Decimal("1234.1"), "HUF", "1234 Ft"),
         (0, "HUF", "0 Ft"),
-        (0.0, "HUF", "0 Ft"),
+        (Decimal("0.0"), "HUF", "0 Ft"),
     ],
 )
 def test_format_money(amount, currency, expected):

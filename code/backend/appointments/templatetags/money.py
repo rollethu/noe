@@ -1,4 +1,5 @@
 import math
+from decimal import Decimal, ROUND_HALF_UP
 from django import template
 
 register = template.Library()
@@ -8,14 +9,9 @@ LOCALIZED_CURRENCIES = {
 }
 
 
-def round_half_up(n, decimals=0):
-    multiplier = 10 ** decimals
-    return math.floor(n * multiplier + 0.5) / multiplier
-
-
 @register.simple_tag
-def format_money(amount: int, currency: str):
-    if not isinstance(amount, (int, float)):
+def format_money(amount: Decimal, currency: str):
+    if not isinstance(amount, (int, Decimal)):
         raise TypeError(f"Invalid amount: {amount}")
 
     if not isinstance(currency, str):
@@ -26,6 +22,6 @@ def format_money(amount: int, currency: str):
     except KeyError:
         raise ValueError(f"Invalid currency: {currency}")
 
-    rounded_amount = int(round_half_up(amount))
+    rounded_amount = Decimal(amount).quantize(Decimal(0), rounding=ROUND_HALF_UP)
 
     return f"{rounded_amount} {localized_currency}"
