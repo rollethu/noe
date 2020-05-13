@@ -1,4 +1,5 @@
 import enum
+from decimal import Decimal, ROUND_HALF_UP
 from dataclasses import dataclass
 from django.utils.translation import gettext as _
 from . import models as m
@@ -72,3 +73,11 @@ def calc_payments(seats, product: Product):
     }
 
     return payments, summary
+
+
+def round_price(amount, currency):
+    if currency == "HUF":
+        precision = Decimal("0")
+    else:
+        precision = Decimal("0.01")
+    return amount.quantize(precision, rounding=ROUND_HALF_UP)

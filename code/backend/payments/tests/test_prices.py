@@ -1,6 +1,7 @@
+from decimal import Decimal
 import pytest
 from appointments.models import Seat
-from ..prices import calc_payments, PRODUCTS, ProductType
+from ..prices import calc_payments, PRODUCTS, ProductType, round_price
 
 
 class TestCalculatePayments:
@@ -51,3 +52,23 @@ class TestCalculatePayments:
             "total_price": 53_980,
             "currency": "HUF",
         }
+
+
+@pytest.mark.parametrize(
+    "amount, currency, expected",
+    (
+        ("0", "HUF", "0"),
+        ("0.00", "HUF", "0"),
+        ("5.123", "HUF", "5"),
+        ("5.5", "HUF", "6"),
+        ("5.623", "HUF", "6"),
+        ("0", "USD", "0"),
+        ("0.0", "USD", "0"),
+        ("0.00", "USD", "0"),
+        ("5.623", "USD", "5.62"),
+        ("5.625", "USD", "5.63"),
+        ("5.636", "EUR", "5.64"),
+    ),
+)
+def test_round_price(amount, currency, expected):
+    assert round_price(Decimal(amount), currency) == Decimal(expected)
