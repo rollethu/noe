@@ -61,6 +61,11 @@ def api_user():
 
 
 @pytest.fixture
+def admin_user():
+    return User.objects.create_superuser("admin", "asdasdasd")
+
+
+@pytest.fixture
 def staff_api_client(api_user, api_client):
     token = Token.objects.create(user=api_user)
     api_client.credentials(HTTP_AUTHORIZATION="Token " + token.key)
