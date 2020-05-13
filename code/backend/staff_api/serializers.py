@@ -1,3 +1,4 @@
+from django.db import transaction
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -17,15 +18,16 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         fields = ["url", "amount", "currency", "paid_at", "product_type", "payment_method_type", "proof_number"]
         read_only_fields = ["amount", "currency", "product_type"]
 
+    @transaction.atomic
     def update(self, instance, validated_data):
-        self._handle_paid_at(instance, validated_data)
-        return super().update(instance, validated_data)
-
-    def _handle_paid_at(self, payment, validated_data):
         try:
-            payment_services.handle_paid_at(payment, validated_data)
+            payment_services.validate_paid_at(instance, validated_data)
         except ValueError as e:
-            raise ValidationError({"paid_at": e})
+            raise ValueError({"paid_at": e})
+
+        rv = super().update(instance, validated_data)
+        payment_services.handle_paid_at(instance, validated_data)
+        return rv
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):

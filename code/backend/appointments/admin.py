@@ -90,21 +90,20 @@ class PaymentAdminInlineForm(forms.ModelForm):
         exclude = ["simplepay_transaction"]
 
     def clean(self):
-        cleaned_data = super().clean()
-        payment = self.instance
-
         try:
-            payment_services.validate_paid_at(payment, cleaned_data)
+            payment_services.validate_paid_at(self.instance, self.cleaned_data)
         except ValueError as e:
             self.add_error("paid_at", e)
 
-    def save(self, commit):
-        try:
-            payment_services.handle_paid_at(self.instance, self.cleaned_data)
-        except ValueError:
-            pass  # is already handled in `.clean()`
+    # Is only called if something has changed and `.clean()` passed
+    def save(self, commit=True):
+        # Forms update `self.instance` during `.full_clean()`
+        # We want to know what is in the database to check diffs.
+        payment = Payment.objects.get(pk=self.instance.pk)
+        instance = super().save(commit)
+        payment_services.handle_paid_at(payment, self.cleaned_data)
 
-        return super().save(commit)
+        return instance
 
 
 class PaymentInline(admin.StackedInline):
