@@ -138,9 +138,6 @@ class SeatAdmin(admin.ModelAdmin):
     inlines = [SampleInline, PaymentInline, QrCodeInline]
     date_hierarchy = "created_at"
 
-    def save_model(self, request, obj, form, change):
-        super().save_model(request, obj, form, change)
-
     def appointment_location(self, obj=None):
         return obj.appointment.location.name
 
