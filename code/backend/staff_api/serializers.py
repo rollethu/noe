@@ -2,7 +2,7 @@ from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
 
-from billing import services
+from payments import services as payment_services
 from appointments.models import Location, Appointment, Seat
 from payments.models import Payment
 from samples.models import Sample
@@ -22,17 +22,10 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         return super().update(instance, validated_data)
 
     def _handle_paid_at(self, payment, validated_data):
-        new_paid_at = validated_data.get("paid_at", False)  # False to tell apart from explicit None
-        if new_paid_at is False:
-            return
-
-        if payment.paid_at and new_paid_at is not False:
-            raise ValidationError({"paid_at": _("Paid at can not be changed")})
-
-        if new_paid_at is None:
-            return
-
-        services.send_invoice_to_seat(payment.seat)
+        try:
+            payment_services._handle_paid_at(payment, validated_data)
+        except ValueError as e:
+            raise ValidationError(e)
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):

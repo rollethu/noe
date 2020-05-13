@@ -8,9 +8,9 @@ from . import models as m
 from payments.prices import PRODUCTS
 
 
+def send_invoice(seat):
     product = PRODUCTS[seat.payment.product_type]
     net_price = product.amount / Decimal("1.27")
-def send_invoice(seat):
     rounded_net_price = net_price.quantize(Decimal("0"), rounding=ROUND_HALF_UP)
     vat_value = product.amount - rounded_net_price
     invoice_item = Item(
