@@ -1,11 +1,14 @@
+from django import forms
 from django.contrib import admin
 from django.utils import timezone
 from django.utils.translation import gettext_lazy as _
 from django.utils.dateformat import time_format
 from django.templatetags.l10n import localize
+from django.core.exceptions import ValidationError as DjangoValidationError
 from billing import models as bm
 from samples.models import Sample
 from payments.models import Payment
+from payments import services as payment_services
 from . import models as m
 
 
@@ -81,9 +84,32 @@ class QrCodeInline(admin.TabularInline):
         return False
 
 
+class PaymentAdminInlineForm(forms.ModelForm):
+    class Meta:
+        model = Payment
+        exclude = ["simplepay_transaction"]
+
+    def clean(self):
+        cleaned_data = super().clean()
+        payment = self.instance
+
+        try:
+            payment_services.validate_paid_at(payment, cleaned_data)
+        except ValueError as e:
+            self.add_error("paid_at", e)
+
+    def save(self, commit):
+        try:
+            payment_services.handle_paid_at(self.instance, self.cleaned_data)
+        except ValueError:
+            pass  # is already handled in `.clean()`
+
+        return super().save(commit)
+
+
 class PaymentInline(admin.StackedInline):
     model = Payment
-    exclude = ["simplepay_transaction"]
+    form = PaymentAdminInlineForm
     readonly_fields = ["amount", "product_type", "payment_method_type", "currency"]
     fieldsets = (
         (None, {"fields": (("amount", "currency", "product_type", "payment_method_type"),)}),

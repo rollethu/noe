@@ -23,9 +23,9 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
 
     def _handle_paid_at(self, payment, validated_data):
         try:
-            payment_services._handle_paid_at(payment, validated_data)
+            payment_services.handle_paid_at(payment, validated_data)
         except ValueError as e:
-            raise ValidationError(e)
+            raise ValidationError({"paid_at": e})
 
 
 class AppointmentSerializer(serializers.HyperlinkedModelSerializer):
