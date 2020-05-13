@@ -11,6 +11,7 @@ import pytest
 from appointments.models import Location, Appointment, Seat, QRCode, EmailVerification
 from payments.models import Payment
 from payments.prices import PRODUCTS, ProductType
+from billing.models import BillingDetail
 from users.models import User
 
 
@@ -117,3 +118,15 @@ def datadir(request):
 def appointment_url(appointment):
     appointment_path = reverse("appointment-detail", args=[appointment.uuid])
     return urljoin("http://localhost", appointment_path)
+
+
+@pytest.fixture
+def billing_detail():
+    return BillingDetail(
+        company_name="Test Company",
+        country="Hungary",
+        address_line1="Test street 11.",
+        post_code="1234",
+        city="Budapest",
+        tax_number="123456789",
+    )
