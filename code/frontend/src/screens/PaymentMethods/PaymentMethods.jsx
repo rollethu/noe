@@ -78,7 +78,9 @@ export default function PaymentMethods() {
       return;
     }
 
-    handleOnSitePayment(billingDetailsValues, setError);
+    if (!useFeatureSimplePay || selectedPaymentMethod === CREDIT_CARD_ON_SITE) {
+      handleOnSitePayment(billingDetailsValues, setError);
+    }
   }
 
   async function handleOnSitePayment(billingDetailsValues, setError) {
