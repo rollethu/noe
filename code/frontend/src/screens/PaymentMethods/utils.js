@@ -1,10 +1,12 @@
+import { useFeatureSimplePay } from "../../featureFlags";
+
 export function makePaymentUpdateRequest(appointment, productID, billingDetailsValues, paymentMethod) {
   return {
     appointment: appointment.url,
     total_price: appointment.total_price,
     currency: appointment.currency,
     product_type: productID,
-    payment_method: paymentMethod, // useFeatureSimplePay; backend currently ignores
+    ...(useFeatureSimplePay ? { payment_method: paymentMethod } : {}),
     ...billingDetailsValues,
   };
 }
