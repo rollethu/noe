@@ -1,10 +1,5 @@
 import React from "react";
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route, Redirect } from "react-router-dom";
 
 import "./styles/styles.css";
 import { Provider as AppointmentProvider } from "./contexts/appointmentContext";
@@ -24,6 +19,7 @@ import Survey from "./screens/Survey/Survey";
 import Time from "./screens/Time/Time";
 import Checkout from "./screens/Checkout/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess/AppointmentSuccess";
+import PaymentStatus from "./screens/PaymentStatus/PaymentStatus";
 import { TopStripe } from "./UI";
 
 export const ROUTE_START = "/start";
@@ -37,6 +33,7 @@ export const ROUTE_TIME = "/idopont";
 export const ROUTE_PAYMENT_METHODS = "/fizetesi-mod";
 export const ROUTE_CHECKOUT = "/osszegzes";
 export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
+export const ROUTE_PAYMENT_STATUS = "/fizetes-status";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
@@ -56,14 +53,13 @@ function App() {
     { path: ROUTE_PAYMENT_METHODS, component: PaymentMethods },
     { path: ROUTE_CHECKOUT, component: Checkout },
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
+    { path: ROUTE_PAYMENT_STATUS, component: PaymentStatus },
   ];
 
   return (
     <div className="App">
       {process.env.NODE_ENV === "development" && <TopStripe>LOCAL</TopStripe>}
-      {process.env.REACT_APP_NODE_ENV === "staging" && (
-        <TopStripe>SANDBOX</TopStripe>
-      )}
+      {process.env.REACT_APP_NODE_ENV === "staging" && <TopStripe>SANDBOX</TopStripe>}
       <Router>
         <Nav routes={routes} />
         <Switch>
