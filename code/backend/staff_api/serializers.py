@@ -20,13 +20,14 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
 
     @transaction.atomic
     def update(self, instance, validated_data):
+        original_paid_at = instance.paid_at
         try:
-            payment_services.validate_paid_at(instance, validated_data)
+            payment_services.validate_paid_at(original_paid_at, validated_data)
         except ValueError as e:
             raise ValidationError({"paid_at": e})
 
         rv = super().update(instance, validated_data)
-        payment_services.handle_paid_at(instance, validated_data)
+        payment_services.handle_paid_at(original_paid_at, instance.seat, validated_data)
         return rv
 
 

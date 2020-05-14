@@ -91,7 +91,7 @@ class PaymentAdminInlineForm(forms.ModelForm):
 
     def clean(self):
         try:
-            payment_services.validate_paid_at(self.instance, self.cleaned_data)
+            payment_services.validate_paid_at(self.instance.paid_at, self.cleaned_data)
         except ValueError as e:
             self.add_error("paid_at", e)
 
@@ -100,9 +100,9 @@ class PaymentAdminInlineForm(forms.ModelForm):
         # Forms update `self.instance` during `.full_clean()`
         # We want to know what is in the database to check diffs.
         payment = Payment.objects.get(pk=self.instance.pk)
+        original_paid_at = payment.paid_at
         instance = super().save(commit)
-        payment_services.handle_paid_at(payment, self.cleaned_data)
-
+        payment_services.handle_paid_at(original_paid_at, instance.seat, self.cleaned_data)
         return instance
 
 

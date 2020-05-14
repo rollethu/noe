@@ -3,9 +3,9 @@ import datetime as dt
 
 import pytest
 
+from appointments.models import Seat
 from billing import services as billing_services
 from payments import services
-from payments.models import Payment
 
 DATE = dt.datetime(2020, 1, 1, 12)
 OTHER_DATE = dt.datetime(2020, 1, 1, 13)
@@ -24,8 +24,7 @@ OTHER_DATE = dt.datetime(2020, 1, 1, 13)
     ),
 )
 def test_validate_paid_at(original_paid_at, all_data, raises_error):
-    payment = Payment(paid_at=original_paid_at)
-    validate_func = lambda: services.validate_paid_at(payment, all_data)  # noqa
+    validate_func = lambda: services.validate_paid_at(original_paid_at, all_data)  # noqa
     if raises_error:
         pytest.raises(ValueError, validate_func)
     else:
@@ -48,8 +47,7 @@ def test_handle_paid_at(original_paid_at, all_data, should_send_invoice, monkeyp
     send_invoice_mock = Mock()
     monkeypatch.setattr(billing_services, "send_invoice", send_invoice_mock)
 
-    payment = Payment(paid_at=original_paid_at)
-    services.handle_paid_at(payment, all_data)
+    services.handle_paid_at(original_paid_at, Seat(), all_data)
 
     if should_send_invoice:
         send_invoice_mock.assert_called_once()
