@@ -100,9 +100,7 @@ export function Field({
           />
         </>
       )}
-      {(errorMessage || helpText) && (
-        <HelpBlock error>{errorMessage || helpText}</HelpBlock>
-      )}
+      {(errorMessage || helpText) && <HelpBlock error>{errorMessage || helpText}</HelpBlock>}
     </InputGroup>
   );
 }
@@ -216,12 +214,7 @@ export function Button({
     PaymentOption: paymentOption,
   });
   return (
-    <button
-      className={classes}
-      type={type || "button"}
-      onClick={onClick}
-      disabled={disabled}
-    >
+    <button className={classes} type={type || "button"} onClick={onClick} disabled={disabled}>
       {children}
     </button>
   );
@@ -381,12 +374,7 @@ export function Pill({ text, icon, info, success, error, to }) {
       // external link
       return (
         <div className="PillContainer">
-          <a
-            className={classes}
-            href={to}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
+          <a className={classes} href={to} target="_blank" rel="noopener noreferrer">
             <div className="Text">{text}</div>
             <div className="Circle">
               <Icon icon={iconClass} />
