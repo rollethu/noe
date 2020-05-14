@@ -13,24 +13,6 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 
-/*
-Toggles the use of BillingDetails form.
-
-Once it's turned on, both product and billing details are sent in one single
-request.
-
-* paymentUtils.makePaymentUpdateRequest
-* Render: BillingDetailsForm
-* Render: NextButton
-* Error handling in form submit
-
-TODO:
-* Backend should implement handling billing details in /pay-appointment/
-  endpoint, in one **atomic** action.
-
-*/
-export const useFeatureBillingDetails = true;
-
 // Ordering matters. First is the default value.
 const products = [
   { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true, price: 26990 },
@@ -95,9 +77,7 @@ export default function PaymentMethods() {
         alert("A regisztrációt nem sikerült véglegesíteni.");
         console.log(response.errors);
 
-        if (useFeatureBillingDetails) {
-          utils.setErrors(setError, response.errors);
-        }
+        utils.setErrors(setError, response.errors);
       }
     } else {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
@@ -122,12 +102,7 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      {useFeatureBillingDetails && <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />}
-      {!useFeatureBillingDetails && (
-        <NextButton toCenter onClick={onNextClick}>
-          Véglegesítés
-        </NextButton>
-      )}
+      <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>
   );
 }
