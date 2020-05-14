@@ -13,6 +13,13 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 
+const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
+const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
+const paymentMethodOptions = [
+  { text: "Fizetés a helyszínen bankkártyával", value: CREDIT_CARD_ON_SITE },
+  { text: "Online Fizetés", value: CREDIT_CARD_ONLINE },
+];
+
 // Ordering matters. First is the default value.
 const products = [
   { id: "NORMAL_EXAM", text: "Normál vizsgálat", isActive: true, price: 26990 },
