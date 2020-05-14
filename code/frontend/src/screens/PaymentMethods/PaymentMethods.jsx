@@ -14,11 +14,11 @@ import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Fi
 import BillingDetailsForm from "./BillingDetailsForm";
 import { useFeatureSimplePay } from "../../featureFlags";
 
-const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
-const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
-const paymentMethodOptions = [
-  { text: "Fizetés a helyszínen bankkártyával", value: CREDIT_CARD_ON_SITE },
+export const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
+export const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
+export const paymentMethodOptions = [
   { text: "Online Fizetés", value: CREDIT_CARD_ONLINE },
+  { text: "Fizetés a helyszínen bankkártyával", value: CREDIT_CARD_ON_SITE },
 ];
 
 // Ordering matters. First is the default value.
@@ -52,7 +52,10 @@ export default function PaymentMethods() {
   } = React.useContext(AppointmentContext);
   const { state } = React.useContext(SeatContext);
   const firstSeat = state.seats[0] || null;
-  const defaultValues = { product_type: selectedProductID || products[0].id };
+  const defaultValues = {
+    product_type: selectedProductID || products[0].id,
+    payment_method: CREDIT_CARD_ONLINE,
+  };
   const { register } = useForm({
     defaultValues,
   });
