@@ -12,7 +12,7 @@ OTHER_DATE = dt.datetime(2020, 1, 1, 13)
 
 
 @pytest.mark.parametrize(
-    "original_paid_at, all_data, raises_error",
+    "original_paid_at, submitted_data, raises_error",
     (
         (None, {}, False),
         (None, {"paid_at": None}, False),
@@ -23,8 +23,8 @@ OTHER_DATE = dt.datetime(2020, 1, 1, 13)
         (DATE, {"paid_at": OTHER_DATE}, True),
     ),
 )
-def test_validate_paid_at(original_paid_at, all_data, raises_error):
-    validate_func = lambda: services.validate_paid_at(original_paid_at, all_data)  # noqa
+def test_validate_paid_at(original_paid_at, submitted_data, raises_error):
+    validate_func = lambda: services.validate_paid_at(original_paid_at, submitted_data)  # noqa
     if raises_error:
         pytest.raises(ValueError, validate_func)
     else:
@@ -32,7 +32,7 @@ def test_validate_paid_at(original_paid_at, all_data, raises_error):
 
 
 @pytest.mark.parametrize(
-    "original_paid_at, all_data, should_send_invoice",
+    "original_paid_at, submitted_data, should_send_invoice",
     (
         (None, {}, False),
         (None, {"paid_at": None}, False),
@@ -43,11 +43,11 @@ def test_validate_paid_at(original_paid_at, all_data, raises_error):
         (DATE, {"paid_at": OTHER_DATE}, False),
     ),
 )
-def test_handle_paid_at(original_paid_at, all_data, should_send_invoice, monkeypatch):
+def test_handle_paid_at(original_paid_at, submitted_data, should_send_invoice, monkeypatch):
     send_invoice_mock = Mock()
     monkeypatch.setattr(billing_services, "send_invoice", send_invoice_mock)
 
-    services.handle_paid_at(original_paid_at, Seat(), all_data)
+    services.handle_paid_at(original_paid_at, Seat(), submitted_data)
 
     if should_send_invoice:
         send_invoice_mock.assert_called_once()
