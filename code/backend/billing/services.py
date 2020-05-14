@@ -1,3 +1,4 @@
+import logging
 from decimal import Decimal, ROUND_HALF_UP
 from django.conf import settings
 from online_payments.billing.enums import Currency, VATRate
@@ -5,6 +6,8 @@ from online_payments.billing.models import Item, Receipt, PaymentMethod, Invoice
 from online_payments.billing.szamlazzhu import Szamlazzhu
 from payments.prices import round_price, PRODUCTS
 from . import models as m
+
+logger = logging.getLogger(__name__)
 
 
 def send_invoice(seat):
@@ -25,4 +28,5 @@ def send_invoice(seat):
     )
     invoice = Invoice(items=product.items, payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
     szamlazzhu = Szamlazzhu(settings.SZAMLAZZHU_AGENT_KEY, Currency.HUF)
+    logger.info("Sending invoice to: %s", appointment.email)
     szamlazzhu.send_invoice(invoice, settings.SZAMLAZZHU_INVOICE_PREFIX)
