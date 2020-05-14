@@ -17,3 +17,7 @@ function setErrorFlagsOnResponse(response) {
   response.error = true;
   response.errors = response.data;
 }
+
+export function addStateToLocalStorage(state) {
+  localStorage.setItem("tesztallomasState", JSON.stringify(state));
+}
