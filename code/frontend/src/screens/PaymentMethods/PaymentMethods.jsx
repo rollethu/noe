@@ -111,7 +111,27 @@ export default function PaymentMethods() {
     }
   }
 
-  function handleOnlinePayment(billingDetailsValues, setError) {}
+  async function handleOnlinePayment(billingDetailsValues, setError) {
+    paymentUtils.addStateToLocalStorage({
+      locationState,
+      surveyState,
+      timeSlotState,
+      appointmentState,
+      seatState,
+    });
+
+    const url = consts.PAY_APPOINTMENT_URL;
+    const requestData = paymentUtils.makePaymentUpdateRequest(
+      appointment,
+      selectedProductID,
+      billingDetailsValues,
+      selectedPaymentMethod
+    );
+    const response = await axios.post(url, requestData);
+
+    const simplePayFormURL = response.data.form_url;
+    window.location.replace(simplePayFormURL);
+  }
 
   function onProductSelect(productID) {
     setProduct(productID);
