@@ -80,6 +80,8 @@ export default function PaymentMethods() {
 
     if (!useFeatureSimplePay || selectedPaymentMethod === CREDIT_CARD_ON_SITE) {
       handleOnSitePayment(billingDetailsValues, setError);
+    } else if (selectedPaymentMethod === CREDIT_CARD_ONLINE) {
+      handleOnlinePayment(billingDetailsValues, setError);
     }
   }
 
@@ -101,6 +103,8 @@ export default function PaymentMethods() {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
     }
   }
+
+  function handleOnlinePayment(billingDetailsValues, setError) {}
 
   function onProductSelect(productID) {
     setProduct(productID);
