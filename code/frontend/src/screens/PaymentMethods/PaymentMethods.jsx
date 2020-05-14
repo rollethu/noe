@@ -4,6 +4,7 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 
 import * as consts from "../../contexts/consts";
+import * as contextUtils from "../../contexts/utils";
 import * as paymentUtils from "./utils";
 import * as utils from "../../utils";
 import ProgressBarSVG from "../../assets/progressbar_5.svg";
@@ -112,7 +113,7 @@ export default function PaymentMethods() {
   }
 
   async function handleOnlinePayment(billingDetailsValues, setError) {
-    paymentUtils.addStateToLocalStorage({
+    contextUtils.addStateToLocalStorage({
       locationState,
       surveyState,
       timeSlotState,
