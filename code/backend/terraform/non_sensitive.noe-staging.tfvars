@@ -14,12 +14,14 @@ env_vars = {
   DJANGO_EMAIL_USE_TLS      = "true"
   DJANGO_DEFAULT_FROM_EMAIL = "no-reply@tesztallomas.hu"
   SENTRY_DSN_URL            = ""
+  SZAMLAZZHU_INVOICE_PREFIX = "TSZTP"
 }
 
 env_secrets = {
   DJANGO_SECRET_KEY          = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-staging/backend/django_secret_key"
   DJANGO_DATABASE_PASSWORD   = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-staging/backend/django_database_password"
   EMAIL_VERIFICATION_KEY     = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-staging/backend/email_verification_key"
+  SZAMLAZZHU_AGENT_KEY       = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-staging/backend/szamlazzhu_agent_key"
   DJANGO_EMAIL_HOST_USER     = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-user"
   DJANGO_EMAIL_HOST_PASSWORD = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-password"
 }
