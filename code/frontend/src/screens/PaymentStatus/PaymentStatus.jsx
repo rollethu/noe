@@ -14,7 +14,7 @@ export default function PaymentStatus() {
   React.useEffect(() => {
     pollId = setTimeout(() => {
       doPoll();
-    });
+    }, 3000);
     return () => {
       clearInterval(pollId);
     };
