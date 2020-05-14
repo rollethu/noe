@@ -81,7 +81,7 @@ export default function PaymentMethods() {
     handleOnSitePayment(billingDetailsValues, setError);
   }
 
-  function handleOnSitePayment(billingDetailsValues, setError) {
+  async function handleOnSitePayment(billingDetailsValues, setError) {
     const response = await axios.post(
       consts.PAY_APPOINTMENT_URL,
       paymentUtils.makePaymentUpdateRequest(appointment, selectedProductID, billingDetailsValues)
