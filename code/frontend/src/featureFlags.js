@@ -1,1 +1,1 @@
-export const useFeatureSimplePay = process.env.NODE_ENV === "development";
+export const useFeatureSimplePay = process.env.NODE_ENV !== "production";
