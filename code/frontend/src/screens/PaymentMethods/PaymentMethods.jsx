@@ -12,6 +12,7 @@ import { Context as AppointmentContext } from "../../contexts/appointmentContext
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
+import { useFeatureSimplePay } from "../../featureFlags";
 
 const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
 const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
@@ -96,6 +97,8 @@ export default function PaymentMethods() {
     fetchPrice({ appointment: appointment.url, product_type: productID });
   }
 
+  function onPaymentMethodChange(newPaymentMethod) {}
+
   return (
     <View>
       <Image src={ProgressBarSVG} />
@@ -109,6 +112,15 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
+      {useFeatureSimplePay && (
+        <Field
+          type="select"
+          options={paymentMethodOptions}
+          onChange={(newValue) => onPaymentMethodChange(newValue)}
+          register={register}
+          name="payment_method"
+        />
+      )}
       <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>
   );
