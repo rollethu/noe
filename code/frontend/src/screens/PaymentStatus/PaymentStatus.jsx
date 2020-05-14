@@ -21,7 +21,8 @@ export default function PaymentStatus() {
   });
 
   async function doPoll() {
-    const response = await fetchPaymentStatus();
+    // const response = await fetchPaymentStatus();
+    const response = null;
 
     if (response.error) {
       history.push("/payment-failed");
