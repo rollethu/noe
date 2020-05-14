@@ -14,7 +14,19 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as LocationContext } from "../../contexts/locationContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
 import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
-import { View, Caption, Text, Button, HighlightText, Image, NextButton, Form, Field } from "../../UI";
+import {
+  View,
+  Caption,
+  Text,
+  Button,
+  HighlightText,
+  Image,
+  NextButton,
+  Form,
+  Field,
+  InputGroup,
+  Toggle,
+} from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 import { useFeatureSimplePay } from "../../featureFlags";
 
@@ -157,13 +169,16 @@ export default function PaymentMethods() {
         name="product_type"
       />
       {useFeatureSimplePay && (
-        <Field
-          type="select"
-          options={paymentMethodOptions}
-          onChange={(newValue) => onPaymentMethodChange(newValue)}
-          register={register}
-          name="payment_method"
-        />
+        <InputGroup>
+          <Toggle
+            className="Light"
+            options={paymentMethodOptions}
+            onChange={(newValue) => onPaymentMethodChange(newValue)}
+            register={register}
+            name="payment_method"
+            defaultValue={CREDIT_CARD_ONLINE}
+          />
+        </InputGroup>
       )}
       <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>

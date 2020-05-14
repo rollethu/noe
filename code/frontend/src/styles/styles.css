@@ -160,6 +160,8 @@
   display: flex;
   background: #EBECEE;
   width: 100%; }
+  .Toggle.Light {
+    background: white; }
   .Toggle .Label {
     border-radius: 8px;
     flex: 1;
@@ -169,10 +171,18 @@
     margin-bottom: 0;
     padding: 10px;
     font-weight: 800;
-    color: #434551; }
+    color: #434551;
+    text-align: center; }
+    .Toggle .Label.Light {
+      background: white;
+      font-weight: normal; }
     .Toggle .Label.Active {
       background: #07185F;
       color: white; }
+      .Toggle .Label.Active.Light {
+        color: #1943EF;
+        background-color: #ECF0FD;
+        font-weight: 800; }
     .Toggle .Label input[type="radio"] {
       display: none; }
 

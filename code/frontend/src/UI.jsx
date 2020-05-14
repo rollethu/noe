@@ -323,12 +323,12 @@ export function Flex({ children }) {
   return <div className="Flex">{children}</div>;
 }
 
-export function Toggle({ options, value, register, name, defaultValue }) {
+export function Toggle({ options, value, register, name, defaultValue, className }) {
   const [state, setState] = React.useState(defaultValue);
   return (
-    <div className="Toggle">
+    <div className={classNames("Toggle", className)}>
       {options.map((option) => {
-        let classes = classNames("Option", { Active: option.value === state });
+        let classes = classNames("Option", className, { Active: option.value === state });
         return (
           <Label className={classes} key={`${name}-${option.value}`}>
             <input

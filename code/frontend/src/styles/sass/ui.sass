@@ -183,6 +183,9 @@
     background: $light-gray
     width: 100%
 
+    &.Light
+        background: white
+
     .Label
         border-radius: $space-size - 2px
         flex: 1
@@ -193,10 +196,20 @@
         padding: $space-size
         font-weight: 800
         color: $gray
+        text-align: center
+
+        &.Light
+            background: white
+            font-weight: normal
 
         &.Active
             background: $dark-blue
             color: white
+
+            &.Light
+                color: $blue
+                background-color: $light-blue
+                font-weight: 800
 
         input[type="radio"]
             display: none
