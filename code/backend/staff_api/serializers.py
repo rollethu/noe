@@ -23,7 +23,7 @@ class PaymentSerializer(serializers.HyperlinkedModelSerializer):
         try:
             payment_services.validate_paid_at(instance, validated_data)
         except ValueError as e:
-            raise ValueError({"paid_at": e})
+            raise ValidationError({"paid_at": e})
 
         rv = super().update(instance, validated_data)
         payment_services.handle_paid_at(instance, validated_data)
