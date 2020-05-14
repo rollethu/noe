@@ -51,8 +51,8 @@ export default function PaymentMethods() {
     setProduct,
   } = React.useContext(AppointmentContext);
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
-  const { state } = React.useContext(SeatContext);
-  const firstSeat = state.seats[0] || null;
+  const { state: seatState } = React.useContext(SeatContext);
+  const firstSeat = seatState.seats[0] || null;
   const defaultValues = {
     product_type: selectedProductID || products[0].id,
     payment_method: CREDIT_CARD_ONLINE,
