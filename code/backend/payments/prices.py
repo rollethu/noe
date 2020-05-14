@@ -1,7 +1,9 @@
 import enum
+from typing import List
 from decimal import Decimal, ROUND_HALF_UP
 from dataclasses import dataclass
 from django.utils.translation import gettext as _
+from online_payments.billing import Item, VATRate
 from . import models as m
 
 
@@ -36,15 +38,67 @@ class Product:
     amount: float
     currency: str
     payment_method_type: str
+    items: List[Item]
 
 
 PRODUCTS = {
-    ProductType.DOCTOR_REFERRAL: Product(ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE),
-    ProductType.NORMAL_EXAM: Product(ProductType.NORMAL_EXAM, 26_990, "HUF", PaymentMethodType.ON_SITE),
-    ProductType.PRIORITY_EXAM: Product(ProductType.PRIORITY_EXAM, 36_990, "HUF", PaymentMethodType.ON_SITE),
-    # ProductType.PRIORITY_EXAM_FRADI: Product(
-    #     ProductType.PRIORITY_EXAM_FRADI, 33_500, "HUF", PaymentMethodType.ON_SITE
-    # ),
+    ProductType.DOCTOR_REFERRAL: Product(ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE, items=[]),
+    ProductType.NORMAL_EXAM: Product(
+        ProductType.NORMAL_EXAM,
+        26_990,
+        "HUF",
+        PaymentMethodType.ON_SITE,
+        items=[
+            Item(
+                name=_("Laboratóriumi teszt - Alapcsomag (72 óra)"),
+                quantity=1,
+                unit="db",
+                net_price=17_000,
+                net_unit_price=17_000,
+                vat_rate=VATRate.PERCENT_0,
+                vat_value=0,
+                gross_price=17_000,
+            ),
+            Item(
+                name=_("Mintavételi csomag"),
+                quantity=1,
+                unit="db",
+                net_price=9514,
+                net_unit_price=9514,
+                vat_rate=VATRate.PERCENT_5,
+                vat_value=476,
+                gross_price=9_990,
+            ),
+        ],
+    ),
+    ProductType.PRIORITY_EXAM: Product(
+        ProductType.PRIORITY_EXAM,
+        36_990,
+        "HUF",
+        PaymentMethodType.ON_SITE,
+        items=[
+            Item(
+                name=_("Laboratóriumi teszt - Elsőbbségi (1 nap)"),
+                quantity=1,
+                unit="db",
+                net_price=17_000,
+                net_unit_price=17_000,
+                vat_rate=VATRate.PERCENT_0,
+                vat_value=0,
+                gross_price=17_000,
+            ),
+            Item(
+                name=_("Mintavételi csomag"),
+                quantity=1,
+                unit="db",
+                net_price=19_038,
+                net_unit_price=19_038,
+                vat_rate=VATRate.PERCENT_5,
+                vat_value=952,
+                gross_price=19_990,
+            ),
+        ],
+    ),
 }
 
 

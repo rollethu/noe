@@ -29,16 +29,28 @@ class TestSendInvoice:
         )
         send_invoice(seat)
 
-        item = Item(
-            name="NORMAL_EXAM",
+        item1 = Item(
+            name="Laboratóriumi teszt - Alapcsomag (72 óra)",
             quantity=1,
             unit="db",
-            net_unit_price=Decimal("79"),
-            net_price=Decimal("79"),
-            vat_rate=VATRate.PERCENT_27,
-            vat_value=Decimal("21"),
-            gross_price=100,
+            net_price=17_000,
+            net_unit_price=17_000,
+            vat_rate=VATRate.PERCENT_0,
+            vat_value=0,
+            gross_price=17_000,
         )
+
+        item2 = Item(
+            name="Mintavételi csomag",
+            quantity=1,
+            unit="db",
+            net_price=9514,
+            net_unit_price=9514,
+            vat_rate=VATRate.PERCENT_5,
+            vat_value=476,
+            gross_price=9_990,
+        )
+
         customer = Customer(
             name="Test Company",
             address="Test street 11.",
@@ -47,5 +59,5 @@ class TestSendInvoice:
             tax_number="123456789",
             email=email,
         )
-        invoice = Invoice(items=[item], payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
+        invoice = Invoice(items=[item1, item2], payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
         mock_send.assert_called_once_with(invoice, os.environ["SZAMLAZZHU_INVOICE_PREFIX"])
