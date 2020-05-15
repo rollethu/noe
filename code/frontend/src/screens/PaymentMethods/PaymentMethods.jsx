@@ -143,7 +143,11 @@ export default function PaymentMethods() {
     const response = await axios.post(url, requestData);
 
     const simplePayFormURL = response.data.form_url;
-    window.location.replace(simplePayFormURL);
+    const form = document.createElement("form");
+    form.setAttribute("action", simplePayFormURL);
+    form.setAttribute("method", "POST");
+    document.body.appendChild(form);
+    form.submit();
   }
 
   function onProductSelect(productID) {
