@@ -8,8 +8,8 @@ from .prices import PaymentMethodType, PAYMENT_METHOD_TYPE_CHOICES, PRODUCTS, PR
 class Payment(models.Model):
     uuid = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
     seat = models.OneToOneField("appointments.Seat", on_delete=models.SET_NULL, null=True)
-    simplepay_transaction = models.ForeignKey(
-        "SimplePayTransaction", on_delete=models.SET_NULL, blank=True, null=True, related_name="payments"
+    simplepay_transactions = models.ManyToManyField(
+        "SimplePayTransaction", blank=True, null=True, related_name="payments"
     )
     payment_method_type = models.CharField(max_length=255, choices=PAYMENT_METHOD_TYPE_CHOICES)
     product_type = models.CharField(max_length=50, choices=PRODUCT_CHOICES)

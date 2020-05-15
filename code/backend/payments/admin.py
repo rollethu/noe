@@ -7,7 +7,6 @@ class PaymentAdmin(admin.ModelAdmin):
     list_display = [
         "uuid",
         "amount",
-        "simplepay_transaction_id",
         "currency",
         "product_type",
         "payment_method_type",
@@ -28,9 +27,10 @@ class InlinePaymentAdmin(admin.TabularInline):
     extra = 1
 
 
-class SimplePayTransactionAdmin(admin.ModelAdmin):
-    inlines = [InlinePaymentAdmin]
+# class SimplePayTransactionAdmin(admin.ModelAdmin):
+#     inlines = [InlinePaymentAdmin]
 
 
 admin.site.register(m.Payment, PaymentAdmin)
-admin.site.register(m.SimplePayTransaction, SimplePayTransactionAdmin)
+# admin.site.register(m.SimplePayTransaction, SimplePayTransactionAdmin)
+admin.site.register(m.SimplePayTransaction)
