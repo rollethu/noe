@@ -266,7 +266,7 @@ export function Text({
   );
 }
 
-export function HighlightText({ children, center, ...props }) {
+export function HighlightText({ children, ...props }) {
   return (
     <Text highlight {...props}>
       {children}
