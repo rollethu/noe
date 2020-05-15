@@ -66,6 +66,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         fields = [
             "url",
             "full_name",
+            "birth_date",
             "identity_card_number",
             "has_doctor_referral",
             "healthcare_number",
