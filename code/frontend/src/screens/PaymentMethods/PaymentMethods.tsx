@@ -30,6 +30,8 @@ import {
 import BillingDetailsForm from "./BillingDetailsForm";
 import { useFeatureSimplePay } from "../../featureFlags";
 import { products } from "./products";
+import { AppointmentState } from "../../contexts/interfaces";
+import { Appointment } from "../../models";
 
 export const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
 export const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
@@ -49,7 +51,7 @@ export default function PaymentMethods() {
   const { state: surveyState } = React.useContext(SurveyContext);
   const { state: timeSlotState } = React.useContext(TimeSlotContext);
   const { state: appointmentState, updateAppointment, fetchPrice, setProduct } = React.useContext(AppointmentContext);
-  const { appointment, productId: selectedproductId } = appointmentState;
+  const { appointment, productId: selectedproductId } = appointmentState as AppointmentState;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
   const { state: seatState } = React.useContext(SeatContext);
   const firstSeat = seatState.seats[0] || null;
@@ -66,14 +68,16 @@ export default function PaymentMethods() {
       setProduct(products[0].id);
     }
 
-    fetchPrice({
-      appointment: appointment.url,
-      product_type: selectedproductId || products[0].id,
-    });
+    if (appointment) {
+      fetchPrice({
+        appointment: appointment.url,
+        product_type: selectedproductId || products[0].id,
+      });
+    }
   }, []);
 
   async function onNextClick(billingDetailsValues, setError) {
-    if (!appointment.url) {
+    if (!appointment) {
       alert("No appointment to update");
       return;
     }
@@ -88,7 +92,7 @@ export default function PaymentMethods() {
   async function handleOnSitePayment(billingDetailsValues, setError) {
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
-      appointment,
+      appointment as Appointment,
       selectedproductId,
       billingDetailsValues,
       selectedPaymentMethod
@@ -117,7 +121,7 @@ export default function PaymentMethods() {
 
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
-      appointment,
+      appointment as Appointment,
       selectedproductId,
       billingDetailsValues,
       selectedPaymentMethod
@@ -134,6 +138,11 @@ export default function PaymentMethods() {
 
   function onProductSelect(productId) {
     setProduct(productId);
+
+    if (!appointment) {
+      return;
+    }
+
     fetchPrice({ appointment: appointment.url, product_type: productId });
   }
 
@@ -141,11 +150,13 @@ export default function PaymentMethods() {
     setSelectedPaymentMethod(newPaymentMethod);
   }
 
+  const totalPrice = appointment ? paymentUtils.getTotalPriceDisplay(appointment) : "";
+
   return (
     <View>
       <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
-      <HighlightText toCenter>Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}</HighlightText>
+      <HighlightText toCenter>Fizetendő összeg: {totalPrice}</HighlightText>
       {/*
 // @ts-ignore */}
       <Text>Válassza ki a kívánt fizetési módot.</Text>
