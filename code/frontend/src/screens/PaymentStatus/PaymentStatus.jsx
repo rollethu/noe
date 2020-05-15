@@ -10,7 +10,7 @@ import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 
 export default function PaymentStatus() {
   const { history } = useHistory();
-  const { setState: setAppointmentState } = React.useContext(AppointmentContext);
+  const { setState: setAppointmentState, fetchPaymentStatus } = React.useContext(AppointmentContext);
   const { setState: setSeatState } = React.useContext(SeatContext);
   const { setState: setSurveyState } = React.useContext(AppointmentContext);
   let pollId = null;
@@ -31,8 +31,7 @@ export default function PaymentStatus() {
   });
 
   async function doPoll() {
-    // const response = await fetchPaymentStatus();
-    const response = null;
+    const response = await fetchPaymentStatus();
 
     if (response.error) {
       history.push("/payment-failed");

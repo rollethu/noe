@@ -165,6 +165,18 @@ const setState = (dispatch) => (newState) => {
   dispatch({ type: consts.SET_STATE, payload: newState });
 };
 
+export const fetchPaymentStatus = (dispatch) => async () => {
+  let response;
+
+  try {
+    response = await axios.get(consts.PAYMENT_STATUS_URL);
+  } catch (error) {
+    return { error: true, errors: error?.response?.data || [] };
+  }
+
+  return response;
+};
+
 export const { Provider, Context } = createContext(
   appointmentReducer,
   {
