@@ -51,12 +51,12 @@ export default function PaymentMethods() {
   const { state: surveyState } = React.useContext(SurveyContext);
   const { state: timeSlotState } = React.useContext(TimeSlotContext);
   const { state: appointmentState, updateAppointment, fetchPrice, setProduct } = React.useContext(AppointmentContext);
-  const { appointment, productId: selectedproductId } = appointmentState as AppointmentState;
+  const { appointment, productId: selectedProductId } = appointmentState as AppointmentState;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
   const { state: seatState } = React.useContext(SeatContext);
   const firstSeat = seatState.seats[0] || null;
   const defaultValues = {
-    product_type: selectedproductId || products[0].id,
+    product_type: selectedProductId || products[0].id,
     payment_method: CREDIT_CARD_ONLINE,
   };
   const { register } = useForm({
@@ -64,14 +64,14 @@ export default function PaymentMethods() {
   });
 
   React.useEffect(() => {
-    if (selectedproductId === null) {
+    if (selectedProductId === null) {
       setProduct(products[0].id);
     }
 
     if (appointment) {
       fetchPrice({
         appointment: appointment.url,
-        product_type: selectedproductId || products[0].id,
+        product_type: selectedProductId || products[0].id,
       });
     }
   }, []);
@@ -93,7 +93,7 @@ export default function PaymentMethods() {
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
       appointment as Appointment,
-      selectedproductId,
+      selectedProductId,
       billingDetailsValues,
       selectedPaymentMethod
     );
@@ -122,7 +122,7 @@ export default function PaymentMethods() {
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
       appointment as Appointment,
-      selectedproductId,
+      selectedProductId,
       billingDetailsValues,
       selectedPaymentMethod
     );
