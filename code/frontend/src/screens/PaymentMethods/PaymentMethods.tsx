@@ -11,22 +11,8 @@ import ProgressBarSVG from "../../assets/progressbar_5.svg";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
-import { Context as LocationContext } from "../../contexts/locationContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
-import { Context as TimeSlotContext } from "../../contexts/timeSlotContext";
-import {
-  View,
-  Caption,
-  Text,
-  Button,
-  HighlightText,
-  Image,
-  NextButton,
-  Form,
-  Field,
-  InputGroup,
-  Toggle,
-} from "../../UI";
+import { View, Caption, Text, HighlightText, Image, Field, InputGroup, Toggle } from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
 import { useFeatureSimplePay } from "../../featureFlags";
 import { products } from "./products";
@@ -47,10 +33,8 @@ const productOptions = products.map((p) => ({
 
 export default function PaymentMethods() {
   const history = useHistory();
-  const { state: locationState } = React.useContext(LocationContext);
   const { state: surveyState } = React.useContext(SurveyContext);
-  const { state: timeSlotState } = React.useContext(TimeSlotContext);
-  const { state: appointmentState, updateAppointment, fetchPrice, setProduct } = React.useContext(AppointmentContext);
+  const { state: appointmentState, fetchPrice, setProduct } = React.useContext(AppointmentContext);
   const { appointment, productId: selectedProductId } = appointmentState as AppointmentState;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
   const { state: seatState } = React.useContext(SeatContext);
