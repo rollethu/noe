@@ -97,11 +97,7 @@ export default function PaymentMethods() {
   }
 
   async function handleOnlinePayment(billingDetailsValues, setError) {
-    contextUtils.addStateToLocalStorage({
-      surveyState,
-      appointmentState,
-      seatState,
-    });
+    contextUtils.addStateToLocalStorage({ surveyState, appointmentState, seatState });
 
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
