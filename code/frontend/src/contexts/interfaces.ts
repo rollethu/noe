@@ -2,6 +2,7 @@ export interface AppointmentState {
   appointment: any;
   emailVerification: any;
   productId: any;
+  token: string; // Used for authorization during appointment session
 }
 
 export interface SeatState {

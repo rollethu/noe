@@ -16,6 +16,7 @@ export const initialState: AppointmentState = {
     error: null,
   },
   productId: null,
+  token: "",
 };
 
 const appointmentReducer = (state: AppointmentState, action) => {
@@ -36,6 +37,8 @@ const appointmentReducer = (state: AppointmentState, action) => {
           ...action.payload,
         },
       };
+    case consts.SET_TOKEN:
+      return { ...state, token: action.payload };
     case consts.SET_APPOINTMENT_PRICE:
       return {
         ...state,
@@ -106,6 +109,7 @@ export const verifyToken = (dispatch) => async (token) => {
     return { error: true, errors: error?.response?.data || [] };
   }
 
+  dispatch({ type: consts.SET_TOKEN, payload: token });
   setDefaultAuthorizationHeader(token);
   dispatch({
     type: consts.SET_APPOINTMENT,

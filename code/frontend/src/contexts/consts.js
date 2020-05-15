@@ -28,3 +28,4 @@ export const SET_NEW_SURVEY_ANSWERS = "SET_NEW_SURVEY_ANSWERS";
 export const SET_PRODUCT = "SET_PRODUCT";
 export const RESET_STATE = "RESET_STATE";
 export const SET_STATE = "SET_STATE";
+export const SET_TOKEN = "SET_TOKEN";
