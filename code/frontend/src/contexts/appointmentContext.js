@@ -3,9 +3,8 @@ import axios from "axios";
 import createContext from "./createContext";
 import * as consts from "./consts";
 import * as common from "./common";
-import { AppointmentState } from "./interfaces";
 
-export const initialState: AppointmentState = {
+export const initialState = {
   appointment: {
     url: null,
     email: null,
