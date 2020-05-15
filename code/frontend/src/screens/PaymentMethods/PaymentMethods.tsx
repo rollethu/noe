@@ -146,7 +146,11 @@ export default function PaymentMethods() {
       <Image src={ProgressBarSVG} />
       <Caption>Fizetési mód választás</Caption>
       <HighlightText toCenter>Fizetendő összeg: {paymentUtils.getTotalPriceDisplay(appointment)}</HighlightText>
+      {/*
+// @ts-ignore */}
       <Text>Válassza ki a kívánt fizetési módot.</Text>
+      {/*
+  // @ts-ignore */}
       <Field
         type="select"
         options={productOptions}
@@ -155,10 +159,12 @@ export default function PaymentMethods() {
         name="product_type"
       />
       {useFeatureSimplePay && (
+        // @ts-ignore
         <InputGroup>
           <Toggle
             className="Light"
             options={paymentMethodOptions}
+            // @ts-ignore
             onChange={(newValue) => onPaymentMethodChange(newValue)}
             register={register}
             name="payment_method"
