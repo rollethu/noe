@@ -150,7 +150,7 @@ const fetchPrice = (dispatch) => async (values) => {
   dispatch({
     type: consts.SET_APPOINTMENT_PRICE,
     payload: {
-      total_price: response.data.total_price,
+      totalPrice: response.data.total_price,
       currency: response.data.currency,
     },
   });

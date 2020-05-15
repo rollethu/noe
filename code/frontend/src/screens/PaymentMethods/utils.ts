@@ -1,9 +1,10 @@
 import { useFeatureSimplePay } from "../../featureFlags";
+import { Appointment } from "../../models";
 
-export function makePaymentUpdateRequest(appointment, productID, billingDetailsValues, paymentMethod) {
+export function makePaymentUpdateRequest(appointment: Appointment, productID, billingDetailsValues, paymentMethod) {
   return {
     appointment: appointment.url,
-    total_price: appointment.total_price,
+    total_price: appointment.totalPrice,
     currency: appointment.currency,
     product_type: productID,
     ...(useFeatureSimplePay ? { payment_method: paymentMethod } : {}),
@@ -11,7 +12,7 @@ export function makePaymentUpdateRequest(appointment, productID, billingDetailsV
   };
 }
 
-export function getTotalPriceDisplay(appointment) {
+export function getTotalPriceDisplay(appointment: Appointment) {
   if (!appointment.currency) {
     return "Ár nem elérhető!";
   }
@@ -21,5 +22,5 @@ export function getTotalPriceDisplay(appointment) {
     currency = "Ft";
   }
 
-  return `${appointment.total_price} ${currency}`;
+  return `${appointment.totalPrice} ${currency}`;
 }
