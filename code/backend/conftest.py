@@ -119,6 +119,15 @@ def transaction(payment):
 
 
 @pytest.fixture
+def transaction2(payment):
+    simplepay_transaction = SimplePayTransaction.objects.create(
+        amount="2222", currency="HUF", external_reference_id="", status=SimplePayTransaction.STATUS_CREATED
+    )
+    simplepay_transaction.payments.add(payment)
+    return simplepay_transaction
+
+
+@pytest.fixture
 def qr(seat):
     return QRCode.objects.create(seat=seat)
 
