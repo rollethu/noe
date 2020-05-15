@@ -4,6 +4,7 @@ import createContext from "./createContext";
 import * as consts from "./consts";
 import * as common from "./common";
 import { AppointmentState } from "./interfaces";
+import { setDefaultAuthorizationHeader } from "./utils";
 
 export const initialState: AppointmentState = {
   appointment: {
@@ -105,7 +106,7 @@ export const verifyToken = (dispatch) => async (token) => {
     return { error: true, errors: error?.response?.data || [] };
   }
 
-  axios.defaults.headers.common["Authorization"] = `Apptoken ${token}`;
+  setDefaultAuthorizationHeader(token);
   dispatch({
     type: consts.SET_APPOINTMENT,
     payload: {

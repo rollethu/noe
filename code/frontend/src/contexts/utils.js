@@ -1,3 +1,5 @@
+import axios from "axios";
+
 export async function handleRequest(requestCreator) {
   let response;
   try {
@@ -30,4 +32,8 @@ export function loadStateFromLocalStorage(setters) {
   setters.setSeatState(JSON.parse(localStorage.getItem("seatState")));
   setters.setSurveyState(JSON.parse(localStorage.getItem("surveyState")));
   localStorage.clear();
+}
+
+export function setDefaultAuthorizationHeader(token) {
+  axios.defaults.headers.common["Authorization"] = `Apptoken ${token}`;
 }
