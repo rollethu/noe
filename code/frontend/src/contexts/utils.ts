@@ -1,4 +1,5 @@
 import axios from "axios";
+import { AppointmentState } from "./interfaces";
 
 export async function handleRequest(requestCreator) {
   let response;
@@ -20,18 +21,18 @@ function setErrorFlagsOnResponse(response) {
   response.errors = response.data;
 }
 
-export function addStateToLocalStorage(state) {
+export function addStateToLocalStorage(states: any) {
   localStorage.clear();
-  localStorage.setItem("appointmentState", JSON.stringify(state.appointmentState));
-  localStorage.setItem("seatState", JSON.stringify(state.seatState));
-  localStorage.setItem("surveyState", JSON.stringify(state.surveyState));
+  localStorage.setItem("appointmentState", JSON.stringify(states.appointmentState));
+  localStorage.setItem("seatState", JSON.stringify(states.seatState));
+  localStorage.setItem("surveyState", JSON.stringify(states.surveyState));
 }
 
 export function loadStateFromLocalStorage(setters) {
-  const appointmentState = JSON.parse(localStorage.getItem("appointmentState"));
+  const appointmentState = JSON.parse(localStorage.getItem("appointmentState") || "{}");
   setters.setAppointmentState(appointmentState);
-  setters.setSeatState(JSON.parse(localStorage.getItem("seatState")));
-  setters.setSurveyState(JSON.parse(localStorage.getItem("surveyState")));
+  setters.setSeatState(JSON.parse(localStorage.getItem("seatState") || "{}"));
+  setters.setSurveyState(JSON.parse(localStorage.getItem("surveyState") || "{}"));
 
   localStorage.clear();
 
