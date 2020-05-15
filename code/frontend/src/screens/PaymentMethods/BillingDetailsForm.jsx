@@ -30,7 +30,7 @@ export default function BillingDetailsForm({ onSubmit, seat }) {
 
   function onIsCompanyChange(value) {
     if (value && !wasResetted) {
-      reset({ ...defaultValues, isCompany: true }); // Prevent resetting checkbox too
+      reset({ ...defaultValues, is_company: true }); // Prevent resetting checkbox too
       setWasResetted(true);
     }
   }
@@ -39,7 +39,7 @@ export default function BillingDetailsForm({ onSubmit, seat }) {
     <Form onSubmit={managedSubmit}>
       <Field
         type="checkbox"
-        name="isCompany"
+        name="is_company"
         register={register}
         label="Cég számára szeretnék áfás számlát igényelni."
         onChange={onIsCompanyChange}
@@ -89,7 +89,7 @@ export default function BillingDetailsForm({ onSubmit, seat }) {
         label="Adószám"
         placeholder="123456789"
         errors={errors}
-        required={watch("isCompany")}
+        required={watch("is_company")}
       />
       <Text small style={{ alignSelf: "flex-start" }}>
         * Helyszíni fizetés esetén a számla a tranzakció után kerül kiállításra.
