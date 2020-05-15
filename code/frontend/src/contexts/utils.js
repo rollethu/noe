@@ -19,7 +19,10 @@ function setErrorFlagsOnResponse(response) {
 }
 
 export function addStateToLocalStorage(state) {
-  localStorage.setItem("tesztallomasState", JSON.stringify(state));
+  localStorage.clear();
+  localStorage.setItem("appointmentState", JSON.stringify(state.appointmentState));
+  localStorage.setItem("seatState", JSON.stringify(state.seatState));
+  localStorage.setItem("surveyState", JSON.stringify(state.surveyState));
 }
 
 export function loadStateFromLocalStorage(setters) {

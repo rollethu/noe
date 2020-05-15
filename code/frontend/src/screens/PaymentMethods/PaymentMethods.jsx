@@ -126,9 +126,7 @@ export default function PaymentMethods() {
 
   async function handleOnlinePayment(billingDetailsValues, setError) {
     contextUtils.addStateToLocalStorage({
-      locationState,
       surveyState,
-      timeSlotState,
       appointmentState,
       seatState,
     });
