@@ -57,65 +57,39 @@ const appointmentReducer = (state, action) => {
 };
 
 const createAppointment = (dispatch) => async (values) => {
+  let response;
+
   try {
-    const response = await axios.post(consts.APPOINTMENT_LIST_URL, values);
-    dispatch({
-      type: consts.SET_TOKEN_VERIFICATION,
-      payload: { uuid: response.data.email_verification_uuid },
-    });
-    response.error = false;
-    return response;
+    response = await axios.post(consts.APPOINTMENT_LIST_URL, values);
   } catch (error) {
-    const { response } = error;
-    if (!response) {
-      return {
-        error: true,
-      };
-    }
-    response.error = true;
-    response.errors = response.data;
-    return response;
+    return { error: true, errors: error?.response?.data || [] };
   }
+
+  dispatch({
+    type: consts.SET_TOKEN_VERIFICATION,
+    payload: { uuid: response.data.email_verification_uuid },
+  });
+  return response;
 };
 
 const updateAppointment = (dispatch) => async (url, values) => {
+  let response;
+
   try {
-    const response = await axios.patch(url, values);
-    response.error = false;
-    dispatch({ type: consts.SET_APPOINTMENT, payload: response.data });
-    return response;
+    response = await axios.patch(url, values);
   } catch (error) {
-    const { response } = error;
-    if (!response) {
-      return {
-        error: true,
-      };
-    }
-    response.error = true;
-    response.errors = response.data;
-    return response;
+    return { error: true, errors: error?.response?.data || [] };
   }
+
+  dispatch({ type: consts.SET_APPOINTMENT, payload: response.data });
+  return response;
 };
 
 export const verifyToken = (dispatch) => async (token) => {
+  let response;
+
   try {
-    const response = await axios.post(consts.VERIFY_EMAIL_URL, {
-      token,
-    });
-    axios.defaults.headers.common["Authorization"] = `Apptoken ${token}`;
-    dispatch({
-      type: consts.SET_APPOINTMENT,
-      payload: {
-        url: response.data.appointment_url,
-        email: response.data.appointment_email,
-        isEmailVerified: true,
-      },
-    });
-    dispatch({
-      type: consts.SET_TOKEN_VERIFICATION,
-      payload: { error: null },
-    });
-    return response;
+    response = await axios.post(consts.VERIFY_EMAIL_URL, { token });
   } catch (error) {
     dispatch({
       type: consts.SET_APPOINTMENT,
@@ -127,43 +101,54 @@ export const verifyToken = (dispatch) => async (token) => {
       type: consts.SET_TOKEN_VERIFICATION,
       payload: { error: error.response.data },
     });
+    return { error: true, errors: error?.response?.data || [] };
   }
+
+  axios.defaults.headers.common["Authorization"] = `Apptoken ${token}`;
+  dispatch({
+    type: consts.SET_APPOINTMENT,
+    payload: {
+      url: response.data.appointment_url,
+      email: response.data.appointment_email,
+      isEmailVerified: true,
+    },
+  });
+  dispatch({
+    type: consts.SET_TOKEN_VERIFICATION,
+    payload: { error: null },
+  });
+  return response;
 };
 
 const resendEmailVerification = (dispatch) => async (uuid) => {
+  let response;
+
   try {
-    const response = await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, {
-      uuid,
-    });
-    response.error = false;
-    return response;
+    response = await axios.post(consts.RESEND_EMAIL_VERIFICATION_URL, { uuid });
   } catch (error) {
-    const { response } = error;
-    if (response === undefined) {
-      return { error: true };
-    }
-    response.error = true;
-    return response;
+    return { error: true, errors: error?.response?.data || [] };
   }
+
+  return response;
 };
 
 const fetchPrice = (dispatch) => async (values) => {
+  let response;
+
   try {
-    const response = await axios.post(consts.GET_PRICE_URL, values);
-    dispatch({
-      type: consts.SET_APPOINTMENT_PRICE,
-      payload: {
-        total_price: response.data.total_price,
-        currency: response.data.currency,
-      },
-    });
-    response.error = false;
-    return response;
+    response = await axios.post(consts.GET_PRICE_URL, values);
   } catch (error) {
-    const response = error.response;
-    response.error = true;
-    return response;
+    return { error: true, errors: error?.response?.data || [] };
   }
+
+  dispatch({
+    type: consts.SET_APPOINTMENT_PRICE,
+    payload: {
+      total_price: response.data.total_price,
+      currency: response.data.currency,
+    },
+  });
+  return response;
 };
 
 const setProduct = (dispatch) => (productId) => {
