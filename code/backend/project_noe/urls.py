@@ -67,6 +67,7 @@ api_urls = [
     path("verify/resend-email/", appointments.views.ResendVerifyEmailView.as_view()),
     path("get-price/", payments.views.GetPriceView.as_view()),
     path("pay-appointment/", payments.views.PayAppointmentView.as_view()),
+    path("payment-status/", payments.views.PaymentStatusView.as_view()),
     path("", include(swagger_urls)),
 ]
 
