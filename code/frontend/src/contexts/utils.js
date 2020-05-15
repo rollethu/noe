@@ -21,3 +21,10 @@ function setErrorFlagsOnResponse(response) {
 export function addStateToLocalStorage(state) {
   localStorage.setItem("tesztallomasState", JSON.stringify(state));
 }
+
+export function loadStateFromLocalStorage(setters) {
+  setters.setAppointmentState(JSON.parse(localStorage.getItem("appointmentState")));
+  setters.setSeatState(JSON.parse(localStorage.getItem("seatState")));
+  setters.setSurveyState(JSON.parse(localStorage.getItem("surveyState")));
+  localStorage.clear();
+}

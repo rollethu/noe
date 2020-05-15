@@ -44,6 +44,8 @@ const seatReducer = (state, action) => {
       };
     case consts.RESET_STATE:
       return initialState;
+    case consts.SET_STATE:
+      return action.payload;
     default:
       return state;
   }
@@ -118,6 +120,7 @@ export const { Provider, Context } = createContext(
     setActiveSeat,
     updateSeat,
     resetState: common.resetState,
+    setState: common.setState,
   },
   initialState
 );

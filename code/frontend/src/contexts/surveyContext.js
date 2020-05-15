@@ -41,23 +41,20 @@ const surveyReducer = (state, action) => {
     case consts.SET_ACTIVE_SURVEY_ANSWERS:
       newState = {
         ...state,
-        surveyAnswersForActiveSeat:
-          action.payload === null
-            ? null
-            : state.surveyAnswers[action.payload.seat],
+        surveyAnswersForActiveSeat: action.payload === null ? null : state.surveyAnswers[action.payload.seat],
       };
       return newState;
     case consts.RESET_STATE:
       return initialState;
+    case consts.SET_STATE:
+      return action.payload;
     default:
       return state;
   }
 };
 
 const fetchSurveyQuestions = (dispatch) => async () => {
-  const response = await utils.handleRequest(() =>
-    axios.get(consts.SURVEY_QUESTION_LIST_URL)
-  );
+  const response = await utils.handleRequest(() => axios.get(consts.SURVEY_QUESTION_LIST_URL));
 
   if (!response.error) {
     dispatch({ type: consts.SET_SURVEY_QUESTIONS, payload: response.data });
@@ -76,9 +73,7 @@ function groupAnswersBySeat(answers) {
 }
 
 export const sendSurveyAnswers = (dispatch) => async (values) => {
-  const response = await utils.handleRequest(() =>
-    axios.post(consts.SURVEY_ANSWER_LIST_URL, values)
-  );
+  const response = await utils.handleRequest(() => axios.post(consts.SURVEY_ANSWER_LIST_URL, values));
 
   if (!response.error) {
     dispatch({
@@ -92,10 +87,7 @@ export const sendSurveyAnswers = (dispatch) => async (values) => {
 
 export const updateSurveyAnswers = (dispatch) => async (surveyAnswerList) => {
   try {
-    const response = await axios.put(
-      consts.SURVEY_ANSWER_LIST_URL,
-      surveyAnswerList
-    );
+    const response = await axios.put(consts.SURVEY_ANSWER_LIST_URL, surveyAnswerList);
     dispatch({
       type: consts.SET_NEW_SURVEY_ANSWERS,
       payload: groupAnswersBySeat(surveyAnswerList),
@@ -134,6 +126,7 @@ export const { Provider, Context } = createContext(
     setActiveSurveyAnswers,
     updateSurveyAnswers,
     resetState: common.resetState,
+    setState: common.setState,
   },
   initialState
 );

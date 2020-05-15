@@ -1,20 +1,30 @@
 import React from "react";
 import { View } from "../../UI";
+import { useHistory } from "react-router-dom";
 
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as surveyContext } from "../../contexts/surveyContext";
+import * as contextUtils from "../../contexts/utils";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
-import { useHistory } from "react-router-dom";
 
 export default function PaymentStatus() {
   const { history } = useHistory();
+  const { setState: setAppointmentState } = React.useContext(AppointmentContext);
+  const { setState: setSeatState } = React.useContext(SeatContext);
+  const { setState: setSurveyState } = React.useContext(AppointmentContext);
   let pollId = null;
 
   React.useEffect(() => {
-    pollId = setTimeout(() => {
+    pollId = setInterval(() => {
       doPoll();
     }, 3000);
+    const setters = {
+      setAppointmentState,
+      setSeatState,
+      setSurveyState,
+    };
+    contextUtils.loadStateFromLocalStorage(setters);
     return () => {
       clearInterval(pollId);
     };
@@ -34,7 +44,7 @@ export default function PaymentStatus() {
     if (paymentStatus === "SUCCESS") {
       history.push(ROUTE_APPOINTMENT_SUCCESS);
     } else if (paymentStatus === "PENDING") {
-      return; // let the poll continue
+      return; // continue polling
     } else {
       history.push("/payment-failed");
     }

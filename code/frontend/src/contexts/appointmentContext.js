@@ -49,6 +49,8 @@ const appointmentReducer = (state, action) => {
       };
     case consts.RESET_STATE:
       return initialState;
+    case consts.SET_STATE:
+      return action.payload;
     default:
       return state;
   }
@@ -178,6 +180,7 @@ export const { Provider, Context } = createContext(
     fetchPrice,
     setProduct,
     resetState: common.resetState,
+    setState: common.setState,
   },
   initialState
 );
