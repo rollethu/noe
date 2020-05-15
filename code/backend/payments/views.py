@@ -116,4 +116,4 @@ class PaymentStatusView(generics.GenericAPIView):
             payment_status = "SUCCESS"
         elif last_transaction.status == last_transaction.STATUS_WAITING_FOR_AUTHORIZATION:
             payment_status = "PENDING"
-        return Response({"status": payment_status})
+        return Response({"payment_status": payment_status})

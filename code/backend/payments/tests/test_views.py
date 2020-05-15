@@ -241,7 +241,7 @@ class TestPaymentStatusView:
         _authenticate_appointment(request, appointment)
         rv = payment_status_view(request)
         assert rv.status_code == status.HTTP_200_OK
-        assert rv.data["status"] == "PENDING"
+        assert rv.data["payment_status"] == "PENDING"
 
     @pytest.mark.django_db
     def test_finds_correct_transaction(self, factory, appointment, seat, payment, transaction, transaction2):
@@ -252,4 +252,4 @@ class TestPaymentStatusView:
         _authenticate_appointment(request, appointment)
         rv = payment_status_view(request)
         assert rv.status_code == status.HTTP_200_OK
-        assert rv.data["status"] == "SUCCESS"
+        assert rv.data["payment_status"] == "SUCCESS"
