@@ -156,6 +156,10 @@ const setProduct = (dispatch) => (productId) => {
   dispatch({ type: consts.SET_PRODUCT, payload: productId });
 };
 
+const setState = (dispatch) => (newState) => {
+  dispatch({ type: consts.SET_STATE, payload: newState });
+};
+
 export const { Provider, Context } = createContext(
   appointmentReducer,
   {
@@ -165,8 +169,8 @@ export const { Provider, Context } = createContext(
     resendEmailVerification,
     fetchPrice,
     setProduct,
+    setState,
     resetState: common.resetState,
-    setState: common.setState,
   },
   initialState
 );
