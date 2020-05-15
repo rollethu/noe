@@ -3,8 +3,9 @@ import axios from "axios";
 import createContext from "./createContext";
 import * as consts from "./consts";
 import * as common from "./common";
+import { AppointmentState } from "./interfaces";
 
-export const initialState = {
+export const initialState: AppointmentState = {
   appointment: {
     url: null,
     email: null,
@@ -16,7 +17,7 @@ export const initialState = {
   productId: null,
 };
 
-const appointmentReducer = (state, action) => {
+const appointmentReducer = (state: AppointmentState, action) => {
   switch (action.type) {
     case consts.SET_APPOINTMENT:
       return {
