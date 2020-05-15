@@ -8,11 +8,7 @@ import { setDefaultAuthorizationHeader } from "./utils";
 import { jsonToAppointment } from "../models";
 
 export const initialState: AppointmentState = {
-  appointment: {
-    url: null,
-    email: null,
-    isEmailVerified: null,
-  },
+  appointment: null,
   emailVerification: {
     error: null,
   },

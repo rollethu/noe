@@ -1,5 +1,7 @@
+import { Appointment } from "../models";
+
 export interface AppointmentState {
-  appointment: any;
+  appointment: Appointment | null;
   emailVerification: any;
   productId: any;
   token: string; // Used for authorization during appointment session
