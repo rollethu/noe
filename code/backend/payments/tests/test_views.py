@@ -5,12 +5,13 @@ from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
 from appointments.models import Seat, EmailVerification, QRCode
-from ..views import GetPriceView, PayAppointmentView
+from ..views import GetPriceView, PayAppointmentView, PaymentStatusView
 from ..prices import ProductType
 from .. import models as m
 
 get_price_view = GetPriceView.as_view()
 pay_appointment_view = PayAppointmentView.as_view()
+payment_status_view = PaymentStatusView.as_view()
 
 
 @pytest.fixture
@@ -216,3 +217,28 @@ class TestPayAppointmentView:
 
         qr = QRCode.objects.get()
         assert qr.code == qr._calc_code()
+
+
+class TestPaymentStatusView:
+    def test_without_auth(self, factory):
+        request = factory.get("/fake-url")
+        rv = payment_status_view(request)
+        assert rv.status_code == status.HTTP_403_FORBIDDEN
+
+    @pytest.mark.django_db
+    def test_with_auth_without_resources(self, factory, appointment):
+        request = factory.get("/fake-url")
+        _authenticate_appointment(request, appointment)
+        rv = payment_status_view(request)
+        assert rv.status_code == status.HTTP_400_BAD_REQUEST
+
+    @pytest.mark.django_db
+    def test_pending(self, factory, appointment, seat, payment, transaction):
+        transaction.status = transaction.STATUS_WAITING_FOR_AUTHORIZATION
+        transaction.save()
+
+        request = factory.get("/fake-url")
+        _authenticate_appointment(request, appointment)
+        rv = payment_status_view(request)
+        assert rv.status_code == status.HTTP_200_OK
+        assert rv.data["status"] == "PENDING"

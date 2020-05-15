@@ -93,3 +93,27 @@ class PayAppointmentView(generics.GenericAPIView):
         serializer = bs.BillingDetailSerializer(data=request.data, context={"request": request})
         serializer.is_valid(raise_exception=True)
         serializer.save()
+
+
+class PaymentStatusView(generics.GenericAPIView):
+    authentication_classes = [AppointmentAuthentication]
+    permission_classes = [AppointmentPermission]
+
+    def get(self, request, *args, **kwargs):
+        appointment = request.auth
+
+        try:
+            first_seat = appointment.seats.first()
+            first_payment = first_seat.payment
+            last_transaction = first_payment.simplepay_transactions.order_by("created_at").last()
+            if last_transaction is None:
+                raise AttributeError
+        except AttributeError:
+            return Response({"error": True}, status=status.HTTP_400_BAD_REQUEST)
+
+        payment_status = "ERROR"
+        if last_transaction.status == last_transaction.STATUS_COMPLETED:
+            payment_status = "SUCCESS"
+        elif last_transaction.status == last_transaction.STATUS_WAITING_FOR_AUTHORIZATION:
+            payment_status = "PENDING"
+        return Response({"status": payment_status})

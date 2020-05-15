@@ -9,7 +9,7 @@ from rest_framework.test import APIRequestFactory, APIClient
 from rest_framework.authtoken.models import Token
 import pytest
 from appointments.models import Location, Appointment, Seat, QRCode, EmailVerification
-from payments.models import Payment
+from payments.models import Payment, SimplePayTransaction
 from payments.prices import PRODUCTS, ProductType
 from billing.models import BillingDetail
 from users.models import User
@@ -107,6 +107,15 @@ def payment(seat):
     return Payment.objects.create(
         seat=seat, amount=10_000, product_type=PRODUCTS[ProductType.NORMAL_EXAM].product_type
     )
+
+
+@pytest.fixture
+def transaction(payment):
+    simplepay_transaction = SimplePayTransaction.objects.create(
+        amount="1000", currency="HUF", external_reference_id="", status=SimplePayTransaction.STATUS_CREATED
+    )
+    simplepay_transaction.payments.add(payment)
+    return simplepay_transaction
 
 
 @pytest.fixture
