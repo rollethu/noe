@@ -86,27 +86,26 @@ export default function PaymentMethods() {
   }
 
   async function handleOnSitePayment(billingDetailsValues, setError) {
-    const response = await axios.post(
-      consts.PAY_APPOINTMENT_URL,
-      paymentUtils.makePaymentUpdateRequest(
-        appointment,
-        selectedproductId,
-        billingDetailsValues,
-        selectedPaymentMethod
-      )
+    const url = consts.PAY_APPOINTMENT_URL;
+    const requestData = paymentUtils.makePaymentUpdateRequest(
+      appointment,
+      selectedproductId,
+      billingDetailsValues,
+      selectedPaymentMethod
     );
-    if (response.error) {
-      if (!response.errors) {
+    try {
+      await axios.post(url, requestData);
+    } catch (error) {
+      if (!error.response) {
         alert("Váratlan hiba történt.");
-      } else {
-        alert("A regisztrációt nem sikerült véglegesíteni.");
-        console.log(response.errors);
-
-        utils.setErrors(setError, response.errors);
+        return;
       }
-    } else {
-      history.push(ROUTE_APPOINTMENT_SUCCESS);
+      utils.setErrors(setError, error.response.data);
+      alert("A regisztrációt nem sikerült véglegesíteni.");
+      return;
     }
+
+    history.push(ROUTE_APPOINTMENT_SUCCESS);
   }
 
   async function handleOnlinePayment(billingDetailsValues, setError) {
