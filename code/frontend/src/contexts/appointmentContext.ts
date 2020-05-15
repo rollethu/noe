@@ -5,6 +5,7 @@ import * as consts from "./consts";
 import * as common from "./common";
 import { AppointmentState } from "./interfaces";
 import { setDefaultAuthorizationHeader } from "./utils";
+import { jsonToAppointment } from "../models";
 
 export const initialState: AppointmentState = {
   appointment: {
@@ -24,10 +25,7 @@ const appointmentReducer = (state: AppointmentState, action) => {
     case consts.SET_APPOINTMENT:
       return {
         ...state,
-        appointment: {
-          ...state.appointment,
-          ...action.payload,
-        },
+        appointment: jsonToAppointment(action.payload),
       };
     case consts.SET_TOKEN_VERIFICATION:
       return {
