@@ -28,10 +28,14 @@ export function addStateToLocalStorage(state) {
 }
 
 export function loadStateFromLocalStorage(setters) {
-  setters.setAppointmentState(JSON.parse(localStorage.getItem("appointmentState")));
+  const appointmentState = JSON.parse(localStorage.getItem("appointmentState"));
+  setters.setAppointmentState(appointmentState);
   setters.setSeatState(JSON.parse(localStorage.getItem("seatState")));
   setters.setSurveyState(JSON.parse(localStorage.getItem("surveyState")));
+
   localStorage.clear();
+
+  setDefaultAuthorizationHeader(appointmentState?.token);
 }
 
 export function setDefaultAuthorizationHeader(token) {
