@@ -244,17 +244,6 @@ class TestPaymentStatusView:
         assert rv.data["status"] == "PENDING"
 
     @pytest.mark.django_db
-    def test_pending(self, factory, appointment, seat, payment, transaction):
-        transaction.status = transaction.STATUS_WAITING_FOR_AUTHORIZATION
-        transaction.save()
-
-        request = factory.get("/fake-url")
-        _authenticate_appointment(request, appointment)
-        rv = payment_status_view(request)
-        assert rv.status_code == status.HTTP_200_OK
-        assert rv.data["status"] == "PENDING"
-
-    @pytest.mark.django_db
     def test_finds_correct_transaction(self, factory, appointment, seat, payment, transaction, transaction2):
         transaction2.status = transaction.STATUS_COMPLETED
         transaction2.save()
