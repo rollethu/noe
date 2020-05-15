@@ -13,7 +13,7 @@ export const initialState = {
   emailVerification: {
     error: null,
   },
-  productID: null,
+  productId: null,
 };
 
 const appointmentReducer = (state, action) => {
@@ -45,7 +45,7 @@ const appointmentReducer = (state, action) => {
     case consts.SET_PRODUCT:
       return {
         ...state,
-        productID: action.payload,
+        productId: action.payload,
       };
     case consts.RESET_STATE:
       return initialState;
@@ -166,8 +166,8 @@ const fetchPrice = (dispatch) => async (values) => {
   }
 };
 
-const setProduct = (dispatch) => (productID) => {
-  dispatch({ type: consts.SET_PRODUCT, payload: productID });
+const setProduct = (dispatch) => (productId) => {
+  dispatch({ type: consts.SET_PRODUCT, payload: productId });
 };
 
 export const { Provider, Context } = createContext(

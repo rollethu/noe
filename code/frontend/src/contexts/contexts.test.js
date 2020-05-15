@@ -14,7 +14,7 @@ test("Appointment initial state is empty", () => {
     emailVerification: {
       error: null,
     },
-    productID: null,
+    productId: null,
   };
   expect(appointmentInitialState).toStrictEqual(expected);
 });

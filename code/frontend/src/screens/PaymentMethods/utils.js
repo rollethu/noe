@@ -1,11 +1,11 @@
 import { useFeatureSimplePay } from "../../featureFlags";
 
-export function makePaymentUpdateRequest(appointment, productID, billingDetailsValues, paymentMethod) {
+export function makePaymentUpdateRequest(appointment, productId, billingDetailsValues, paymentMethod) {
   return {
     appointment: appointment.url,
     total_price: appointment.total_price,
     currency: appointment.currency,
-    product_type: productID,
+    product_type: productId,
     ...(useFeatureSimplePay ? { payment_method: paymentMethod } : {}),
     ...billingDetailsValues,
   };

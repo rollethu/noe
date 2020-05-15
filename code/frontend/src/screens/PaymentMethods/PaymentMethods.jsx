@@ -64,12 +64,12 @@ export default function PaymentMethods() {
   const { state: surveyState } = React.useContext(SurveyContext);
   const { state: timeSlotState } = React.useContext(TimeSlotContext);
   const { state: appointmentState, updateAppointment, fetchPrice, setProduct } = React.useContext(AppointmentContext);
-  const { appointment, productID: selectedProductID } = appointmentState;
+  const { appointment, productId: selectedproductId } = appointmentState;
   const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
   const { state: seatState } = React.useContext(SeatContext);
   const firstSeat = seatState.seats[0] || null;
   const defaultValues = {
-    product_type: selectedProductID || products[0].id,
+    product_type: selectedproductId || products[0].id,
     payment_method: CREDIT_CARD_ONLINE,
   };
   const { register } = useForm({
@@ -77,13 +77,13 @@ export default function PaymentMethods() {
   });
 
   React.useEffect(() => {
-    if (selectedProductID === null) {
+    if (selectedproductId === null) {
       setProduct(products[0].id);
     }
 
     fetchPrice({
       appointment: appointment.url,
-      product_type: selectedProductID || products[0].id,
+      product_type: selectedproductId || products[0].id,
     });
   }, []);
 
@@ -105,7 +105,7 @@ export default function PaymentMethods() {
       consts.PAY_APPOINTMENT_URL,
       paymentUtils.makePaymentUpdateRequest(
         appointment,
-        selectedProductID,
+        selectedproductId,
         billingDetailsValues,
         selectedPaymentMethod
       )
@@ -134,7 +134,7 @@ export default function PaymentMethods() {
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
       appointment,
-      selectedProductID,
+      selectedproductId,
       billingDetailsValues,
       selectedPaymentMethod
     );
@@ -148,9 +148,9 @@ export default function PaymentMethods() {
     form.submit();
   }
 
-  function onProductSelect(productID) {
-    setProduct(productID);
-    fetchPrice({ appointment: appointment.url, product_type: productID });
+  function onProductSelect(productId) {
+    setProduct(productId);
+    fetchPrice({ appointment: appointment.url, product_type: productId });
   }
 
   function onPaymentMethodChange(newPaymentMethod) {
