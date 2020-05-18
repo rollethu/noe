@@ -6,7 +6,7 @@ from . import models as m
 
 
 class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
-    is_company = serializers.BooleanField(write_only=True)
+    is_company = serializers.BooleanField(write_only=True, default=False)
 
     class Meta:
         model = m.BillingDetail
