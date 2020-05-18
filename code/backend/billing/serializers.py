@@ -4,6 +4,8 @@ from . import models as m
 
 
 class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
+    is_company = serializers.BooleanField(write_only=True)
+
     class Meta:
         model = m.BillingDetail
         fields = [
@@ -16,4 +18,5 @@ class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
             "state",
             "city",
             "tax_number",
+            "is_company",
         ]
