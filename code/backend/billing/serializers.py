@@ -1,3 +1,5 @@
+from django.utils.translation import gettext as _
+from rest_framework.exceptions import ValidationError
 from rest_framework import serializers
 
 from . import models as m
@@ -21,3 +23,9 @@ class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
             "is_company",
         ]
         extra_kwargs = {"tax_number": {"required": False}}
+
+    def create(self, validated_data):
+        is_company = validated_data.pop("is_company", False)
+        if is_company and not validated_data.get("tax_number"):
+            raise ValidationError({"tax_number": _("This field is required.")})
+        return super().create(validated_data)

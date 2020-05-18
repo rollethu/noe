@@ -218,6 +218,24 @@ class TestPayAppointmentView:
         qr = QRCode.objects.get()
         assert qr.code == qr._calc_code()
 
+    def test_tax_number_is_optional_if_not_company(self, pay_appointment_body, factory, appointment, seat):
+        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body.pop("tax_number", None)
+        request = factory.post("/api/pay-appointment/", pay_appointment_body)
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+        assert res.status_code == status.HTTP_200_OK, res.data
+
+    def test_tax_number_is_required_if_company(self, pay_appointment_body, factory, appointment, seat):
+        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body.pop("tax_number", None)
+        pay_appointment_body["is_company"] = True
+        request = factory.post("/api/pay-appointment/", pay_appointment_body)
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+        assert res.status_code == status.HTTP_400_BAD_REQUEST
+        assert "tax_number" in res.data
+
 
 class TestPaymentStatusView:
     def test_without_auth(self, factory):
