@@ -22,7 +22,7 @@ class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
             "tax_number",
             "is_company",
         ]
-        extra_kwargs = {"tax_number": {"required": False}}
+        extra_kwargs = {"tax_number": {"required": False, "allow_blank": True}}
 
     def create(self, validated_data):
         is_company = validated_data.pop("is_company", False)

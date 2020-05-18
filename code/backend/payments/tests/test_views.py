@@ -226,6 +226,14 @@ class TestPayAppointmentView:
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_200_OK, res.data
 
+    def test_tax_number_is_optional_if_not_company2(self, pay_appointment_body, factory, appointment, seat):
+        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["tax_number"] = ""
+        request = factory.post("/api/pay-appointment/", pay_appointment_body, format="json")
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+        assert res.status_code == status.HTTP_200_OK, res.data
+
     def test_tax_number_is_required_if_company(self, pay_appointment_body, factory, appointment, seat):
         pay_appointment_body["total_price"] = 26_990
         pay_appointment_body.pop("tax_number", None)
