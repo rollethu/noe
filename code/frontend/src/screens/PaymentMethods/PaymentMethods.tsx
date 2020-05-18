@@ -89,7 +89,6 @@ export default function PaymentMethods() {
         return;
       }
       utils.setErrors(setError, error.response.data);
-      alert("A regisztrációt nem sikerült véglegesíteni.");
       return;
     }
 
