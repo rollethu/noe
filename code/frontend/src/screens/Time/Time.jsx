@@ -27,8 +27,11 @@ export default function Time() {
     state: { timeSlots },
     fetchTimeSlots,
   } = React.useContext(TimeSlotContext);
-  const locationUuid = utils.getResourceUuidFromUrl(appointment.location);
-  const filters = { location: locationUuid, min_availability: seats.length };
+
+  const filters = { location: null, min_availability: seats.length };
+  if (appointment) {
+    filters.location = utils.getResourceUuidFromUrl(appointment.location);
+  }
 
   const onSubmit = async (values, setError) => {
     delete values.date;
@@ -66,8 +69,8 @@ export default function Time() {
       <Image src={ProgressBarSVG} />
       <Caption>Időpont foglalás</Caption>
       <Text>
-        Válassza ki a mintavétel időpontját. A forgalmi rend fenntartása
-        érdekében kérjük, hogy max. 10 perccel korábban érkezzen a helyszínre.
+        Válassza ki a mintavétel időpontját. A forgalmi rend fenntartása érdekében kérjük, hogy max. 10 perccel
+        korábban érkezzen a helyszínre.
       </Text>
       <TimeForm
         onSubmit={onSubmit}
