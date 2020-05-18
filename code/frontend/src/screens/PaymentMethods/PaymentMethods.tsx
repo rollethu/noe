@@ -19,11 +19,11 @@ import { products } from "./products";
 import { AppointmentState } from "../../contexts/interfaces";
 import { Appointment } from "../../models";
 
-export const CREDIT_CARD_ON_SITE = "CREDIT_CARD_ON_SITE";
-export const CREDIT_CARD_ONLINE = "CREDIT_CARD_ONLINE";
+export const ON_SITE = "ON_SITE";
+export const SIMPLEPAY = "SIMPLEPAY";
 export const paymentMethodOptions = [
-  { text: "Online Fizetés", value: CREDIT_CARD_ONLINE },
-  { text: "Fizetés a helyszínen bankkártyával", value: CREDIT_CARD_ON_SITE },
+  { text: "Online Fizetés", value: SIMPLEPAY },
+  { text: "Fizetés a helyszínen bankkártyával", value: ON_SITE },
 ];
 
 const productOptions = products.map((p) => ({
@@ -36,12 +36,12 @@ export default function PaymentMethods() {
   const { state: surveyState } = React.useContext(SurveyContext);
   const { state: appointmentState, fetchPrice, setProduct } = React.useContext(AppointmentContext);
   const { appointment, productId: selectedProductId } = appointmentState as AppointmentState;
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(CREDIT_CARD_ONLINE);
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(SIMPLEPAY);
   const { state: seatState } = React.useContext(SeatContext);
   const firstSeat = seatState.seats[0] || null;
   const defaultValues = {
     product_type: selectedProductId || products[0].id,
-    payment_method: CREDIT_CARD_ONLINE,
+    payment_method: SIMPLEPAY,
   };
   const { register } = useForm({
     defaultValues,
@@ -66,7 +66,7 @@ export default function PaymentMethods() {
       return;
     }
 
-    if (useFeatureSimplePay && selectedPaymentMethod === CREDIT_CARD_ONLINE) {
+    if (useFeatureSimplePay && selectedPaymentMethod === SIMPLEPAY) {
       handleOnlinePayment(billingDetailsValues, setError);
     } else {
       handleOnSitePayment(billingDetailsValues, setError);
@@ -160,7 +160,7 @@ export default function PaymentMethods() {
             onChange={(newValue) => onPaymentMethodChange(newValue)}
             register={register}
             name="payment_method"
-            defaultValue={CREDIT_CARD_ONLINE}
+            defaultValue={SIMPLEPAY}
           />
         </InputGroup>
       )}

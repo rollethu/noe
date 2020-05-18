@@ -14,7 +14,7 @@ import { Provider as SeatProvider } from "../../contexts/seatContext";
 import { Provider as SurveyProvider } from "../../contexts/surveyContext";
 import { Provider as TimeSlotProvider } from "../../contexts/timeSlotContext";
 import { Provider as LocationProvider } from "../../contexts/locationContext";
-import PaymentMethods, { CREDIT_CARD_ONLINE } from "./PaymentMethods";
+import PaymentMethods, { SIMPLEPAY } from "./PaymentMethods";
 
 test("Online Payment is the default value", () => {
   const wrapper = mount(
@@ -31,5 +31,5 @@ test("Online Payment is the default value", () => {
     </SurveyProvider>
   );
   const activePaymentMethod = wrapper.find("label.Active").find("input");
-  expect(activePaymentMethod.props().value).toBe(CREDIT_CARD_ONLINE);
+  expect(activePaymentMethod.props().value).toBe(SIMPLEPAY);
 });
