@@ -6,15 +6,12 @@ test("Appointment initial state is empty", () => {
   // It's common to prefill appointment during testing.
   // To prevent this going to production, here is this test
   const expected = {
-    appointment: {
-      url: null,
-      email: null,
-      isEmailVerified: null,
-    },
+    appointment: null,
     emailVerification: {
       error: null,
     },
     productId: null,
+    token: "",
   };
   expect(appointmentInitialState).toStrictEqual(expected);
 });

@@ -30,6 +30,6 @@ test("Online Payment is the default value", () => {
       </TimeSlotProvider>
     </SurveyProvider>
   );
-  const paymentMethodField = wrapper.find('select[name="payment_method"]');
-  expect(paymentMethodField.getDOMNode().value).toBe(CREDIT_CARD_ONLINE);
+  const activePaymentMethod = wrapper.find("label.Active").find("input");
+  expect(activePaymentMethod.props().value).toBe(CREDIT_CARD_ONLINE);
 });

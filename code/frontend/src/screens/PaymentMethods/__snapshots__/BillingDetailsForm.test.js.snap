@@ -10,12 +10,12 @@ exports[`Matches snapshot 1`] = `
   >
     <label
       className="Label NoMargin "
-      htmlFor="isCompany"
+      htmlFor="is_company"
     >
       <input
         className="Input Inline"
-        id="isCompany"
-        name="isCompany"
+        id="is_company"
+        name="is_company"
         onChange={[Function]}
         type="checkbox"
       />
