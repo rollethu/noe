@@ -152,6 +152,8 @@ export default function PaymentMethods() {
       {useFeatureSimplePay && (
         // @ts-ignore
         <InputGroup>
+          {/*
+  // @ts-ignore */}
           <Toggle
             className="Light"
             options={paymentMethodOptions}

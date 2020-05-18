@@ -323,7 +323,7 @@ export function Flex({ children }) {
   return <div className="Flex">{children}</div>;
 }
 
-export function Toggle({ options, value, register, name, defaultValue, className }) {
+export function Toggle({ options, value, register, name, defaultValue, className, onChange }) {
   const [state, setState] = React.useState(defaultValue);
   return (
     <div className={classNames("Toggle", className)}>
@@ -336,7 +336,10 @@ export function Toggle({ options, value, register, name, defaultValue, className
               name={name}
               value={option.value}
               ref={register()}
-              onChange={(e) => setState(option.value)}
+              onChange={(e) => {
+                setState(option.value);
+                (onChange || (() => {}))(option.value);
+              }}
               defaultChecked={option.value === defaultValue}
             />
             {option.text}
