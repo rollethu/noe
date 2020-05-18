@@ -1,13 +1,5 @@
 import React from "react";
-import {
-  View,
-  Caption,
-  Text,
-  DataRow,
-  IconButton,
-  NextLinkButton,
-  Button,
-} from "../../UI";
+import { View, Caption, Text, DataRow, IconButton, NextLinkButton, Button } from "../../UI";
 import * as checkoutUtils from "./utils";
 import { ROUTE_PAYMENT_METHODS } from "../../App";
 
@@ -27,7 +19,7 @@ export default function CheckoutContent({
       <Caption center>Összegzés</Caption>
       <DataRow>
         <Text light>Regisztrált jármű</Text>
-        <Text dark>{appointment.licence_plate}</Text>
+        <Text dark>{appointment.licencePlate}</Text>
       </DataRow>
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
@@ -37,7 +29,7 @@ export default function CheckoutContent({
       </DataRow>
       <DataRow>
         <Text light>Mintavétel helyszíne</Text>
-        <Text dark>{appointment.location_name}</Text>
+        <Text dark>{appointment.locationName}</Text>
       </DataRow>
       {seats.map((seat) => (
         <div className="CheckoutSeat" key={seat.url}>
@@ -45,12 +37,7 @@ export default function CheckoutContent({
             {seat.full_name}
             {seat.has_doctor_referral && " - Beutalo"}
             <IconButton icon="pencil" onClick={() => onSeatEditClick(seat)} />
-            {shouldShowDeleteButtons && (
-              <IconButton
-                icon="close"
-                onClick={() => onSeatDeleteClick(seat)}
-              />
-            )}
+            {shouldShowDeleteButtons && <IconButton icon="close" onClick={() => onSeatDeleteClick(seat)} />}
           </Text>
           <DataRow>
             <Text light>Születési dátum</Text>
@@ -85,13 +72,7 @@ export default function CheckoutContent({
         </div>
       ))}
       <NextLinkButton toCenter to={ROUTE_PAYMENT_METHODS} />
-      <Button
-        id="AddSeatButton"
-        onClick={onNewSeatClick}
-        toCenter
-        inverse
-        disabled={isAddSeatDisabled}
-      >
+      <Button id="AddSeatButton" onClick={onNewSeatClick} toCenter inverse disabled={isAddSeatDisabled}>
         Új személy hozzáadása
       </Button>
     </View>

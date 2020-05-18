@@ -30,7 +30,7 @@ export default function Checkout() {
     if (!appointment) {
       return;
     }
-    fetchSelectedTimeSlot(appointment.time_slot);
+    fetchSelectedTimeSlot(appointment.timeSlotUrl);
   }, []);
 
   function onSeatEditClick(seat) {
