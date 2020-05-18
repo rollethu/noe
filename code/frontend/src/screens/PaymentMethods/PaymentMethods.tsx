@@ -66,10 +66,10 @@ export default function PaymentMethods() {
       return;
     }
 
-    if (!useFeatureSimplePay || selectedPaymentMethod === CREDIT_CARD_ON_SITE) {
-      handleOnSitePayment(billingDetailsValues, setError);
-    } else if (selectedPaymentMethod === CREDIT_CARD_ONLINE) {
+    if (useFeatureSimplePay && selectedPaymentMethod === CREDIT_CARD_ONLINE) {
       handleOnlinePayment(billingDetailsValues, setError);
+    } else {
+      handleOnSitePayment(billingDetailsValues, setError);
     }
   }
 
