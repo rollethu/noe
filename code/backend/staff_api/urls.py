@@ -16,5 +16,6 @@ staff_router.register("samples", views.SampleViewSet, basename="staff-sample")
 
 urlpatterns = [
     re_path(r"login/", views.LoginView.as_view()),
+    path("traffic-control/<licence_plate>/", views.TrafficControlView.as_view()),
     path("", include(staff_router.urls)),
 ]

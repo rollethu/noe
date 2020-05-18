@@ -1,13 +1,17 @@
+import random
+import datetime as dt
 from django.urls import reverse as django_reverse
 from django.shortcuts import redirect
+from django.utils import timezone
 from django.core.exceptions import ObjectDoesNotExist, MultipleObjectsReturned
-from rest_framework import routers, viewsets, mixins
+from rest_framework import routers, viewsets, mixins, generics
 from rest_framework.exceptions import AuthenticationFailed, PermissionDenied
 from rest_framework.authtoken.views import ObtainAuthToken
 from rest_framework.authtoken.models import Token
 from rest_framework.response import Response
 from rest_framework.reverse import reverse
 from appointments.models import Appointment, Seat, QRCode
+from appointments.licence_plates import get_normalized_licence_plate
 from payments.models import Payment
 from samples.models import Sample
 from . import serializers as s
@@ -78,3 +82,15 @@ class SampleViewSet(
     permission_classes = [StaffApiPermissions]
     queryset = Sample.objects.all()
     serializer_class = s.SampleSerializer
+
+
+class TrafficControlView(generics.GenericAPIView):
+    queryset = Appointment.objects.all()
+    permission_classes = [StaffApiPermissions]
+    lookup_field = "licence_plate"
+
+    def get(self, request, *args, **kwargs):
+        normalized = get_normalized_licence_plate(kwargs["licence_plate"])
+        # TODO: This will be fixed later. for now, we only need the field to be present
+        is_paid = random.choice([True, False])
+        return Response({"normalized_licence_plate": normalized, "is_paid": is_paid})
