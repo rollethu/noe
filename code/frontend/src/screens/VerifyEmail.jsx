@@ -17,11 +17,11 @@ export default function VerifyEmail(props) {
     verifyToken(queryParams.get("token"));
   }, []);
 
-  if (appointment.url && appointment.email && appointment.isEmailVerified) {
+  if (appointment?.url && appointment?.email && appointment?.isEmailVerified) {
     return <EmailVerificationSuccess />;
-  } else if (appointment.isEmailVerified === false) {
+  } else if (appointment?.isEmailVerified === false) {
     return <EmailVerificationFailure error={emailVerification.error} />;
-  } else if (appointment.isEmailVerified === true) {
+  } else if (appointment?.isEmailVerified === true) {
     // verified appointment without email or url is a server error
     alert("Unexpected error occured.");
   }

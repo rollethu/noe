@@ -15,6 +15,7 @@ export interface Appointment {
   timeSlotUrl: string | null;
   totalPrice?: number;
   currency?: string;
+  isEmailVerified?: boolean;
 }
 
 export function jsonToAppointment(jsonObj: any): Appointment {
@@ -31,5 +32,6 @@ export function jsonToAppointment(jsonObj: any): Appointment {
     end: jsonObj.end ? moment(jsonObj.end) : null,
     isRegistrationCompleted: jsonObj.is_registration_completed,
     timeSlotUrl: jsonObj.time_slot,
+    isEmailVerified: jsonObj.isEmailVerified,
   };
 }
