@@ -1,5 +1,6 @@
 const mockResetState = jest.fn();
 jest.mock("../../contexts/common", () => ({
+  ...jest.requireActual("../../contexts/common"),
   resetState: () => mockResetState,
 }));
 
@@ -10,19 +11,16 @@ import AppointmentSuccess from "./AppointmentSuccess";
 import { Provider as AppointmentProvider } from "../../contexts/appointmentContext";
 import { Provider as SeatProvider } from "../../contexts/seatContext";
 import { Provider as SurveyProvider } from "../../contexts/surveyContext";
-import { Provider as TimeSlotProvider } from "../../contexts/timeSlotContext";
 
 test("AppointmentSuccess resets all states", () => {
   mount(
     <AppointmentProvider>
       <SeatProvider>
         <SurveyProvider>
-          <TimeSlotProvider>
-            <AppointmentSuccess />
-          </TimeSlotProvider>
+          <AppointmentSuccess />
         </SurveyProvider>
       </SeatProvider>
     </AppointmentProvider>
   );
-  expect(mockResetState).toHaveBeenCalledTimes(4);
+  expect(mockResetState).toHaveBeenCalledTimes(3);
 });
