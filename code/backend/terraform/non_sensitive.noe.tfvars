@@ -20,6 +20,7 @@ env_secrets = {
   DJANGO_SECRET_KEY         = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_secret_key"
   DJANGO_DATABASE_PASSWORD  = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_database_password"
   EMAIL_VERIFICATION_KEY    = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/email_verification_key"
+  SZAMLAZZHU_AGENT_KEY       = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/szamlazzhu_agent_key"
   DJANGO_EMAIL_HOST_USER     = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-user"
   DJANGO_EMAIL_HOST_PASSWORD = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-password"
   SENTRY_DSN_URL             = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/sentry_dsn_url"
