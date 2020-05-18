@@ -7,6 +7,7 @@ export interface Appointment {
   gtc: string;
   privacyPolicy: string;
   locationUrl: string;
+  locationName: string;
   licencePlate: string;
   normalizedLicencePlate: string;
   start: moment.Moment | null;
@@ -26,6 +27,7 @@ export function jsonToAppointment(jsonObj: any): Appointment {
     gtc: jsonObj.gtc,
     privacyPolicy: jsonObj.privacy_policy,
     locationUrl: jsonObj.location || "",
+    locationName: jsonObj.location_name || "",
     licencePlate: jsonObj.licence_plate,
     normalizedLicencePlate: jsonObj.normalized_licence_plate,
     start: jsonObj.start ? moment(jsonObj.start) : null,
