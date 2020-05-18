@@ -30,7 +30,7 @@ export default function Time() {
 
   const filters = { location: null, min_availability: seats.length };
   if (appointment) {
-    filters.location = utils.getResourceUuidFromUrl(appointment.location);
+    filters.location = utils.getResourceUuidFromUrl(appointment.locationUrl);
   }
 
   const onSubmit = async (values, setError) => {
