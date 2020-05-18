@@ -20,3 +20,4 @@ class BillingDetailSerializer(serializers.HyperlinkedModelSerializer):
             "tax_number",
             "is_company",
         ]
+        extra_kwargs = {"tax_number": {"required": False}}
