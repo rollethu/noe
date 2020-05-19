@@ -38,13 +38,14 @@ export default function PaymentStatus() {
       return;
     }
 
-    clearInterval(pollId);
     const { payment_status: paymentStatus } = response.data;
     if (paymentStatus === "SUCCESS") {
+      clearInterval(pollId);
       history.push(ROUTE_APPOINTMENT_SUCCESS);
     } else if (paymentStatus === "PENDING") {
       return; // continue polling
     } else {
+      clearInterval(pollId);
       history.push("/payment-failed");
     }
   }
