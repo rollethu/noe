@@ -147,6 +147,10 @@ class TestPayAppointmentView:
         assert appointment.is_registration_completed is False
         assert QRCode.objects.count() == 0
         assert len(mail.outbox) == 0
+        assert m.SimplePayTransaction.objects.exists()
+        transaction = m.SimplePayTransaction.objects.first()
+        assert transaction.external_reference_id
+        assert transaction in seat.payment.simplepay_transactions.all()
 
     def test_pay_multiple_seats_different_email(self, appointment, pay_appointment_body, factory):
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email="seat@email.com")

@@ -96,9 +96,17 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
         m.Payment.objects.bulk_create(payments)
 
         if serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
+            transaction = self._create_transaction(summary["total_price"], summary["currency"])
             res = simplepay.start(
                 customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
             )
+
+            transaction.external_reference_id = res.transaction_id
+            transaction.save()
+
+            for payment in payments:
+                payment.simplepay_transactions.add(transaction)
+
             return Response({"simplepay_form_url": res.payment_url})
 
         else:
@@ -110,6 +118,10 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
         serializer.is_valid(raise_exception=True)
         serializer.save()
 
+    def _create_transaction(self, amount, currency):
+        transaction = m.SimplePayTransaction.objects.create(amount=amount, currency=currency)
+        return transaction
+
 
 class PaymentStatusView(generics.GenericAPIView):
     authentication_classes = [AppointmentAuthentication]
@@ -120,8 +132,11 @@ class PaymentStatusView(generics.GenericAPIView):
 
         try:
             first_seat = appointment.seats.first()
+            print("First seat", first_seat)
             first_payment = first_seat.payment
+            print("payment", first_payment)
             last_transaction = first_payment.simplepay_transactions.order_by("-created_at").first()
+            print("Transaction", last_transaction)
             if last_transaction is None:
                 raise AttributeError
         except AttributeError:
