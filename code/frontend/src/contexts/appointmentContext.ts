@@ -181,6 +181,7 @@ export const { Provider, Context } = createContext(
     fetchPrice,
     setProduct,
     setState,
+    fetchPaymentStatus,
     resetState: common.resetState,
   },
   initialState
