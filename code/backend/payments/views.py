@@ -132,11 +132,8 @@ class PaymentStatusView(generics.GenericAPIView):
 
         try:
             first_seat = appointment.seats.first()
-            print("First seat", first_seat)
             first_payment = first_seat.payment
-            print("payment", first_payment)
             last_transaction = first_payment.simplepay_transactions.order_by("-created_at").first()
-            print("Transaction", last_transaction)
             if last_transaction is None:
                 raise AttributeError
         except AttributeError:
