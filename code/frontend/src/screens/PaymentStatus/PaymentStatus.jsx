@@ -28,7 +28,7 @@ export default function PaymentStatus() {
     return () => {
       clearInterval(pollId);
     };
-  });
+  }, []);
 
   async function doPoll() {
     const response = await fetchPaymentStatus();
