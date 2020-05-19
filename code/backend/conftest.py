@@ -89,7 +89,7 @@ def location2():
 
 @pytest.fixture
 def appointment():
-    return Appointment.objects.create()
+    return Appointment.objects.create(email="test@rollet.app")
 
 
 @pytest.fixture
