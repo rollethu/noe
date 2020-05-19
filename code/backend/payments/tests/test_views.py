@@ -151,6 +151,7 @@ class TestPayAppointmentView:
         transaction = m.SimplePayTransaction.objects.first()
         assert transaction.external_reference_id
         assert transaction in seat.payment.simplepay_transactions.all()
+        assert transaction.status == transaction.STATUS_WAITING_FOR_AUTHORIZATION
 
     def test_pay_multiple_seats_different_email(self, appointment, pay_appointment_body, factory):
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email="seat@email.com")

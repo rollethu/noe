@@ -101,6 +101,7 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
                 customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
             )
 
+            transaction.status = transaction.STATUS_WAITING_FOR_AUTHORIZATION
             transaction.external_reference_id = res.transaction_id
             transaction.save()
 
