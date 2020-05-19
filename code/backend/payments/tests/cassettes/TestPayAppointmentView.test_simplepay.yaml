@@ -1,0 +1,65 @@
+interactions:
+- request:
+    body: '{"salt":"t\\q{G?D`dy\nIHp3!\fhN''[|^s|x1C\u000b*\u000bS","merchant":"S176705","orderRef":"a73c2f70-a647-4ab1-bebf-069777d95c0e","currency":"HUF","customerEmail":"test@rollet.hu","language":"HU","sdkVersion":"Rollet
+      online-payments 0.1.0","methods":["CARD"],"total":"26990","timeout":"2020-05-19T02:37:37+00:00","url":"http://localhost:3000/fizetes-status"}'
+    headers:
+      Accept:
+      - '*/*'
+      Accept-Encoding:
+      - gzip, deflate
+      Connection:
+      - keep-alive
+      Content-Length:
+      - '355'
+      Content-Type:
+      - application/json
+      Signature:
+      - LjgVcsmIAtEGJX5W2goRUdSL5dmS/ClPTx6Qw8OExOMOFSppbOUp564Xd2lXVqm/
+      User-Agent:
+      - python-requests/2.23.0
+    method: POST
+    uri: https://sandbox.simplepay.hu/payment/v2/start
+  response:
+    body:
+      string: !!binary |
+        H4sIAAAAAAAAAyWNXW+CMBSG/0tvJ3IoQoW7OTWQuDgVso+bpS11QihlpR26Zf99JUvOyUme8z55
+        f9BAW4NStD187bXVOf5mQuya/bPs1xtpH/IqG3FpP9EMSaH5hXZT+hSQmEDkoNKV0EdxdpCSkOMz
+        AY/GC+ItKAs8JtjZgzghhFRJxEE4g1utRcdvzsjKrQNG026g3NSqyyuUBoCTKApC96ilUHbqw4DB
+        g8gLkgIWaUjc3AFOASZdGdqiFMdJAnOYoZ7epOhMqR1EF2P6IfX9gXYVU9f5UMu+FS4yv1jfnf8d
+        +qz02UezVTtgyj7y93ZTrPLm9bjGBedPfHWQb9cTKTcvtl7e6nEZjs29Qb9/YYFUcj8BAAA=
+    headers:
+      Connection:
+      - Keep-Alive
+      Content-Encoding:
+      - gzip
+      Content-Length:
+      - '281'
+      Content-Security-Policy:
+      - child-src 'none'; frame-src *; frame-ancestors 'self'
+      Content-Type:
+      - application/json;charset=UTF-8
+      Date:
+      - Tue, 19 May 2020 02:27:37 GMT
+      Keep-Alive:
+      - timeout=5, max=100
+      Server:
+      - JBoss-EAP/7
+      Set-Cookie:
+      - dtCookie=FC9BB31487E351D5072F5544AEDA44C2; Path=/; Domain=.simplepay.hu;HttpOnly;Secure;HttpOnly;Secure
+      Strict-Transport-Security:
+      - max-age=31536000; includeSubDomains
+      Vary:
+      - Accept-Encoding,User-Agent
+      X-Content-Type-Options:
+      - nosniff
+      - nosniff
+      X-Powered-By:
+      - Undertow/1
+      X-XSS-Protection:
+      - 1; mode=block
+      signature:
+      - /Rzraj0yC89KwHijNDN6czz60VqjrsbLmSOMSdfQlUr7JF52X25pIgb2wngDFvE+
+    status:
+      code: 200
+      message: OK
+version: 1

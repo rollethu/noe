@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/3.0/ref/settings/
 """
 
 import os
+from urllib.parse import urljoin
 import sentry_sdk
 from sentry_sdk.integrations.django import DjangoIntegration
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DJANGO_DEBUG", False)
@@ -212,3 +214,8 @@ LOCALE_PATHS = [
 SZAMLAZZHU_AGENT_KEY = os.environ.get("SZAMLAZZHU_AGENT_KEY", "")
 SZAMLAZZHU_INVOICE_PREFIX = os.environ.get("SZAMLAZZHU_INVOICE_PREFIX", "")
 
+
+SIMPLEPAY_MERCHANT = os.environ.get("SIMPLEPAY_MERCHANT", "")
+SIMPLEPAY_SECRET_KEY = os.environ.get("SIMPLEPAY_SECRET_KEY", "")
+SIMPLEPAY_IPN_URL = os.environ.get("SIMPLEPAY_IPN_URL", "")
+SIMPLEPAY_CALLBACK_URL = urljoin(FRONTEND_URL, "fizetes-status")

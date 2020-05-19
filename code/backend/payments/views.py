@@ -1,20 +1,25 @@
 from urllib.parse import urlparse
 from django.urls import resolve
 from django.db import transaction
+from django.conf import settings
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import mixins
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
+from online_payments.payments.simple_v2 import SimplePay
 from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
 from appointments.permissions import AppointmentPermission
 from appointments import email
 from billing import serializers as bs
-from .prices import calc_payments, PRODUCTS
+from .prices import calc_payments, PRODUCTS, PaymentMethodType
 from . import models as m
 from . import serializers as s
+
+
+simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT, settings.SIMPLEPAY_CALLBACK_URL)
 
 
 class GetPriceView(generics.GenericAPIView):
@@ -36,7 +41,31 @@ class GetPriceView(generics.GenericAPIView):
         return Response(summary)
 
 
-class PayAppointmentView(generics.GenericAPIView):
+class _BasePayView:
+    def _complete_registration(self, appointment, payments):
+        self._make_qrs(appointment.seats.all())
+        # we need to refresh seats, because QR codes has been attached
+        self._send_summaries(appointment.seats.all())
+
+        # Appointment is done, when the payments are set.
+        # This logic is moved from the frontend to here.
+        # We consider appointments to be done even without
+        # completed payments, including online incomplete payments.
+        appointment.is_registration_completed = True
+        appointment.save(update_fields=["is_registration_completed"])
+
+    def _make_qrs(self, seats):
+        for seat in seats:
+            QRCode.objects.create(seat=seat)
+
+    def _send_summaries(self, seats):
+        for seat in seats:
+            if not seat.email:
+                raise ValidationError({"email": "Email field is required"})
+            email.send_qrcode(seat)
+
+
+class PayAppointmentView(_BasePayView, generics.GenericAPIView):
     """Called at the end of registration when user presses the Pay button."""
 
     serializer_class = s.PaySerializer
@@ -66,28 +95,15 @@ class PayAppointmentView(generics.GenericAPIView):
 
         m.Payment.objects.bulk_create(payments)
 
-        self._make_qrs(appointment.seats.all())
-        # we need to refresh seats, because QR codes has been attached
-        self._send_summaries(appointment.seats.all())
+        if serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
+            res = simplepay.start(
+                customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
+            )
+            return Response({"simplepay_form_url": res.payment_url})
 
-        # Appointment is done, when the payments are set.
-        # This logic is moved from the frontend to here.
-        # We consider appointments to be done even without
-        # completed payments, including online incomplete payments.
-        appointment.is_registration_completed = True
-        appointment.save(update_fields=["is_registration_completed"])
-
-        return Response(summary)
-
-    def _make_qrs(self, seats):
-        for seat in seats:
-            QRCode.objects.create(seat=seat)
-
-    def _send_summaries(self, seats):
-        for seat in seats:
-            if not seat.email:
-                raise ValidationError({"email": "Email field is required"})
-            email.send_qrcode(seat)
+        else:
+            self._complete_registration(appointment, payments)
+            return Response(summary)
 
     def _add_billing_details_to_appointment(self, appointment, request):
         serializer = bs.BillingDetailSerializer(data=request.data, context={"request": request})

@@ -3,7 +3,7 @@ from rest_framework import status
 from rest_framework.reverse import reverse
 import pytest
 from appointments.models import Appointment, Seat
-from ..prices import ProductType
+from ..prices import ProductType, PaymentMethodType
 
 
 @pytest.mark.django_db
@@ -29,6 +29,7 @@ def test_pay_appointment_cannot_be_called_with_different_appointment_token(appoi
     request_body = {
         "appointment": appointment_url,
         "product_type": ProductType.NORMAL_EXAM,
+        "payment_method": PaymentMethodType.ON_SITE,
         "total_price": 26_990,
         "currency": "HUF",
     }

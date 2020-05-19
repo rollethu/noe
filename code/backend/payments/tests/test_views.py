@@ -6,7 +6,7 @@ from rest_framework import status
 import pytest
 from appointments.models import Seat, EmailVerification, QRCode
 from ..views import GetPriceView, PayAppointmentView, PaymentStatusView
-from ..prices import ProductType
+from ..prices import ProductType, PaymentMethodType
 from .. import models as m
 
 get_price_view = GetPriceView.as_view()
@@ -29,6 +29,7 @@ def pay_appointment_body(appointment_url):
     return {
         "appointment": appointment_url,
         "product_type": ProductType.NORMAL_EXAM,
+        "payment_method": PaymentMethodType.ON_SITE,
         "total_price": 0,
         "currency": "HUF",
         "company_name": "Test Company",
@@ -116,6 +117,7 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_400_BAD_REQUEST
 
     def test_pay_one_seat(self, pay_appointment_body, seat, factory, appointment):
+        appointment.email = "test@rollet.app"
         total_price = 26_990
         pay_appointment_body["total_price"] = total_price
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
@@ -129,6 +131,22 @@ class TestPayAppointmentView:
         assert appointment.is_registration_completed is True
         assert QRCode.objects.count() == 1
         assert len(mail.outbox) == 1
+
+    @pytest.mark.vcr()
+    def test_simplepay(self, pay_appointment_body, seat, factory, appointment):
+        total_price = 26_990
+        pay_appointment_body["total_price"] = total_price
+        pay_appointment_body["payment_method"] = PaymentMethodType.SIMPLEPAY
+        request = factory.post("/api/pay-appointment/", pay_appointment_body)
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+        assert res.status_code == status.HTTP_200_OK
+        _assert_payments(count=1, expected_total_price=total_price)
+
+        appointment.refresh_from_db()
+        assert appointment.is_registration_completed is False
+        assert QRCode.objects.count() == 0
+        assert len(mail.outbox) == 0
 
     def test_pay_multiple_seats_different_email(self, appointment, pay_appointment_body, factory):
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email="seat@email.com")

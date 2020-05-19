@@ -4,7 +4,7 @@ from rest_framework.test import force_authenticate
 
 from appointments.models import Seat, EmailVerification
 from billing import models as bm
-from payments.prices import ProductType
+from payments.prices import ProductType, PaymentMethodType
 from payments.views import PayAppointmentView
 
 
@@ -25,6 +25,7 @@ def test_billing_details_creation(factory, appointment, appointment_url, seat):
         {
             "appointment": appointment_url,
             "product_type": ProductType.NORMAL_EXAM,
+            "payment_method": PaymentMethodType.ON_SITE,
             "total_price": total_price,
             "currency": "HUF",
             "company_name": "Fake Company",
