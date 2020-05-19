@@ -9,7 +9,7 @@ import * as contextUtils from "../../contexts/utils";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 
 export default function PaymentStatus() {
-  const { history } = useHistory();
+  const history = useHistory();
   const { setState: setAppointmentState, fetchPaymentStatus } = React.useContext(AppointmentContext);
   const { setState: setSeatState } = React.useContext(SeatContext);
   const { setState: setSurveyState } = React.useContext(AppointmentContext);
