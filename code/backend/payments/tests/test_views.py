@@ -1,11 +1,21 @@
+from unittest.mock import Mock
+
 from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
+from online_payments.payments.simple_v2.client import IPN
 from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
+
 from appointments.models import Seat, EmailVerification, QRCode
-from ..views import GetPriceView, PayAppointmentView, PaymentStatusView
+from ..views import (
+    GetPriceView,
+    PayAppointmentView,
+    PaymentStatusView,
+    simplepay_v2_callback_view as callback_view,
+    simplepay,
+)
 from ..prices import ProductType, PaymentMethodType
 from .. import models as m
 
@@ -302,3 +312,27 @@ class TestPaymentStatusView:
         rv = payment_status_view(request)
         assert rv.status_code == status.HTTP_200_OK
         assert rv.data["payment_status"] == "SUCCESS"
+
+
+class TestSimplePayCallbackView:
+    @pytest.mark.django_db
+    def test_success(self, factory, monkeypatch, transaction, api_client):
+        transaction.external_reference_id = "111"
+        transaction.save()
+
+        mockIPN = IPN(
+            transaction_id="111",
+            salt="salt",
+            order_ref="order_ref",
+            method="method",
+            merchant="merchant",
+            finish_date="finish_date",
+            payment_date="payment_date",
+            status="FINISHED",
+        )
+        mockResponse = {"body": "", "headers": {}}
+        monkeypatch.setattr(simplepay, "process_ipn_request", Mock(return_value=(mockIPN, mockResponse)))
+        rv = api_client.post("/simplepay-callback/")
+        assert rv.status_code == status.HTTP_200_OK
+        transaction.refresh_from_db()
+        assert transaction.status == transaction.STATUS_COMPLETED

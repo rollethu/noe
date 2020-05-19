@@ -6,6 +6,7 @@ from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
 from rest_framework import mixins
+from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from online_payments.payments.simple_v2 import SimplePay
@@ -148,7 +149,8 @@ class PaymentStatusView(generics.GenericAPIView):
         return Response({"payment_status": payment_status})
 
 
-def simplepay_v2_callback_url(self, request):
+@api_view(["POST"])
+def simplepay_v2_callback_view(request):
     ipn, response = simplepay.process_ipn_request(request)
     transaction = m.SimplePayTransaction.objects.get(external_reference_id=ipn.transaction_id)
     if ipn.status == "FINISHED":
