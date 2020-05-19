@@ -78,6 +78,7 @@ urlpatterns = [
     path("health/", health_check),
     path("health/a1fb4d04460143e8a80b39505974859/", build_info),
     path("qrcode/<code>/", appointments.views.QRCodeView.as_view(), name="qrcode"),
+    path("simplepay-callback", payments.views.simplepay_v2_callback_url),
 ]
 
 

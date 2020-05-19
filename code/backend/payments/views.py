@@ -146,3 +146,12 @@ class PaymentStatusView(generics.GenericAPIView):
         elif last_transaction.status == last_transaction.STATUS_WAITING_FOR_AUTHORIZATION:
             payment_status = "PENDING"
         return Response({"payment_status": payment_status})
+
+
+def simplepay_v2_callback_url(self, request):
+    ipn, response = simplepay.process_ipn_request(request)
+    transaction = m.SimplePayTransaction.objects.get(external_reference_id=ipn.transaction_id)
+    if ipn.status == "FINISHED":
+        transaction.status = transaction.STATUS_COMPLETED
+        transaction.save()
+    return Response(response["body"], headers=response["headers"])
