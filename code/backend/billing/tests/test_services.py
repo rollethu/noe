@@ -8,7 +8,7 @@ from appointments.models import Appointment, Seat
 from payments.models import Payment
 from payments.prices import ProductType
 from billing.models import BillingDetail
-from billing.services import send_invoice
+from billing.services import send_seat_invoice
 
 
 @pytest.mark.django_db
@@ -27,7 +27,7 @@ class TestSendInvoice:
             payment=Payment(amount=amount, product_type=ProductType.NORMAL_EXAM),
             appointment=appointment,
         )
-        send_invoice(seat)
+        send_seat_invoice(seat)
 
         item1 = Item(
             name="Laboratóriumi teszt - Alapcsomag (72 óra)",

@@ -3,7 +3,7 @@ from typing import List
 from decimal import Decimal, ROUND_HALF_UP
 from dataclasses import dataclass
 from django.utils.translation import gettext as _
-from online_payments.billing import Item, VATRate
+from online_payments.billing import Item as BillingItem, VATRate
 from . import models as m
 
 
@@ -38,68 +38,85 @@ class Product:
     amount: float
     currency: str
     payment_method_type: str
-    items: List[Item]
+    item_classes: List
+
+
+class _BaseItem:
+    unit = "db"
+    name = ""
+    net_unit_price = ""
+    gross_unit_price = ""
+    unit_vat_value = ""
+    vat_rate = ""
+
+    def __init__(self, quantity: int):
+        self.unit = self.unit
+        self.name = self.name
+        self.vat_rate = self.vat_rate
+        self.net_unit_price = self.net_unit_price
+
+        self.quantity = quantity
+        self.net_price = self.net_unit_price * quantity
+        self.gross_price = self.gross_unit_price * quantity
+        self.vat_value = self.unit_vat_value * quantity
+
+
+class ProductPackage(_BaseItem):
+    name = _("Laboratóriumi teszt")
+    net_unit_price = 17_000
+    gross_unit_price = 17_000
+    unit_vat_value = 0
+    vat_rate = VATRate.PERCENT_0
+
+
+class NormalProductPackage(ProductPackage):
+    name = _("Laboratóriumi teszt - Alapcsomag (72 óra)")
+
+
+class PriorityProductPackage(NormalProductPackage):
+    name = _("Laboratóriumi teszt - Elsőbbségi (1 nap)")
+
+
+class ServicePackage(_BaseItem):
+    name = _("Mintavételi csomag")
+    vat_rate = VATRate.PERCENT_5
+
+
+class NormalServicePackage(ServicePackage):
+    net_unit_price = 9514
+    gross_unit_price = 9_990
+    unit_vat_value = 476
+
+
+class PriorityServicePackage(ServicePackage):
+    net_unit_price = 19_038
+    gross_unit_price = 19_990
+    unit_vat_value = 952
 
 
 PRODUCTS = {
-    ProductType.DOCTOR_REFERRAL: Product(ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE, items=[]),
+    ProductType.DOCTOR_REFERRAL: Product(
+        ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE, item_classes=[]
+    ),
     ProductType.NORMAL_EXAM: Product(
         ProductType.NORMAL_EXAM,
         26_990,
         "HUF",
         PaymentMethodType.ON_SITE,
-        items=[
-            Item(
-                name=_("Laboratóriumi teszt - Alapcsomag (72 óra)"),
-                quantity=1,
-                unit="db",
-                net_price=17_000,
-                net_unit_price=17_000,
-                vat_rate=VATRate.PERCENT_0,
-                vat_value=0,
-                gross_price=17_000,
-            ),
-            Item(
-                name=_("Mintavételi csomag"),
-                quantity=1,
-                unit="db",
-                net_price=9514,
-                net_unit_price=9514,
-                vat_rate=VATRate.PERCENT_5,
-                vat_value=476,
-                gross_price=9_990,
-            ),
-        ],
+        item_classes=[NormalProductPackage, NormalServicePackage],
     ),
     ProductType.PRIORITY_EXAM: Product(
         ProductType.PRIORITY_EXAM,
         36_990,
         "HUF",
         PaymentMethodType.ON_SITE,
-        items=[
-            Item(
-                name=_("Laboratóriumi teszt - Elsőbbségi (1 nap)"),
-                quantity=1,
-                unit="db",
-                net_price=17_000,
-                net_unit_price=17_000,
-                vat_rate=VATRate.PERCENT_0,
-                vat_value=0,
-                gross_price=17_000,
-            ),
-            Item(
-                name=_("Mintavételi csomag"),
-                quantity=1,
-                unit="db",
-                net_price=19_038,
-                net_unit_price=19_038,
-                vat_rate=VATRate.PERCENT_5,
-                vat_value=952,
-                gross_price=19_990,
-            ),
-        ],
+        item_classes=[PriorityProductPackage, PriorityServicePackage],
     ),
 }
+
+
+def get_product_items(product: Product, quantity: int) -> List[BillingItem]:
+    return [BillingItem(**item_class(quantity).__dict__) for item_class in product.item_classes]
 
 
 def calc_payments(seats, product: Product):

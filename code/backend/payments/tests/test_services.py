@@ -44,12 +44,12 @@ def test_validate_paid_at(original_paid_at, submitted_data, raises_error):
     ),
 )
 def test_handle_paid_at(original_paid_at, submitted_data, should_send_invoice, monkeypatch):
-    send_invoice_mock = Mock()
-    monkeypatch.setattr(billing_services, "send_invoice", send_invoice_mock)
+    send_seat_invoice_mock = Mock()
+    monkeypatch.setattr(billing_services, "send_seat_invoice", send_seat_invoice_mock)
 
     services.handle_paid_at(original_paid_at, Seat(), submitted_data)
 
     if should_send_invoice:
-        send_invoice_mock.assert_called_once()
+        send_seat_invoice_mock.assert_called_once()
     else:
-        send_invoice_mock.assert_not_called()
+        send_seat_invoice_mock.assert_not_called()

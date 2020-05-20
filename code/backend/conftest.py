@@ -153,3 +153,16 @@ def billing_detail():
         city="Budapest",
         tax_number="123456789",
     )
+
+
+@pytest.fixture
+def appointment_billing_detail(appointment):
+    return BillingDetail.objects.create(
+        company_name="Test Company",
+        country="Hungary",
+        address_line1="Test street 11.",
+        post_code="1234",
+        city="Budapest",
+        tax_number="123456789",
+        appointment=appointment,
+    )

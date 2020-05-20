@@ -63,7 +63,7 @@ class TestAppointmentSerializer:
 class TestPaymentSerializer:
     def test_no_paid_at_in_data(self, payment, monkeypatch):
         mock_send = Mock()
-        monkeypatch.setattr(billing.services, "send_invoice", mock_send)
+        monkeypatch.setattr(billing.services, "send_seat_invoice", mock_send)
 
         ser = s.PaymentSerializer(payment, {}, partial=True)
         ser.is_valid(raise_exception=True)
@@ -72,7 +72,7 @@ class TestPaymentSerializer:
 
     def test_explicit_none_in_data(self, payment, monkeypatch):
         mock_send = Mock()
-        monkeypatch.setattr(billing.services, "send_invoice", mock_send)
+        monkeypatch.setattr(billing.services, "send_seat_invoice", mock_send)
 
         ser = s.PaymentSerializer(payment, {"paid_at": None}, partial=True)
         ser.is_valid(raise_exception=True)
@@ -90,7 +90,7 @@ class TestPaymentSerializer:
 
     def test_setting_value(self, seat, payment, monkeypatch):
         mock_send = Mock()
-        monkeypatch.setattr(billing.services, "send_invoice", mock_send)
+        monkeypatch.setattr(billing.services, "send_seat_invoice", mock_send)
 
         ser = s.PaymentSerializer(payment, {"paid_at": timezone.now()}, partial=True)
         ser.is_valid(raise_exception=True)

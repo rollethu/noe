@@ -25,4 +25,4 @@ def test_sending_invoice(appointment, seat):
     )
     appointment.refresh_from_db()
     seat.refresh_from_db()
-    services.send_invoice(seat)
+    services.send_seat_invoice(seat)

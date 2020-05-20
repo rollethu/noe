@@ -1,32 +1,45 @@
+from typing import List
+from collections import defaultdict
 import logging
-from decimal import Decimal, ROUND_HALF_UP
 from django.conf import settings
-from online_payments.billing.enums import Currency, VATRate
-from online_payments.billing.models import Item, Receipt, PaymentMethod, Invoice, Customer
+from online_payments.billing.enums import Currency
+from online_payments.billing.models import Item, PaymentMethod, Invoice, Customer
 from online_payments.billing.szamlazzhu import Szamlazzhu
-from payments.prices import round_price, PRODUCTS
-from . import models as m
+from payments.prices import PRODUCTS, get_product_items
 
 logger = logging.getLogger(__name__)
 
 
-def send_invoice(seat):
-    appointment, payment = seat.appointment, seat.payment
-    net_price = payment.amount / Decimal("1.27")
-    rounded_net_price = round_price(net_price, payment.currency)
-    vat_value = payment.amount - rounded_net_price
+def send_seat_invoice(seat):
+    _send_invoice(seat.appointment.billing_detail, seat.appointment.email, _get_items_for_seats([seat]))
 
-    product = PRODUCTS[payment.product_type]
-    billing_detail = appointment.billing_detail
+
+def send_appointment_invoice(appointment):
+    _send_invoice(appointment.billing_detail, appointment.email, _get_items_for_seats(appointment.seats.all()))
+
+
+def _get_items_for_seats(seats) -> List[Item]:
+    grouped_products = defaultdict(int)
+    for seat in seats:
+        grouped_products[seat.payment.product_type] += 1
+
+    items = []
+    for product_type, quantity in grouped_products.items():
+        items.extend(get_product_items(PRODUCTS[product_type], quantity))
+
+    return items
+
+
+def _send_invoice(billing_detail, email, items):
     customer = Customer(
         name=billing_detail.company_name,
         post_code=billing_detail.post_code,
         city=billing_detail.city,
         address=billing_detail.address_line1,
-        email=appointment.email,
+        email=email,
         tax_number=billing_detail.tax_number,
     )
-    invoice = Invoice(items=product.items, payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
+    invoice = Invoice(items=items, payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
     szamlazzhu = Szamlazzhu(settings.SZAMLAZZHU_AGENT_KEY, Currency.HUF)
-    logger.info("Sending invoice to: %s", appointment.email)
+    logger.info("Sending invoice to: %s", email)
     szamlazzhu.send_invoice(invoice, settings.SZAMLAZZHU_INVOICE_PREFIX)
