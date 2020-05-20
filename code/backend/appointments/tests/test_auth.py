@@ -24,6 +24,12 @@ def test_api_cannot_be_reached_without_Authorization_header(api_client):
     assert res.status_code == status.HTTP_403_FORBIDDEN
 
 
+def test_invalid_auth_header_token(api_client):
+    api_client.credentials(HTTP_AUTHORIZATION=f"Apptoken non-base64-token")
+    res = api_client.post("/api/seats/")
+    assert res.status_code == status.HTTP_403_FORBIDDEN
+
+
 @pytest.mark.django_db
 def test_appointment_cannot_be_changed_with_another_appointment_token(
     appointment, appointment_client, appointment_client2, api_client

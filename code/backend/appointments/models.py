@@ -12,7 +12,7 @@ from django.shortcuts import reverse
 from django.utils.translation import gettext_lazy as _
 from django.core.signing import Signer
 from django.utils import timezone
-from cryptography.fernet import Fernet
+from cryptography.fernet import Fernet, InvalidToken
 import qrcode
 
 encrypter = Fernet(settings.EMAIL_VERIFICATION_KEY)
@@ -111,7 +111,11 @@ def _generate_email_code():
 
 class EmailVerificationManager(models.Manager):
     def get_by_token(self, token: str):
-        signed_uuid_bytes = encrypter.decrypt(token.encode())
+        try:
+            signed_uuid_bytes = encrypter.decrypt(token.encode())
+        except InvalidToken:
+            raise self.model.DoesNotExist()
+
         signed_uuid = signed_uuid_bytes.decode()
         uuid = signed_uuid.split(":", 1)[0]
         ev = self.model.objects.get(uuid=uuid)
