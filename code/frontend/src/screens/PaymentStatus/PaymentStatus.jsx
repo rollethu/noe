@@ -1,7 +1,8 @@
 import React from "react";
-import { View } from "../../UI";
 import { useHistory } from "react-router-dom";
 
+import PaymentPendingSVG from "../../assets/payment-pending.svg";
+import { View, Caption, Image, Text } from "../../UI";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as surveyContext } from "../../contexts/surveyContext";
@@ -50,5 +51,13 @@ export default function PaymentStatus() {
     }
   }
 
-  return <View>Payment Status Page</View>;
+  return (
+    <View>
+      <Caption center>Sikertelen fizetés</Caption>
+      <Image src={PaymentPendingSVG} />
+      {/*
+// @ts-ignore */}
+      <Text>Tranzakció folyamatban, ez eltarthat pár percig. Kérjük szíves türelmét.</Text>
+    </View>
+  );
 }
