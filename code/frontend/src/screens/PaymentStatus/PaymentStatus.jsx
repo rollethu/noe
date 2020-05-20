@@ -53,7 +53,7 @@ export default function PaymentStatus() {
 
   return (
     <View>
-      <Caption center>Sikertelen fizetés</Caption>
+      <Caption center>Fizetés folyamatban</Caption>
       <Image src={PaymentPendingSVG} />
       {/*
 // @ts-ignore */}
