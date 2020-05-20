@@ -3,7 +3,7 @@ from unittest.mock import Mock
 from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
-from online_payments.payments.simple_v2.client import IPN
+from online_payments.payments.simple_v2.client import IPN, StartPaymentResponse
 from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
@@ -276,6 +276,35 @@ class TestPayAppointmentView:
         res = pay_appointment_view(request)
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "tax_number" in res.data
+
+    def test_existing_payments(self, pay_appointment_body, factory, transaction, appointment, monkeypatch):
+        mock_response = Mock(
+            return_value=StartPaymentResponse(
+                salt="12345",
+                merchant="12345",
+                order_ref="12345",
+                currency="12345",
+                transaction_id="2222",
+                timeout=timezone.now(),
+                total="12345",
+                payment_url="12345",
+            )
+        )
+        monkeypatch.setattr(simplepay, "start", mock_response)
+
+        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["payment_method"] = PaymentMethodType.SIMPLEPAY
+
+        request = factory.post("/api/pay-appointment/", pay_appointment_body)
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+
+        assert res.status_code == status.HTTP_200_OK
+        assert m.SimplePayTransaction.objects.count() == 2
+
+        new_transaction = m.SimplePayTransaction.objects.order_by("created_at").last()
+        assert new_transaction.external_reference_id == "2222"
+        assert set(new_transaction.payments.all()) == set(transaction.payments.all())
 
 
 class TestPaymentStatusView:

@@ -78,23 +78,38 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
         appointment, product = serializer.save()
+
         self.check_object_permissions(self.request, appointment)
 
-        if any(hasattr(s, "payment") for s in appointment.seats.all()):
-            raise ValidationError({"appointment": "This appointment has payment already!"})
-        if appointment.seats.count() == 0:
+        seats = appointment.seats.all()
+        if len(seats) == 0:
             raise ValidationError({"appointment": "This appointment has no persons yet!"})
 
-        self._add_billing_details_to_appointment(appointment, request)
+        existing_payments = []
+        for seat in seats:
+            payment = getattr(seat, "payment", None)
+            if payment:
+                existing_payments.append(payment)
 
-        payments, summary = calc_payments(appointment.seats.all(), product)
+        # In the current flow the user can not update their billing details.
+        # When a payment fails, the user is redirected to the payment methods
+        # screen, where they can change billing details.
+        # This is not the dedicated place for billing detail update, therefore
+        # changes are ignored.
+        if not hasattr(appointment, "billing_detail"):
+            self._add_billing_details_to_appointment(appointment, request)
+
+        payments, summary = calc_payments(seats, product)
+
+        if len(existing_payments) == len(seats):
+            payments = existing_payments
+        else:
+            m.Payment.objects.bulk_create(payments)
 
         # This is just a sanity check, so we don't calculate a wrong amount.
         # What we show on the frontend, should always match on the backend.
         if summary["total_price"] != serializer.validated_data["total_price"]:
             raise ValidationError({"total_price": "Invalid amount!"})
-
-        m.Payment.objects.bulk_create(payments)
 
         if serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
             transaction = self._create_transaction(summary["total_price"], summary["currency"])
