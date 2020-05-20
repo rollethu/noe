@@ -25,4 +25,19 @@ def handle_paid_at(original_paid_at, seat, submitted_data: dict):
         return
 
     if original_paid_at is None and submitted_data.get("paid_at"):
-        billing_services.send_invoice(seat)
+        billing_services.send_seat_invoice(seat)
+
+
+def complete_transaction(transaction, finish_date):
+    """
+    This happens in the context of simplepay payment for the entire appointment.
+    """
+
+    transaction.status = transaction.STATUS_COMPLETED
+    transaction.save()
+
+    # any payment and seat are ok to find the right appointment
+    appointment = transaction.payments.first().seat.appointment
+
+    transaction.payments.all().update(paid_at=finish_date)
+    billing_services.send_appointment_invoice(appointment)

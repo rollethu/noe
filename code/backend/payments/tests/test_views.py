@@ -16,6 +16,7 @@ from ..views import (
     simplepay_v2_callback_view as callback_view,
     simplepay,
 )
+from billing import services as billing_services
 from ..prices import ProductType, PaymentMethodType
 from .. import models as m
 
@@ -345,7 +346,11 @@ class TestPaymentStatusView:
 
 class TestSimplePayCallbackView:
     @pytest.mark.django_db
-    def test_success(self, factory, monkeypatch, transaction, api_client):
+    def test_success(self, factory, monkeypatch, transaction, api_client, appointment_billing_detail):
+        mock_send_appointment_invoice = Mock()
+        monkeypatch.setattr(billing_services, "send_appointment_invoice", mock_send_appointment_invoice)
+        now = timezone.now()
+
         transaction.external_reference_id = "111"
         transaction.save()
 
@@ -355,8 +360,8 @@ class TestSimplePayCallbackView:
             order_ref="order_ref",
             method="method",
             merchant="merchant",
-            finish_date="finish_date",
-            payment_date="payment_date",
+            finish_date=now,
+            payment_date="123",
             status="FINISHED",
         )
         mockResponse = {"body": "", "headers": {}}
@@ -365,3 +370,5 @@ class TestSimplePayCallbackView:
         assert rv.status_code == status.HTTP_200_OK
         transaction.refresh_from_db()
         assert transaction.status == transaction.STATUS_COMPLETED
+        assert transaction.payments.order_by("created_at").last().paid_at == now
+        mock_send_appointment_invoice.assert_called()

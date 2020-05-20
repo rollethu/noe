@@ -18,6 +18,7 @@ from billing import serializers as bs
 from .prices import calc_payments, PRODUCTS, PaymentMethodType
 from . import models as m
 from . import serializers as s
+from . import services
 
 
 simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT, settings.SIMPLEPAY_CALLBACK_URL)
@@ -169,6 +170,5 @@ def simplepay_v2_callback_view(request):
     ipn, response = simplepay.process_ipn_request(request)
     transaction = m.SimplePayTransaction.objects.get(external_reference_id=ipn.transaction_id)
     if ipn.status == "FINISHED":
-        transaction.status = transaction.STATUS_COMPLETED
-        transaction.save()
+        services.complete_transaction(transaction, ipn.finish_date)
     return Response(response["body"], headers=response["headers"])
