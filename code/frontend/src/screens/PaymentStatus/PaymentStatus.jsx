@@ -12,7 +12,7 @@ export default function PaymentStatus() {
   const history = useHistory();
   const { setState: setAppointmentState, fetchPaymentStatus } = React.useContext(AppointmentContext);
   const { setState: setSeatState } = React.useContext(SeatContext);
-  const { setState: setSurveyState } = React.useContext(AppointmentContext);
+  const { setState: setSurveyState } = React.useContext(surveyContext);
   let pollId = null;
 
   React.useEffect(() => {
