@@ -34,6 +34,7 @@ export const ROUTE_PAYMENT_METHODS = "/fizetesi-mod";
 export const ROUTE_CHECKOUT = "/osszegzes";
 export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 export const ROUTE_PAYMENT_STATUS = "/fizetes-status";
+export const ROUTE_PAYMENT_FAILED = "/sikertelen-fizetes";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
