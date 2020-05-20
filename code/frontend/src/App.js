@@ -21,6 +21,7 @@ import Checkout from "./screens/Checkout/Checkout";
 import AppointmentSuccess from "./screens/AppointmentSuccess/AppointmentSuccess";
 import PaymentStatus from "./screens/PaymentStatus/PaymentStatus";
 import { TopStripe } from "./UI";
+import PaymentFailed from "./screens/PaymentStatus/PaymentFailed";
 
 export const ROUTE_START = "/start";
 export const ROUTE_EMAIL_VERIFICATION = "/megerosito-email";
@@ -55,6 +56,7 @@ function App() {
     { path: ROUTE_CHECKOUT, component: Checkout },
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
     { path: ROUTE_PAYMENT_STATUS, component: PaymentStatus },
+    { path: ROUTE_PAYMENT_FAILED, component: PaymentFailed },
   ];
 
   return (
