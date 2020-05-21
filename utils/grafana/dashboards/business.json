@@ -16,6 +16,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": 1,
+  "iteration": 1590048717569,
   "links": [],
   "panels": [
     {
@@ -34,6 +35,7 @@
     },
     {
       "datasource": "PostgreSQL",
+      "description": "",
       "gridPos": {
         "h": 6,
         "w": 4,
@@ -81,7 +83,7 @@
           ],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select\n  count(*)\nfrom samples_sample\nwhere DATE(created_at) = DATE(NOW())",
+          "rawSql": "select\n  count(*)\nfrom samples_sample as sample\ninner join appointments_seat as seat on sample.seat_id = seat.uuid\ninner join appointments_appointment as appt on seat.appointment_id = appt.uuid\nwhere \n  DATE(sampled_at) = DATE(NOW())\n  AND appt.location_id in (select id from appointments_location where name = '$location')",
           "refId": "A",
           "select": [
             [
@@ -164,7 +166,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE\nand location_id in (select id from appointments_location where name = '$location')\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
           "refId": "A",
           "select": [
             [
@@ -235,7 +237,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '1 day'\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '1 day'\nand location_id in (select id from appointments_location where name = '$location')\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
           "refId": "A",
           "select": [
             [
@@ -306,7 +308,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '2 day'\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage",
+          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere DATE(slot.start) = CURRENT_DATE + interval '2 day'\nand location_id in (select id from appointments_location where name = '$location')\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage",
           "refId": "A",
           "select": [
             [
@@ -378,7 +380,7 @@
           "group": [],
           "metricColumn": "none",
           "rawQuery": true,
-          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW() + interval '1 day')",
+          "rawSql": "select \n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW() + interval '1 day')\nand location_id in (select id from appointments_location where name = '$location')",
           "refId": "A",
           "select": [
             [
@@ -417,6 +419,220 @@
         "x": 0,
         "y": 7
       },
+      "id": 23,
+      "panels": [],
+      "title": "Tables",
+      "type": "row"
+    },
+    {
+      "columns": [],
+      "datasource": "PostgreSQL",
+      "description": "This table won't be impacted by time scale adjustments!!\nAlso, it only shows appointments in the future.",
+      "fontSize": "90%",
+      "gridPos": {
+        "h": 18,
+        "w": 12,
+        "x": 0,
+        "y": 8
+      },
+      "id": 4,
+      "pageSize": 20,
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "time",
+          "align": "auto",
+          "dateFormat": "MM-DD HH:mm",
+          "pattern": "time",
+          "type": "date"
+        },
+        {
+          "alias": "",
+          "align": "auto",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "n",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "",
+          "align": "right",
+          "colorMode": null,
+          "colors": [
+            "rgba(245, 54, 54, 0.9)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(50, 172, 45, 0.97)"
+          ],
+          "decimals": 2,
+          "pattern": "/.*/",
+          "thresholds": [],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select \n  ROW_NUMBER() OVER (order by slot.start) as n, \n  slot.start as time,\n  payment.product_type,\n  qr.code,\n  regexp_replace(seat.full_name,'\\S*$','') as name,\n  regexp_replace(seat.email,'^.{0,8}','***') as seat_email\nfrom appointments_qrcode as qr\ninner join appointments_seat as seat on seat.uuid = qr.seat_id\ninner join appointments_appointment as appt on appt.uuid = seat.appointment_id\ninner join appointments_timeslot as slot on slot.uuid = appt.time_slot_id\ninner join payments_payment as payment on qr.seat_id = payment.seat_id\nwhere \n  DATE(slot.start) = CURRENT_DATE\n  AND seat.uuid NOT IN (SELECT seat_id FROM samples_sample)\n  AND appt.location_id in (select id from appointments_location where name = '$location')\n  ",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "capacity"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "appointments_timeslot",
+          "timeColumn": "created_at",
+          "timeColumnType": "timestamptz",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Customers Today who still need to come",
+      "transform": "table",
+      "type": "table"
+    },
+    {
+      "columns": [],
+      "datasource": "PostgreSQL",
+      "description": "Seats Actually Taken == the time slot have been chosen and registration have also been completed",
+      "fontSize": "100%",
+      "gridPos": {
+        "h": 18,
+        "w": 12,
+        "x": 12,
+        "y": 8
+      },
+      "id": 13,
+      "pageSize": null,
+      "pluginVersion": "6.7.3",
+      "showHeader": true,
+      "sort": {
+        "col": 0,
+        "desc": false
+      },
+      "styles": [
+        {
+          "alias": "time",
+          "align": "auto",
+          "dateFormat": "MM-DD HH:mm a",
+          "pattern": "time",
+          "type": "date"
+        },
+        {
+          "alias": "Seats Booked",
+          "align": "auto",
+          "colorMode": "value",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "#FADE2A",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "/usage/",
+          "thresholds": [
+            "15",
+            "25"
+          ],
+          "type": "number",
+          "unit": "short"
+        },
+        {
+          "alias": "Seats Actually Taken",
+          "align": "auto",
+          "colorMode": "cell",
+          "colors": [
+            "rgba(50, 172, 45, 0.97)",
+            "rgba(237, 129, 40, 0.89)",
+            "rgba(245, 54, 54, 0.9)"
+          ],
+          "dateFormat": "YYYY-MM-DD HH:mm:ss",
+          "decimals": 0,
+          "mappingType": 1,
+          "pattern": "/seats_taken/",
+          "thresholds": [
+            "10",
+            "20"
+          ],
+          "type": "number",
+          "unit": "short"
+        }
+      ],
+      "targets": [
+        {
+          "format": "table",
+          "group": [],
+          "metricColumn": "none",
+          "rawQuery": true,
+          "rawSql": "select \n  slot.start as time,\n  slot.capacity,\n  slot.usage,\n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW())\nAND location_id in (select id from appointments_location where name = '$location')\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
+          "refId": "A",
+          "select": [
+            [
+              {
+                "params": [
+                  "amount"
+                ],
+                "type": "column"
+              }
+            ]
+          ],
+          "table": "payments_simplepaytransaction",
+          "timeColumn": "created_at",
+          "timeColumnType": "timestamp",
+          "where": [
+            {
+              "name": "$__timeFilter",
+              "params": [],
+              "type": "macro"
+            }
+          ]
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Bookings Summary",
+      "transform": "table",
+      "transparent": true,
+      "type": "table"
+    },
+    {
+      "collapsed": false,
+      "datasource": null,
+      "gridPos": {
+        "h": 1,
+        "w": 24,
+        "x": 0,
+        "y": 26
+      },
       "id": 19,
       "panels": [],
       "title": "Global Stats",
@@ -428,7 +644,7 @@
         "h": 4,
         "w": 4,
         "x": 0,
-        "y": 8
+        "y": 27
       },
       "id": 8,
       "options": {
@@ -508,7 +724,7 @@
         "h": 4,
         "w": 4,
         "x": 4,
-        "y": 8
+        "y": 27
       },
       "id": 11,
       "options": {
@@ -599,7 +815,7 @@
         "h": 4,
         "w": 4,
         "x": 8,
-        "y": 8
+        "y": 27
       },
       "id": 2,
       "options": {
@@ -670,7 +886,7 @@
         "h": 4,
         "w": 3,
         "x": 21,
-        "y": 8
+        "y": 27
       },
       "id": 10,
       "options": {
@@ -743,220 +959,6 @@
       "timeShift": null,
       "title": "ALL Registration NOT Completed",
       "type": "stat"
-    },
-    {
-      "collapsed": false,
-      "datasource": null,
-      "gridPos": {
-        "h": 1,
-        "w": 24,
-        "x": 0,
-        "y": 12
-      },
-      "id": 23,
-      "panels": [],
-      "title": "Tables",
-      "type": "row"
-    },
-    {
-      "columns": [],
-      "datasource": "PostgreSQL",
-      "description": "This table won't be impacted by time scale adjustments!!\nAlso, it only shows appointments in the future.",
-      "fontSize": "90%",
-      "gridPos": {
-        "h": 18,
-        "w": 12,
-        "x": 0,
-        "y": 13
-      },
-      "id": 4,
-      "pageSize": 20,
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": false
-      },
-      "styles": [
-        {
-          "alias": "time",
-          "align": "auto",
-          "dateFormat": "MM-DD HH:mm",
-          "pattern": "time",
-          "type": "date"
-        },
-        {
-          "alias": "",
-          "align": "auto",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "n",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "",
-          "align": "right",
-          "colorMode": null,
-          "colors": [
-            "rgba(245, 54, 54, 0.9)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(50, 172, 45, 0.97)"
-          ],
-          "decimals": 2,
-          "pattern": "/.*/",
-          "thresholds": [],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select \n  ROW_NUMBER() OVER (order by slot.start) as n, \n  slot.start as time,\n  qr.code,\n  regexp_replace(seat.full_name,'\\S*$','') as name,\n  regexp_replace(seat.email,'^.{0,8}','***') as seat_email\nfrom appointments_qrcode as qr\ninner join appointments_seat as seat on seat.uuid = qr.seat_id\ninner join appointments_appointment as appt on appt.uuid = seat.appointment_id\ninner join appointments_timeslot as slot on slot.uuid = appt.time_slot_id\nwhere \n  DATE(slot.start) = CURRENT_DATE\n  AND seat.uuid NOT IN (SELECT seat_id FROM samples_sample)\n  ",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "capacity"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "appointments_timeslot",
-          "timeColumn": "created_at",
-          "timeColumnType": "timestamptz",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Customers Today who still need to come",
-      "transform": "table",
-      "type": "table"
-    },
-    {
-      "columns": [],
-      "datasource": "PostgreSQL",
-      "description": "Seats Actually Taken == the time slot have been chosen and registration have also been completed",
-      "fontSize": "100%",
-      "gridPos": {
-        "h": 18,
-        "w": 12,
-        "x": 12,
-        "y": 13
-      },
-      "id": 13,
-      "pageSize": null,
-      "pluginVersion": "6.7.3",
-      "showHeader": true,
-      "sort": {
-        "col": 0,
-        "desc": false
-      },
-      "styles": [
-        {
-          "alias": "time",
-          "align": "auto",
-          "dateFormat": "MM-DD HH:mm a",
-          "pattern": "time",
-          "type": "date"
-        },
-        {
-          "alias": "Seats Booked",
-          "align": "auto",
-          "colorMode": "value",
-          "colors": [
-            "rgba(50, 172, 45, 0.97)",
-            "#FADE2A",
-            "rgba(245, 54, 54, 0.9)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "/usage/",
-          "thresholds": [
-            "15",
-            "25"
-          ],
-          "type": "number",
-          "unit": "short"
-        },
-        {
-          "alias": "Seats Actually Taken",
-          "align": "auto",
-          "colorMode": "cell",
-          "colors": [
-            "rgba(50, 172, 45, 0.97)",
-            "rgba(237, 129, 40, 0.89)",
-            "rgba(245, 54, 54, 0.9)"
-          ],
-          "dateFormat": "YYYY-MM-DD HH:mm:ss",
-          "decimals": 0,
-          "mappingType": 1,
-          "pattern": "/seats_taken/",
-          "thresholds": [
-            "10",
-            "20"
-          ],
-          "type": "number",
-          "unit": "short"
-        }
-      ],
-      "targets": [
-        {
-          "format": "table",
-          "group": [],
-          "metricColumn": "none",
-          "rawQuery": true,
-          "rawSql": "select \n  slot.start as time,\n  slot.capacity,\n  slot.usage,\n  sum(apt.seats) as seats_taken\nfrom appointments_timeslot as slot\ninner join (\n  select\n    appointments_appointment.uuid,\n    time_slot_id,\n    count(seat.uuid) as seats\n  from appointments_appointment\n  inner join appointments_seat as seat\n    on appointments_appointment.uuid = seat.appointment_id\n  where is_registration_completed = 'true'\n  group by appointments_appointment.uuid\n) as apt\n  on  slot.uuid = apt.time_slot_id\nwhere slot.start >= DATE(NOW())\ngroup by\n  slot.start,\n  slot.capacity,\n  slot.usage\n",
-          "refId": "A",
-          "select": [
-            [
-              {
-                "params": [
-                  "amount"
-                ],
-                "type": "column"
-              }
-            ]
-          ],
-          "table": "payments_simplepaytransaction",
-          "timeColumn": "created_at",
-          "timeColumnType": "timestamp",
-          "where": [
-            {
-              "name": "$__timeFilter",
-              "params": [],
-              "type": "macro"
-            }
-          ]
-        }
-      ],
-      "timeFrom": null,
-      "timeShift": null,
-      "title": "Bookings Summary",
-      "transform": "table",
-      "transparent": true,
-      "type": "table"
     }
   ],
   "refresh": "5m",
@@ -964,7 +966,35 @@
   "style": "dark",
   "tags": [],
   "templating": {
-    "list": []
+    "list": [
+      {
+        "allValue": null,
+        "current": {
+          "tags": [],
+          "text": "Zalaegerszegi Városi Sportcsarnok",
+          "value": "Zalaegerszegi Városi Sportcsarnok"
+        },
+        "datasource": "PostgreSQL",
+        "definition": "select name from appointments_location",
+        "hide": 0,
+        "includeAll": false,
+        "index": -1,
+        "label": "Location",
+        "multi": false,
+        "name": "location",
+        "options": [],
+        "query": "select name from appointments_location",
+        "refresh": 1,
+        "regex": "",
+        "skipUrlSync": false,
+        "sort": 0,
+        "tagValuesQuery": "",
+        "tags": [],
+        "tagsQuery": "",
+        "type": "query",
+        "useTags": false
+      }
+    ]
   },
   "time": {
     "from": "now-6h",
@@ -990,5 +1020,5 @@
   "variables": {
     "list": []
   },
-  "version": 41
+  "version": 48
 }
