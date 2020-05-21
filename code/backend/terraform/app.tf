@@ -1,5 +1,5 @@
 module "backend_app" {
-  source = "git@gitlab.com:rollet/terraform-modules/terraform-aws-ecs-service.git"
+  source = "git@gitlab.com:rollet/terraform-modules/terraform-aws-ecs-service.git?ref=v1.1"
 
   app_name        = "noe-backend-${terraform.workspace}"
   ecs_cluster     = local.core_config.ecs_cluster.private.cluster_name
