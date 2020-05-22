@@ -7,7 +7,7 @@ from ..templatetags.money import format_money
     "amount, currency, expected",
     [
         (100, "HUF", "100 Ft"),
-        (26_990, "HUF", "26990 Ft"),
+        (24_980, "HUF", "24980 Ft"),
         (36_990, "HUF", "36990 Ft"),
         (Decimal("1234.5"), "HUF", "1235 Ft"),
         (Decimal("1234.1"), "HUF", "1234 Ft"),

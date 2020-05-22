@@ -38,7 +38,7 @@ def test_send_qrcode():
         start=dt.datetime(2020, 4, 24, 9, 10), location=location, normalized_licence_plate=licence_plate
     )
     payment = Payment(
-        amount=26_990, payment_method_type=PaymentMethodType.ON_SITE, product_type=ProductType.NORMAL_EXAM,
+        amount=24_980, payment_method_type=PaymentMethodType.ON_SITE, product_type=ProductType.NORMAL_EXAM,
     )
     seat = m.Seat(
         full_name=full_name,
@@ -59,7 +59,7 @@ def test_send_qrcode():
     assert "Helyszínen" in sent_mail.body
     assert "Test Location" in sent_mail.body
     assert code in sent_mail.body
-    assert "\nFizetendő összeg: 26990 Ft\n" in sent_mail.body
+    assert "\nFizetendő összeg: 24980 Ft\n" in sent_mail.body
     assert "\nVizsgálat típusa: Normál vizsgálat\n" in sent_mail.body
     assert "A normál vizsgálatok eredményét 72 órán belül küldjük Önnek." in sent_mail.body
 

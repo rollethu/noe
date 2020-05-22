@@ -30,7 +30,7 @@ class TestCalculatePayments:
         s2 = Seat()
         _, summary = calc_payments([s1, s2], PRODUCTS[ProductType.NORMAL_EXAM])
         assert summary == {
-            "total_price": 53_980,
+            "total_price": 49_960,
             "currency": "HUF",
         }
 
@@ -39,7 +39,7 @@ class TestCalculatePayments:
         s2 = Seat()
         _, summary = calc_payments([s1, s2], PRODUCTS[ProductType.NORMAL_EXAM])
         assert summary == {
-            "total_price": 26_990,
+            "total_price": 24_980,
             "currency": "HUF",
         }
 
@@ -49,7 +49,7 @@ class TestCalculatePayments:
         s3 = Seat()
         _, summary = calc_payments([s1, s2, s3], PRODUCTS[ProductType.NORMAL_EXAM])
         assert summary == {
-            "total_price": 53_980,
+            "total_price": 49_960,
             "currency": "HUF",
         }
 

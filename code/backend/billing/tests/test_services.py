@@ -44,11 +44,11 @@ class TestSendInvoice:
             name="Mintavételi csomag",
             quantity=1,
             unit="db",
-            net_price=9514,
-            net_unit_price=9514,
+            net_price=7_600,
+            net_unit_price=7_600,
             vat_rate=VATRate.PERCENT_5,
-            vat_value=476,
-            gross_price=9_990,
+            vat_value=380,
+            gross_price=7_980,
         )
 
         customer = Customer(

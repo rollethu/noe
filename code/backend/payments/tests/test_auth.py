@@ -30,7 +30,7 @@ def test_pay_appointment_cannot_be_called_with_different_appointment_token(appoi
         "appointment": appointment_url,
         "product_type": ProductType.NORMAL_EXAM,
         "payment_method": PaymentMethodType.ON_SITE,
-        "total_price": 26_990,
+        "total_price": 24_980,
         "currency": "HUF",
     }
     res = appointment_client2.post("/api/pay-appointment/", request_body)

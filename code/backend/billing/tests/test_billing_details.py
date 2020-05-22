@@ -19,7 +19,7 @@ def _authenticate_appointment(request, appointment):
 @pytest.mark.django_db
 def test_billing_details_creation(factory, appointment, appointment_url, seat):
     assert not bm.BillingDetail.objects.exists()
-    total_price = 26_990
+    total_price = 24_980
     request = factory.post(
         "/api/pay-appointment/",
         {

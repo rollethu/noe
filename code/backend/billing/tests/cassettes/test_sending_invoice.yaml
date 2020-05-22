@@ -1,103 +1,103 @@
 interactions:
-- request:
-    body: "--83d0e0ce58b87a8a10d69f9078a43e83\r\nContent-Disposition: form-data; name=\"action-xmlagentxmlfile\";
-      filename=\"invoice.xml\"\r\nContent-Type: multipart/form-data\r\n\r\n<?xml version='1.0'
-      encoding='UTF-8'?>\n<xmlszamla xmlns=\"http://www.szamlazz.hu/xmlszamla\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
-      xsi:schemaLocation=\"http://www.szamlazz.hu/xmlszamla https://www.szamlazz.hu/szamla/docs/xsds/agent/xmlszamla.xsd\">\n
-      \ <beallitasok>\n    <szamlaagentkulcs>na8h9dppztnbnyyczqspztnbnqe3ym9pztnbnzqcsk</szamlaagentkulcs>\n
-      \   <eszamla>true</eszamla>\n    <kulcstartojelszo></kulcstartojelszo>\n    <szamlaLetoltes>false</szamlaLetoltes>\n
-      \   <valaszVerzio>2</valaszVerzio>\n  </beallitasok>\n  <fejlec>\n    <keltDatum>2020-05-08</keltDatum>\n
-      \   <teljesitesDatum>2020-05-08</teljesitesDatum>\n    <fizetesiHataridoDatum>2020-05-08</fizetesiHataridoDatum>\n
-      \   <fizmod>bankk\xE1rtya</fizmod>\n    <penznem>HUF</penznem>\n    <szamlaNyelve>hu</szamlaNyelve>\n
-      \   <megjegyzes></megjegyzes>\n    <arfolyamBank></arfolyamBank>\n    <arfolyam>0</arfolyam>\n
-      \   <rendelesSzam></rendelesSzam>\n    <dijbekeroSzamlaszam></dijbekeroSzamlaszam>\n
-      \   <elolegszamla>false</elolegszamla>\n    <vegszamla>false</vegszamla>\n    <helyesbitoszamla>false</helyesbitoszamla>\n
-      \   <helyesbitettSzamlaszam></helyesbitettSzamlaszam>\n    <dijbekero>false</dijbekero>\n
-      \   <szamlaszamElotag>TSZTP</szamlaszamElotag>\n  </fejlec>\n  <elado>\n    <bank></bank>\n
-      \   <bankszamlaszam></bankszamlaszam>\n    <emailReplyto></emailReplyto>\n    <emailTargy></emailTargy>\n
-      \   <emailSzoveg></emailSzoveg>\n  </elado>\n  <vevo>\n    <nev>Test Company</nev>\n
-      \   <irsz>1234</irsz>\n    <telepules>Budapest</telepules>\n    <cim>Fake street
-      13</cim>\n    <email></email>\n    <sendEmail>true</sendEmail>\n    <adoszam></adoszam>\n
-      \   <postazasiNev></postazasiNev>\n    <postazasiIrsz></postazasiIrsz>\n    <postazasiTelepules></postazasiTelepules>\n
-      \   <postazasiCim></postazasiCim>\n    <azonosito></azonosito>\n    <telefonszam></telefonszam>\n
-      \   <megjegyzes></megjegyzes>\n  </vevo>\n  <tetelek>\n    <tetel>\n      <megnevezes>NORMAL_EXAM</megnevezes>\n
-      \     <mennyiseg>1</mennyiseg>\n      <mennyisegiEgyseg>db</mennyisegiEgyseg>\n
-      \     <nettoEgysegar>21251.96850393701</nettoEgysegar>\n      <afakulcs>27</afakulcs>\n
-      \     <nettoErtek>21251.96850393701</nettoErtek>\n      <afaErtek>5738.031496062991</afaErtek>\n
-      \     <bruttoErtek>26990</bruttoErtek>\n      <megjegyzes></megjegyzes>\n    </tetel>\n
-      \ </tetelek>\n</xmlszamla>\n\r\n--83d0e0ce58b87a8a10d69f9078a43e83--\r\n"
-    headers:
-      Accept:
-      - '*/*'
-      Accept-Encoding:
-      - gzip, deflate
-      Connection:
-      - keep-alive
-      Content-Length:
-      - '2478'
-      Content-Type:
-      - multipart/form-data; boundary=83d0e0ce58b87a8a10d69f9078a43e83
-      User-Agent:
-      - python-requests/2.23.0
-    method: POST
-    uri: https://www.szamlazz.hu/szamla/
-  response:
-    body:
-      string: '<?xml version="1.0" encoding="UTF-8"?>
+  - request:
+      body: "--83d0e0ce58b87a8a10d69f9078a43e83\r\nContent-Disposition: form-data; name=\"action-xmlagentxmlfile\";
+        filename=\"invoice.xml\"\r\nContent-Type: multipart/form-data\r\n\r\n<?xml version='1.0'
+        encoding='UTF-8'?>\n<xmlszamla xmlns=\"http://www.szamlazz.hu/xmlszamla\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"
+        xsi:schemaLocation=\"http://www.szamlazz.hu/xmlszamla https://www.szamlazz.hu/szamla/docs/xsds/agent/xmlszamla.xsd\">\n
+        \ <beallitasok>\n    <szamlaagentkulcs>na8h9dppztnbnyyczqspztnbnqe3ym9pztnbnzqcsk</szamlaagentkulcs>\n
+        \   <eszamla>true</eszamla>\n    <kulcstartojelszo></kulcstartojelszo>\n    <szamlaLetoltes>false</szamlaLetoltes>\n
+        \   <valaszVerzio>2</valaszVerzio>\n  </beallitasok>\n  <fejlec>\n    <keltDatum>2020-05-08</keltDatum>\n
+        \   <teljesitesDatum>2020-05-08</teljesitesDatum>\n    <fizetesiHataridoDatum>2020-05-08</fizetesiHataridoDatum>\n
+        \   <fizmod>bankk\xE1rtya</fizmod>\n    <penznem>HUF</penznem>\n    <szamlaNyelve>hu</szamlaNyelve>\n
+        \   <megjegyzes></megjegyzes>\n    <arfolyamBank></arfolyamBank>\n    <arfolyam>0</arfolyam>\n
+        \   <rendelesSzam></rendelesSzam>\n    <dijbekeroSzamlaszam></dijbekeroSzamlaszam>\n
+        \   <elolegszamla>false</elolegszamla>\n    <vegszamla>false</vegszamla>\n    <helyesbitoszamla>false</helyesbitoszamla>\n
+        \   <helyesbitettSzamlaszam></helyesbitettSzamlaszam>\n    <dijbekero>false</dijbekero>\n
+        \   <szamlaszamElotag>TSZTP</szamlaszamElotag>\n  </fejlec>\n  <elado>\n    <bank></bank>\n
+        \   <bankszamlaszam></bankszamlaszam>\n    <emailReplyto></emailReplyto>\n    <emailTargy></emailTargy>\n
+        \   <emailSzoveg></emailSzoveg>\n  </elado>\n  <vevo>\n    <nev>Test Company</nev>\n
+        \   <irsz>1234</irsz>\n    <telepules>Budapest</telepules>\n    <cim>Fake street
+        13</cim>\n    <email></email>\n    <sendEmail>true</sendEmail>\n    <adoszam></adoszam>\n
+        \   <postazasiNev></postazasiNev>\n    <postazasiIrsz></postazasiIrsz>\n    <postazasiTelepules></postazasiTelepules>\n
+        \   <postazasiCim></postazasiCim>\n    <azonosito></azonosito>\n    <telefonszam></telefonszam>\n
+        \   <megjegyzes></megjegyzes>\n  </vevo>\n  <tetelek>\n    <tetel>\n      <megnevezes>NORMAL_EXAM</megnevezes>\n
+        \     <mennyiseg>1</mennyiseg>\n      <mennyisegiEgyseg>db</mennyisegiEgyseg>\n
+        \     <nettoEgysegar>21251.96850393701</nettoEgysegar>\n      <afakulcs>27</afakulcs>\n
+        \     <nettoErtek>21251.96850393701</nettoErtek>\n      <afaErtek>5738.031496062991</afaErtek>\n
+        \     <bruttoErtek>24980</bruttoErtek>\n      <megjegyzes></megjegyzes>\n    </tetel>\n
+        \ </tetelek>\n</xmlszamla>\n\r\n--83d0e0ce58b87a8a10d69f9078a43e83--\r\n"
+      headers:
+        Accept:
+          - "*/*"
+        Accept-Encoding:
+          - gzip, deflate
+        Connection:
+          - keep-alive
+        Content-Length:
+          - "2478"
+        Content-Type:
+          - multipart/form-data; boundary=83d0e0ce58b87a8a10d69f9078a43e83
+        User-Agent:
+          - python-requests/2.23.0
+      method: POST
+      uri: https://www.szamlazz.hu/szamla/
+    response:
+      body:
+        string: '<?xml version="1.0" encoding="UTF-8"?>
 
-        <xmlszamlavalasz xmlns="http://www.szamlazz.hu/xmlszamlavalasz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+          <xmlszamlavalasz xmlns="http://www.szamlazz.hu/xmlszamlavalasz" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-        <sikeres>true</sikeres>
+          <sikeres>true</sikeres>
 
-        <szamlaszam>E-TSZTP-2020-73</szamlaszam>
+          <szamlaszam>E-TSZTP-2020-73</szamlaszam>
 
-        <szamlanetto>21252</szamlanetto>
+          <szamlanetto>21252</szamlanetto>
 
-        <szamlabrutto>26990</szamlabrutto>
+          <szamlabrutto>24980</szamlabrutto>
 
-        <kintlevoseg>26990</kintlevoseg>
+          <kintlevoseg>24980</kintlevoseg>
 
-        <vevoifiokurl><![CDATA[https://www.szamlazz.hu/szamla/?page=vevoifiokpay&partguid=7wn8znsytbchs98rn3sytbchqtinkusytbch&szfejguid=piueu5syvne9did2u7syvne9]]></vevoifiokurl>
+          <vevoifiokurl><![CDATA[https://www.szamlazz.hu/szamla/?page=vevoifiokpay&partguid=7wn8znsytbchs98rn3sytbchqtinkusytbch&szfejguid=piueu5syvne9did2u7syvne9]]></vevoifiokurl>
 
-        </xmlszamlavalasz>
+          </xmlszamlavalasz>
 
-        '
-    headers:
-      Cache-Control:
-      - no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0
-      Connection:
-      - Keep-Alive
-      Content-Disposition:
-      - attachment; filename=72807_E-TSZTP-2020-73_r6bhhs7sr86ytxv6fa6dvipd.xml
-      Content-Length:
-      - '515'
-      Content-Type:
-      - application/octet-stream
-      Date:
-      - Fri, 08 May 2020 08:58:10 GMT
-      Expires:
-      - Fri, 08 May 2020 08:58:10 GMT
-      Keep-Alive:
-      - timeout=15, max=1000
-      Pragma:
-      - public
-      Server:
-      - Apache/2.4.38 (Debian)
-      Set-Cookie:
-      - JSESSIONID=2CDABA5854D4B296F41FD509EAF11859.sas2; Path=/szamla; Secure; HttpOnly
-      - cookie_is_member=true; Max-Age=31536000; Expires=Sat, 08-May-2021 08:58:12
-        GMT; Path=/; Secure
-      szlahu_bruttovegosszeg:
-      - '26990'
-      szlahu_kintlevoseg:
-      - '26990'
-      szlahu_nettovegosszeg:
-      - '21252'
-      szlahu_szamlaszam:
-      - E-TSZTP-2020-73
-      szlahu_vevoifiokurl:
-      - https%3A%2F%2Fwww.szamlazz.hu%2Fszamla%2F%3Fpage%3Dvevoifiokpay%26partguid%3D7wn8znsytbchs98rn3sytbchqtinkusytbch%26szfejguid%3Dpiueu5syvne9did2u7syvne9
-    status:
-      code: 200
-      message: '200'
+          '
+      headers:
+        Cache-Control:
+          - no-store, no-cache, must-revalidate, post-check=0, pre-check=0, max-age=0
+        Connection:
+          - Keep-Alive
+        Content-Disposition:
+          - attachment; filename=72807_E-TSZTP-2020-73_r6bhhs7sr86ytxv6fa6dvipd.xml
+        Content-Length:
+          - "515"
+        Content-Type:
+          - application/octet-stream
+        Date:
+          - Fri, 08 May 2020 08:58:10 GMT
+        Expires:
+          - Fri, 08 May 2020 08:58:10 GMT
+        Keep-Alive:
+          - timeout=15, max=1000
+        Pragma:
+          - public
+        Server:
+          - Apache/2.4.38 (Debian)
+        Set-Cookie:
+          - JSESSIONID=2CDABA5854D4B296F41FD509EAF11859.sas2; Path=/szamla; Secure; HttpOnly
+          - cookie_is_member=true; Max-Age=31536000; Expires=Sat, 08-May-2021 08:58:12
+            GMT; Path=/; Secure
+        szlahu_bruttovegosszeg:
+          - "24980"
+        szlahu_kintlevoseg:
+          - "24980"
+        szlahu_nettovegosszeg:
+          - "21252"
+        szlahu_szamlaszam:
+          - E-TSZTP-2020-73
+        szlahu_vevoifiokurl:
+          - https%3A%2F%2Fwww.szamlazz.hu%2Fszamla%2F%3Fpage%3Dvevoifiokpay%26partguid%3D7wn8znsytbchs98rn3sytbchqtinkusytbch%26szfejguid%3Dpiueu5syvne9did2u7syvne9
+      status:
+        code: 200
+        message: "200"
 version: 1

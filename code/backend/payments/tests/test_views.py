@@ -74,7 +74,7 @@ class TestGetPriceView:
     def test_appointment_with_one_seat(self, get_price_request, seat):
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 26_990
+        assert res.data["total_price"] == 24_980
         _assert_payments(count=0, expected_total_price=None)
 
     def test_appointment_with_multiple_seats(self, get_price_request, appointment):
@@ -82,7 +82,7 @@ class TestGetPriceView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 26_990 * 2
+        assert res.data["total_price"] == 24_980 * 2
         _assert_payments(count=0, expected_total_price=None)
 
     def test_appointment_seat_with_has_doctor_referral(self, get_price_request, appointment):
@@ -98,7 +98,7 @@ class TestGetPriceView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now())
         res = get_price_view(get_price_request)
         assert res.status_code == status.HTTP_200_OK
-        assert res.data["total_price"] == 26_990 * 2
+        assert res.data["total_price"] == 24_980 * 2
         _assert_payments(count=0, expected_total_price=None)
 
     def test_completed_registration(self, get_price_request, appointment):
@@ -129,7 +129,7 @@ class TestPayAppointmentView:
 
     def test_pay_one_seat(self, pay_appointment_body, seat, factory, appointment):
         appointment.email = "test@rollet.app"
-        total_price = 26_990
+        total_price = 24_980
         pay_appointment_body["total_price"] = total_price
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
         _authenticate_appointment(request, appointment)
@@ -145,7 +145,7 @@ class TestPayAppointmentView:
 
     @pytest.mark.vcr()
     def test_simplepay(self, pay_appointment_body, seat, factory, appointment):
-        total_price = 26_990
+        total_price = 24_980
         pay_appointment_body["total_price"] = total_price
         pay_appointment_body["payment_method"] = PaymentMethodType.SIMPLEPAY
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
@@ -168,7 +168,7 @@ class TestPayAppointmentView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email="seat@email.com")
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email="seat2@email.com")
 
-        total_price = 26_990 * 2
+        total_price = 24_980 * 2
         pay_appointment_body["total_price"] = total_price
 
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
@@ -188,7 +188,7 @@ class TestPayAppointmentView:
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email=same_email)
         Seat.objects.create(appointment=appointment, birth_date=timezone.now(), email=same_email)
 
-        total_price = 26_990 * 2
+        total_price = 24_980 * 2
         pay_appointment_body["total_price"] = total_price
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
         _authenticate_appointment(request, appointment)
@@ -242,7 +242,7 @@ class TestPayAppointmentView:
         _assert_payments(count=0, expected_total_price=None)
 
     def test_proper_qrcode_format(self, pay_appointment_body, seat, factory, appointment):
-        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["total_price"] = 24_980
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
         _authenticate_appointment(request, appointment)
         res = pay_appointment_view(request)
@@ -253,7 +253,7 @@ class TestPayAppointmentView:
         assert qr.code == qr._calc_code()
 
     def test_tax_number_is_optional_if_not_company(self, pay_appointment_body, factory, appointment, seat):
-        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["total_price"] = 24_980
         pay_appointment_body.pop("tax_number", None)
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
         _authenticate_appointment(request, appointment)
@@ -261,7 +261,7 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_200_OK, res.data
 
     def test_tax_number_is_optional_if_not_company2(self, pay_appointment_body, factory, appointment, seat):
-        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["total_price"] = 24_980
         pay_appointment_body["tax_number"] = ""
         request = factory.post("/api/pay-appointment/", pay_appointment_body, format="json")
         _authenticate_appointment(request, appointment)
@@ -269,7 +269,7 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_200_OK, res.data
 
     def test_tax_number_is_required_if_company(self, pay_appointment_body, factory, appointment, seat):
-        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["total_price"] = 24_980
         pay_appointment_body.pop("tax_number", None)
         pay_appointment_body["is_company"] = True
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
@@ -278,6 +278,7 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "tax_number" in res.data
 
+    # pytest.mark.skipif(use_feature_simplepay is False)
     def test_existing_payments(self, pay_appointment_body, factory, transaction, appointment, monkeypatch):
         mock_response = Mock(
             return_value=StartPaymentResponse(
@@ -293,7 +294,7 @@ class TestPayAppointmentView:
         )
         monkeypatch.setattr(simplepay, "start", mock_response)
 
-        pay_appointment_body["total_price"] = 26_990
+        pay_appointment_body["total_price"] = 24_980
         pay_appointment_body["payment_method"] = PaymentMethodType.SIMPLEPAY
 
         request = factory.post("/api/pay-appointment/", pay_appointment_body)
