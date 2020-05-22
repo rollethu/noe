@@ -183,4 +183,5 @@ def simplepay_v2_callback_view(request):
     transaction = m.SimplePayTransaction.objects.get(external_reference_id=ipn.transaction_id)
     if ipn.status == "FINISHED":
         services.complete_transaction(transaction, ipn.finish_date)
+
     return Response(response["body"], headers=response["headers"])

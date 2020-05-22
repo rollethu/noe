@@ -1,5 +1,8 @@
 import datetime as dt
+
 from django.utils.translation import gettext as _
+from online_payments.billing.szamlazzhu.exceptions import SzamlazzhuError
+from rest_framework.exceptions import ValidationError
 
 from billing import services as billing_services
 
@@ -40,4 +43,7 @@ def complete_transaction(transaction, finish_date):
     appointment = transaction.payments.first().seat.appointment
 
     transaction.payments.all().update(paid_at=finish_date)
-    billing_services.send_appointment_invoice(appointment)
+    try:
+        billing_services.send_appointment_invoice(appointment)
+    except SzamlazzhuError as e:
+        raise ValidationError({"error": str(e)})
