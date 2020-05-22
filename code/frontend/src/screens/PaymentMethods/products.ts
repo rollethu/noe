@@ -7,7 +7,7 @@ class Product {
   }
 }
 
-export const productNormal = new Product("NORMAL_EXAM", "Normál vizsgálat", true, 26990);
+export const productNormal = new Product("NORMAL_EXAM", "Normál vizsgálat", true, 24980);
 export const productPriority = new Product("PRIORITY_EXAM", "Elsőbbségi vizsgálat", true, 36990);
 
 export const products = [productNormal, productPriority];

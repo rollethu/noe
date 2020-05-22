@@ -83,9 +83,9 @@ class ServicePackage(_BaseItem):
 
 
 class NormalServicePackage(ServicePackage):
-    net_unit_price = 9514
-    gross_unit_price = 9_990
-    unit_vat_value = 476
+    net_unit_price = 7_600
+    gross_unit_price = 7_980
+    unit_vat_value = 380
 
 
 class PriorityServicePackage(ServicePackage):
@@ -100,7 +100,7 @@ PRODUCTS = {
     ),
     ProductType.NORMAL_EXAM: Product(
         ProductType.NORMAL_EXAM,
-        26_990,
+        24_980,
         "HUF",
         PaymentMethodType.ON_SITE,
         item_classes=[NormalProductPackage, NormalServicePackage],
