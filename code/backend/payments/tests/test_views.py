@@ -4,6 +4,8 @@ from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
 from online_payments.payments.simple_v2.client import IPN, StartPaymentResponse
+from online_payments.payments.simple_v2.exceptions import IPNError
+from online_payments.payments.exceptions import InvalidSignature
 from rest_framework.test import force_authenticate
 from rest_framework import status
 import pytest
@@ -349,6 +351,8 @@ class TestPaymentStatusView:
 
 @pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
 class TestSimplePayCallbackView:
+    url = "/simplepay-callback/"
+
     @pytest.mark.django_db
     def test_success(self, factory, monkeypatch, transaction, api_client, appointment_billing_detail):
         mock_send_appointment_invoice = Mock()
@@ -370,9 +374,21 @@ class TestSimplePayCallbackView:
         )
         mockResponse = {"body": "", "headers": {}}
         monkeypatch.setattr(simplepay, "process_ipn_request", Mock(return_value=(mockIPN, mockResponse)))
-        rv = api_client.post("/simplepay-callback/")
+        rv = api_client.post(self.url)
         assert rv.status_code == status.HTTP_200_OK
         transaction.refresh_from_db()
         assert transaction.status == transaction.STATUS_COMPLETED
         assert transaction.payments.order_by("created_at").last().paid_at == now
         mock_send_appointment_invoice.assert_called()
+
+    def test_ipn_error_is_handled(self, api_client, monkeypatch):
+        mock_ipn_process = Mock(side_effect=(IPNError()))
+        monkeypatch.setattr(simplepay, "process_ipn_request", mock_ipn_process)
+        rv = api_client.post(self.url)
+        assert rv.status_code == status.HTTP_400_BAD_REQUEST
+
+    def test_invalid_signature_is_handled(self, api_client, monkeypatch):
+        mock_ipn_process = Mock(side_effect=(InvalidSignature()))
+        monkeypatch.setattr(simplepay, "process_ipn_request", mock_ipn_process)
+        rv = api_client.post(self.url)
+        assert rv.status_code == status.HTTP_400_BAD_REQUEST

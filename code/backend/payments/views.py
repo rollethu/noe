@@ -2,6 +2,7 @@ from urllib.parse import urlparse
 from django.urls import resolve
 from django.db import transaction
 from django.conf import settings
+from django.utils.translation import gettext as _
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
@@ -10,6 +11,8 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from online_payments.payments.simple_v2 import SimplePay
+from online_payments.payments.simple_v2.exceptions import IPNError
+from online_payments.payments.exceptions import InvalidSignature
 
 from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
@@ -169,7 +172,11 @@ class PaymentStatusView(generics.GenericAPIView):
 
 @api_view(["POST"])
 def simplepay_v2_callback_view(request):
-    ipn, response = simplepay.process_ipn_request(request)
+    try:
+        ipn, response = simplepay.process_ipn_request(request)
+    except (InvalidSignature, IPNError):
+        raise ValidationError({"error": _("SimplePay error")})
+
     transaction = m.SimplePayTransaction.objects.get(external_reference_id=ipn.transaction_id)
     if ipn.status == "FINISHED":
         services.complete_transaction(transaction, ipn.finish_date)
