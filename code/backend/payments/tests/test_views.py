@@ -4,7 +4,7 @@ from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
 from online_payments.payments.simple_v2.client import IPN, StartPaymentResponse
-from online_payments.payments.simple_v2.exceptions import IPNError
+from online_payments.payments.simple_v2.exceptions import IPNError, SimplePayException
 from online_payments.payments.exceptions import InvalidSignature
 from rest_framework.test import force_authenticate
 from rest_framework import status
@@ -311,6 +311,28 @@ class TestPayAppointmentView:
         new_transaction = m.SimplePayTransaction.objects.order_by("created_at").last()
         assert new_transaction.external_reference_id == "2222"
         assert set(new_transaction.payments.all()) == set(transaction.payments.all())
+
+
+@pytest.mark.django_db
+class TestSimplePayStartErrors:
+    url = "/api/pay-appointment/"
+
+    def test_simplepay_error(self, factory, seat, appointment, pay_appointment_body, monkeypatch):
+        mock_start = Mock(side_effect=SimplePayException(error_codes=[5000], content=b'{"test": "test"}'))
+        monkeypatch.setattr(simplepay, "start", mock_start)
+
+        pay_appointment_body["total_price"] = 24_980
+        pay_appointment_body["payment_method"] = PaymentMethodType.SIMPLEPAY
+
+        request = factory.post("/api/pay-appointment/", pay_appointment_body)
+        _authenticate_appointment(request, appointment)
+        res = pay_appointment_view(request)
+
+        assert res.status_code == status.HTTP_400_BAD_REQUEST
+        assert (
+            str(res.data["error"])
+            == 'Error during SimplePay request, response body: {"test": "test"}\nError code: 5000, message: Általános hibakód.\n'
+        )
 
 
 class TestPaymentStatusView:

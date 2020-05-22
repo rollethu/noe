@@ -11,7 +11,7 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from online_payments.payments.simple_v2 import SimplePay
-from online_payments.payments.simple_v2.exceptions import IPNError
+from online_payments.payments.simple_v2.exceptions import IPNError, SimplePayException
 from online_payments.payments.exceptions import InvalidSignature
 
 from appointments.models import Appointment, QRCode
@@ -119,9 +119,12 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
 
         if use_feature_simplepay and serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
             transaction = self._create_transaction(summary["total_price"], summary["currency"])
-            res = simplepay.start(
-                customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
-            )
+            try:
+                res = simplepay.start(
+                    customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
+                )
+            except SimplePayException as error:
+                raise ValidationError({"error": str(error)})
 
             transaction.status = transaction.STATUS_WAITING_FOR_AUTHORIZATION
             transaction.external_reference_id = res.transaction_id
