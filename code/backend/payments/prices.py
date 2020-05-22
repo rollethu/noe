@@ -5,6 +5,7 @@ from dataclasses import dataclass
 from django.utils.translation import gettext as _
 from online_payments.billing import Item as BillingItem, VATRate
 from . import models as m
+from feature_flags import use_feature_simplepay
 
 
 class PaymentMethodType:
@@ -19,10 +20,10 @@ class ProductType:
     # PRIORITY_EXAM_FRADI = "PRIORITY_EXAM_FRADI"
 
 
-PAYMENT_METHOD_TYPE_CHOICES = (
-    (PaymentMethodType.SIMPLEPAY, _("SimplePay")),
-    (PaymentMethodType.ON_SITE, _("On-site")),
-)
+PAYMENT_METHOD_TYPE_CHOICES = ((PaymentMethodType.ON_SITE, _("On-site")),)
+
+if use_feature_simplepay:
+    PAYMENT_METHOD_TYPE_CHOICES += ((PaymentMethodType.SIMPLEPAY, _("SimplePay")),)
 
 PRODUCT_CHOICES = (
     # DOCTOR_REFERRAL is dynamically chosen based on Seat.has_doctor_referral, not needed here

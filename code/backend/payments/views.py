@@ -10,11 +10,13 @@ from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
 from online_payments.payments.simple_v2 import SimplePay
+
 from appointments.models import Appointment, QRCode
 from appointments.auth import AppointmentAuthentication
 from appointments.permissions import AppointmentPermission
 from appointments import email
 from billing import serializers as bs
+from feature_flags import use_feature_simplepay
 from .prices import calc_payments, PRODUCTS, PaymentMethodType
 from . import models as m
 from . import serializers as s
@@ -112,7 +114,7 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
         if summary["total_price"] != serializer.validated_data["total_price"]:
             raise ValidationError({"total_price": "Invalid amount!"})
 
-        if serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
+        if use_feature_simplepay and serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
             transaction = self._create_transaction(summary["total_price"], summary["currency"])
             res = simplepay.start(
                 customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]

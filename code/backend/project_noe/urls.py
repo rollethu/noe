@@ -22,6 +22,7 @@ from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
 
+from feature_flags import use_feature_simplepay
 import staff_api.urls
 from staff_api.permissions import StaffApiPermissions
 from project_noe.views import health_check
@@ -67,9 +68,9 @@ api_urls = [
     path("verify/resend-email/", appointments.views.ResendVerifyEmailView.as_view()),
     path("get-price/", payments.views.GetPriceView.as_view()),
     path("pay-appointment/", payments.views.PayAppointmentView.as_view()),
-    path("payment-status/", payments.views.PaymentStatusView.as_view()),
     path("", include(swagger_urls)),
 ]
+
 
 urlpatterns = [
     path("api/", include(api_urls)),
@@ -78,8 +79,15 @@ urlpatterns = [
     path("health/", health_check),
     path("health/a1fb4d04460143e8a80b39505974859/", build_info),
     path("qrcode/<code>/", appointments.views.QRCodeView.as_view(), name="qrcode"),
-    path("simplepay-callback/", payments.views.simplepay_v2_callback_view),
 ]
+
+if use_feature_simplepay:
+    api_urls += [
+        path("payment-status/", payments.views.PaymentStatusView.as_view()),
+    ]
+    urlpatterns += [
+        path("simplepay-callback/", payments.views.simplepay_v2_callback_view),
+    ]
 
 
 if "rosetta" in settings.INSTALLED_APPS:
