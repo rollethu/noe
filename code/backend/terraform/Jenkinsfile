@@ -1,11 +1,11 @@
 pipeline {
     agent any
     parameters {
-        choice(name: 'ENV', choices: ['noe','noe-staging'], description: 'Environment to deploy the application to')
+        choice(name: 'ENV', choices: ['noe-staging','noe'], description: 'Environment to deploy the application to')
         choice(name: 'PROJECT', choices: ['noe-backend'])
         string(name: 'IMAGE_VERSION', description: 'The build number of the desired application you want to deploy')
     }
-    
+
     environment {
         AWS_ACCESS_KEY_ID     = credentials('AWS_ACCESS_KEY_ID')
         AWS_SECRET_ACCESS_KEY = credentials('AWS_SECRET_ACCESS_KEY')
@@ -22,7 +22,7 @@ pipeline {
             steps {
                 script {
                     currentBuild.displayName = "${params.ENV}-${params.PROJECT}-${env.BUILD_NUMBER}"
-                }    
+                }
 
                 checkout scm
             }
