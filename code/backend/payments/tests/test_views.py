@@ -314,6 +314,7 @@ class TestPayAppointmentView:
 
 
 @pytest.mark.django_db
+@pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
 class TestSimplePayStartErrors:
     url = "/api/pay-appointment/"
 
