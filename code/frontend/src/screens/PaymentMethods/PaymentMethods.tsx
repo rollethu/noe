@@ -184,7 +184,11 @@ export default function PaymentMethods() {
           />
         </InputGroup>
       )}
-      {useFeatureSimplePay && <Image toRight src={SimplePayLogoPNG} />}
+      {useFeatureSimplePay && (
+        <a href="http://simplepartner.hu/PaymentService/Fizetesi_tajekoztato.pdf" target="_blank">
+          <Image toRight src={SimplePayLogoPNG} />
+        </a>
+      )}
       {useFeatureSimplePay && selectedPaymentMethod === ON_SITE && (
         // @ts-ignore
         <Text>
