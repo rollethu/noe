@@ -1,17 +1,14 @@
 import React from "react";
 
-import PaymentFailedSVG from "../../assets/payment-failed.svg";
-import { View, Caption, Image, Text, LinkButton } from "../../UI";
+import { View, LinkButton } from "../../UI";
 import { ROUTE_PAYMENT_METHODS } from "../../App";
+import ErrorContent, { SimplePayErrorType } from "./ErrorContent";
 
-export default function PaymentFailed() {
+export default function PaymentFailed(props) {
+  const errorType = props.location.search.error_type as SimplePayErrorType;
   return (
     <View>
-      <Caption center>Sikertelen fizetés</Caption>
-      <Image src={PaymentFailedSVG} />
-      {/*
-// @ts-ignore */}
-      <Text>Hiba lépett fel a tranzakció során. Kérjük ellenőrizze hálózati kapcsolatát és próbálja újra!</Text>
+      <ErrorContent errorType={errorType} />
       {/*
 // @ts-ignore */}
       <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
