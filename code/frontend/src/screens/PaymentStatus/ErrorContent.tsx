@@ -42,6 +42,9 @@ export default function ErrorContent({ simplePayEvent, simplePayTransactionId }:
         "Ön megszakította a fizetést. A 'Vissza' gombra tappolva visszairányítjuk a Fizetési mód kiválasztásához.";
       simplePayError.image = PaymentCancelledSVG;
       break;
+    default:
+      simplePayError.caption = "Ismeretlen hiba történt";
+      simplePayError.image = PaymentFailedSVG;
   }
 
   return (
