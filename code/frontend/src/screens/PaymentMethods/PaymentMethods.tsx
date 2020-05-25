@@ -26,22 +26,22 @@ export const paymentMethodOptions = [
   {
     text: (
       <span>
-        Online fizetés
-        <br />
-        most Simple-lel
-      </span>
-    ),
-    value: SIMPLEPAY,
-  },
-  {
-    text: (
-      <span>
         Helyszíni fizetés
         <br />
         bankkártyával*
       </span>
     ),
     value: ON_SITE,
+  },
+  {
+    text: (
+      <span>
+        Online fizetés
+        <br />
+        most Simple-lel
+      </span>
+    ),
+    value: SIMPLEPAY,
   },
 ];
 
