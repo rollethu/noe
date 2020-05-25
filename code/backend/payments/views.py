@@ -174,7 +174,7 @@ class PaymentStatusView(generics.GenericAPIView):
 
 
 @api_view(["POST"])
-def simplepay_v2_callback_view(request):
+def simplepay_ipn_view(request):
     try:
         ipn, response = simplepay.process_ipn_request(request)
     except (InvalidSignature, IPNError):

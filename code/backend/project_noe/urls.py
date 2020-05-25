@@ -86,7 +86,7 @@ if use_feature_simplepay:
         path("payment-status/", payments.views.PaymentStatusView.as_view()),
     ]
     urlpatterns += [
-        path("simplepay-callback/", payments.views.simplepay_v2_callback_view),
+        path("simplepay-ipn/", payments.views.simplepay_ipn_view),
     ]
 
 
