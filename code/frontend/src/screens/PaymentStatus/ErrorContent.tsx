@@ -1,6 +1,8 @@
 import React from "react";
 
 import PaymentFailedSVG from "../../assets/payment-failed.svg";
+import PaymentCancelledSVG from "../../assets/payment-cancelled.svg";
+import PaymentTimeoutSVG from "../../assets/payment-timeout.svg";
 import { Caption, Image, Text } from "../../UI";
 
 export enum SimplePayEvent {
@@ -12,6 +14,7 @@ export enum SimplePayEvent {
 interface SimplePayError {
   caption: string;
   errorMessage: string;
+  image: string;
 }
 
 type ErrorContentProps = {
@@ -19,21 +22,24 @@ type ErrorContentProps = {
 };
 
 export default function ErrorContent({ errorType }: ErrorContentProps) {
-  const simplePayError: SimplePayError = { caption: "", errorMessage: "" };
+  const simplePayError: SimplePayError = { caption: "", errorMessage: "", image: "" };
   switch (errorType) {
     case SimplePayEvent.FAIL:
       simplePayError.caption = "Sikertelen fizetés";
       simplePayError.errorMessage = "";
+      simplePayError.image = PaymentFailedSVG;
       break;
     case SimplePayEvent.TIMEOUT:
       simplePayError.caption = "Időtúllépés";
       simplePayError.errorMessage =
-        "Ön túllépte a tranzakció elindításának lehetséges maximális idejét. A ‘Vissza’ gombra tappolva visszairányítjuk a Fizetési mód kiválasztásához.";
+        "Ön túllépte a tranzakció elindításának lehetséges maximális idejét. A 'Vissza gombra tappolva visszairányítjuk a Fizetési mód kiválasztásához.";
+      simplePayError.image = PaymentTimeoutSVG;
       break;
     case SimplePayEvent.CANCEL:
       simplePayError.caption = "Megszakított fizetés";
       simplePayError.errorMessage =
-        "Ön megszakította a fizetést. A ‘Vissza’ gombra tappolva visszairányítjuk a Fizetési mód kiválasztásához.";
+        "Ön megszakította a fizetést. A 'Vissza' gombra tappolva visszairányítjuk a Fizetési mód kiválasztásához.";
+      simplePayError.image = PaymentCancelledSVG;
       break;
   }
 
