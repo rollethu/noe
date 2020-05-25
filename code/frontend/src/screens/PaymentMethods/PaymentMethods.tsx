@@ -22,8 +22,8 @@ import { Appointment } from "../../models";
 export const ON_SITE = "ON_SITE";
 export const SIMPLEPAY = "SIMPLEPAY";
 export const paymentMethodOptions = [
-  { text: "Online Fizetés", value: SIMPLEPAY },
-  { text: "Fizetés a helyszínen bankkártyával*", value: ON_SITE },
+  { text: "Online fizetés most Simple-lel", value: SIMPLEPAY },
+  { text: "Helyszíni fizetés bankkártyával*", value: ON_SITE },
 ];
 
 const productOptions = products.map((p) => ({
