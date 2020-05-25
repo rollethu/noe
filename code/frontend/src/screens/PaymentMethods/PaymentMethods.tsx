@@ -23,7 +23,7 @@ export const ON_SITE = "ON_SITE";
 export const SIMPLEPAY = "SIMPLEPAY";
 export const paymentMethodOptions = [
   { text: "Online Fizetés", value: SIMPLEPAY },
-  { text: "Fizetés a helyszínen bankkártyával", value: ON_SITE },
+  { text: "Fizetés a helyszínen bankkártyával*", value: ON_SITE },
 ];
 
 const productOptions = products.map((p) => ({
@@ -164,6 +164,13 @@ export default function PaymentMethods() {
             defaultValue={SIMPLEPAY}
           />
         </InputGroup>
+      )}
+      {useFeatureSimplePay && selectedPaymentMethod === ON_SITE && (
+        // @ts-ignore
+        <Text>
+          * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay vagy a Google Pay szolgáltatást. Így
+          érintésmentesen fizethet, minimalizálva az esetleges fertőzés kockázatát.
+        </Text>
       )}
       <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
     </View>
