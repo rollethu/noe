@@ -18,12 +18,13 @@ interface SimplePayError {
 }
 
 type ErrorContentProps = {
-  errorType: SimplePayEvent;
+  simplePayEvent: SimplePayEvent;
+  simplePayTransactionId: string;
 };
 
-export default function ErrorContent({ errorType }: ErrorContentProps) {
+export default function ErrorContent({ simplePayEvent, simplePayTransactionId }: ErrorContentProps) {
   const simplePayError: SimplePayError = { caption: "", errorMessage: "", image: "" };
-  switch (errorType) {
+  switch (simplePayEvent) {
     case SimplePayEvent.FAIL:
       simplePayError.caption = "Sikertelen fizetés";
       simplePayError.errorMessage = "";
