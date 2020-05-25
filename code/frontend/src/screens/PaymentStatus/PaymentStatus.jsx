@@ -1,5 +1,5 @@
 import React from "react";
-import { useHistory } from "react-router-dom";
+import { useHistory, useLocation } from "react-router-dom";
 
 import PaymentPendingSVG from "../../assets/payment-pending.svg";
 import { View, Caption, Image, Text } from "../../UI";
@@ -8,9 +8,15 @@ import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as surveyContext } from "../../contexts/surveyContext";
 import * as contextUtils from "../../contexts/utils";
 import { ROUTE_APPOINTMENT_SUCCESS, ROUTE_PAYMENT_FAILED } from "../../App";
+import * as consts from "./consts";
 
 export default function PaymentStatus() {
   const history = useHistory();
+  const location = useLocation();
+  const params = new URLSearchParams(location.search);
+
+  const simplePayTransactionId = params.get(consts.SIMPLEPAY_TRANSACTION_ID);
+
   const { setState: setAppointmentState, fetchPaymentStatus } = React.useContext(AppointmentContext);
   const { setState: setSeatState } = React.useContext(SeatContext);
   const { setState: setSurveyState } = React.useContext(surveyContext);
@@ -42,7 +48,7 @@ export default function PaymentStatus() {
     const { payment_status: paymentStatus } = response.data;
     if (paymentStatus === "SUCCESS") {
       clearInterval(pollId);
-      history.push(ROUTE_APPOINTMENT_SUCCESS);
+      history.push(ROUTE_APPOINTMENT_SUCCESS, { simplePayTransactionId });
     } else if (paymentStatus === "PENDING") {
       return; // continue polling
     } else {
