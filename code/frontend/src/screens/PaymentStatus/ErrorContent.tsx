@@ -46,11 +46,11 @@ export default function ErrorContent({ simplePayEvent, simplePayTransactionId }:
 
   return (
     <>
-      <Caption>{simplePayError.caption}</Caption>
       <Image src={PaymentFailedSVG} />
+      <Caption center>{simplePayError.caption}</Caption>
       {/*
 // @ts-ignore */}
-      <Text>{simplePayError.errorMessage}</Text>
+      <Text center>{simplePayError.errorMessage}</Text>
     </>
   );
 }
