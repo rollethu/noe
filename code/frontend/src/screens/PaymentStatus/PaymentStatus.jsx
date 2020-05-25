@@ -4,34 +4,26 @@ import { useHistory, useLocation } from "react-router-dom";
 import PaymentPendingSVG from "../../assets/payment-pending.svg";
 import { View, Caption, Image, Text } from "../../UI";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
-import { Context as SeatContext } from "../../contexts/seatContext";
-import { Context as surveyContext } from "../../contexts/surveyContext";
-import * as contextUtils from "../../contexts/utils";
 import { ROUTE_APPOINTMENT_SUCCESS, ROUTE_PAYMENT_FAILED } from "../../App";
 import * as consts from "./consts";
+import { usePopStateFromLocalStorage } from "./hooks";
 
 export default function PaymentStatus() {
+  usePopStateFromLocalStorage();
   const history = useHistory();
   const location = useLocation();
   const params = new URLSearchParams(location.search);
 
   const simplePayTransactionId = params.get(consts.SIMPLEPAY_TRANSACTION_ID);
 
-  const { setState: setAppointmentState, fetchPaymentStatus } = React.useContext(AppointmentContext);
-  const { setState: setSeatState } = React.useContext(SeatContext);
-  const { setState: setSurveyState } = React.useContext(surveyContext);
+  const { fetchPaymentStatus } = React.useContext(AppointmentContext);
   let pollId = null;
 
   React.useEffect(() => {
     pollId = setInterval(() => {
       doPoll();
     }, 3000);
-    const setters = {
-      setAppointmentState,
-      setSeatState,
-      setSurveyState,
-    };
-    contextUtils.loadStateFromLocalStorage(setters);
+
     return () => {
       clearInterval(pollId);
     };
