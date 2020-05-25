@@ -27,7 +27,7 @@ export default function ErrorContent({ simplePayEvent, simplePayTransactionId }:
   switch (simplePayEvent) {
     case SimplePayEvent.FAIL:
       simplePayError.caption = "Sikertelen fizetés";
-      simplePayError.errorMessage = "";
+      simplePayError.errorMessage = `SimplePay tranzakció azonosító: ${simplePayTransactionId} Kérjük, ellenőrizze a tranzakció során megadott adatok helyességét és próbálja újra! Amennyiben minden adatot helyesen adott meg, a visszautasítás okának kivizsgálása érdekében kérjük, szíveskedjen kapcsolatba lépni kártyakibocsátó bankjával.`;
       simplePayError.image = PaymentFailedSVG;
       break;
     case SimplePayEvent.TIMEOUT:
