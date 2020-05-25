@@ -1,3 +1,6 @@
+import os
+import json
+import base64
 from unittest.mock import Mock
 
 from django.core import mail
@@ -15,7 +18,7 @@ from ..views import (
     GetPriceView,
     PayAppointmentView,
     PaymentStatusView,
-    simplepay_v2_callback_view as callback_view,
+    simplepay_back_view as back_view,
     simplepay,
 )
 from billing import services as billing_services
@@ -373,8 +376,8 @@ class TestPaymentStatusView:
 
 
 @pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
-class TestSimplePayCallbackView:
-    url = "/simplepay-callback/"
+class TestSimplePayIPNView:
+    url = "/simplepay-ipn/"
 
     @pytest.mark.django_db
     def test_success(self, factory, monkeypatch, transaction, api_client, appointment_billing_detail):
@@ -415,3 +418,46 @@ class TestSimplePayCallbackView:
         monkeypatch.setattr(simplepay, "process_ipn_request", mock_ipn_process)
         rv = api_client.post(self.url)
         assert rv.status_code == status.HTTP_400_BAD_REQUEST
+
+
+@pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
+class TestSimplePayCallbackView:
+    url = "/simplepay-callback/"
+
+    def test_successful_event(self, settings, factory):
+        simple_callback_response = {
+            "r": 0,
+            "t": 99844942,
+            "e": "SUCCESS",
+            "m": "PUBLICTESTHUF",
+            "o": "101010515680292482600",
+        }
+        simple_callback_json = json.dumps(simple_callback_response)
+        simple_callback_data = base64.b64encode(simple_callback_json.encode())
+        signature = simplepay.get_signature(simple_callback_json)
+
+        request = factory.get("/simplepay-back/", {"r": simple_callback_data.decode(), "s": signature})
+        res = callback_view(request)
+        assert (
+            res.url
+            == "http://frontend-url/fizetes-status?simplepay_transaction_id=99844942&simplepay_transaction_event=SUCCESS"
+        )
+
+    def test_fail_event(self, settings, factory):
+        simple_callback_response = {
+            "r": 0,
+            "t": 99844942,
+            "e": "FAIL",
+            "m": "PUBLICTESTHUF",
+            "o": "101010515680292482600",
+        }
+        simple_callback_json = json.dumps(simple_callback_response)
+        simple_callback_data = base64.b64encode(simple_callback_json.encode())
+        signature = simplepay.get_signature(simple_callback_json)
+
+        request = factory.get("/simplepay-back/", {"r": simple_callback_data.decode(), "s": signature})
+        res = callback_view(request)
+        assert (
+            res.url
+            == "http://frontend-url/sikertelen-fizetes?simplepay_transaction_id=99844942&simplepay_transaction_event=FAIL"
+        )

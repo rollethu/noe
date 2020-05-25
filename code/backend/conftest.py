@@ -1,7 +1,6 @@
 from urllib.parse import urljoin
 from pathlib import Path
 import datetime as dt
-from django.conf import settings
 from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
 from rest_framework.reverse import reverse
@@ -18,6 +17,12 @@ from users.models import User
 @pytest.fixture
 def factory():
     return APIRequestFactory()
+
+
+@pytest.fixture(autouse=True)
+def django_settings(settings):
+    settings.SIMPLEPAY_SECRET_KEY = "simple-secret"
+    settings.FRONTEND_URL = "http://frontend-url"
 
 
 @pytest.fixture

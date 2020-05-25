@@ -1,8 +1,11 @@
-from urllib.parse import urlparse
+import base64
+import json
+from urllib.parse import urljoin, urlencode
 from django.urls import resolve
 from django.db import transaction
 from django.conf import settings
 from django.utils.translation import gettext as _
+from django.shortcuts import redirect
 from rest_framework import viewsets
 from rest_framework import generics
 from rest_framework import status
@@ -10,7 +13,7 @@ from rest_framework import mixins
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from rest_framework.exceptions import ValidationError
-from online_payments.payments.simple_v2 import SimplePay
+from online_payments.payments.simple_v2 import SimplePay, SimplePayEvent
 from online_payments.payments.simple_v2.exceptions import IPNError, SimplePayException
 from online_payments.payments.exceptions import InvalidSignature
 
@@ -25,6 +28,8 @@ from . import models as m
 from . import serializers as s
 from . import services
 
+ROUTE_PAYMENT_STATUS = "/fizetes-status"
+ROUTE_PAYMENT_FAILED = "/sikertelen-fizetes"
 
 simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT, settings.SIMPLEPAY_CALLBACK_URL)
 
@@ -185,3 +190,27 @@ def simplepay_ipn_view(request):
         services.complete_transaction(transaction, ipn.finish_date)
 
     return Response(response["body"], headers=response["headers"])
+
+
+@api_view(["GET"])
+def simplepay_back_view(request):
+    """docs: PaymentService v2 - 3.11 back url"""
+
+    expected_signature = request.GET["s"]
+    r_params_json = base64.b64decode(request.GET["r"].encode())
+    simplepay.validate_signature(expected_signature, r_params_json.decode())
+
+    r_params = json.loads(r_params_json)
+    event = SimplePayEvent(r_params["e"])
+    if event is SimplePayEvent.SUCCESS:
+        frontend_path = ROUTE_PAYMENT_STATUS
+    else:
+        frontend_path = ROUTE_PAYMENT_FAILED
+
+    frontend_full_url = urljoin(settings.FRONTEND_URL, frontend_path)
+
+    transaction_params = {
+        "simplepay_transaction_id": r_params["t"],
+        "simplepay_transaction_event": event.value,
+    }
+    return redirect(f"{frontend_full_url}?{urlencode(transaction_params)}")
