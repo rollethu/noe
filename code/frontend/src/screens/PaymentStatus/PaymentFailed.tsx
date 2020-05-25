@@ -12,7 +12,7 @@ export default function PaymentFailed(props) {
       {/*
 // @ts-ignore */}
       <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
-        Újrapróbálom
+        Vissza
       </LinkButton>
     </View>
   );
