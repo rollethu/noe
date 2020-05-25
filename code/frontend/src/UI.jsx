@@ -274,9 +274,10 @@ export function HighlightText({ children, ...props }) {
   );
 }
 
-export function Image({ src }) {
+export function Image({ src, toRight = false }) {
+  const classes = classNames("ImageContainer", { ToRight: toRight });
   return (
-    <div className="ImageContainer">
+    <div className={classes}>
       <img src={src} alt="alt" />
     </div>
   );

@@ -102,6 +102,8 @@
   display: flex;
   justify-content: center;
   margin-bottom: 40px; }
+  .ImageContainer.ToRight {
+    justify-content: flex-end; }
 
 .Hidden {
   display: none; }

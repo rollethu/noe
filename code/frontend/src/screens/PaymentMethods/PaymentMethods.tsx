@@ -8,6 +8,7 @@ import * as contextUtils from "../../contexts/utils";
 import * as paymentUtils from "./utils";
 import * as utils from "../../utils";
 import ProgressBarSVG from "../../assets/progressbar_5.svg";
+import SimplePayLogoPNG from "../../assets/simplepay_200x50.png";
 import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
@@ -165,6 +166,7 @@ export default function PaymentMethods() {
           />
         </InputGroup>
       )}
+      {useFeatureSimplePay && selectedPaymentMethod == SIMPLEPAY && <Image toRight src={SimplePayLogoPNG} />}
       {useFeatureSimplePay && selectedPaymentMethod === ON_SITE && (
         // @ts-ignore
         <Text>
