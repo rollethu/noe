@@ -16,7 +16,7 @@ export default function PaymentFailed(props) {
     <View>
       <ErrorContent simplePayEvent={simplePayEvent} simplePayTransactionId={simplePayTransactionId} />
       {/*
-// @ts-ignore */}
+      // @ts-ignore */}
       <LinkButton toCenter to={ROUTE_PAYMENT_METHODS}>
         Vissza
       </LinkButton>
