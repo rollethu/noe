@@ -23,8 +23,26 @@ import { Appointment } from "../../models";
 export const ON_SITE = "ON_SITE";
 export const SIMPLEPAY = "SIMPLEPAY";
 export const paymentMethodOptions = [
-  { text: "Online fizetés most Simple-lel", value: SIMPLEPAY },
-  { text: "Helyszíni fizetés bankkártyával*", value: ON_SITE },
+  {
+    text: (
+      <span>
+        Online fizetés
+        <br />
+        most Simple-lel
+      </span>
+    ),
+    value: SIMPLEPAY,
+  },
+  {
+    text: (
+      <span>
+        Helyszíni fizetés
+        <br />
+        bankkártyával*
+      </span>
+    ),
+    value: ON_SITE,
+  },
 ];
 
 const productOptions = products.map((p) => ({
