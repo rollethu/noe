@@ -184,7 +184,7 @@ export default function PaymentMethods() {
           />
         </InputGroup>
       )}
-      {useFeatureSimplePay && selectedPaymentMethod == SIMPLEPAY && <Image toRight src={SimplePayLogoPNG} />}
+      {useFeatureSimplePay && <Image toRight src={SimplePayLogoPNG} />}
       {useFeatureSimplePay && selectedPaymentMethod === ON_SITE && (
         // @ts-ignore
         <Text>
