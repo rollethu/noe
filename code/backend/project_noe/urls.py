@@ -87,7 +87,7 @@ if use_feature_simplepay:
     ]
     urlpatterns += [
         path("simplepay-ipn/", payments.views.simplepay_ipn_view),
-        path("simplepay-back/", payments.views.simplepay_back_view),
+        path("simplepay-back/", payments.views.simplepay_back_view, name="simplepay-back"),
     ]
 
 

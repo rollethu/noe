@@ -1,7 +1,7 @@
 import base64
 import json
 from urllib.parse import urljoin, urlencode
-from django.urls import resolve
+from django.urls import resolve, reverse
 from django.db import transaction
 from django.conf import settings
 from django.utils.translation import gettext as _
@@ -31,7 +31,8 @@ from . import services
 ROUTE_PAYMENT_STATUS = "/fizetes-status"
 ROUTE_PAYMENT_FAILED = "/sikertelen-fizetes"
 
-simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT, settings.SIMPLEPAY_CALLBACK_URL)
+
+simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT)
 
 
 class GetPriceView(generics.GenericAPIView):
@@ -126,7 +127,10 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
             transaction = self._create_transaction(summary["total_price"], summary["currency"])
             try:
                 res = simplepay.start(
-                    customer_email=appointment.email, order_ref=str(appointment.pk), total=summary["total_price"]
+                    customer_email=appointment.email,
+                    order_ref=str(appointment.pk),
+                    total=summary["total_price"],
+                    callback_url=reverse("simplepay-back"),
                 )
             except SimplePayException as error:
                 raise ValidationError({"error": str(error)})
