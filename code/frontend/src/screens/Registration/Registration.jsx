@@ -36,9 +36,6 @@ export default function Registration() {
     text: location.name,
     value: location.url,
   }));
-  const redirectRoute = !!appointment?.location
-    ? ROUTE_CHECKOUT
-    : ROUTE_SEAT_DETAILS;
 
   const onSubmit = async (values, setError) => {
     if (!appointment.url) {
@@ -51,7 +48,7 @@ export default function Registration() {
       response,
       setError,
       history,
-      redirectRoute,
+      redirectRoute: ROUTE_SEAT_DETAILS,
     });
   };
 
@@ -59,15 +56,8 @@ export default function Registration() {
     <View>
       <Image src={ProgressBarSVG} />
       <Caption>Regisztráció</Caption>
-      <Text>
-        Válassza ki a tesztelőállomást és adja meg a gépjármű rendszámát, amivel
-        érkezni fog
-      </Text>
-      <RegistrationForm
-        locationOptions={locationOptions}
-        onSubmit={onSubmit}
-        appointment={appointment}
-      />
+      <Text>Válassza ki a tesztelőállomást és adja meg a gépjármű rendszámát, amivel érkezni fog</Text>
+      <RegistrationForm locationOptions={locationOptions} onSubmit={onSubmit} appointment={appointment} />
     </View>
   );
 }
