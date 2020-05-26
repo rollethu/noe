@@ -15,8 +15,11 @@ import { Provider as SurveyProvider } from "../../contexts/surveyContext";
 import { Provider as TimeSlotProvider } from "../../contexts/timeSlotContext";
 import { Provider as LocationProvider } from "../../contexts/locationContext";
 import PaymentMethods, { SIMPLEPAY } from "./PaymentMethods";
+import { useFeatureSimplePay } from "../../featureFlags";
 
-test("Online Payment is the default value", () => {
+const testSkipIf = (condition, name, fn) => (condition ? test.skip(name, fn) : test(name, fn));
+
+testSkipIf(!useFeatureSimplePay, "Online Payment is the default value", () => {
   const wrapper = mount(
     <SurveyProvider>
       <TimeSlotProvider>
