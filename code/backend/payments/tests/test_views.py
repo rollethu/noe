@@ -437,7 +437,7 @@ class TestSimplePayCallbackView:
         signature = simplepay.get_signature(simple_callback_json)
 
         request = factory.get("/simplepay-back/", {"r": simple_callback_data.decode(), "s": signature})
-        res = callback_view(request)
+        res = back_view(request)
         assert (
             res.url
             == "http://frontend-url/fizetes-status?simplepay_transaction_id=99844942&simplepay_transaction_event=SUCCESS"
@@ -456,7 +456,7 @@ class TestSimplePayCallbackView:
         signature = simplepay.get_signature(simple_callback_json)
 
         request = factory.get("/simplepay-back/", {"r": simple_callback_data.decode(), "s": signature})
-        res = callback_view(request)
+        res = back_view(request)
         assert (
             res.url
             == "http://frontend-url/sikertelen-fizetes?simplepay_transaction_id=99844942&simplepay_transaction_event=FAIL"
