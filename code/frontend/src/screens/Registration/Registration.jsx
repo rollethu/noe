@@ -38,7 +38,7 @@ export default function Registration() {
   }));
 
   const onSubmit = async (values, setError) => {
-    if (!appointment.url) {
+    if (appointment === null) {
       alert("No appointment to update");
       return;
     }
