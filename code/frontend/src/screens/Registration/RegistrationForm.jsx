@@ -3,11 +3,7 @@ import { useForm } from "react-hook-form";
 
 import { Form, Field, NextButton } from "../../UI";
 
-export default function RegistrationForm({
-  locationOptions,
-  onSubmit,
-  appointment,
-}) {
+export default function RegistrationForm({ locationOptions, onSubmit, appointment }) {
   const { register, handleSubmit, setError, errors, setValue } = useForm({
     defaultValues: {
       location: appointment?.location,
