@@ -2,14 +2,26 @@ import React from "react";
 import { useForm } from "react-hook-form";
 
 import { Form, Field, NextButton } from "../../UI";
+import { Appointment } from "../../models";
 
-export default function RegistrationForm({ locationOptions, onSubmit, appointment }) {
-  const { register, handleSubmit, setError, errors, setValue } = useForm({
-    defaultValues: {
-      location: appointment?.location,
-      licence_plate: appointment?.licence_plate,
-    },
-  });
+type registrationFormProps = {
+  locationOptions: any;
+  onSubmit: any;
+  appointment: Appointment;
+};
+
+export default function RegistrationForm({ locationOptions, onSubmit, appointment }: registrationFormProps) {
+  let defaultValues = {
+    location: "",
+    licence_plate: "",
+  };
+  let isLocationDisabled = false;
+  if (appointment) {
+    defaultValues.location = appointment.locationUrl;
+    defaultValues.licence_plate = appointment.licencePlate;
+    isLocationDisabled = !!appointment.locationUrl;
+  }
+  const { register, handleSubmit, setError, errors, setValue } = useForm({ defaultValues });
 
   function onLicencePlateChange(event) {
     setValue("licence_plate", event.target.value.toUpperCase());
@@ -28,7 +40,7 @@ export default function RegistrationForm({ locationOptions, onSubmit, appointmen
         options={locationOptions}
         selectOptionText="Kiválasztás"
         helpText="Kérjük figyelmesen válasszon helyszínt, később nem lehet módosítani."
-        disabled={!!appointment?.location}
+        disabled={isLocationDisabled}
       />
       {/*
 // @ts-ignore */}
