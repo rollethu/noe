@@ -26,27 +26,12 @@ test("Location field has help test", () => {
 });
 
 test("Location field is disbaled", () => {
-  const wrapper = mount(
-    <RegistrationForm
-      locationOptions={[]}
-      appointment={{ location: "fake-url" }}
-    />
-  );
-  expect(wrapper.find("select[name='location']").props()).toHaveProperty(
-    "disabled",
-    true
-  );
+  const wrapper = mount(<RegistrationForm locationOptions={[]} appointment={{ locationUrl: "fake-url" }} />);
+  expect(wrapper.find("select[name='location']").props()).toHaveProperty("disabled", true);
 });
 
 test("Registration form before save", () => {
-  const tree = renderer
-    .create(
-      <RegistrationForm
-        locationOptions={[]}
-        appointment={{ url: "fake-url" }}
-      />
-    )
-    .toJSON();
+  const tree = renderer.create(<RegistrationForm locationOptions={[]} appointment={{ url: "fake-url" }} />).toJSON();
   expect(tree).toMatchSnapshot();
 });
 
@@ -57,8 +42,8 @@ test("Registration form after save", () => {
         locationOptions={[]}
         appointment={{
           url: "fake-url",
-          location: "fake-url",
-          licence_plate: "fake-plate",
+          locationUrl: "fake-url",
+          licencePlate: "fake-plate",
         }}
       />
     )
@@ -72,11 +57,9 @@ test("Registration form after save", () => {
       appointment={{
         url: "fake-url",
         location: "fake-url",
-        licence_plate: "fake-plate",
+        licencePlate: "fake-plate",
       }}
     />
   );
-  expect(wrapper.find("input[name='licence_plate']").getDOMNode().value).toBe(
-    "fake-plate"
-  );
+  expect(wrapper.find("input[name='licence_plate']").getDOMNode().value).toBe("fake-plate");
 });
