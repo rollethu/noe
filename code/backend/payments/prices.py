@@ -42,54 +42,43 @@ class Product:
     item_classes: List
 
 
-class _BaseItem:
-    unit = "db"
-    name = ""
-    net_unit_price = ""
-    gross_unit_price = ""
-    unit_vat_value = ""
-    vat_rate = ""
-
-    def __init__(self, quantity: int):
-        self.unit = self.unit
-        self.name = self.name
-        self.vat_rate = self.vat_rate
-        self.net_unit_price = self.net_unit_price
-
-        self.quantity = quantity
-        self.net_price = self.net_unit_price * quantity
-        self.gross_price = self.gross_unit_price * quantity
-        self.vat_value = self.unit_vat_value * quantity
+@dataclass
+class _ItemBase:
+    name: str
+    net_unit_price: Decimal
+    gross_unit_price: Decimal
+    unit_vat_value: Decimal
+    vat_rate: VATRate
+    unit: str = "db"
 
 
-class ProductPackage(_BaseItem):
-    name = _("Laboratóriumi teszt")
+class NormalTest(_ItemBase):
+    name = _("Laboratóriumi teszt - Alapcsomag (72 óra)")
     net_unit_price = 17_000
     gross_unit_price = 17_000
     unit_vat_value = 0
     vat_rate = VATRate.PERCENT_0
 
 
-class NormalProductPackage(ProductPackage):
-    name = _("Laboratóriumi teszt - Alapcsomag (72 óra)")
-
-
-class PriorityProductPackage(NormalProductPackage):
+class PriorityTest(_ItemBase):
     name = _("Laboratóriumi teszt - Elsőbbségi (1 nap)")
+    net_unit_price = 17_000
+    gross_unit_price = 17_000
+    unit_vat_value = 0
+    vat_rate = VATRate.PERCENT_0
 
 
-class ServicePackage(_BaseItem):
+class NormalPackage(_ItemBase):
     name = _("Mintavételi csomag")
     vat_rate = VATRate.PERCENT_5
-
-
-class NormalServicePackage(ServicePackage):
     net_unit_price = 7_600
     gross_unit_price = 7_980
     unit_vat_value = 380
 
 
-class PriorityServicePackage(ServicePackage):
+class PriorityPackage(_ItemBase):
+    name = _("Mintavételi csomag")
+    vat_rate = VATRate.PERCENT_5
     net_unit_price = 19_038
     gross_unit_price = 19_990
     unit_vat_value = 952
@@ -100,24 +89,32 @@ PRODUCTS = {
         ProductType.DOCTOR_REFERRAL, 0, "HUF", PaymentMethodType.ON_SITE, item_classes=[]
     ),
     ProductType.NORMAL_EXAM: Product(
-        ProductType.NORMAL_EXAM,
-        24_980,
-        "HUF",
-        PaymentMethodType.ON_SITE,
-        item_classes=[NormalProductPackage, NormalServicePackage],
+        ProductType.NORMAL_EXAM, 24_980, "HUF", PaymentMethodType.ON_SITE, item_classes=[NormalTest, NormalPackage],
     ),
     ProductType.PRIORITY_EXAM: Product(
         ProductType.PRIORITY_EXAM,
         36_990,
         "HUF",
         PaymentMethodType.ON_SITE,
-        item_classes=[PriorityProductPackage, PriorityServicePackage],
+        item_classes=[PriorityTest, PriorityPackage],
     ),
 }
 
 
 def get_product_items(product: Product, quantity: int) -> List[BillingItem]:
-    return [BillingItem(**item_class(quantity).__dict__) for item_class in product.item_classes]
+    return [
+        BillingItem(
+            name=item_class.name,
+            quantity=quantity,
+            unit=item_class.unit,
+            net_unit_price=item_class.net_unit_price,
+            net_price=item_class.net_unit_price * quantity,
+            gross_price=item_class.gross_unit_price * quantity,
+            vat_value=item_class.unit_vat_value,
+            vat_rate=item_class.vat_rate,
+        )
+        for item_class in product.item_classes
+    ]
 
 
 def calc_payments(seats, product: Product):
