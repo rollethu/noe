@@ -1,1 +1,1 @@
-use_feature_simplepay = True
+use_feature_simplepay = False
