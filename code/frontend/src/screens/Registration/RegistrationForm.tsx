@@ -17,6 +17,8 @@ export default function RegistrationForm({ locationOptions, onSubmit, appointmen
 
   return (
     <Form onSubmit={handleSubmit((values) => onSubmit(values, setError))}>
+      {/*
+// @ts-ignore */}
       <Field
         register={register}
         name="location"
@@ -28,6 +30,8 @@ export default function RegistrationForm({ locationOptions, onSubmit, appointmen
         helpText="Kérjük figyelmesen válasszon helyszínt, később nem lehet módosítani."
         disabled={!!appointment?.location}
       />
+      {/*
+// @ts-ignore */}
       <Field
         register={register}
         name="licence_plate"
@@ -37,6 +41,8 @@ export default function RegistrationForm({ locationOptions, onSubmit, appointmen
         onChange={onLicencePlateChange}
         placeholder="ABC-123"
       />
+      {/*
+// @ts-ignore */}
       <NextButton type="submit" />
     </Form>
   );
