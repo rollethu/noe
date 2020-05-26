@@ -3,6 +3,13 @@ jest.mock("../../contexts/common", () => ({
   ...jest.requireActual("../../contexts/common"),
   resetState: () => mockResetState,
 }));
+jest.mock("react-router-dom", () => ({
+  ...jest.requireActual("react-router-dom"),
+  useHistory: jest.fn(() => ({
+    push: () => {},
+  })),
+  useLocation: jest.fn(() => ({})),
+}));
 
 import React from "react";
 import { mount } from "enzyme";
