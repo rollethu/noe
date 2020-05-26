@@ -125,10 +125,17 @@ class PayAppointmentView(_BasePayView, generics.GenericAPIView):
 
         if use_feature_simplepay and serializer.validated_data["payment_method"] == PaymentMethodType.SIMPLEPAY:
             transaction = self._create_transaction(summary["total_price"], summary["currency"])
+
+            # Order ref must be unique at a transaction level, appointment level is not enough.
+            # When multiple transactions with the same order refs are sent to Simple,
+            # Simple will find the same transaction.
+            # It is even possible to put a transaction from Cancelled to Created state
+            # in Simple's system, by creating and sending a start request with the same order_ref.
+            order_ref = str(transaction.pk)
             try:
                 res = simplepay.start(
                     customer_email=appointment.email,
-                    order_ref=str(appointment.pk),
+                    order_ref=order_ref,
                     total=summary["total_price"],
                     callback_url=request.build_absolute_uri(reverse("simplepay-back")),
                 )
