@@ -24,10 +24,7 @@ export default function SeatDetailsForm() {
   } = React.useContext(AppointmentContext);
   const submitMode = activeSeat === null ? SUBMIT_MODE_CREATE : SUBMIT_MODE_UPDATE;
   const { register, handleSubmit, setError, errors, watch } = useForm({
-    defaultValues:
-      submitMode === SUBMIT_MODE_CREATE
-        ? { email: appointment.email }
-        : activeSeat,
+    defaultValues: submitMode === SUBMIT_MODE_CREATE ? { email: appointment?.email } : activeSeat,
   });
 
   const onSubmit = (values) => {
