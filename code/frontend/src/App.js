@@ -22,6 +22,7 @@ import AppointmentSuccess from "./screens/AppointmentSuccess/AppointmentSuccess"
 import PaymentStatus from "./screens/PaymentStatus/PaymentStatus";
 import { TopStripe } from "./UI";
 import PaymentFailed from "./screens/PaymentStatus/PaymentFailed";
+import CancelAppointment from "./screens/CancelAppointment/CancelAppointment";
 
 export const ROUTE_START = "/start";
 export const ROUTE_EMAIL_VERIFICATION = "/megerosito-email";
@@ -36,6 +37,7 @@ export const ROUTE_CHECKOUT = "/osszegzes";
 export const ROUTE_APPOINTMENT_SUCCESS = "/sikeres-regisztracio";
 export const ROUTE_PAYMENT_STATUS = "/fizetes-status";
 export const ROUTE_PAYMENT_FAILED = "/sikertelen-fizetes";
+export const ROUTE_CANCEL_APPOINTMENT = "/regisztracio-lemondas";
 
 let DEFAULT_ROUTE = ROUTE_START;
 if (process.env.NODE_ENV === "development") {
@@ -57,6 +59,7 @@ function App() {
     { path: ROUTE_APPOINTMENT_SUCCESS, component: AppointmentSuccess },
     { path: ROUTE_PAYMENT_STATUS, component: PaymentStatus },
     { path: ROUTE_PAYMENT_FAILED, component: PaymentFailed },
+    { path: ROUTE_CANCEL_APPOINTMENT, component: CancelAppointment },
   ];
 
   return (
