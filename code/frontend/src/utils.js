@@ -1,3 +1,6 @@
+import React from "react";
+import moment from "moment";
+
 export const MAX_SEATS_PER_APPOINTMENT = 5;
 
 export function handleResponse({ response, setError, history, redirectRoute }) {
@@ -44,4 +47,20 @@ export function getResourceUuidFromUrl(url) {
 
 export function isMaxSeatCountReached(seatCount) {
   return seatCount >= MAX_SEATS_PER_APPOINTMENT;
+}
+
+export function formatAppointmentDate(selectedTimeSlot) {
+  if (!selectedTimeSlot) {
+    return "";
+  }
+
+  const start = moment(selectedTimeSlot.start);
+  const end = moment(selectedTimeSlot.end);
+  return (
+    <>
+      {`${start.format("YYYY. MM. DD.")}`}
+      <br />
+      {`${start.format("HH:mm")}-${end.format("HH:mm")}`}
+    </>
+  );
 }

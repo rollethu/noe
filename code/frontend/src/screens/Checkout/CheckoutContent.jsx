@@ -2,6 +2,7 @@ import React from "react";
 import { View, Caption, Text, DataRow, IconButton, NextLinkButton, Button } from "../../UI";
 import * as checkoutUtils from "./utils";
 import { ROUTE_PAYMENT_METHODS } from "../../App";
+import { formatAppointmentDate } from "../../utils";
 
 export default function CheckoutContent({
   appointment,
@@ -24,7 +25,7 @@ export default function CheckoutContent({
       <DataRow>
         <Text light>Mintavétel időpontja</Text>
         <Text dark right>
-          {checkoutUtils.formatAppointmentDate(selectedTimeSlot)}
+          {formatAppointmentDate(selectedTimeSlot)}
         </Text>
       </DataRow>
       <DataRow>
