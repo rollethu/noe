@@ -3,6 +3,8 @@ import datetime as dt
 from django.utils.translation import gettext as _
 from online_payments.billing.szamlazzhu.exceptions import SzamlazzhuError
 from rest_framework.exceptions import ValidationError
+from appointments.models import QRCode
+from appointments import email
 
 from billing import services as billing_services
 
@@ -41,8 +43,20 @@ def complete_transaction(transaction, finish_date):
 
     # any payment and seat are ok to find the right appointment
     appointment = transaction.payments.first().seat.appointment
+    appointment.is_registration_completed = True
+    appointment.save()
 
     transaction.payments.all().update(paid_at=finish_date)
+
+    for seat in appointment.seats.all():
+        QRCode.objects.create(seat=seat)
+
+    # Need to query seats again
+    for seat in appointment.seats.all():
+        if not seat.email:
+            raise ValidationError({"email": "Email field is required"})
+        email.send_qrcode(seat)
+
     try:
         billing_services.send_appointment_invoice(appointment)
     except SzamlazzhuError as e:

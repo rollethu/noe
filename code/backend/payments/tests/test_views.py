@@ -400,6 +400,11 @@ class TestSimplePayIPNView:
         transaction.refresh_from_db()
         assert transaction.status == transaction.STATUS_COMPLETED
         assert transaction.payments.order_by("created_at").last().paid_at == now
+        appointment = appointment_billing_detail.appointment
+        appointment.refresh_from_db()
+        assert appointment_billing_detail.appointment.is_registration_completed
+        assert QRCode.objects.count() == 1
+        assert len(mail.outbox) == 1
         mock_send_appointment_invoice.assert_called()
 
     def test_ipn_error_is_handled(self, api_client, monkeypatch):
