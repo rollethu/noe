@@ -13,9 +13,17 @@ import { ROUTE_APPOINTMENT_SUCCESS } from "../../App";
 import { Context as AppointmentContext } from "../../contexts/appointmentContext";
 import { Context as SeatContext } from "../../contexts/seatContext";
 import { Context as SurveyContext } from "../../contexts/surveyContext";
-import { View, Caption, Text, HighlightText, Image, Field, InputGroup, Toggle } from "../../UI";
+import {
+  View,
+  Caption,
+  Text,
+  HighlightText,
+  Image,
+  Field,
+  InputGroup,
+  Toggle,
+} from "../../UI";
 import BillingDetailsForm from "./BillingDetailsForm";
-import { useFeatureSimplePay } from "../../featureFlags";
 import { products } from "./products";
 import { AppointmentState } from "../../contexts/interfaces";
 import { Appointment } from "../../models";
@@ -53,9 +61,16 @@ const productOptions = products.map((p) => ({
 export default function PaymentMethods() {
   const history = useHistory();
   const { state: surveyState } = React.useContext(SurveyContext);
-  const { state: appointmentState, fetchPrice, setProduct } = React.useContext(AppointmentContext);
-  const { appointment, productId: selectedProductId } = appointmentState as AppointmentState;
-  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(SIMPLEPAY);
+  const { state: appointmentState, fetchPrice, setProduct } = React.useContext(
+    AppointmentContext
+  );
+  const {
+    appointment,
+    productId: selectedProductId,
+  } = appointmentState as AppointmentState;
+  const [selectedPaymentMethod, setSelectedPaymentMethod] = React.useState(
+    SIMPLEPAY
+  );
   const { state: seatState } = React.useContext(SeatContext);
   const firstSeat = seatState.seats[0] || null;
   const defaultValues = {
@@ -85,7 +100,7 @@ export default function PaymentMethods() {
       return;
     }
 
-    if (useFeatureSimplePay && selectedPaymentMethod === SIMPLEPAY) {
+    if (selectedPaymentMethod === SIMPLEPAY) {
       handleOnlinePayment(billingDetailsValues, setError);
     } else {
       handleOnSitePayment(billingDetailsValues, setError);
@@ -115,7 +130,11 @@ export default function PaymentMethods() {
   }
 
   async function handleOnlinePayment(billingDetailsValues, setError) {
-    contextUtils.addStateToLocalStorage({ surveyState, appointmentState, seatState });
+    contextUtils.addStateToLocalStorage({
+      surveyState,
+      appointmentState,
+      seatState,
+    });
 
     const url = consts.PAY_APPOINTMENT_URL;
     const requestData = paymentUtils.makePaymentUpdateRequest(
@@ -149,7 +168,9 @@ export default function PaymentMethods() {
     setSelectedPaymentMethod(newPaymentMethod);
   }
 
-  const totalPrice = appointment ? paymentUtils.getTotalPriceDisplay(appointment) : "";
+  const totalPrice = appointment
+    ? paymentUtils.getTotalPriceDisplay(appointment)
+    : "";
 
   return (
     <View>
@@ -168,32 +189,33 @@ export default function PaymentMethods() {
         register={register}
         name="product_type"
       />
-      {useFeatureSimplePay && (
-        // @ts-ignore
-        <InputGroup>
-          {/*
+      {/*
   // @ts-ignore */}
-          <Toggle
-            className="Light"
-            options={paymentMethodOptions}
-            // @ts-ignore
-            onChange={(newValue) => onPaymentMethodChange(newValue)}
-            register={register}
-            name="payment_method"
-            defaultValue={SIMPLEPAY}
-          />
-        </InputGroup>
-      )}
-      {useFeatureSimplePay && (
-        <a href="http://simplepartner.hu/PaymentService/Fizetesi_tajekoztato.pdf" target="_blank">
-          <Image toRight src={SimplePayLogoPNG} />
-        </a>
-      )}
-      {useFeatureSimplePay && selectedPaymentMethod === ON_SITE && (
+      <InputGroup>
+        {/*
+  // @ts-ignore */}
+        <Toggle
+          className="Light"
+          options={paymentMethodOptions}
+          // @ts-ignore
+          onChange={(newValue) => onPaymentMethodChange(newValue)}
+          register={register}
+          name="payment_method"
+          defaultValue={SIMPLEPAY}
+        />
+      </InputGroup>
+      <a
+        href="http://simplepartner.hu/PaymentService/Fizetesi_tajekoztato.pdf"
+        target="_blank"
+      >
+        <Image toRight src={SimplePayLogoPNG} />
+      </a>
+      {selectedPaymentMethod === ON_SITE && (
         // @ts-ignore
         <Text>
-          * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay vagy a Google Pay szolgáltatást. Így
-          érintésmentesen fizethet, minimalizálva az esetleges fertőzés kockázatát.
+          * Helyszíni fizetés esetén - ha teheti - kérjük válassza az Apple Pay
+          vagy a Google Pay szolgáltatást. Így érintésmentesen fizethet,
+          minimalizálva az esetleges fertőzés kockázatát.
         </Text>
       )}
       <BillingDetailsForm onSubmit={onNextClick} seat={firstSeat} />
