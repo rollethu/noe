@@ -22,7 +22,6 @@ from ..views import (
     simplepay,
 )
 from billing import services as billing_services
-from feature_flags import use_feature_simplepay
 from ..prices import ProductType, PaymentMethodType
 from .. import models as m
 
@@ -150,7 +149,6 @@ class TestPayAppointmentView:
         assert len(mail.outbox) == 1
 
     @pytest.mark.vcr()
-    @pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
     def test_simplepay(self, pay_appointment_body, seat, factory, appointment):
         total_price = 24_980
         pay_appointment_body["total_price"] = total_price
@@ -285,7 +283,6 @@ class TestPayAppointmentView:
         assert res.status_code == status.HTTP_400_BAD_REQUEST
         assert "tax_number" in res.data
 
-    @pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
     def test_existing_payments(self, pay_appointment_body, factory, transaction, appointment, monkeypatch):
         mock_response = Mock(
             return_value=StartPaymentResponse(
@@ -317,7 +314,6 @@ class TestPayAppointmentView:
 
 
 @pytest.mark.django_db
-@pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
 class TestSimplePayStartErrors:
     url = "/api/pay-appointment/"
 
@@ -375,7 +371,6 @@ class TestPaymentStatusView:
         assert rv.data["payment_status"] == "SUCCESS"
 
 
-@pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
 class TestSimplePayIPNView:
     url = "/simplepay-ipn/"
 
@@ -420,7 +415,6 @@ class TestSimplePayIPNView:
         assert rv.status_code == status.HTTP_400_BAD_REQUEST
 
 
-@pytest.mark.skipif(not use_feature_simplepay, reason="SimplePay feature is turned off")
 class TestSimplePayCallbackView:
     url = "/simplepay-callback/"
 
