@@ -14,6 +14,7 @@ env_vars = {
   DJANGO_EMAIL_USE_TLS      = "true"
   DJANGO_DEFAULT_FROM_EMAIL = "no-reply@tesztallomas.hu"
   SZAMLAZZHU_INVOICE_PREFIX = "DRVCL"
+  SIMPLEPAY_ENVIRONMENT     = "live"
 }
 
 env_secrets = {

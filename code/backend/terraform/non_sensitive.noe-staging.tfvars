@@ -15,6 +15,7 @@ env_vars = {
   DJANGO_DEFAULT_FROM_EMAIL = "no-reply@tesztallomas.hu"
   SENTRY_DSN_URL            = ""
   SZAMLAZZHU_INVOICE_PREFIX = "TSZTP"
+  SIMPLEPAY_ENVIRONMENT     = "sandbox"
 }
 
 env_secrets = {

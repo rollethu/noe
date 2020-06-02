@@ -32,7 +32,11 @@ ROUTE_PAYMENT_STATUS = "/fizetes-status"
 ROUTE_PAYMENT_FAILED = "/sikertelen-fizetes"
 
 
-simplepay = SimplePay(settings.SIMPLEPAY_SECRET_KEY, settings.SIMPLEPAY_MERCHANT)
+simplepay = SimplePay(
+    settings.SIMPLEPAY_SECRET_KEY,
+    settings.SIMPLEPAY_MERCHANT,
+    settings.SIMPLEPAY_ENVIRONMENT == settings.SIMPLEPAY_LIVE,
+)
 
 
 class GetPriceView(generics.GenericAPIView):
