@@ -1,1 +1,1 @@
-export const useFeatureSimplePay = true;
+export const useFeatureSimplePay = false;
