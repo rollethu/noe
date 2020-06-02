@@ -109,7 +109,7 @@ def get_product_items(product: Product, quantity: int) -> List[BillingItem]:
             net_unit_price=item_class.net_unit_price,
             net_price=item_class.net_unit_price * quantity,
             gross_price=item_class.gross_unit_price * quantity,
-            vat_value=item_class.unit_vat_value,
+            vat_value=item_class.unit_vat_value * quantity,
             vat_rate=item_class.vat_rate,
         )
         for item_class in product.item_classes
