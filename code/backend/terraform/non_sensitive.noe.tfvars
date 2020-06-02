@@ -24,6 +24,8 @@ env_secrets = {
   DJANGO_EMAIL_HOST_USER     = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-user"
   DJANGO_EMAIL_HOST_PASSWORD = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe-common/backend/aws-ses-smtp-password"
   SENTRY_DSN_URL             = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/sentry_dsn_url"
+  SIMPLEPAY_MERCHANT          = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/simplepay-merchant"
+  SIMPLEPAY_SECRET_KEY        = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/simplepay-secret-key"
 }
 
 app_tg_ports = {
