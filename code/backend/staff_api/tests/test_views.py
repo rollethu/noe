@@ -1,5 +1,8 @@
+import uuid
 import pytest
 from django.contrib.auth.models import Permission
+from rest_framework.reverse import reverse
+from rest_framework import status
 from ..views import LoginView
 
 
@@ -23,3 +26,9 @@ def test_traffic_control(api_user, staff_api_client):
     res = staff_api_client.get("/staff-api/traffic-control/abc-123/")
     assert res.data["normalized_licence_plate"] == "ABC123"
     assert "is_paid" in res.data
+
+
+@pytest.mark.django_db
+def test_seat_doesnt_exist(staff_api_client):
+    res = staff_api_client.get(reverse('staff-seat-detail', kwargs={'pk': uuid.uuid4()}))
+    assert res.status_code == status.HTTP_404_NOT_FOUND
