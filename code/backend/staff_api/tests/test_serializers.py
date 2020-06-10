@@ -1,3 +1,4 @@
+import datetime as dt
 from unittest.mock import Mock
 
 import pytest
@@ -134,3 +135,28 @@ class TestSeatSerializer:
         appointment.save()
         serializer = s.SeatSerializer(seat, context={'request': request})
         assert serializer.data['is_correct_location'] is True
+
+    def test_is_appointment_expired(self, seat, factory, api_user):
+        request = factory.get('fake-url')
+        request.user = api_user
+        appointment = seat.appointment
+
+        appointment.end = None
+        appointment.save()
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_appointment_expired'] is False
+
+        appointment.end = timezone.now()
+        appointment.save()
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_appointment_expired'] is False
+
+        appointment.end = timezone.now() + dt.timedelta(days=1)
+        appointment.save()
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_appointment_expired'] is False
+
+        appointment.end = timezone.now() - dt.timedelta(days=1)
+        appointment.save()
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_appointment_expired'] is True

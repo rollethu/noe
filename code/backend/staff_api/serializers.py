@@ -1,4 +1,5 @@
 from django.db import transaction
+from django.utils import timezone
 from django.utils.translation import gettext as _
 from rest_framework import serializers
 from rest_framework.exceptions import ValidationError
@@ -61,6 +62,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     payment = PaymentSerializer(read_only=True)
     location_name = serializers.CharField(source="appointment.location.name", read_only=True, default=None)
     is_correct_location = serializers.SerializerMethodField()
+    is_appointment_expired = serializers.SerializerMethodField()
 
     class Meta:
         model = Seat
@@ -76,11 +78,17 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
             "payment",
             "location_name",
             "is_correct_location",
+            "is_appointment_expired",
         ]
 
     def get_is_correct_location(self, instance):
         user_location = self.context['request'].user.location
         return instance.appointment.location == user_location
+
+    def get_is_appointment_expired(self, instance):
+        if instance.appointment.end is None:
+            return False # We only considered actually expired appointments as "expired".
+        return instance.appointment.end.date() < timezone.now().date()
 
 
 class SampleSerializer(serializers.HyperlinkedModelSerializer):
