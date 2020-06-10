@@ -90,7 +90,8 @@ class TrafficControlView(generics.GenericAPIView):
     lookup_field = "licence_plate"
 
     def get(self, request, *args, **kwargs):
+        # Currently, there is no traffic control at either of the locations.
+        # Determining if every seat in every appointment has paid is a complex logic
+        # which due to lack of interest will be skipped for now.
         normalized = get_normalized_licence_plate(kwargs["licence_plate"])
-        # TODO: This will be fixed later. for now, we only need the field to be present
-        is_paid = random.choice([True, False])
-        return Response({"normalized_licence_plate": normalized, "is_paid": is_paid})
+        return Response({"normalized_licence_plate": normalized, "is_paid": None})
