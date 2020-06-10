@@ -19,10 +19,6 @@ export default function ConfirmCancelAppointment({ locationName, licencePlate, s
     // axios.post("delete")
   };
 
-  const onClickDontCancel = () => {
-    window.location.href = "https://www.tesztallomas.hu";
-  };
-
   let bottomPart;
   if (cancelled) {
     bottomPart = "Regisztrációját töröltük rendszerünkből minden hozzá tartozó adattal együtt.";
@@ -32,9 +28,9 @@ export default function ConfirmCancelAppointment({ locationName, licencePlate, s
         <Button toCenter onClick={onClickCancelAppointment}>
           Lemondás
         </Button>
-        <Button toCenter inverse onClick={onClickDontCancel}>
+        <a href="https://www.tesztallomas.hu" className="Button ToCenter Inverse">
           Vissza a főoldalra
-        </Button>
+        </a>
       </>
     );
   }
