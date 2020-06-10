@@ -3,6 +3,7 @@ from unittest.mock import Mock
 import pytest
 from django.utils import timezone
 from rest_framework.exceptions import ValidationError
+from rest_framework.test import force_authenticate
 
 from appointments.models import Seat
 from payments.models import Payment
@@ -111,11 +112,25 @@ class TestPaymentSerializer:
 
 @pytest.mark.django_db
 class TestSeatSerializer:
-    def test_location_name_is_included(self, seat, location, factory):
+    def test_location_name_is_included(self, seat, location, factory, api_user):
         appointment = seat.appointment
         appointment.location = location
         appointment.save()
 
         request = factory.get('fake-url')
+        request.user = api_user
         serializer = s.SeatSerializer(seat, context={'request': request})
         assert serializer.data['location_name'] == location.name
+
+    def test_is_correct_location(self, seat, factory, api_user):
+        appointment = seat.appointment
+
+        request = factory.get('fake-url')
+        request.user = api_user
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_correct_location'] is False
+
+        appointment.location = api_user.location
+        appointment.save()
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['is_correct_location'] is True

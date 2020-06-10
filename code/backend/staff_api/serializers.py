@@ -60,6 +60,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     appointment = AppointmentSerializer(read_only=True)
     payment = PaymentSerializer(read_only=True)
     location_name = serializers.CharField(source="appointment.location.name", read_only=True, default=None)
+    is_correct_location = serializers.SerializerMethodField()
 
     class Meta:
         model = Seat
@@ -74,7 +75,12 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
             "appointment",
             "payment",
             "location_name",
+            "is_correct_location",
         ]
+
+    def get_is_correct_location(self, instance):
+        user_location = self.context['request'].user.location
+        return instance.appointment.location == user_location
 
 
 class SampleSerializer(serializers.HyperlinkedModelSerializer):
