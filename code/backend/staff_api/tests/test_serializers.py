@@ -107,3 +107,15 @@ class TestPaymentSerializer:
         ser.is_valid(raise_exception=True)
         with pytest.raises(ValidationError):
             ser.save()
+
+
+@pytest.mark.django_db
+class TestSeatSerializer:
+    def test_location_name_is_included(self, seat, location, factory):
+        appointment = seat.appointment
+        appointment.location = location
+        appointment.save()
+
+        request = factory.get('fake-url')
+        serializer = s.SeatSerializer(seat, context={'request': request})
+        assert serializer.data['location_name'] == location.name

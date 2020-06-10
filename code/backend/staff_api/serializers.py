@@ -59,6 +59,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
     url = serializers.HyperlinkedIdentityField(view_name="staff-seat-detail")
     appointment = AppointmentSerializer(read_only=True)
     payment = PaymentSerializer(read_only=True)
+    location_name = serializers.CharField(source="appointment.location.name", read_only=True, default=None)
 
     class Meta:
         model = Seat
@@ -72,6 +73,7 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
             "healthcare_number",
             "appointment",
             "payment",
+            "location_name",
         ]
 
 
