@@ -94,4 +94,4 @@ class TrafficControlView(generics.GenericAPIView):
         # Determining if every seat in every appointment has paid is a complex logic
         # which due to lack of interest will be skipped for now.
         normalized = get_normalized_licence_plate(kwargs["licence_plate"])
-        return Response({"normalized_licence_plate": normalized, "is_paid": None})
+        return Response({"normalized_licence_plate": normalized, "is_paid": False})
