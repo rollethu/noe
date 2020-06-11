@@ -39,7 +39,9 @@ class LocationViewSet(viewsets.ReadOnlyModelViewSet):
     serializer_class = s.LocationSerializer
 
 
-class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, viewsets.GenericViewSet):
+class AppointmentViewSet(
+        mixins.CreateModelMixin, mixins.UpdateModelMixin, mixins.DestroyModelMixin, viewsets.GenericViewSet
+    ):
     queryset = m.Appointment.objects.all()
     serializer_class = s.AppointmentSerializer
     authentication_classes = [auth.AppointmentAuthentication]
