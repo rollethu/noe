@@ -49,13 +49,13 @@ export function isMaxSeatCountReached(seatCount) {
   return seatCount >= MAX_SEATS_PER_APPOINTMENT;
 }
 
-export function formatAppointmentDate(selectedTimeSlot) {
-  if (!selectedTimeSlot) {
+export function formatAppointmentDate(appointment) {
+  if (!appointment.start || !appointment.end) {
     return "";
   }
 
-  const start = moment(selectedTimeSlot.start);
-  const end = moment(selectedTimeSlot.end);
+  const start = appointment.start;
+  const end = appointment.end;
   return (
     <>
       {`${start.format("YYYY. MM. DD.")}`}

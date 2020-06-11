@@ -11,6 +11,7 @@ export const TIME_SLOT_LIST_URL = `${API_URL}/time-slots/`;
 export const GET_PRICE_URL = `${API_URL}/get-price/`;
 export const PAY_APPOINTMENT_URL = `${API_URL}/pay-appointment/`;
 export const PAYMENT_STATUS_URL = `${API_URL}/payment-status/`;
+export const CURRENT_APPOINTMENT_URL = `${API_URL}/appointments/me/`
 
 export const SET_APPOINTMENT = "SET_APPOINTMENT";
 export const SET_APPOINTMENT_PRICE = "SET_APPOINTMENT_PRICE";

@@ -71,6 +71,21 @@ const createAppointment = (dispatch) => async (values) => {
   return response;
 };
 
+
+const fetchCurrentAppointment = (dispatch) => async () => {
+  let response;
+
+  try {
+    response = await axios.get(consts.CURRENT_APPOINTMENT_URL);
+  } catch (error) {
+    return { error: true, errors: error?.response?.data || [] };
+  }
+
+  dispatch({ type: consts.SET_APPOINTMENT, payload: response.data });
+  return jsonToAppointment(response.data);
+
+}
+
 const updateAppointment = (dispatch) => async (url, values) => {
   let response;
 
@@ -183,6 +198,7 @@ export const { Provider, Context } = createContext(
     setState,
     fetchPaymentStatus,
     resetState: common.resetState,
+    fetchCurrentAppointment,
   },
   initialState
 );
