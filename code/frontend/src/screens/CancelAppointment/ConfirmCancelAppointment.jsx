@@ -3,7 +3,7 @@ import { View, Caption, Text, Image, NextButton, Button, DataRow } from "../../U
 import { formatAppointmentDate } from "../../utils";
 
 export default function ConfirmCancelAppointment({ locationName, licencePlate, selectedTimeSlot, personCount }) {
-  const [cancelled, setCancelled] = useState(false);
+  const [isCancelled, setCancelled] = useState(false);
 
   const onClickCancelAppointment = () => {
     setCancelled(true);
@@ -20,7 +20,7 @@ export default function ConfirmCancelAppointment({ locationName, licencePlate, s
   };
 
   let bottomPart;
-  if (cancelled) {
+  if (isCancelled) {
     bottomPart = "Regisztrációját töröltük rendszerünkből minden hozzá tartozó adattal együtt.";
   } else {
     bottomPart = (
