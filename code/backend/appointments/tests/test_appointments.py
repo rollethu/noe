@@ -94,3 +94,10 @@ def test_update_with_location(appointment_client, appointment, location, locatio
     )
     assert rv.status_code == status.HTTP_400_BAD_REQUEST
     assert rv.data["location"] == ["Ez a mező nem lehet null értékű."]
+
+
+@pytest.mark.django_db
+def test_me_appointment(appointment_client, appointment):
+    rv = appointment_client.get(reverse('appointment-me'))
+    assert rv.status_code == status.HTTP_200_OK
+    assert str(appointment.pk) in rv.data['url']

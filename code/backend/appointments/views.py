@@ -15,7 +15,7 @@ from rest_framework import mixins
 from rest_framework.exceptions import NotFound, ValidationError
 from rest_framework.reverse import reverse
 from rest_framework.response import Response
-from rest_framework.decorators import api_view, permission_classes
+from rest_framework.decorators import api_view, permission_classes, action
 from rest_framework.permissions import IsAdminUser, AllowAny
 from rest_framework.settings import api_settings
 from project_noe.views import NoReadModelViewSet
@@ -70,6 +70,11 @@ class AppointmentViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin, views
             # forcibly invalidate the prefetch cache on the appointment.
             appointment._prefetched_objects_cache = {}
 
+        return Response(serializer.data)
+
+    @action(detail=False)
+    def me(self, request):
+        serializer = self.get_serializer(request.auth)
         return Response(serializer.data)
 
 
