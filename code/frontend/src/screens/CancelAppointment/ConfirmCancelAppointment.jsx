@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import axios from 'axios';
+
 import { View, Caption, Text, Image, NextButton, Button, DataRow } from "../../UI";
 import { formatAppointmentDate } from "../../utils";
 
 export default function ConfirmCancelAppointment({ locationName, licencePlate, appointment }) {
   const [isCancelled, setCancelled] = useState(false);
 
-  const onClickCancelAppointment = () => {
+  const onClickCancelAppointment = async () => {
+    try {
+      await axios.delete(appointment.url);
+    } catch (error) {
+      return { error: true, errors: error?.response?.data || [] };
+    }
     setCancelled(true);
-    // try {
-    //   response = await axios.get(consts.PAYMENT_STATUS_URL);
-    // } catch (error) {
-    //   return { error: true, errors: error?.response?.data || [] };
-    // }
   };
 
   let bottomPart;
