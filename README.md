@@ -1,38 +1,34 @@
-Project Noe is founded to help people and government(s) to prevent the spread of COVID19.
+# Rollet NOÉ
 
-To see the projects full documentation see the [wiki](https://gitlab.com/rollet/project-noe/-/wikis/Home).
+NOÉ is a booking and patient management system for drive-through virology
+testing, born in April 2020 in response to the COVID-19 pandemic. It was first
+implemented in Hungary across 2 commercially operating locations, complete with
+a full fledged drive-through testing facility and operational solution. Check it
+out at https://www.tesztallomas.hu
 
-# Getting started
+We stand for making testing as accessible and widespread as possible to better
+understand and mitigate the epidemic. NOÉ is free to use as a backend for such
+an operation by any government or organization, whether it’s free or commercial,
+licensed under the MIT licence.
 
-The repo containse Git submodules, so you need to clone with the `--recurse-submodules` option:
+Features:
 
-```bash
-git clone --recurse-submodules git@gitlab.com:rollet/project-noe.git
-```
+- Registration flow for patients
+- Multi-location support
+- Health survey to pre-screen for symptoms
+- Operator-assigned time slots for visitors to book
+- Mobile app for on-site test administration and other information access
+- Django Admin based management and role handling
+- Multi-product support (e.g. PCR testing and serological testing)
+- Enabled for online payment and online invoicing for commercial applications
 
-Build:
+Rollet publishes NOÉ at no charge and free to use. If your government body or
+organization require technical support or operations, feel free to contact us at
+budapest@rollet.hu
 
-- Prerequisites:
-  - Backend
-    - Non sensitive variables to be put into `code/backend/terraform/non_sensitive.noe.tfvars`
-    - Sensitive variables to be put into [AWS Parameter Store](https://eu-central-1.console.aws.amazon.com/systems-manager/parameters?region=eu-central-1).  
-      The values should be encrypted with KMS (noe-secrets-key), and their ARN should be put in as a variable into the tfvars file above. See example below:
+# About Rollet
 
-```
-                env_vars = {
-                    DJANGO_DATABASE_HOST = "dev-db.cwcdru6hbnif.eu-west-1.rds.amazonaws.com"
-                    DJANGO_DATABASE_PORT = "5432"
-                    DJANGO_DATABASE_USER = "admin"
-                }
-
-                env_secrets = {
-                    DJANGO_SECRET_KEY        = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_secret_key"
-                    DJANGO_DATABASE_PASSWORD = "arn:aws:ssm:eu-central-1:074164835766:parameter/noe/backend/django_database_password"
-                }
-```
-
-- Frontend
-  - No separate build process, the deploy process will make the bundle first. Use `code/frontend/Jenkinsfile`
-- Backend
-  - Use `code/backend/Jenkinsfile` to build the application and push it to the registry
-  - Use `code/backend/terraform/Jenkinsfile` to deploy the application to a preexisting cluster
+Rollet is a payment service that enables drive-through payments with any car.
+With Rollet’s vehicle identification technology, your car becomes a payment
+token, so no cash or card payments are needed at parking lots, fuel stations, or
+even drive-through restaurants.
