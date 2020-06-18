@@ -34,3 +34,7 @@ support or operations, feel free to contact us at budapest@rollet.hu
 With Rollet’s vehicle identification technology, your car becomes a payment
 token, so no cash or card payments are needed at parking lots, fuel stations, or
 even drive-through restaurants.
+
+# Documentation
+
+You can find User Guide and Developer [documentation in the Wiki](https://github.com/rollethu/noe/wiki).
