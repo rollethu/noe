@@ -134,8 +134,8 @@ class NoeConfig:
 
     default_time_slot_capacity = environ.var(default=30, converter=int)
 
-    billing_service_module = environ.var(
-        default="billing.services.noop", help="Service module to use for sending invoices for payments."
+    billing_service = environ.var(
+        default="billing.services.noop.NoopService", help="Service module to use for sending invoices for payments."
     )
 
     @environ.config

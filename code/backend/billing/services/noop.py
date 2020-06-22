@@ -1,11 +1,13 @@
-"""
-Provides no billing service. Does nothing when sending an invoice.
-"""
+from .interface import BillingService
 
 
-def send_seat_invoice(seat):
-    pass
+class NoopService(BillingService):
+    """
+    Provides no billing service. Does nothing when sending an invoice.
+    """
 
+    def send_seat_invoice(self, seat):
+        pass
 
-def send_appointment_invoice(appointment):
-    pass
+    def send_appointment_invoice(self, appointment):
+        pass

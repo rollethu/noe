@@ -183,7 +183,7 @@ DEFAULT_FROM_EMAIL = config.email.default_from
 
 EMAIL_VERIFICATION_KEY = config.email.verification_key
 
-BILLING_SERVICE = config.billing_service_module
+BILLING_SERVICE = config.billing_service
 
 SIMPLEPAY_MERCHANT = config.simplepay.merchant
 SIMPLEPAY_SECRET_KEY = config.simplepay.secret_key

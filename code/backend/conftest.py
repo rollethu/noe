@@ -23,7 +23,6 @@ def factory():
 
 @pytest.fixture(autouse=True)
 def django_settings(settings):
-    settings.SIMPLEPAY_SECRET_KEY = "simple-secret"
     settings.FRONTEND_URL = "http://frontend-url"
 
 
