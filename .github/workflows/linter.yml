@@ -1,0 +1,18 @@
+name: Lint codebase
+
+on:
+  push:
+    branches-ignore:
+      - master
+
+jobs:
+  linter:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout codebase
+        uses: actions/checkout@v2
+
+      - name: Black Check
+        uses: jpetrucciani/black-check@19.10b0
+        with:
+          path: code/backend
