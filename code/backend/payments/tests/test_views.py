@@ -3,6 +3,7 @@ import json
 import base64
 from unittest.mock import Mock
 
+from django.apps import apps as django_apps
 from django.core import mail
 from django.utils import timezone
 from django.db.models import Sum
@@ -21,7 +22,6 @@ from ..views import (
     simplepay_back_view as back_view,
     simplepay,
 )
-from billing import services as billing_services
 from ..prices import ProductType, PaymentMethodType
 from .. import models as m
 
@@ -376,8 +376,9 @@ class TestSimplePayIPNView:
 
     @pytest.mark.django_db
     def test_success(self, factory, monkeypatch, transaction, api_client, appointment_billing_detail):
-        mock_send_appointment_invoice = Mock()
-        monkeypatch.setattr(billing_services, "send_appointment_invoice", mock_send_appointment_invoice)
+        send_appointment_invoice_mock = Mock()
+        billing = django_apps.get_app_config("billing")
+        monkeypatch.setattr(billing.service, "send_appointment_invoice", send_appointment_invoice_mock)
         now = timezone.now()
 
         transaction.external_reference_id = "111"
@@ -405,7 +406,7 @@ class TestSimplePayIPNView:
         assert appointment_billing_detail.appointment.is_registration_completed
         assert QRCode.objects.count() == 1
         assert len(mail.outbox) == 1
-        mock_send_appointment_invoice.assert_called()
+        send_appointment_invoice_mock.assert_called()
 
     def test_ipn_error_is_handled(self, api_client, monkeypatch):
         mock_ipn_process = Mock(side_effect=(IPNError()))

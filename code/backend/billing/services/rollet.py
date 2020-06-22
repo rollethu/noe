@@ -1,3 +1,9 @@
+"""
+Uses Rollet proprietary online_payments package,
+which uses szamlazz.hu billing provider to send invoices on payments.
+"""
+
+import os
 from typing import List
 from collections import defaultdict
 import logging
@@ -40,6 +46,6 @@ def _send_invoice(billing_detail, email, items):
         tax_number=billing_detail.tax_number,
     )
     invoice = Invoice(items=items, payment_method=PaymentMethod.CREDIT_CARD, customer=customer)
-    szamlazzhu = Szamlazzhu(settings.SZAMLAZZHU_AGENT_KEY, Currency.HUF)
+    szamlazzhu = Szamlazzhu(os.environ["SZAMLAZZHU_AGENT_KEY"], Currency.HUF)
     logger.info("Sending invoice to: %s", email)
-    szamlazzhu.send_invoice(invoice, settings.SZAMLAZZHU_INVOICE_PREFIX)
+    szamlazzhu.send_invoice(invoice, os.environ["SZAMLAZZHU_INVOICE_PREFIX"])

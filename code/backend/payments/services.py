@@ -1,13 +1,11 @@
 import datetime as dt
 
 from django.utils.translation import gettext as _
+from django.apps import apps as django_apps
 from online_payments.billing.szamlazzhu.exceptions import SzamlazzhuError
 from rest_framework.exceptions import ValidationError
 from appointments.models import QRCode
 from appointments import email
-
-from billing import services as billing_services
-
 
 MISSING = object()
 
@@ -30,7 +28,8 @@ def handle_paid_at(original_paid_at, seat, submitted_data: dict):
         return
 
     if original_paid_at is None and submitted_data.get("paid_at"):
-        billing_services.send_seat_invoice(seat)
+        billing = django_apps.get_app_config("billing")
+        billing.service.send_seat_invoice(seat)
 
 
 def complete_transaction(transaction, finish_date):
@@ -58,6 +57,7 @@ def complete_transaction(transaction, finish_date):
         email.send_qrcode(seat)
 
     try:
-        billing_services.send_appointment_invoice(appointment)
+        billing = django_apps.get_app_config("billing")
+        billing.service.send_appointment_invoice(appointment)
     except SzamlazzhuError as e:
         raise ValidationError({"error": str(e)})

@@ -1,8 +1,7 @@
 import pytest
-
+from django.apps import apps as django_apps
 from appointments import models as am
 from billing import models as m
-from billing import services
 from payments import models as pm
 from payments.prices import PRODUCTS, ProductType
 
@@ -25,4 +24,5 @@ def test_sending_invoice(appointment, seat):
     )
     appointment.refresh_from_db()
     seat.refresh_from_db()
-    services.send_seat_invoice(seat)
+    billing = django_apps.get_app_config("billing")
+    billing.service.send_seat_invoice(seat)

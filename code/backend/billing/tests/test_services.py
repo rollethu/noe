@@ -2,13 +2,13 @@ import os
 from decimal import Decimal
 from unittest.mock import Mock
 import pytest
+from django.apps import apps as django_apps
 from online_payments.billing.szamlazzhu import Szamlazzhu
 from online_payments.billing.models import Item, Invoice, Customer, VATRate, PaymentMethod
 from appointments.models import Appointment, Seat
 from payments.models import Payment
 from payments.prices import ProductType
 from billing.models import BillingDetail
-from billing.services import send_seat_invoice
 
 
 @pytest.mark.django_db
@@ -27,7 +27,8 @@ class TestSendInvoice:
             payment=Payment(amount=amount, product_type=ProductType.NORMAL_EXAM),
             appointment=appointment,
         )
-        send_seat_invoice(seat)
+        billing = django_apps.get_app_config("billing")
+        billing.service.send_seat_invoice(seat)
 
         item1 = Item(
             name="Laboratóriumi teszt - Alapcsomag (72 óra)",
