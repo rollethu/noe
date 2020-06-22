@@ -24,6 +24,7 @@ django-rosetta = "^0.9.4"
 sentry-sdk = "^0.14.3"
 online-payments = {path = "./online-payments"}
 black = "^19.10b0"
+environ-config = "^20.1.0"
 
 [tool.poetry.dev-dependencies]
 black = "^19.10b0"
