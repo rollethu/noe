@@ -118,45 +118,45 @@ class TestSeatSerializer:
         appointment.location = location
         appointment.save()
 
-        request = factory.get('fake-url')
+        request = factory.get("fake-url")
         request.user = api_user
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['location_name'] == location.name
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["location_name"] == location.name
 
     def test_is_correct_location(self, seat, factory, api_user):
         appointment = seat.appointment
 
-        request = factory.get('fake-url')
+        request = factory.get("fake-url")
         request.user = api_user
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_correct_location'] is False
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_correct_location"] is False
 
         appointment.location = api_user.location
         appointment.save()
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_correct_location'] is True
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_correct_location"] is True
 
     def test_is_appointment_expired(self, seat, factory, api_user):
-        request = factory.get('fake-url')
+        request = factory.get("fake-url")
         request.user = api_user
         appointment = seat.appointment
 
         appointment.end = None
         appointment.save()
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_appointment_expired'] is False
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_appointment_expired"] is False
 
         appointment.end = timezone.now()
         appointment.save()
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_appointment_expired'] is False
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_appointment_expired"] is False
 
         appointment.end = timezone.now() + dt.timedelta(days=1)
         appointment.save()
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_appointment_expired'] is False
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_appointment_expired"] is False
 
         appointment.end = timezone.now() - dt.timedelta(days=1)
         appointment.save()
-        serializer = s.SeatSerializer(seat, context={'request': request})
-        assert serializer.data['is_appointment_expired'] is True
+        serializer = s.SeatSerializer(seat, context={"request": request})
+        assert serializer.data["is_appointment_expired"] is True

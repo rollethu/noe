@@ -30,5 +30,5 @@ def test_traffic_control(api_user, staff_api_client):
 
 @pytest.mark.django_db
 def test_seat_doesnt_exist(staff_api_client):
-    res = staff_api_client.get(reverse('staff-seat-detail', kwargs={'pk': uuid.uuid4()}))
+    res = staff_api_client.get(reverse("staff-seat-detail", kwargs={"pk": uuid.uuid4()}))
     assert res.status_code == status.HTTP_404_NOT_FOUND

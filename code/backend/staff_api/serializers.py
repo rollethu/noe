@@ -82,12 +82,12 @@ class SeatSerializer(serializers.HyperlinkedModelSerializer):
         ]
 
     def get_is_correct_location(self, instance):
-        user_location = self.context['request'].user.location
+        user_location = self.context["request"].user.location
         return instance.appointment.location == user_location
 
     def get_is_appointment_expired(self, instance):
         if instance.appointment.end is None:
-            return False # We only considered actually expired appointments as "expired".
+            return False  # We only considered actually expired appointments as "expired".
         return instance.appointment.end.date() < timezone.now().date()
 
 

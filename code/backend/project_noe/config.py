@@ -24,7 +24,7 @@ class NoeConfig:
     allowed_cors_hosts = environ.var(default=None, converter=lambda val: split_by_comma(val) if val else None)
     behind_tls_proxy = environ.bool_var(
         default=False,
-        help='Whether or not to set the "X-Forwarder-Proto" header to "https". Should be set to True behind a proxy.',
+        help='Whether or not to set the "X-Forwarded-Proto" header to "https". Should be set to True behind a proxy.',
     )
 
     language_code = environ.var(default="hu-hu")
