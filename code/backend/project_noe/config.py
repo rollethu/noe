@@ -145,23 +145,6 @@ class NoeConfig:
 
     szamlazzhu = environ.group(Szamlazzhu)
 
-    @environ.config
-    class SimplePay:
-        class Environment(enum.Enum):
-            SANDBOX = "sandbox"
-            LIVE = "live"
-
-        merchant = environ.var()
-        secret_key = environ.var()
-        ipn_url = environ.var()
-        use_live = environ.var(default=False)
-        environment = environ.var(name="SIMPLEPAY_ENVIRONMENT", converter=Environment)
-
-        def __attrs_post_init__(self):
-            self.use_live = self.environment is NoeConfig.SimplePay.Environment.LIVE
-
-    simplepay = environ.group(SimplePay)
-
     def __attrs_post_init__(self):
         if not self.allowed_cors_hosts and "*" not in self.allowed_hosts:
             self.allowed_cors_hosts = self.allowed_hosts

@@ -21,7 +21,7 @@ from rest_framework.routers import DefaultRouter
 from rest_framework import permissions
 from drf_yasg.views import get_schema_view
 from drf_yasg import openapi
-
+import simplepay.urls
 import staff_api.urls
 from staff_api.permissions import StaffApiPermissions
 from project_noe.views import health_check
@@ -66,7 +66,7 @@ api_urls = [
     path("verify/email/", appointments.views.VerifyEmailView.as_view()),
     path("verify/resend-email/", appointments.views.ResendVerifyEmailView.as_view()),
     path("get-price/", payments.views.GetPriceView.as_view()),
-    path("pay-appointment/", payments.views.PayAppointmentView.as_view()),
+    path("pay-onsite/", payments.views.PayAppointmentOnSiteView.as_view()),
     path("", include(swagger_urls)),
     path("payment-status/", payments.views.PaymentStatusView.as_view()),
 ]
@@ -79,10 +79,8 @@ urlpatterns = [
     path("health/", health_check),
     path("health/a1fb4d04460143e8a80b39505974859/", build_info),
     path("qrcode/<code>/", appointments.views.QRCodeView.as_view(), name="qrcode"),
-    path("simplepay-ipn/", payments.views.simplepay_ipn_view),
-    path("simplepay-back/", payments.views.simplepay_back_view, name="simplepay-back"),
+    path("", include(simplepay.urls)),
 ]
-
 
 if "rosetta" in settings.INSTALLED_APPS:
     urlpatterns += [path("rosetta/", include("rosetta.urls"))]
