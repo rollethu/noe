@@ -38,3 +38,8 @@ even drive-through restaurants.
 # Documentation
 
 You can find User Guide and Developer [documentation in the Wiki](https://github.com/rollethu/noe/wiki).
+
+
+# Commercial solutions
+
+For commercially supported test management solutions, visit [CovidTMS](https://airportcovidtest.com/) at [https://airportcovidtest.com/](https://airportcovidtest.com/)
