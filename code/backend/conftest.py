@@ -1,6 +1,8 @@
+from unittest.mock import Mock
 from urllib.parse import urljoin
 from pathlib import Path
 import datetime as dt
+from django.apps import apps as django_apps
 from django.contrib.auth.models import Group, Permission
 from django.utils import timezone
 from rest_framework.reverse import reverse
@@ -21,7 +23,6 @@ def factory():
 
 @pytest.fixture(autouse=True)
 def django_settings(settings):
-    settings.SIMPLEPAY_SECRET_KEY = "simple-secret"
     settings.FRONTEND_URL = "http://frontend-url"
 
 
@@ -171,3 +172,11 @@ def appointment_billing_detail(appointment):
         tax_number="123456789",
         appointment=appointment,
     )
+
+
+@pytest.fixture
+def send_seat_invoice_mock(monkeypatch):
+    mock_send = Mock()
+    billing = django_apps.get_app_config("billing")
+    monkeypatch.setattr(billing.service, "send_seat_invoice", mock_send)
+    return mock_send

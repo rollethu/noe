@@ -47,7 +47,8 @@ INSTALLED_APPS = [
     "surveys",
     "samples",
     "payments",
-    "billing",
+    "simplepay.apps.SimplepayConfig",
+    "billing.apps.BillingConfig",
     "users",
 ]
 
@@ -183,10 +184,4 @@ DEFAULT_FROM_EMAIL = config.email.default_from
 
 EMAIL_VERIFICATION_KEY = config.email.verification_key
 
-SZAMLAZZHU_AGENT_KEY = config.szamlazzhu.agent_key
-SZAMLAZZHU_INVOICE_PREFIX = config.szamlazzhu.invoice_prefix
-
-SIMPLEPAY_MERCHANT = config.simplepay.merchant
-SIMPLEPAY_SECRET_KEY = config.simplepay.secret_key
-SIMPLEPAY_IPN_URL = config.simplepay.ipn_url
-SIMPLEPAY_USE_LIVE = config.simplepay.use_live
+BILLING_SERVICE = config.billing_service
